@@ -30,11 +30,11 @@ export const helpersButtons = new ActionRowBuilder<ButtonBuilder>({
       style: ButtonStyle.Link,
       url: BOT_INVITE,
     }),
-    // new ButtonBuilder({
-    //   label: 'Support',
-    //   style: ButtonStyle.Link,
-    //   url: SUPPORT_SERVER,
-    // }),
+    new ButtonBuilder({
+      label: 'Support server',
+      style: ButtonStyle.Link,
+      url: SUPPORT_SERVER,
+    }),
     new ButtonBuilder({
       label: 'GitHub',
       style: ButtonStyle.Link,

@@ -24,7 +24,7 @@ export const BOT_INVITE =
  * The support server invite link.
  * @type {string}
  */
-export const SUPPORT_SERVER = 'https://discord.gg/Mv2yCrJK87';
+export const SUPPORT_SERVER = 'https://discord.gg/rGEk2Dv7qe';
 
 /**
  * The client symbol for the container.
