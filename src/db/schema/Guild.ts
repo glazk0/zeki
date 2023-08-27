@@ -10,7 +10,6 @@ export const guilds = pgTable('guilds', {
   locale: varchar('locale').default('en').notNull(),
 });
 
-// make a findOrCreate method
 export const findOrCreate = async (guildId: string): Promise<Guild> => {
   let [guild] = await db
     .select()
