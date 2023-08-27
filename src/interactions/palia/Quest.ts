@@ -65,7 +65,7 @@ export default class Quest extends Interaction {
           .setCustomId('quest')
           .setPlaceholder('Select a step')
           .addOptions(
-            quest.steps?.map((step: any, index: number) => ({
+            quest.steps?.map((step, index: number) => ({
               label: `Step ${index + 1}`,
               value: `${quest.key}_${index}`,
             })) || [],
@@ -89,7 +89,7 @@ export default class Quest extends Interaction {
     const data = (await api.search(value, 'quest')).slice(0, 25);
 
     await interaction.respond(
-      data.map((item: any) => ({
+      data.map((item) => ({
         name: item.name,
         value: item.key,
       })),

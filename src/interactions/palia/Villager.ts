@@ -66,7 +66,7 @@ export default class Villager extends Interaction {
           .setPlaceholder('Select a relationship level')
           .addOptions(
             generateRelationshipLevels(villager.relationshipLevels!).map(
-              (step: IRelationshipLevelsItem, index: number) => ({
+              (step, index: number) => ({
                 label: step.levelName,
                 value: `${villager.key}_${index}`,
               }),
@@ -91,7 +91,7 @@ export default class Villager extends Interaction {
     const data = await api.search(value, 'villager');
 
     await interaction.respond(
-      data.map((item: any) => ({
+      data.map((item) => ({
         name: item.name,
         value: item.key,
       })),

@@ -1,5 +1,4 @@
 import {
-  ActionRowBuilder,
   ApplicationCommandData,
   ApplicationCommandOptionType,
   ApplicationCommandType,
@@ -7,8 +6,6 @@ import {
   CacheType,
   ChatInputCommandInteraction,
   InteractionResponse,
-  StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
 } from 'discord.js';
 import { inject, injectable } from 'tsyringe';
 
@@ -17,7 +14,6 @@ import { Context, Interaction } from '../../structures/Interaction';
 
 import { commands } from '../../i18n';
 import { clientSymbol } from '../../utils/Constants';
-import { QuestEmbed } from '../../lib/embeds/QuestEmbed';
 import { api } from '../../lib/API';
 import { RecipeEmbed } from '../../lib/embeds/RecipeEmbed';
 
@@ -68,22 +64,8 @@ export default class Recipe extends Interaction {
 
     const embed = new RecipeEmbed(recipe, amount, ctx);
 
-    // const dropdown =
-    //   new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-    //     new StringSelectMenuBuilder()
-    //       .setCustomId('quest')
-    //       .setPlaceholder('Select a step')
-    //       .addOptions(
-    //         quest.steps?.map((step: any, index: number) => ({
-    //           label: `Step ${index + 1}`,
-    //           value: `${quest.key}_${index}`,
-    //         })) || [],
-    //       ),
-    //   );
-
     return interaction.reply({
       embeds: [embed],
-      //   components: [dropdown],
     });
   }
 
@@ -98,7 +80,7 @@ export default class Recipe extends Interaction {
     const data = (await api.search(value, 'recipe')).slice(0, 25);
 
     await interaction.respond(
-      data.map((item: any) => ({
+      data.map((item) => ({
         name: item.name,
         value: item.key,
       })),
