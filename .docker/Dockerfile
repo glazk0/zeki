@@ -22,7 +22,7 @@ COPY . .
 
 COPY --from=dependencies /app/node_modules ./node_modules
 
-RUN pnpm db:push
+# RUN pnpm db:push
 
 RUN pnpm build
 
