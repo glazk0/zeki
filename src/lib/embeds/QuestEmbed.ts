@@ -25,29 +25,36 @@ export class QuestEmbed extends Embed {
           .map(([key, value]) => {
             let valueString = '';
             if (key === 'dialogues') {
-              for (const dialogue of value as any[]) {
+              for (const dialogue of value as IDialoguesItem[]) {
                 valueString += `- ${hyperlink(
                   dialogue.name,
                   `${PALIA_URL}/dialogue/${dialogue.key}`,
                 )}\n`;
               }
             } else if (key === 'items') {
-              for (const item of value as any[]) {
+              for (const item of value as IItemsItem[]) {
                 valueString += `- ${hyperlink(
-                  item.name,
+                  item.name ?? 'Unknown',
                   `${PALIA_URL}/item/${item.key}`,
                 )}\n`;
               }
-            } else if (key === 'quests') {
-              for (const subQuest of value as any[]) {
+            } else if (key === 'mailMessages') {
+              for (const mailMessage of value as IMailMessagesItem[]) {
                 valueString += `- ${hyperlink(
-                  subQuest.name,
-                  `${PALIA_URL}/quest/${subQuest.key}`,
+                  mailMessage.name,
+                  `${PALIA_URL}/mail-message/${mailMessage.key}`,
+                )}\n`;
+              }
+            } else if (key === 'books') {
+              for (const book of value as IBooksItem[]) {
+                valueString += `- ${hyperlink(
+                  book.name,
+                  `${PALIA_URL}/item/${book.key}`,
                 )}\n`;
               }
             } else {
               for (const unknown of value as any[]) {
-                valueString += `- ${key}/${unknown}\n`;
+                valueString += `- WIP ${key}/${unknown}\n`;
               }
             }
             return valueString;
@@ -172,7 +179,11 @@ export class QuestEmbed extends Embed {
               } else if (reward.villager && reward.type === 'RomancePoints') {
                 return `- ${reward.amount} Romance Points with ${reward.villager.name}`;
               } else if (reward.villager && reward.type === 'MailMessage') {
-                return `- A mail from ${reward.villager.name} (WIP: ${reward.mail})`;
+                return `- ${hyperlink(
+                  reward.mailMessage?.name ??
+                    `${reward.mailMessage?.name}'s mail`,
+                  `${PALIA_URL}/mail-message/${reward.mailMessage?.key}`,
+                )}`;
               } else if (reward.villager && reward.type === 'Visit') {
                 return `- A visit from ${reward.villager.name}`;
               } else if (reward.type === 'PlayerTagWriteback') {
