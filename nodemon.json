@@ -1,0 +1,5 @@
+{
+  "watch": ["."],
+  "ext": "ts",
+  "exec": "node --no-experimental-fetch -r ts-node/register src/index.ts"
+}

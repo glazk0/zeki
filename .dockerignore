@@ -1,0 +1,22 @@
+# Ignore Node.js modules and npm-related files
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Ignore development and build files
+*.log
+*.swp
+.DS_Store
+.env
+.env.*
+.vscode/
+.git/
+.idea/
+*.md
+*.markdown
+*.gitignore
+*.dockerignore
+.dockerignore
+.docker/
+dist/
+coverage/
