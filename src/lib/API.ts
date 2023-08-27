@@ -1,6 +1,7 @@
 import queryString from 'query-string';
 
 import { PALIA_URL } from '../utils/Constants';
+import { request } from '../utils/Commons';
 
 export const api = {
   search: async (
@@ -17,38 +18,38 @@ export const api = {
       },
     );
 
-    const res = await fetch(`${PALIA_URL}/api/search?${queries}`);
+    const data = await request<ISearchItem[]>(
+      `${PALIA_URL}/api/search?${queries}`,
+    );
 
-    if (!res.ok) return [];
-
-    const data = await res.json();
+    if (!data) return [];
 
     return data;
   },
   getVillager: async (key: string): Promise<IVillager | null> => {
-    const res = await fetch(`${PALIA_URL}/villager/${key}/api/v0.166.2.1`);
+    const { villager } = await request<any>(
+      `${PALIA_URL}/villager/${key}/api/v0.166.2.1`,
+    );
 
-    if (!res.ok) return null;
-
-    const { villager } = await res.json();
+    if (!villager) return null;
 
     return villager;
   },
   getQuest: async (key: string): Promise<IQuest | null> => {
-    const res = await fetch(`${PALIA_URL}/quest/${key}/api/v0.166.2.1`);
+    const { quest } = await request<any>(
+      `${PALIA_URL}/quest/${key}/api/v0.166.2.1`,
+    );
 
-    if (!res.ok) return null;
-
-    const { quest } = await res.json();
+    if (!quest) return null;
 
     return quest;
   },
   getRecipe: async (key: string): Promise<IRecipe | null> => {
-    const res = await fetch(`${PALIA_URL}/recipe/${key}/api/v0.166.2.1`);
+    const { recipe } = await request<any>(
+      `${PALIA_URL}/recipe/${key}/api/v0.166.2.1`,
+    );
 
-    if (!res.ok) return null;
-
-    const { recipe } = await res.json();
+    if (!recipe) return null;
 
     return recipe;
   },

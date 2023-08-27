@@ -81,37 +81,43 @@ export const secondsToDhms = (seconds: number): string => {
  *
  * @returns - Promise<any> The response or null.
  */
-export async function request(
+export async function request<T>(
   url: string,
-  json = false,
-  method = 'GET' || 'POST' || 'PUT' || 'DELETE',
-  headers = {
-    'User-Agent': process.env.USER_AGENT,
+  type: 'json' | 'text' = 'json',
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+  headers: RequestInit['headers'] = {
+    'User-Agent': process.env.USER_AGENT || 'glazk0.dev/Seki/DiscordBot',
   },
   body?: RequestInit['body'],
-): Promise<any> {
-  if (!url) throw new Error('No URL provided.');
-  else {
-    let req = null;
+): Promise<T> {
+  if (!url) {
+    throw new Error('No URL provided.');
+  }
 
-    try {
-      let options: RequestInit = {
-        method,
-        headers,
-      };
+  const options: RequestInit = {
+    method,
+    headers,
+  };
 
-      if (method !== 'GET') options.body = body;
+  if (body) {
+    options.body = JSON.stringify(body);
+    options.headers = {
+      ...options.headers,
+      'Content-Type': 'application/json',
+    };
+  }
 
-      req = await fetch(url, options);
+  try {
+    const req = await fetch(url, options);
 
-      if (json) return await req.json();
-      else return await req.text();
-    } catch (error) {
-      Logger.error(error);
-      req = null;
+    if (type === 'json') {
+      return (await req.json()) as T;
+    } else {
+      return (await req.text()) as T;
     }
-
-    return req;
+  } catch (error) {
+    Logger.error(error);
+    throw error;
   }
 }
 
