@@ -18,7 +18,7 @@ export class QuestEmbed extends Embed {
 
     this.data.url = `${PALIA_URL}/quest/${quest.key}`;
 
-    if (quest.starters) {
+    if (quest.starters && Object.keys(quest.starters).length) {
       this.addFields({
         name: 'Starts with',
         value: Object.entries(quest.starters)
