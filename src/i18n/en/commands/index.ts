@@ -1,11 +1,11 @@
 export default {
   help: {
     name: 'help',
-    description: "Displays all of Seki's commands.",
+    description: "Displays all of Zeki's commands.",
   },
   about: {
     name: 'about',
-    description: 'Displays information about Seki.',
+    description: 'Displays information about Zeki.',
   },
   search: {
     name: 'search',
