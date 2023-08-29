@@ -52,7 +52,7 @@ export default class Quest extends Interaction {
 
     if (!quest)
       return interaction.reply({
-        content: 'No results found.',
+        content: ctx.i18n.interactions.miscellaneous.no_results_for({ query }),
         ephemeral: true,
       });
 
@@ -97,7 +97,7 @@ export default class Quest extends Interaction {
 
   public async selectMenu(
     interaction: StringSelectMenuInteraction<CacheType>,
-    context: Context,
+    ctx: Context,
   ): Promise<any> {
     const [key, step] = interaction.values[0].split('_') as [string, number];
 
@@ -105,13 +105,15 @@ export default class Quest extends Interaction {
 
     if (!quest)
       return interaction.reply({
-        content: 'No results found.',
+        content: ctx.i18n.interactions.miscellaneous.no_results_for({
+          query: key,
+        }),
         ephemeral: true,
       });
 
     const data = quest.steps ? quest.steps[step] : null;
 
-    const embed = new QuestEmbed(quest, data, context);
+    const embed = new QuestEmbed(quest, data, ctx);
 
     return interaction.update({
       embeds: [embed],

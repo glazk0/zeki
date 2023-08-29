@@ -14,6 +14,9 @@ COPY package.json pnpm-lock.yaml ./
 # Install dependencies using npm
 RUN pnpm install --frozen-lockfile
 
+# Migrate the database
+RUN pnpm db:push
+
 FROM base as builder
 
 WORKDIR /app

@@ -9,8 +9,10 @@ import {
 } from 'discord.js';
 
 import { TranslationFunctions } from '../i18n/i18n-types';
+import { GuildWithNews } from '../types';
 
 export type Context = {
+  guild: GuildWithNews;
   i18n: TranslationFunctions;
 };
 

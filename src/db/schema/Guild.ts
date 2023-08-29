@@ -1,8 +1,6 @@
 import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
-import { eq } from 'drizzle-orm';
-
-import { db } from '..';
-import { Guild } from '../../types';
+import { relations } from 'drizzle-orm';
+import { news } from './News';
 
 export const guilds = pgTable('guilds', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -10,16 +8,9 @@ export const guilds = pgTable('guilds', {
   locale: varchar('locale').default('en').notNull(),
 });
 
-export const findOrCreate = async (guildId: string): Promise<Guild> => {
-  let [guild] = await db
-    .select()
-    .from(guilds)
-    .where(eq(guilds.guildId, guildId))
-    .limit(1);
-
-  if (!guild) {
-    [guild] = await db.insert(guilds).values({ guildId }).returning();
-  }
-
-  return guild;
-};
+export const guildRelations = relations(guilds, ({ one }) => ({
+  news: one(news, {
+    fields: [guilds.guildId],
+    references: [news.guildId],
+  }),
+}));
