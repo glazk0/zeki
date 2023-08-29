@@ -213,26 +213,5 @@ export class ItemEmbed extends Embed {
         }
       }
     }
-
-    if (item.buyable)
-      this.addFields({
-        name: 'Buyable',
-        value: item.buyable ? 'Yes' : 'No',
-        inline: true,
-      });
-
-    if (item.craftable)
-      this.addFields({
-        name: 'Craftable',
-        value: item.craftable ? 'Yes' : 'No',
-        inline: true,
-      });
-
-    if (item.obtainable)
-      this.addFields({
-        name: 'Obtainable',
-        value: item.obtainable ? 'Yes' : 'No',
-        inline: true,
-      });
   }
 }
