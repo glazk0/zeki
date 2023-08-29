@@ -18,7 +18,6 @@ import { Context, Interaction } from '../../structures/Interaction';
 import { commands } from '../../i18n';
 import { clientSymbol } from '../../utils/Constants';
 import { VillagerEmbed } from '../../lib/embeds/VillagerEmbed';
-import { api } from '../../lib/API';
 
 @injectable()
 export default class Villager extends Interaction {
@@ -49,7 +48,7 @@ export default class Villager extends Interaction {
   ): Promise<InteractionResponse<boolean>> {
     let query = interaction.options.getString('query', true);
 
-    const villager = await api.getVillager(query);
+    const villager = await this.client.api.getVillager(query);
 
     if (!villager)
       return interaction.reply({
@@ -88,7 +87,7 @@ export default class Villager extends Interaction {
 
     if (!value) return await interaction.respond([]);
 
-    const data = await api.search(value, 'villager');
+    const data = await this.client.api.search(value, 'villager');
 
     await interaction.respond(
       data.map((item) => ({
@@ -107,7 +106,7 @@ export default class Villager extends Interaction {
       number,
     ];
 
-    const villager = await api.getVillager(key);
+    const villager = await this.client.api.getVillager(key);
 
     if (!villager)
       return interaction.reply({

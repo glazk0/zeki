@@ -18,7 +18,6 @@ import { Context, Interaction } from '../../structures/Interaction';
 import { commands } from '../../i18n';
 import { clientSymbol } from '../../utils/Constants';
 import { QuestEmbed } from '../../lib/embeds/QuestEmbed';
-import { api } from '../../lib/API';
 
 @injectable()
 export default class Quest extends Interaction {
@@ -49,7 +48,7 @@ export default class Quest extends Interaction {
   ): Promise<InteractionResponse<boolean>> {
     let query = interaction.options.getString('query', true);
 
-    const quest = await api.getQuest(query);
+    const quest = await this.client.api.getQuest(query);
 
     if (!quest)
       return interaction.reply({
@@ -86,7 +85,7 @@ export default class Quest extends Interaction {
 
     if (!value) return await interaction.respond([]);
 
-    const data = (await api.search(value, 'quest')).slice(0, 25);
+    const data = (await this.client.api.search(value, 'quest')).slice(0, 25);
 
     await interaction.respond(
       data.map((item) => ({
@@ -102,7 +101,7 @@ export default class Quest extends Interaction {
   ): Promise<any> {
     const [key, step] = interaction.values[0].split('_') as [string, number];
 
-    const quest = await api.getQuest(key);
+    const quest = await this.client.api.getQuest(key);
 
     if (!quest)
       return interaction.reply({

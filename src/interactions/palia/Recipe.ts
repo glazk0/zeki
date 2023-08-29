@@ -14,7 +14,6 @@ import { Context, Interaction } from '../../structures/Interaction';
 
 import { commands } from '../../i18n';
 import { clientSymbol } from '../../utils/Constants';
-import { api } from '../../lib/API';
 import { RecipeEmbed } from '../../lib/embeds/RecipeEmbed';
 
 @injectable()
@@ -52,7 +51,7 @@ export default class Recipe extends Interaction {
     let query = interaction.options.getString('query', true);
     let amount = interaction.options.getInteger('amount', false) ?? 1;
 
-    const recipe = await api.getRecipe(query);
+    const recipe = await this.client.api.getRecipe(query);
 
     if (!recipe)
       return interaction.reply({
@@ -77,7 +76,7 @@ export default class Recipe extends Interaction {
 
     if (!value) return await interaction.respond([]);
 
-    const data = (await api.search(value, 'recipe')).slice(0, 25);
+    const data = (await this.client.api.search(value, 'recipe')).slice(0, 25);
 
     await interaction.respond(
       data.map((item) => ({

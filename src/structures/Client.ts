@@ -13,6 +13,7 @@ import { redis } from '../lib/Redis';
 import { clientSymbol, options } from '../utils/Constants';
 
 import { Interaction } from './Interaction';
+import { API } from '../lib/API';
 
 export class Client extends DiscordClient {
   /**
@@ -43,6 +44,13 @@ export class Client extends DiscordClient {
   public readonly cache: typeof redis;
 
   /**
+   * The API that interacts with the Palia API.
+   * @type {API}
+   * @readonly
+   */
+  public readonly api: API;
+
+  /**
    * The client's interactions.
    * @type {Collection<string, Interaction>}
    */
@@ -67,6 +75,8 @@ export class Client extends DiscordClient {
     this.eventHandler = new EventHandler();
 
     this.cache = redis;
+
+    this.api = new API();
 
     this.logger = createLogger(String(this.cluster.id));
   }
