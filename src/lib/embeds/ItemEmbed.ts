@@ -62,10 +62,6 @@ export class ItemEmbed extends Embed {
                     `${PALIA_URL}/store/${quest.key}`,
                   )}`,
               )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
-              )
               .join('\n'),
           });
         } else if (key === 'recipes') {
@@ -78,10 +74,6 @@ export class ItemEmbed extends Embed {
                     recipe.item?.name ?? 'Unknown',
                     `${PALIA_URL}/recipe/${recipe.key}`,
                   )}`,
-              )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
               )
               .join('\n'),
           });
@@ -99,15 +91,11 @@ export class ItemEmbed extends Embed {
                     `${PALIA_URL}/skill/${gatherable.skill.key}`,
                   )})`,
               )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
-              )
               .join('\n'),
           });
         } else if (key === 'dialogues') {
           this.addFields({
-            name: 'Reward from',
+            name: 'Quest reward from',
             value: (value as IDialoguesItem[])
               .map(
                 (vendor) =>
@@ -115,10 +103,6 @@ export class ItemEmbed extends Embed {
                     vendor.name,
                     `${PALIA_URL}/dialogue/${vendor.key}`,
                   )}`,
-              )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
               )
               .join('\n'),
           });
@@ -133,10 +117,6 @@ export class ItemEmbed extends Embed {
                     `${PALIA_URL}/mail-messages/${mail.key}`,
                   )}`,
               )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
-              )
               .join('\n'),
           });
         } else if (key === 'books') {
@@ -146,10 +126,6 @@ export class ItemEmbed extends Embed {
               .map(
                 (book) =>
                   `- ${hyperlink(book.name, `${PALIA_URL}/item/${book.key}`)}`,
-              )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
               )
               .join('\n'),
           });
@@ -164,10 +140,6 @@ export class ItemEmbed extends Embed {
                     `${PALIA_URL}/quest/${quest.key}`,
                   )}`,
               )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
-              )
               .join('\n'),
           });
         } else if (key === 'items') {
@@ -180,10 +152,6 @@ export class ItemEmbed extends Embed {
                     item.name ?? 'Unknown',
                     `${PALIA_URL}/item/${item.key}`,
                   )}`,
-              )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
               )
               .join('\n'),
           });
@@ -209,10 +177,6 @@ export class ItemEmbed extends Embed {
                     `${PALIA_URL}/recipe/${recipe.key}`,
                   )}`,
               )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
-              )
               .join('\n'),
           });
         } else if (key === 'quests') {
@@ -226,10 +190,6 @@ export class ItemEmbed extends Embed {
                     `${PALIA_URL}/quest/${quest.key}`,
                   )}`,
               )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
-              )
               .join('\n'),
           });
         } else if (key === 'items') {
@@ -242,10 +202,6 @@ export class ItemEmbed extends Embed {
                     item.name ?? 'Unknown',
                     `${PALIA_URL}/item/${item.key}`,
                   )}`,
-              )
-              .splice(0, 5)
-              .concat(
-                `- [See ${value.length} more ...](${PALIA_URL}/item/${item.key} 'See on paliapedia.com')`,
               )
               .join('\n'),
           });
