@@ -43,4 +43,12 @@ export default {
     name: 'amount',
     description: 'The amount of items to craft.',
   },
+  item: {
+    name: 'item',
+    description: 'Searches for an item.',
+  },
+  'item.query': {
+    name: 'query',
+    description: 'The query to search for.',
+  },
 };
