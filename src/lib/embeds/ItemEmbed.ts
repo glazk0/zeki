@@ -10,7 +10,7 @@ export class ItemEmbed extends Embed {
     super();
 
     this.data.thumbnail = {
-      url: `${PALIA_URL}/images/quests/128/${item.icon}.webp`,
+      url: `${PALIA_URL}/images/items/128/${item.icon}.webp`,
     };
 
     this.data.title = item.name;
