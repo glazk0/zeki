@@ -51,7 +51,7 @@ export default class Item extends Interaction {
 
     if (!item)
       return interaction.reply({
-        content: 'No results found.',
+        content: ctx.i18n.interactions.miscellaneous.no_results_for({ query }),
         ephemeral: true,
       });
 

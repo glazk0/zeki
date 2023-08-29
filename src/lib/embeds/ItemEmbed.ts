@@ -43,19 +43,13 @@ export class ItemEmbed extends Embed {
     if (item.cost)
       this.addFields({
         name: 'Cost',
-        value: `${item.cost.amount} ${hyperlink(
-          item.cost.currency.name,
-          `${PALIA_URL}/item/${item.cost.currency.key}`,
-        )}`,
+        value: `${item.cost.amount} ${item.cost.currency.name}`,
       });
 
     if (item.value)
       this.addFields({
         name: 'Value',
-        value: `${item.value.amount} ${hyperlink(
-          item.value.currency.name,
-          `${PALIA_URL}/item/${item.value.currency.key}`,
-        )}`,
+        value: `${item.value.amount} ${item.value.currency.name}`,
       });
 
     if (item.sources) {

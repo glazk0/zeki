@@ -52,7 +52,7 @@ export default class Villager extends Interaction {
 
     if (!villager)
       return interaction.reply({
-        content: 'No results found.',
+        content: ctx.i18n.interactions.miscellaneous.no_results_for({ query }),
         ephemeral: true,
       });
 
@@ -110,7 +110,9 @@ export default class Villager extends Interaction {
 
     if (!villager)
       return interaction.reply({
-        content: 'No results found.',
+        content: context.i18n.interactions.miscellaneous.no_results_for({
+          query: key,
+        }),
         ephemeral: true,
       });
 

@@ -55,7 +55,7 @@ export default class Recipe extends Interaction {
 
     if (!recipe)
       return interaction.reply({
-        content: 'No results found.',
+        content: ctx.i18n.interactions.miscellaneous.no_results_for({ query }),
         ephemeral: true,
       });
 

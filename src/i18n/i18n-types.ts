@@ -30,7 +30,7 @@ type RootTranslation = {
 		}
 		info: {
 			/**
-			 * {​u​s​e​r​n​a​m​e​}​ ​i​s​ ​a​ ​D​i​s​c​o​r​d​ ​b​o​t​.
+			 * {​u​s​e​r​n​a​m​e​}​ ​i​s​ ​a​n​ ​i​n​t​u​i​t​i​v​e​ ​a​n​d​ ​u​s​e​r​-​f​r​i​e​n​d​l​y​ ​D​i​s​c​o​r​d​ ​b​o​t​ ​c​o​n​n​e​c​t​e​d​ ​t​o​ ​h​t​t​p​s​:​/​/​p​a​l​i​a​p​e​d​i​a​.​c​o​m​ ​a​n​d​ ​h​a​s​ ​b​e​e​n​ ​c​r​e​a​t​e​d​ ​b​y​ ​[​g​l​a​z​k​0​]​(​d​i​s​c​o​r​d​:​/​/​-​/​u​s​e​r​s​/​2​4​7​3​4​4​1​3​0​7​9​8​2​5​6​1​3​0​)​.
 			 * @param {unknown} username
 			 */
 			description: RequiredParams<'username'>
@@ -62,16 +62,109 @@ type RootTranslation = {
 			debug_value: RequiredParams<'clusterId' | 'clusters' | 'shardId' | 'shards'>
 		}
 	}
+	interactions: {
+		settings: {
+			news: {
+				/**
+				 * I​ ​d​o​n​'​t​ ​h​a​v​e​ ​t​h​e​ ​p​e​r​m​i​s​s​i​o​n​ ​t​o​ ​v​i​e​w​ ​o​r​ ​s​e​n​d​ ​m​e​s​s​a​g​e​s​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+				 * @param {unknown} channel
+				 */
+				no_permissions: RequiredParams<'channel'>
+				/**
+				 * N​e​w​s​ ​w​i​l​l​ ​n​o​w​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+				 * @param {unknown} channel
+				 */
+				enabled: RequiredParams<'channel'>
+				/**
+				 * N​e​w​s​ ​a​r​e​ ​n​o​t​ ​e​n​a​b​l​e​d​ ​f​o​r​ ​t​h​i​s​ ​s​e​r​v​e​r​.
+				 */
+				not_enabled: string
+				/**
+				 * N​e​w​s​ ​w​i​l​l​ ​n​o​ ​l​o​n​g​e​r​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+				 * @param {unknown} channel
+				 */
+				disabled: RequiredParams<'channel'>
+			}
+			locale: {
+				/**
+				 * T​h​e​ ​l​o​c​a​l​e​ ​h​a​s​ ​b​e​e​n​ ​s​e​t​ ​t​o​ ​{​l​o​c​a​l​e​}​.
+				 * @param {unknown} locale
+				 */
+				success: RequiredParams<'locale'>
+			}
+		}
+		miscellaneous: {
+			/**
+			 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​.
+			 */
+			no_results: string
+			/**
+			 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​ ​f​o​r​ ​{​q​u​e​r​y​}​.
+			 * @param {unknown} query
+			 */
+			no_results_for: RequiredParams<'query'>
+		}
+	}
 }
 
 export type NamespaceCommandsTranslation = {
+	settings: {
+		/**
+		 * s​e​t​t​i​n​g​s
+		 */
+		name: string
+		/**
+		 * M​a​n​a​g​e​ ​y​o​u​r​ ​s​e​r​v​e​r​ ​s​e​t​t​i​n​g​s​.
+		 */
+		description: string
+	}
+	'settings.locale': {
+		/**
+		 * l​o​c​a​l​e
+		 */
+		name: string
+		/**
+		 * C​h​a​n​g​e​ ​t​h​e​ ​l​o​c​a​l​e​ ​o​f​ ​Z​e​k​i​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 */
+		description: string
+	}
+	'settings.locale.value': {
+		/**
+		 * v​a​l​u​e
+		 */
+		name: string
+		/**
+		 * W​h​i​c​h​ ​l​o​c​a​l​e​ ​d​o​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​e​t​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​?
+		 */
+		description: string
+	}
+	'settings.news': {
+		/**
+		 * n​e​w​s
+		 */
+		name: string
+		/**
+		 * M​a​n​a​g​e​ ​t​h​e​ ​n​e​w​s​ ​s​e​t​t​i​n​g​s​ ​o​f​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 */
+		description: string
+	}
+	'settings.news.channel': {
+		/**
+		 * c​h​a​n​n​e​l
+		 */
+		name: string
+		/**
+		 * T​h​e​ ​c​h​a​n​n​e​l​ ​w​h​e​r​e​ ​n​e​w​s​ ​w​i​l​l​ ​b​e​ ​s​e​n​t​.
+		 */
+		description: string
+	}
 	help: {
 		/**
 		 * h​e​l​p
 		 */
 		name: string
 		/**
-		 * D​i​s​p​l​a​y​s​ ​a​l​l​ ​o​f​ ​S​e​k​i​'​s​ ​c​o​m​m​a​n​d​s​.
+		 * D​i​s​p​l​a​y​s​ ​a​l​l​ ​o​f​ ​Z​e​k​i​'​s​ ​c​o​m​m​a​n​d​s​.
 		 */
 		description: string
 	}
@@ -81,7 +174,117 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * D​i​s​p​l​a​y​s​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​S​e​k​i​.
+		 * D​i​s​p​l​a​y​s​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​Z​e​k​i​.
+		 */
+		description: string
+	}
+	search: {
+		/**
+		 * s​e​a​r​c​h
+		 */
+		name: string
+		/**
+		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​n​y​ ​t​y​p​e​ ​o​f​ ​d​a​t​a​.
+		 */
+		description: string
+	}
+	'search.query': {
+		/**
+		 * q​u​e​r​y
+		 */
+		name: string
+		/**
+		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 */
+		description: string
+	}
+	quest: {
+		/**
+		 * q​u​e​s​t
+		 */
+		name: string
+		/**
+		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​ ​q​u​e​s​t​.
+		 */
+		description: string
+	}
+	'quest.query': {
+		/**
+		 * q​u​e​r​y
+		 */
+		name: string
+		/**
+		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 */
+		description: string
+	}
+	villager: {
+		/**
+		 * v​i​l​l​a​g​e​r
+		 */
+		name: string
+		/**
+		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​ ​v​i​l​l​a​g​e​r​.
+		 */
+		description: string
+	}
+	'villager.query': {
+		/**
+		 * q​u​e​r​y
+		 */
+		name: string
+		/**
+		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 */
+		description: string
+	}
+	recipe: {
+		/**
+		 * r​e​c​i​p​e
+		 */
+		name: string
+		/**
+		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​ ​r​e​c​i​p​e​.
+		 */
+		description: string
+	}
+	'recipe.query': {
+		/**
+		 * q​u​e​r​y
+		 */
+		name: string
+		/**
+		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 */
+		description: string
+	}
+	'recipe.amount': {
+		/**
+		 * a​m​o​u​n​t
+		 */
+		name: string
+		/**
+		 * T​h​e​ ​a​m​o​u​n​t​ ​o​f​ ​i​t​e​m​s​ ​t​o​ ​c​r​a​f​t​.
+		 */
+		description: string
+	}
+	item: {
+		/**
+		 * i​t​e​m
+		 */
+		name: string
+		/**
+		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​n​ ​i​t​e​m​.
+		 */
+		description: string
+	}
+	'item.query': {
+		/**
+		 * q​u​e​r​y
+		 */
+		name: string
+		/**
+		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
 		 */
 		description: string
 	}
@@ -112,7 +315,7 @@ export type TranslationFunctions = {
 		}
 		info: {
 			/**
-			 * {username} is a Discord bot.
+			 * {username} is an intuitive and user-friendly Discord bot connected to https://paliapedia.com and has been created by [glazk0](discord://-/users/247344130798256130).
 			 */
 			description: (arg: { username: unknown }) => LocalizedString
 			/**
@@ -137,14 +340,102 @@ export type TranslationFunctions = {
 			debug_value: (arg: { clusterId: unknown, clusters: unknown, shardId: unknown, shards: unknown }) => LocalizedString
 		}
 	}
+	interactions: {
+		settings: {
+			news: {
+				/**
+				 * I don't have the permission to view or send messages in {channel}.
+				 */
+				no_permissions: (arg: { channel: unknown }) => LocalizedString
+				/**
+				 * News will now be sent in {channel}.
+				 */
+				enabled: (arg: { channel: unknown }) => LocalizedString
+				/**
+				 * News are not enabled for this server.
+				 */
+				not_enabled: () => LocalizedString
+				/**
+				 * News will no longer be sent in {channel}.
+				 */
+				disabled: (arg: { channel: unknown }) => LocalizedString
+			}
+			locale: {
+				/**
+				 * The locale has been set to {locale}.
+				 */
+				success: (arg: { locale: unknown }) => LocalizedString
+			}
+		}
+		miscellaneous: {
+			/**
+			 * No results found.
+			 */
+			no_results: () => LocalizedString
+			/**
+			 * No results found for {query}.
+			 */
+			no_results_for: (arg: { query: unknown }) => LocalizedString
+		}
+	}
 	commands: {
+		settings: {
+			/**
+			 * settings
+			 */
+			name: () => LocalizedString
+			/**
+			 * Manage your server settings.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.locale': {
+			/**
+			 * locale
+			 */
+			name: () => LocalizedString
+			/**
+			 * Change the locale of Zeki for your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.locale.value': {
+			/**
+			 * value
+			 */
+			name: () => LocalizedString
+			/**
+			 * Which locale do you want to set for your server?
+			 */
+			description: () => LocalizedString
+		}
+		'settings.news': {
+			/**
+			 * news
+			 */
+			name: () => LocalizedString
+			/**
+			 * Manage the news settings of your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.news.channel': {
+			/**
+			 * channel
+			 */
+			name: () => LocalizedString
+			/**
+			 * The channel where news will be sent.
+			 */
+			description: () => LocalizedString
+		}
 		help: {
 			/**
 			 * help
 			 */
 			name: () => LocalizedString
 			/**
-			 * Displays all of Seki's commands.
+			 * Displays all of Zeki's commands.
 			 */
 			description: () => LocalizedString
 		}
@@ -154,7 +445,117 @@ export type TranslationFunctions = {
 			 */
 			name: () => LocalizedString
 			/**
-			 * Displays information about Seki.
+			 * Displays information about Zeki.
+			 */
+			description: () => LocalizedString
+		}
+		search: {
+			/**
+			 * search
+			 */
+			name: () => LocalizedString
+			/**
+			 * Searches for any type of data.
+			 */
+			description: () => LocalizedString
+		}
+		'search.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * The query to search for.
+			 */
+			description: () => LocalizedString
+		}
+		quest: {
+			/**
+			 * quest
+			 */
+			name: () => LocalizedString
+			/**
+			 * Searches for a quest.
+			 */
+			description: () => LocalizedString
+		}
+		'quest.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * The query to search for.
+			 */
+			description: () => LocalizedString
+		}
+		villager: {
+			/**
+			 * villager
+			 */
+			name: () => LocalizedString
+			/**
+			 * Searches for a villager.
+			 */
+			description: () => LocalizedString
+		}
+		'villager.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * The query to search for.
+			 */
+			description: () => LocalizedString
+		}
+		recipe: {
+			/**
+			 * recipe
+			 */
+			name: () => LocalizedString
+			/**
+			 * Searches for a recipe.
+			 */
+			description: () => LocalizedString
+		}
+		'recipe.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * The query to search for.
+			 */
+			description: () => LocalizedString
+		}
+		'recipe.amount': {
+			/**
+			 * amount
+			 */
+			name: () => LocalizedString
+			/**
+			 * The amount of items to craft.
+			 */
+			description: () => LocalizedString
+		}
+		item: {
+			/**
+			 * item
+			 */
+			name: () => LocalizedString
+			/**
+			 * Searches for an item.
+			 */
+			description: () => LocalizedString
+		}
+		'item.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * The query to search for.
 			 */
 			description: () => LocalizedString
 		}

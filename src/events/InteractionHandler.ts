@@ -19,9 +19,8 @@ import { initLocales } from '../i18n';
 
 import L from '../i18n/i18n-node';
 
-import { findOrCreate } from '../db/schema/Guild';
-
-import { Guild } from '../types';
+import { GuildWithNews } from '../types';
+import { findOrCreate } from '../db';
 
 export default class InteractionHandler extends Event {
   /**
@@ -131,16 +130,16 @@ export default class InteractionHandler extends Event {
     if (!this.client.isReady) return undefined;
     if (!interaction) return undefined;
 
-    let guild: Guild;
+    let guild: GuildWithNews | undefined = undefined;
 
     let context = {
       i18n: L['en'],
     } as Context;
 
-    // if (interaction.inGuild()) {
-    //   guild = await findOrCreate(interaction.guildId);
-    //   context.i18n = L[guild.locale as keyof typeof L];
-    // }
+    if (interaction.inGuild()) {
+      guild = await findOrCreate(interaction.guildId);
+      if (guild) context.i18n = L[guild.locale as keyof typeof L];
+    }
 
     let command: Interaction | undefined = undefined;
 

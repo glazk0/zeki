@@ -1,4 +1,24 @@
 export default {
+  settings: {
+    name: 'settings',
+    description: 'Manage your server settings.',
+  },
+  ['settings.locale']: {
+    name: 'locale',
+    description: 'Change the locale of Zeki for your server.',
+  },
+  ['settings.locale.value']: {
+    name: 'value',
+    description: 'Which locale do you want to set for your server?',
+  },
+  ['settings.news']: {
+    name: 'news',
+    description: 'Manage the news settings of your server.',
+  },
+  ['settings.news.channel']: {
+    name: 'channel',
+    description: 'The channel where news will be sent.',
+  },
   help: {
     name: 'help',
     description: "Displays all of Zeki's commands.",
