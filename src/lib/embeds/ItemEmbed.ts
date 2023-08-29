@@ -40,6 +40,15 @@ export class ItemEmbed extends Embed {
         inline: true,
       });
 
+    if (item.cost)
+      this.addFields({
+        name: 'Cost',
+        value: `${item.cost.amount} ${hyperlink(
+          item.cost.currency.name,
+          `${PALIA_URL}/item/${item.cost.currency.key}`,
+        )}`,
+      });
+
     if (item.value)
       this.addFields({
         name: 'Value',
