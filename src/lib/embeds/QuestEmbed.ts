@@ -52,6 +52,13 @@ export class QuestEmbed extends Embed {
                   `${PALIA_URL}/item/${book.key}`,
                 )}\n`;
               }
+            } else if (key === 'quests') {
+              for (const quest of value as IQuest[]) {
+                valueString += `- ${hyperlink(
+                  quest.name,
+                  `${PALIA_URL}/quest/${quest.key}`,
+                )}\n`;
+              }
             } else {
               for (const unknown of value as any[]) {
                 valueString += `- WIP ${key}/${unknown}\n`;
@@ -72,7 +79,7 @@ export class QuestEmbed extends Embed {
         this.addFields({
           name: step.goals.length > 1 ? 'Requirements' : 'Requirement',
           value: step.goals
-            .map((goal: any) => {
+            .map((goal) => {
               let value = `-`;
 
               if (goal.description) {
@@ -84,6 +91,10 @@ export class QuestEmbed extends Embed {
 
                 if (!condition.subConditions && condition.type) {
                   value += ` ${condition.type}`;
+                }
+
+                if (condition.amountRequired) {
+                  value += ` ${condition.amountRequired}`;
                 }
 
                 if (condition.quest) {
@@ -129,7 +140,7 @@ export class QuestEmbed extends Embed {
                     value += `Complete all of the following:\n`;
                   }
                   for (const subCondition of condition.subConditions) {
-                    value += `- ${subCondition.type} ${subCondition.amount} ${subCondition.item.name}\n`;
+                    value += `- ${subCondition.type} ${subCondition.amountRequired} ${subCondition.item?.name}\n`;
                   }
                 }
               }
