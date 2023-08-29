@@ -27,7 +27,7 @@ export class API {
    */
   public async search(
     query: string,
-    type: 'villager' | 'quest' | 'recipe' = 'villager',
+    type: 'villager' | 'quest' | 'recipe' | 'item' = 'villager',
   ): Promise<ISearchItem[]> {
     const queries = queryString.stringify(
       {
@@ -97,6 +97,23 @@ export class API {
     if (!recipe) return null;
 
     return recipe;
+  }
+
+  /**
+   * Get an item by its key.
+   *
+   * @param key - The item's key.
+   *
+   * @returns {Promise<IItem | null>} The item or null if not found.
+   */
+  public async getItem(key: string): Promise<IItem | null> {
+    const { item } = await request<{
+      item: IItem;
+    }>(`${PALIA_URL}/item/${key}/api/${this.version}`);
+
+    if (!item) return null;
+
+    return item;
   }
 
   /**
