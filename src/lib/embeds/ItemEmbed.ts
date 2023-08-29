@@ -10,7 +10,7 @@ export class ItemEmbed extends Embed {
     super();
 
     this.data.thumbnail = {
-      url: `${PALIA_URL}/images/quests/128/${item.icon}.webp`,
+      url: `${PALIA_URL}/images/items/128/${item.icon}.webp`,
     };
 
     this.data.title = item.name;
@@ -40,6 +40,15 @@ export class ItemEmbed extends Embed {
         inline: true,
       });
 
+    if (item.cost)
+      this.addFields({
+        name: 'Cost',
+        value: `${item.cost.amount} ${hyperlink(
+          item.cost.currency.name,
+          `${PALIA_URL}/item/${item.cost.currency.key}`,
+        )}`,
+      });
+
     if (item.value)
       this.addFields({
         name: 'Value',
@@ -49,159 +58,169 @@ export class ItemEmbed extends Embed {
         )}`,
       });
 
-    if (item.sources && Object.keys(item.sources).length) {
-      this.addFields({
-        name: 'Sources',
-        value: Object.entries(item.sources)
-          .map(([key, value]) => {
-            let valueString = '';
-            if (key === 'quests') {
-              for (const quest of value as IQuest[]) {
-                valueString += `- ${hyperlink(
-                  quest.name,
-                  `${PALIA_URL}/quest/${quest.key}`,
-                )}\n`;
-              }
-            } else if (key === 'items') {
-              for (const item of value as IItemsItem[]) {
-                valueString += `- ${hyperlink(
-                  item.name ?? 'Unknown',
-                  `${PALIA_URL}/item/${item.key}`,
-                )}\n`;
-              }
-            } else if (key === 'recipes') {
-              for (const recipe of value as IRecipesItem[]) {
-                valueString += `- ${hyperlink(
-                  recipe.item?.name ?? 'Unknown',
-                  `${PALIA_URL}/recipe/${recipe.key}`,
-                )}\n`;
-              }
-            } else if (key === 'dialogues') {
-              for (const dialogue of value as IDialoguesItem[]) {
-                valueString += `- ${hyperlink(
-                  dialogue.name,
-                  `${PALIA_URL}/dialogue/${dialogue.key}`,
-                )}\n`;
-              }
-            } else if (key === 'mailMessages') {
-              for (const mailMessage of value as IMailMessagesItem[]) {
-                valueString += `- ${hyperlink(
-                  mailMessage.name,
-                  `${PALIA_URL}/mail-message/${mailMessage.key}`,
-                )}\n`;
-              }
-            } else if (key === 'books') {
-              for (const book of value as IBooksItem[]) {
-                valueString += `- ${hyperlink(
-                  book.name,
-                  `${PALIA_URL}/item/${book.key}`,
-                )}\n`;
-              }
-            } else if (key === 'quests') {
-              for (const quest of value as IQuest[]) {
-                valueString += `- ${hyperlink(
-                  quest.name,
-                  `${PALIA_URL}/quest/${quest.key}`,
-                )}\n`;
-              }
-            } else {
-              for (const unknown of value as any[]) {
-                valueString += `- WIP ${key}/${unknown}\n`;
-              }
-            }
-            return valueString;
-          })
-          .splice(0, 5)
-          .join('\n'),
-      });
+    if (item.sources) {
+      for (const [key, value] of Object.entries(item.sources)) {
+        if (key === 'stores') {
+          this.addFields({
+            name: 'Sold at',
+            value: (value as IStoresItem[])
+              .map(
+                (quest) =>
+                  `- ${hyperlink(
+                    quest.name,
+                    `${PALIA_URL}/store/${quest.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'recipes') {
+          this.addFields({
+            name: 'Crafted by',
+            value: (value as IRecipesItem[])
+              .map(
+                (recipe) =>
+                  `- ${hyperlink(
+                    recipe.item?.name ?? 'Unknown',
+                    `${PALIA_URL}/recipe/${recipe.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'gatherables') {
+          this.addFields({
+            name: 'Gathered from',
+            value: (value as IGatherablesItem[])
+              .map(
+                (gatherable) =>
+                  `- ${hyperlink(
+                    gatherable.name,
+                    `${PALIA_URL}/gatherable/${gatherable.key}`,
+                  )} (${hyperlink(
+                    gatherable.skill.name,
+                    `${PALIA_URL}/skill/${gatherable.skill.key}`,
+                  )})`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'dialogues') {
+          this.addFields({
+            name: 'Quest reward from',
+            value: (value as IDialoguesItem[])
+              .map(
+                (vendor) =>
+                  `- ${hyperlink(
+                    vendor.name,
+                    `${PALIA_URL}/dialogue/${vendor.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'mailMessages') {
+          this.addFields({
+            name: 'Attached to',
+            value: (value as IMailMessagesItem[])
+              .map(
+                (mail) =>
+                  `- ${hyperlink(
+                    mail.name,
+                    `${PALIA_URL}/mail-messages/${mail.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'books') {
+          this.addFields({
+            name: 'Obtained by reading',
+            value: (value as IBooksItem[])
+              .map(
+                (book) =>
+                  `- ${hyperlink(book.name, `${PALIA_URL}/item/${book.key}`)}`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'quests') {
+          this.addFields({
+            name: 'Reward from',
+            value: (value as IQuest[])
+              .map(
+                (quest) =>
+                  `- ${hyperlink(
+                    quest.name,
+                    `${PALIA_URL}/quest/${quest.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'items') {
+          this.addFields({
+            name: 'Obtained from',
+            value: (value as IItemsItem[])
+              .map(
+                (item) =>
+                  `- ${hyperlink(
+                    item.name ?? 'Unknown',
+                    `${PALIA_URL}/item/${item.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else {
+          this.addFields({
+            name: 'WIP',
+            value: (value as any[]).map((unknown) => `- ${unknown}`).join('\n'),
+          });
+        }
+      }
     }
 
-    if (item.sourceOf && Object.keys(item.sourceOf).length) {
-      this.addFields({
-        name: 'Source Of',
-        value: Object.entries(item.sourceOf)
-          .map(([key, value]) => {
-            let valueString = '';
-            if (key === 'quests') {
-              for (const quest of value as IQuest[]) {
-                valueString += `- ${hyperlink(
-                  quest.name,
-                  `${PALIA_URL}/quest/${quest.key}`,
-                )}\n`;
-              }
-            } else if (key === 'items') {
-              for (const item of value as IItemsItem[]) {
-                valueString += `- ${hyperlink(
-                  item.name ?? 'Unknown',
-                  `${PALIA_URL}/item/${item.key}`,
-                )}\n`;
-              }
-            } else if (key === 'recipes') {
-              for (const recipe of value as IRecipesItem[]) {
-                valueString += `- ${hyperlink(
-                  recipe.item?.name ?? 'Unknown',
-                  `${PALIA_URL}/recipe/${recipe.key}`,
-                )}\n`;
-              }
-            } else if (key === 'dialogues') {
-              for (const dialogue of value as IDialoguesItem[]) {
-                valueString += `- ${hyperlink(
-                  dialogue.name,
-                  `${PALIA_URL}/dialogue/${dialogue.key}`,
-                )}\n`;
-              }
-            } else if (key === 'mailMessages') {
-              for (const mailMessage of value as IMailMessagesItem[]) {
-                valueString += `- ${hyperlink(
-                  mailMessage.name,
-                  `${PALIA_URL}/mail-message/${mailMessage.key}`,
-                )}\n`;
-              }
-            } else if (key === 'books') {
-              for (const book of value as IBooksItem[]) {
-                valueString += `- ${hyperlink(
-                  book.name,
-                  `${PALIA_URL}/item/${book.key}`,
-                )}\n`;
-              }
-            } else if (key === 'quests') {
-              for (const quest of value as IQuest[]) {
-                valueString += `- ${hyperlink(
-                  quest.name,
-                  `${PALIA_URL}/quest/${quest.key}`,
-                )}\n`;
-              }
-            } else {
-              for (const unknown of value as any[]) {
-                valueString += `- WIP ${key}/${unknown}\n`;
-              }
-            }
-            return valueString;
-          })
-          .splice(0, 5)
-          .join('\n'),
-      });
+    if (item.sourceOf) {
+      for (const [key, value] of Object.entries(item.sourceOf)) {
+        if (key === 'recipes') {
+          this.addFields({
+            name: 'Teaches Recipe',
+            value: (value as IRecipesItem[])
+              .map(
+                (recipe) =>
+                  `- ${hyperlink(
+                    recipe.item?.name ?? 'Unknown',
+                    `${PALIA_URL}/recipe/${recipe.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'quests') {
+          this.addFields({
+            name: 'Needed for Quest',
+            value: (value as IQuest[])
+              .map(
+                (quest) =>
+                  `- ${hyperlink(
+                    quest.name,
+                    `${PALIA_URL}/quest/${quest.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else if (key === 'items') {
+          this.addFields({
+            name: 'Contains Item',
+            value: (value as IItemsItem[])
+              .map(
+                (item) =>
+                  `- ${hyperlink(
+                    item.name ?? 'Unknown',
+                    `${PALIA_URL}/item/${item.key}`,
+                  )}`,
+              )
+              .join('\n'),
+          });
+        } else {
+          this.addFields({
+            name: 'WIP',
+            value: (value as any[]).map((unknown) => `- ${unknown}`).join('\n'),
+          });
+        }
+      }
     }
-
-    if (item.buyable)
-      this.addFields({
-        name: 'Buyable',
-        value: item.buyable ? 'Yes' : 'No',
-        inline: true,
-      });
-
-    if (item.craftable)
-      this.addFields({
-        name: 'Craftable',
-        value: item.craftable ? 'Yes' : 'No',
-        inline: true,
-      });
-
-    if (item.obtainable)
-      this.addFields({
-        name: 'Obtainable',
-        value: item.obtainable ? 'Yes' : 'No',
-        inline: true,
-      });
   }
 }
