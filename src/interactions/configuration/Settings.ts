@@ -8,6 +8,8 @@ import {
   GuildChannel,
   NewsChannel,
   PermissionFlagsBits,
+  PermissionResolvable,
+  PermissionsBitField,
   Role,
   TextChannel,
   ThreadChannel,
@@ -37,7 +39,8 @@ export default class Settings extends Interaction {
   public readonly command: ApplicationCommandData = {
     type: ApplicationCommandType.ChatInput,
     ...commands['settings'],
-    defaultMemberPermissions: PermissionFlagsBits.ManageGuild,
+    defaultMemberPermissions:
+      PermissionFlagsBits.ManageGuild.toString() as PermissionResolvable,
     dmPermission: false,
     options: [
       {
@@ -55,37 +58,37 @@ export default class Settings extends Interaction {
           },
         ],
       },
-      {
-        type: ApplicationCommandOptionType.SubcommandGroup,
-        ...commands['settings.news'],
-        options: [
-          {
-            type: ApplicationCommandOptionType.Subcommand,
-            ...commands['settings.news.enable'],
-            options: [
-              {
-                type: ApplicationCommandOptionType.Channel,
-                ...commands['settings.news.enable.channel'],
-                channelTypes: [
-                  ChannelType.GuildAnnouncement,
-                  ChannelType.GuildText,
-                  ChannelType.GuildForum,
-                  ChannelType.PublicThread,
-                ],
-                required: true,
-              },
-              //   {
-              //     type: ApplicationCommandOptionType.Role,
-              //     ...commands['settings.news.enable.role'],
-              //   },
-            ],
-          },
-          {
-            type: ApplicationCommandOptionType.Subcommand,
-            ...commands['settings.news.disable'],
-          },
-        ],
-      },
+      // {
+      //   type: ApplicationCommandOptionType.SubcommandGroup,
+      //   ...commands['settings.news'],
+      //   options: [
+      //     {
+      //       type: ApplicationCommandOptionType.Subcommand,
+      //       ...commands['settings.news.enable'],
+      //       options: [
+      //         {
+      //           type: ApplicationCommandOptionType.Channel,
+      //           ...commands['settings.news.enable.channel'],
+      //           channelTypes: [
+      //             ChannelType.GuildAnnouncement,
+      //             ChannelType.GuildText,
+      //             ChannelType.GuildForum,
+      //             ChannelType.PublicThread,
+      //           ],
+      //           required: true,
+      //         },
+      //         //   {
+      //         //     type: ApplicationCommandOptionType.Role,
+      //         //     ...commands['settings.news.enable.role'],
+      //         //   },
+      //       ],
+      //     },
+      //     {
+      //       type: ApplicationCommandOptionType.Subcommand,
+      //       ...commands['settings.news.disable'],
+      //     },
+      //   ],
+      // },
     ],
   };
 

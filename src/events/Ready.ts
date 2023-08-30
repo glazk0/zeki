@@ -14,7 +14,7 @@ export default class Ready extends Event {
         ? [...this.client.cluster.ids.keys()].join(', ')
         : [...this.client.cluster.ids.keys()];
 
-    new News().init();
+    // new News().init();
 
     this.client.logger.info(
       `${this.client.user?.tag}, ready to serve ${this.client.guilds.cache.size} servers on cluster #${this.client.cluster.id} (Shards: ${shards})`,
