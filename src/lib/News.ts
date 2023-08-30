@@ -56,16 +56,12 @@ export class News {
   private async refresh() {
     let data = await this.scrape();
 
-    console.log(data.length);
-
-    // data = data.filter(
-    //   (item) =>
-    //     this.client.cache.get(
-    //       `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
-    //     ) === undefined,
-    // );
-
-    console.log(data.length);
+    data = data.filter(async (item) => {
+      const cached = await this.client.cache.exists(
+        `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
+      );
+      return !cached;
+    });
 
     if (!data.length) return;
 
@@ -99,10 +95,10 @@ export class News {
             embeds: [embed],
           };
 
-          // this.client.cache.set(
-          //   `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
-          //   JSON.stringify(item),
-          // );
+          this.client.cache.set(
+            `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
+            JSON.stringify(item),
+          );
 
           await this.broadcaster.broadcast(channel.id, message);
         }

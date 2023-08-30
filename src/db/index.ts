@@ -8,7 +8,6 @@ import { GuildWithNews } from '../types';
 
 const connection = postgres(process.env.DATABASE_URL, {
   max: 1,
-  ssl: 'prefer',
 });
 
 export const db = drizzle(connection, {
