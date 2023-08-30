@@ -57,37 +57,37 @@ export default class Settings extends Interaction {
           },
         ],
       },
-      {
-        type: ApplicationCommandOptionType.SubcommandGroup,
-        ...commands['settings.news'],
-        options: [
-          {
-            type: ApplicationCommandOptionType.Subcommand,
-            ...commands['settings.news.enable'],
-            options: [
-              {
-                type: ApplicationCommandOptionType.Channel,
-                ...commands['settings.news.enable.channel'],
-                channelTypes: [
-                  ChannelType.GuildAnnouncement,
-                  ChannelType.GuildText,
-                  ChannelType.GuildForum,
-                  ChannelType.PublicThread,
-                ],
-                required: true,
-              },
-              //   {
-              //     type: ApplicationCommandOptionType.Role,
-              //     ...commands['settings.news.enable.role'],
-              //   },
-            ],
-          },
-          {
-            type: ApplicationCommandOptionType.Subcommand,
-            ...commands['settings.news.disable'],
-          },
-        ],
-      },
+      // {
+      //   type: ApplicationCommandOptionType.SubcommandGroup,
+      //   ...commands['settings.news'],
+      //   options: [
+      //     {
+      //       type: ApplicationCommandOptionType.Subcommand,
+      //       ...commands['settings.news.enable'],
+      //       options: [
+      //         {
+      //           type: ApplicationCommandOptionType.Channel,
+      //           ...commands['settings.news.enable.channel'],
+      //           channelTypes: [
+      //             ChannelType.GuildAnnouncement,
+      //             ChannelType.GuildText,
+      //             ChannelType.GuildForum,
+      //             ChannelType.PublicThread,
+      //           ],
+      //           required: true,
+      //         },
+      //         //   {
+      //         //     type: ApplicationCommandOptionType.Role,
+      //         //     ...commands['settings.news.enable.role'],
+      //         //   },
+      //       ],
+      //     },
+      //     {
+      //       type: ApplicationCommandOptionType.Subcommand,
+      //       ...commands['settings.news.disable'],
+      //     },
+      //   ],
+      // },
     ],
   };
 
