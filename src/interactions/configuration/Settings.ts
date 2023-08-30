@@ -39,8 +39,7 @@ export default class Settings extends Interaction {
   public readonly command: ApplicationCommandData = {
     type: ApplicationCommandType.ChatInput,
     ...commands['settings'],
-    defaultMemberPermissions:
-      PermissionFlagsBits.ManageGuild.toString() as PermissionResolvable,
+    defaultMemberPermissions: 'ManageGuild',
     dmPermission: false,
     options: [
       {
@@ -58,37 +57,37 @@ export default class Settings extends Interaction {
           },
         ],
       },
-      // {
-      //   type: ApplicationCommandOptionType.SubcommandGroup,
-      //   ...commands['settings.news'],
-      //   options: [
-      //     {
-      //       type: ApplicationCommandOptionType.Subcommand,
-      //       ...commands['settings.news.enable'],
-      //       options: [
-      //         {
-      //           type: ApplicationCommandOptionType.Channel,
-      //           ...commands['settings.news.enable.channel'],
-      //           channelTypes: [
-      //             ChannelType.GuildAnnouncement,
-      //             ChannelType.GuildText,
-      //             ChannelType.GuildForum,
-      //             ChannelType.PublicThread,
-      //           ],
-      //           required: true,
-      //         },
-      //         //   {
-      //         //     type: ApplicationCommandOptionType.Role,
-      //         //     ...commands['settings.news.enable.role'],
-      //         //   },
-      //       ],
-      //     },
-      //     {
-      //       type: ApplicationCommandOptionType.Subcommand,
-      //       ...commands['settings.news.disable'],
-      //     },
-      //   ],
-      // },
+      {
+        type: ApplicationCommandOptionType.SubcommandGroup,
+        ...commands['settings.news'],
+        options: [
+          {
+            type: ApplicationCommandOptionType.Subcommand,
+            ...commands['settings.news.enable'],
+            options: [
+              {
+                type: ApplicationCommandOptionType.Channel,
+                ...commands['settings.news.enable.channel'],
+                channelTypes: [
+                  ChannelType.GuildAnnouncement,
+                  ChannelType.GuildText,
+                  ChannelType.GuildForum,
+                  ChannelType.PublicThread,
+                ],
+                required: true,
+              },
+              //   {
+              //     type: ApplicationCommandOptionType.Role,
+              //     ...commands['settings.news.enable.role'],
+              //   },
+            ],
+          },
+          {
+            type: ApplicationCommandOptionType.Subcommand,
+            ...commands['settings.news.disable'],
+          },
+        ],
+      },
     ],
   };
 
@@ -145,18 +144,25 @@ export default class Settings extends Interaction {
                 ephemeral: true,
               });
 
-            await db
-              .insert(news)
-              .values({
-                guildId: interaction.guild!.id,
-                channel: channel.id,
-              })
-              .onConflictDoUpdate({
-                target: [news.guildId],
-                set: {
+            try {
+              await db
+                .insert(news)
+                .values({
+                  guildId: interaction.guild!.id,
                   channel: channel.id,
-                },
-              });
+                })
+                .onConflictDoUpdate({
+                  target: [news.guildId],
+                  set: {
+                    channel: channel.id,
+                  },
+                });
+            } catch (error) {
+              this.client.logger.error(
+                `Error while updating news channel for guild ${interaction.guild?.id}`,
+                error,
+              );
+            }
 
             await interaction.reply({
               content: i18n.interactions.settings.news.enabled({
@@ -172,9 +178,16 @@ export default class Settings extends Interaction {
                 ephemeral: true,
               });
 
-            await db
-              .delete(news)
-              .where(eq(news.guildId, interaction.guild!.id));
+            try {
+              await db
+                .delete(news)
+                .where(eq(news.guildId, interaction.guild!.id));
+            } catch (error) {
+              this.client.logger.error(
+                `Error while updating news channel for guild ${interaction.guild?.id}`,
+                error,
+              );
+            }
 
             await interaction.reply({
               content: i18n.interactions.settings.news.disabled({
