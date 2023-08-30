@@ -8,6 +8,7 @@ declare global {
       POSTGRES_USER: string;
       POSTGRES_PASSWORD: string;
       POSTGRES_DATABASE: string;
+      DATABASE_URL: string;
       REDIS_HOST: string;
       REDIS_PORT: number;
       REDIS_PASSWORD: string;

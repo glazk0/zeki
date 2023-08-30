@@ -3,14 +3,27 @@ import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 
 import * as schema from './schema';
+
 import { GuildWithNews } from '../types';
 
-const connection = postgres(process.env.DATABASE_URL as string, { max: 1 });
+const connection = postgres(process.env.DATABASE_URL, {
+  max: 1,
+  ssl: 'prefer',
+});
 
 export const db = drizzle(connection, {
   logger: true,
   schema,
 });
+
+migrate(db, { migrationsFolder: './db/migrations' })
+  .then(() => {
+    console.log('Migrations ran successfully');
+  })
+  .catch((error) => {
+    console.error('Migrations failed', error);
+    process.exit(1);
+  });
 
 export const findOrCreate = async (
   guildId: string,

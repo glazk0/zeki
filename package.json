@@ -6,11 +6,10 @@
   "scripts": {
     "start": "node index",
     "dev": "nodemon",
-    "build": "tsc",
+    "build": "tsc && cp -r src/db/migrations/ dist/db/migrations",
     "typesafe-i18n": "typesafe-i18n",
-    "db:drop": "drizzle-kit drop --config=drizzle.config.ts",
+    "db:drop": "drizzle-kit drop",
     "db:generate": "drizzle-kit generate:pg",
-    "db:push": "drizzle-kit push:pg",
     "db:studio": "drizzle-kit studio"
   },
   "repository": {

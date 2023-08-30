@@ -91,7 +91,7 @@ export class Client extends DiscordClient {
 
     await registerClientEvents();
 
-    // await this.cache.connect();
+    await this.cache.connect();
 
     try {
       await super.login(process.env.TOKEN);

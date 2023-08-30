@@ -15,9 +15,17 @@ export default {
     name: 'news',
     description: 'Manage the news settings of your server.',
   },
-  ['settings.news.channel']: {
+  ['settings.news.enable']: {
+    name: 'enable',
+    description: 'Enable the news feature for your server.',
+  },
+  ['settings.news.enable.channel']: {
     name: 'channel',
     description: 'The channel where news will be sent.',
+  },
+  ['settings.news.disable']: {
+    name: 'disable',
+    description: 'Disable the news feature for your server.',
   },
   help: {
     name: 'help',
