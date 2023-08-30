@@ -107,7 +107,7 @@ export default class InteractionHandler extends Event {
             .filter((interaction) => interaction.enabled)
             .map((interaction) => interaction.command),
         },
-      )) as any;
+      )) as any[];
 
       this.client.logger.info(
         `Successfully reloaded ${data.length} application (/) commands.`,
@@ -136,7 +136,7 @@ export default class InteractionHandler extends Event {
       i18n: L['en'],
     } as Context;
 
-    if (interaction.inGuild()) {
+    if (interaction.inGuild() && !interaction.isAutocomplete()) {
       guild = await findOrCreate(interaction.guildId);
       if (guild) context.i18n = L[guild.locale as keyof typeof L];
     }
@@ -166,7 +166,7 @@ export default class InteractionHandler extends Event {
 
     if (interaction.isAutocomplete()) {
       try {
-        await command?.autocomplete?.(interaction, context);
+        await command?.autocomplete?.(interaction);
       } catch (error) {
         this.client.logger.error(
           `Failed to run autocomplete for interaction ${command?.command.name}: ${error}`,

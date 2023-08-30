@@ -57,7 +57,6 @@ export abstract class Interaction implements InteractionInterface {
    */
   public async autocomplete?(
     interaction: AutocompleteInteraction<CacheType>,
-    context: Context,
   ): Promise<void> {}
 
   /**
