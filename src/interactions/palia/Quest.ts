@@ -79,7 +79,6 @@ export default class Quest extends Interaction {
 
   public async autocomplete(
     interaction: AutocompleteInteraction<CacheType>,
-    context: Context,
   ): Promise<void> {
     const value = interaction.options.getFocused();
 
