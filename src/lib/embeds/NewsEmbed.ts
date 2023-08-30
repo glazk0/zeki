@@ -10,7 +10,7 @@ export class NewsEmbed extends Embed {
       ? `${news.type} - ${news.title}`
       : news.title;
 
-    this.data.url = news.url;
+    this.data.url = `https://palia.com${news.url}`;
 
     if (news.image) this.data.image = { url: `https:${news.image}` };
   }

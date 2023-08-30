@@ -46,8 +46,6 @@ export class News {
 
   constructor() {
     this.client = container.resolve(clientSymbol);
-
-    this.init();
   }
 
   public init() {
@@ -58,11 +56,16 @@ export class News {
   private async refresh() {
     let data = await this.scrape();
 
-    data = data.filter((item) => {
-      return !this.client.cache.exists(
-        `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
-      );
-    });
+    console.log(data.length);
+
+    // data = data.filter(
+    //   (item) =>
+    //     this.client.cache.get(
+    //       `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
+    //     ) === undefined,
+    // );
+
+    console.log(data.length);
 
     if (!data.length) return;
 
@@ -85,21 +88,21 @@ export class News {
 
         if (!channel) return;
 
+        data = data.filter(
+          (item) => item.locale?.split('-')[0] === setting.guilds.locale,
+        );
+
         for (const item of data) {
-          item.locale = item.locale?.split('-')[0];
-
-          if (item.locale !== setting.guilds.locale) continue;
-
           const embed = new NewsEmbed(item);
 
           message = {
             embeds: [embed],
           };
 
-          this.client.cache.set(
-            `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
-            JSON.stringify(item),
-          );
+          // this.client.cache.set(
+          //   `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
+          //   JSON.stringify(item),
+          // );
 
           await this.broadcaster.broadcast(channel.id, message);
         }
