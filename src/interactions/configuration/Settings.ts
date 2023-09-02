@@ -8,22 +8,21 @@ import {
   GuildChannel,
   NewsChannel,
   PermissionFlagsBits,
-  PermissionResolvable,
-  PermissionsBitField,
   Role,
   TextChannel,
   ThreadChannel,
+  channelMention,
 } from 'discord.js';
-import { inject, injectable } from 'tsyringe';
 import { eq } from 'drizzle-orm';
+import { inject, injectable } from 'tsyringe';
 
 import { Client } from '../../structures/Client';
 import { Context, Interaction } from '../../structures/Interaction';
 
 import { commands } from '../../i18n';
+import L from '../../i18n/i18n-node';
 import { Locales } from '../../i18n/i18n-types';
 import { locales } from '../../i18n/i18n-util';
-import L from '../../i18n/i18n-node';
 
 import { clientSymbol, localesMap } from '../../utils/Constants';
 
@@ -57,37 +56,37 @@ export default class Settings extends Interaction {
           },
         ],
       },
-      // {
-      //   type: ApplicationCommandOptionType.SubcommandGroup,
-      //   ...commands['settings.news'],
-      //   options: [
-      //     {
-      //       type: ApplicationCommandOptionType.Subcommand,
-      //       ...commands['settings.news.enable'],
-      //       options: [
-      //         {
-      //           type: ApplicationCommandOptionType.Channel,
-      //           ...commands['settings.news.enable.channel'],
-      //           channelTypes: [
-      //             ChannelType.GuildAnnouncement,
-      //             ChannelType.GuildText,
-      //             ChannelType.GuildForum,
-      //             ChannelType.PublicThread,
-      //           ],
-      //           required: true,
-      //         },
-      //         //   {
-      //         //     type: ApplicationCommandOptionType.Role,
-      //         //     ...commands['settings.news.enable.role'],
-      //         //   },
-      //       ],
-      //     },
-      //     {
-      //       type: ApplicationCommandOptionType.Subcommand,
-      //       ...commands['settings.news.disable'],
-      //     },
-      //   ],
-      // },
+      {
+        type: ApplicationCommandOptionType.SubcommandGroup,
+        ...commands['settings.news'],
+        options: [
+          {
+            type: ApplicationCommandOptionType.Subcommand,
+            ...commands['settings.news.enable'],
+            options: [
+              {
+                type: ApplicationCommandOptionType.Channel,
+                ...commands['settings.news.enable.channel'],
+                channelTypes: [
+                  ChannelType.GuildAnnouncement,
+                  ChannelType.GuildText,
+                  ChannelType.GuildForum,
+                  ChannelType.PublicThread,
+                ],
+                required: true,
+              },
+              //   {
+              //     type: ApplicationCommandOptionType.Role,
+              //     ...commands['settings.news.enable.role'],
+              //   },
+            ],
+          },
+          {
+            type: ApplicationCommandOptionType.Subcommand,
+            ...commands['settings.news.disable'],
+          },
+        ],
+      },
     ],
   };
 
@@ -191,7 +190,7 @@ export default class Settings extends Interaction {
 
             await interaction.reply({
               content: i18n.interactions.settings.news.disabled({
-                channel: guild.news.channel,
+                channel: channelMention(guild.news.channel),
               }),
               ephemeral: true,
             });

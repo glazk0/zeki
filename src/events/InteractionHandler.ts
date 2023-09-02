@@ -138,7 +138,10 @@ export default class InteractionHandler extends Event {
 
     if (interaction.inGuild() && !interaction.isAutocomplete()) {
       guild = await findOrCreate(interaction.guildId);
-      if (guild) context.i18n = L[guild.locale as keyof typeof L];
+      if (guild) {
+        context.guild = guild;
+        context.i18n = L[guild.locale as keyof typeof L];
+      }
     }
 
     let command: Interaction | undefined = undefined;
