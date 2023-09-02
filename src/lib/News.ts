@@ -1,6 +1,7 @@
 import { load } from 'cheerio';
 import { container } from 'tsyringe';
 import { eq } from 'drizzle-orm';
+import { MessageCreateOptions, MessagePayload } from 'discord.js';
 
 import { Client } from '../structures/Client';
 
@@ -10,10 +11,11 @@ import { INews } from '../types';
 
 import { db } from '../db';
 import { guilds, news } from '../db/schema';
+
 import { clusterIdOfGuildId } from '../utils/Commons';
+
 import { NewsEmbed } from './embeds/NewsEmbed';
 import { Broadcaster } from './Broadcaster';
-import { MessageCreateOptions, MessagePayload } from 'discord.js';
 
 export class News {
   /**
@@ -54,16 +56,9 @@ export class News {
   }
 
   private async refresh() {
-    let data = await this.scrape();
+    let data = await this.filter(await this.scrape());
 
-    data = data.filter(async (item) => {
-      const cached = await this.client.cache.exists(
-        `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
-      );
-      return !cached;
-    });
-
-    if (!data.length) return;
+    if (!data.length) return console.log('No new news.');
 
     let settings = await db
       .select()
@@ -78,32 +73,56 @@ export class News {
 
     let message: string | MessagePayload | MessageCreateOptions;
 
+    let embeds = data.map((item) => {
+      const locale =
+        item.locale && item.locale.length ? item.locale.split('-')[0] : 'en';
+      return {
+        locale: locale,
+        embeds: [new NewsEmbed(item)],
+      };
+    });
+
     await Promise.all(
       settings.map(async (setting) => {
         const channel = this.client.channels.cache.get(setting.news.channel);
 
         if (!channel) return;
 
-        data = data.filter(
-          (item) => item.locale?.split('-')[0] === setting.guilds.locale,
+        embeds = embeds.filter(
+          ({ locale }) => locale === setting.guilds.locale,
         );
 
-        for (const item of data) {
-          const embed = new NewsEmbed(item);
+        for (const { locale, embeds: embed } of embeds) {
+          if (setting.guilds.locale !== locale) continue;
 
           message = {
-            embeds: [embed],
+            embeds: embed,
           };
-
-          this.client.cache.set(
-            `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
-            JSON.stringify(item),
-          );
 
           await this.broadcaster.broadcast(channel.id, message);
         }
       }),
     );
+
+    for (const item of data) {
+      await this.client.cache.set(
+        `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
+        JSON.stringify(item),
+      );
+    }
+  }
+
+  private async filter(data: INews[]) {
+    const filteredData = await Promise.all(
+      data.map(async (item) => {
+        const cached = await this.client.cache.exists(
+          `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
+        );
+        return { item, cached };
+      }),
+    );
+
+    return filteredData.filter(({ cached }) => !cached).map(({ item }) => item);
   }
 
   private async scrape() {
