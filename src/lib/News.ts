@@ -78,7 +78,7 @@ export class News {
         item.locale && item.locale.length ? item.locale.split('-')[0] : 'en';
       return {
         locale: locale,
-        embeds: [new NewsEmbed(item)],
+        embeds: new NewsEmbed(item),
       };
     });
 
@@ -96,7 +96,7 @@ export class News {
           if (setting.guilds.locale !== locale) continue;
 
           message = {
-            embeds: embed,
+            embeds: [embed],
           };
 
           await this.broadcaster.broadcast(channel.id, message);
@@ -176,7 +176,7 @@ export class News {
       }
     }
 
-    return scrape;
+    return scrape.reverse();
   }
 
   private getWebsite(locale: string) {
