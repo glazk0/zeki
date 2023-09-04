@@ -164,10 +164,6 @@ export class QuestEmbed extends Embed {
                     value += ` ${condition.type}`;
                   }
 
-                  if (!condition.item && condition.amountRequired) {
-                    value += ` ${condition.amountRequired}`;
-                  }
-
                   if (condition.quest) {
                     value += ` ${condition.quest.name}`;
                   } else if (condition.item) {
