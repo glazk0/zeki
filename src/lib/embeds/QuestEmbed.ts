@@ -93,7 +93,7 @@ export class QuestEmbed extends Embed {
                   value += ` ${condition.type}`;
                 }
 
-                if (condition.amountRequired) {
+                if (!condition.item && condition.amountRequired) {
                   value += ` ${condition.amountRequired}`;
                 }
 
@@ -168,7 +168,7 @@ export class QuestEmbed extends Embed {
                     value += ` ${condition.type}`;
                   }
 
-                  if (condition.amountRequired) {
+                  if (!condition.item && condition.amountRequired) {
                     value += ` ${condition.amountRequired}`;
                   }
 
