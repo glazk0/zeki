@@ -155,72 +155,74 @@ export class QuestEmbed extends Embed {
         let branchingGoals = step.branchingGoals
           .map((goal) => {
             let value = `-`;
-            goal.goals.map((goal) => {
-              if (goal.description) {
-                value += ` \`${goal.description}\``;
-              }
-
-              if (goal.condition) {
-                const condition = goal.condition;
-
-                if (!condition.subConditions && condition.type) {
-                  value += ` ${condition.type}`;
+            goal.goals
+              .map((goal) => {
+                if (goal.description) {
+                  value += ` \`${goal.description}\``;
                 }
 
-                if (condition.amountRequired) {
-                  value += ` ${condition.amountRequired}`;
-                }
+                if (goal.condition) {
+                  const condition = goal.condition;
 
-                if (condition.quest) {
-                  value += ` ${condition.quest.name}`;
-                } else if (condition.item) {
-                  value += ` ${condition.amountRequired ?? 1} ${hyperlink(
-                    condition.item.name,
-                    `${PALIA_URL}/item/${condition.item.key}`,
-                  )}`;
-                } else if (condition.dialogue) {
-                  value += ` ${hyperlink(
-                    condition.dialogue.name,
-                    `${PALIA_URL}/dialogue/${condition.dialogue.key}`,
-                  )}`;
-                } else if (condition.recipe) {
-                  value += ` ${hyperlink(
-                    condition.recipe.name,
-                    `${PALIA_URL}/recipe/${condition.recipe.key}`,
-                  )}`;
-                } else if (condition.villager) {
-                  value += ` ${hyperlink(
-                    condition.villager.name,
-                    `${PALIA_URL}/villager/${condition.villager.key}`,
-                  )}`;
-                } else if (condition.currency) {
-                  value += ` ${condition.amountRequired} ${condition.currency.name}`;
-                } else if (condition.playerTag) {
-                  value += ` ${condition.playerTag.name}`;
-                } else if (condition.itemTag) {
-                  if (condition.itemTag.icon) {
-                    this.setImage(
-                      `${PALIA_URL}/images/tags/30/${condition.itemTag.icon}.webp`,
-                    );
+                  if (!condition.subConditions && condition.type) {
+                    value += ` ${condition.type}`;
                   }
-                  value += ` ${hyperlink(
-                    condition.itemTag.name,
-                    `${PALIA_URL}/items/page/1?filters=tag:${condition.itemTag.key}`,
-                  )}`;
-                } else if (condition.subConditions) {
-                  if (condition.type === 'or') {
-                    value += `Complete any of the following:\n`;
-                  } else if (condition.type === 'and') {
-                    value += `Complete all of the following:\n`;
+
+                  if (condition.amountRequired) {
+                    value += ` ${condition.amountRequired}`;
                   }
-                  for (const subCondition of condition.subConditions) {
-                    value += `- ${subCondition.type} ${subCondition.amountRequired} ${subCondition.item?.name}\n`;
+
+                  if (condition.quest) {
+                    value += ` ${condition.quest.name}`;
+                  } else if (condition.item) {
+                    value += ` ${condition.amountRequired ?? 1} ${hyperlink(
+                      condition.item.name,
+                      `${PALIA_URL}/item/${condition.item.key}`,
+                    )}`;
+                  } else if (condition.dialogue) {
+                    value += ` ${hyperlink(
+                      condition.dialogue.name,
+                      `${PALIA_URL}/dialogue/${condition.dialogue.key}`,
+                    )}`;
+                  } else if (condition.recipe) {
+                    value += ` ${hyperlink(
+                      condition.recipe.name,
+                      `${PALIA_URL}/recipe/${condition.recipe.key}`,
+                    )}`;
+                  } else if (condition.villager) {
+                    value += ` ${hyperlink(
+                      condition.villager.name,
+                      `${PALIA_URL}/villager/${condition.villager.key}`,
+                    )}`;
+                  } else if (condition.currency) {
+                    value += ` ${condition.amountRequired} ${condition.currency.name}`;
+                  } else if (condition.playerTag) {
+                    value += ` ${condition.playerTag.name}`;
+                  } else if (condition.itemTag) {
+                    if (condition.itemTag.icon) {
+                      this.setImage(
+                        `${PALIA_URL}/images/tags/30/${condition.itemTag.icon}.webp`,
+                      );
+                    }
+                    value += ` ${hyperlink(
+                      condition.itemTag.name,
+                      `${PALIA_URL}/items/page/1?filters=tag:${condition.itemTag.key}`,
+                    )}`;
+                  } else if (condition.subConditions) {
+                    if (condition.type === 'or') {
+                      value += `Complete any of the following:\n`;
+                    } else if (condition.type === 'and') {
+                      value += `Complete all of the following:\n`;
+                    }
+                    for (const subCondition of condition.subConditions) {
+                      value += `- ${subCondition.type} ${subCondition.amountRequired} ${subCondition.item?.name}\n`;
+                    }
                   }
                 }
-              }
+              })
+              .join('\n');
 
-              return value;
-            });
+            return value;
           })
           .join('\n');
 
