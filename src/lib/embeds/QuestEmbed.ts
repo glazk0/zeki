@@ -129,15 +129,6 @@ export class QuestEmbed extends Embed {
                     condition.itemTag.name,
                     `${PALIA_URL}/items/page/1?filters=tag:${condition.itemTag.key}`,
                   )}`;
-                } else if (condition.subConditions) {
-                  if (condition.type === 'or') {
-                    value += `Complete any of the following:\n`;
-                  } else if (condition.type === 'and') {
-                    value += `Complete all of the following:\n`;
-                  }
-                  for (const subCondition of condition.subConditions) {
-                    value += `- ${subCondition.type} ${subCondition.amountRequired} ${subCondition.item?.name}\n`;
-                  }
                 }
               }
 
@@ -200,15 +191,6 @@ export class QuestEmbed extends Embed {
                       condition.itemTag.name,
                       `${PALIA_URL}/items/page/1?filters=tag:${condition.itemTag.key}`,
                     )}`;
-                  } else if (condition.subConditions) {
-                    if (condition.type === 'or') {
-                      value += `Complete any of the following:\n`;
-                    } else if (condition.type === 'and') {
-                      value += `Complete all of the following:\n`;
-                    }
-                    for (const subCondition of condition.subConditions) {
-                      value += `- ${subCondition.type} ${subCondition.amountRequired} ${subCondition.item?.name}\n`;
-                    }
                   }
                 }
               })
