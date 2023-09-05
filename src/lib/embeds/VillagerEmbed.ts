@@ -49,7 +49,8 @@ export class VillagerEmbed extends Embed {
     if (relationshipLevel) {
       this.addFields({
         name: `${relationshipLevel.type} level ${relationshipLevel.level} - ${relationshipLevel.levelName} (Requires ${relationshipLevel.requiredValue})`,
-        value: relationshipLevel.levelDescription,
+        value:
+          relationshipLevel.levelDescription ?? 'No description available.',
       });
     }
   }

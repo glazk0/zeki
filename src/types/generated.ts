@@ -1,8 +1,8 @@
 interface IRootObject {
   search: ISearchItem[];
-  item: IItemItem[];
   quest: IQuestItem[];
   villager: IVillagerItem[];
+  item: IItemItem[];
   recipe: IRecipeItem[];
   skill: ISkillItem[];
   store: IStoreItem[];
@@ -15,222 +15,7 @@ interface ISearchItem {
   icon?: string;
   iconFolder?: string;
   iconSize?: number;
-}
-interface IItemItem {
-  item: IItem;
-}
-interface IItem {
-  key: string;
-  name: string;
-  description?: string;
-  icon?: string;
-  iconFolder: string;
-  category?: string;
-  rarityNumber?: number;
-  canBePlaced?: boolean;
-  craftable?: boolean;
-  gatherable?: boolean;
-  buyable?: boolean;
-  obtainable?: boolean;
-  canBeSoldTo?: string[];
-  addedIn?: string;
-  type?: string;
-  tags?: ITagsItem[];
-  maxStackSize?: number;
-  rarity?: string;
-  cost?: ICost;
-  sources?: ISources;
-  value?: IValue;
-  quality?: string;
-  sourceOf?: ISourceOf;
-  mapCoordinates?: IMapCoordinatesItem[];
-  storageCapacity?: number;
-  purchaseLimits?: IPurchaseLimits;
-  costTable?: ICostTableItem[];
-  metadata?: IMetadata;
-}
-interface ITagsItem {
-  key: string;
-  name: string;
-  nameNumbered: string;
-  generated?: boolean;
-  icon?: string;
-}
-interface ICost {
-  currency: ICurrency;
-  amount: number;
-  quantity: number;
-  minAmount?: number;
-  maxAmount?: number;
-}
-interface ICurrency {
-  key: string;
-  name: string;
-  icon: string;
-  type?: string;
-  iconFolder: string;
-  addedIn: string;
-}
-interface ISources {
-  stores?: IStoresItem[];
-  dialogues?: IDialoguesItem[];
-  gatherables?: IGatherablesItem[];
-  mailMessages?: IMailMessagesItem[];
-  recipes?: IRecipesItem[];
-  interactables?: string[];
-  items?: IItemsItem[];
-  books?: IBooksItem[];
-}
-interface IStoresItem {
-  key: string;
-  name: string;
-  type: string;
-  villager?: IVillager;
-  addedIn: string;
-}
-interface IVillager {
-  key: string;
-  name: string;
-  icon?: string;
-  iconFolder: string;
-  addedIn: string;
-  isVisibleInUi?: boolean;
-  description?: string;
-  isVisible?: boolean;
-  canAcceptGifts?: boolean;
-  friendshipLevelNecessaryForRomance?: number;
-  relationshipDifficulty?: string;
-  giftPreferences?: IGiftPreferencesItem[];
-  relationshipLevels?: IRelationshipLevelsItem[];
-  type?: string;
-  rarity?: string;
-  isRomanceable?: boolean;
-}
-interface IDialoguesItem {
-  key: string;
-  name: string;
-  iconFolder: string;
-  villager: IVillager;
-  icon?: string;
-  addedIn?: string;
-  text?: string;
-}
-interface IValue {
-  currency: ICurrency;
-  amount: number;
-}
-interface IGatherablesItem {
-  key: string;
-  name: string;
-  type?: string;
-  skill: ISkill;
-  addedIn: string;
-  rarity?: string;
-  icon?: string;
-}
-interface ISkill {
-  key: string;
-  name: string;
-  icon: string;
-  iconFolder: string;
-  store: IStore;
-  villager?: IVillager;
-  category: string;
-  addedIn: string;
-  type?: string;
-  currency?: ICurrency;
-  levelToDisplayCurrency?: number;
-  xpRequiredPerLevel?: string;
-  description?: string;
-}
-interface IStore {
-  key: string;
-  name: string;
-  type: string;
-  villager?: IVillager;
-  addedIn: string;
-  items?: IItemsItem[];
-  recipes?: IRecipesItem[];
-  buyCategories?: string[];
-  tagRequirements?: ITagRequirements;
-  skill?: ISkill;
-  sourceOf?: ISourceOf;
-}
-interface IMailMessagesItem {
-  key: string;
-  name: string;
-  icon?: string;
-  iconFolder: string;
-  addedIn: string;
-}
-interface IRecipesItem {
-  key?: string;
-  item?: IItem;
-  name?: string;
-  icon?: string;
-  iconFolder?: string;
-  rarity?: string;
-  category?: string;
-  quality?: string;
-  addedIn?: string;
-  cost?: ICost;
-  recipe?: IRecipe;
-  requirements?: IRequirements;
-}
-interface ISourceOf {
-  items?: IItemsItem[];
-  recipes?: IRecipesItem[];
-}
-interface IItemsItem {
-  key?: string;
-  name?: string;
-  icon?: string;
-  iconFolder?: string;
-  category?: string;
-  mapCoordinates?: IMapCoordinatesItem[];
-  rarity?: string;
-  item?: IItem;
-  requirements?: IRequirements;
-  purchaseLimits?: IPurchaseLimits;
-  costTable?: ICostTableItem[];
-  additionalCosts?: IAdditionalCostsItem[];
-  cost?: ICost;
-  quality?: string;
-}
-interface IMapCoordinatesItem {
-  type: string;
-  name: string;
-  map: string;
-  location: ILocation;
-}
-interface ILocation {
-  X: number;
-  Y: number;
-  Z: number;
-}
-interface IPurchaseLimits {
-  tag: ITag;
-  min: number;
-  max: number;
-}
-interface ITag {
-  key: string;
-  name: string;
-  nameNumbered: string;
-  generated?: boolean;
-  icon?: string;
-}
-interface ICostTableItem {
-  quantity: number;
-  amount: number;
-}
-interface IMetadata {
-  name: string;
-}
-interface IBooksItem {
-  key: string;
-  name: string;
-  addedIn: string;
+  newlyAdded: boolean;
 }
 interface IQuestItem {
   quest: IQuest;
@@ -245,11 +30,13 @@ interface IQuest {
   iconFolder: string;
   category: string;
   enabled?: boolean;
+  persistId?: number;
   steps?: IStepsItem[];
   starters?: IStarters;
-  startable?: boolean;
+  obtainable?: boolean;
   addedIn: string;
   type?: string;
+  newlyAdded?: boolean;
   startRewards?: IStartRewardsItem[];
 }
 interface IStepsItem {
@@ -271,27 +58,31 @@ interface IGoalsItem {
   description?: string;
   showCountType: string;
   hide: boolean;
+  mapCoordinates?: IMapCoordinatesItem[];
 }
 interface ICondition {
-  type: string;
+  type?: string;
   quest?: IQuest;
   dialogueType?: string;
   dialogue?: IDialogue;
   item?: IItem;
   amountRequired?: number;
+  tag?: ITag;
+  mapCoordinates?: IMapCoordinatesItem[];
+  subConditions?: ISubConditionsItem[];
   playerTag?: IPlayerTag;
-  hasUpperLimit?: boolean;
-  upperLimit?: number;
+  sources?: ISources;
   mailMessage?: IMailMessage;
   villager?: IVillager;
   currency?: ICurrency;
   acquireMethod?: number;
+  hasUpperLimit?: boolean;
+  upperLimit?: number;
   recipe?: IRecipe;
   creatureTag?: ICreatureTag;
   itemTag?: IItemTag;
   deductOnComplete?: boolean;
   releaseMethod?: number;
-  subConditions?: ISubConditionsItem[];
   creature?: ICreature;
   tags?: ITagsItem[];
   skill?: ISkill;
@@ -309,6 +100,15 @@ interface IRewardsItem {
   quest?: IQuest;
   recipe?: IRecipe;
 }
+interface ICurrency {
+  key: string;
+  name: string;
+  icon: string;
+  type?: string;
+  iconFolder: string;
+  newlyAdded: boolean;
+  addedIn: string;
+}
 interface ITurnInDialogue {
   dialogue?: IDialogue;
 }
@@ -319,13 +119,109 @@ interface IDialogue {
   iconFolder: string;
   villager: IVillager;
   text?: string;
-  addedIn?: string;
+  newlyAdded: boolean;
+  addedIn: string;
+}
+interface IVillager {
+  key: string;
+  name: string;
+  icon?: string;
+  iconFolder: string;
+  newlyAdded?: boolean;
+  addedIn: string;
+  isVisibleInUi?: boolean;
+  description?: string;
+  isVisible?: boolean;
+  canAcceptGifts?: boolean;
+  friendshipLevelNecessaryForRomance?: number;
+  relationshipDifficulty?: string;
+  giftPreferences?: IGiftPreferencesItem[];
+  relationshipLevels?: IRelationshipLevelsItem[];
+  obtainable?: boolean;
+  type?: string;
+  rarity?: string;
+  isRomanceable?: boolean;
 }
 interface IStarters {
   dialogues?: IDialoguesItem[];
+  quests?: IQuestsItem[];
   items?: IItemsItem[];
   mailMessages?: IMailMessagesItem[];
   books?: IBooksItem[];
+  fishs?: IFishsItem[];
+}
+interface IDialoguesItem {
+  key: string;
+  name: string;
+  icon?: string;
+  iconFolder: string;
+  villager: IVillager;
+  newlyAdded: boolean;
+  addedIn: string;
+  text?: string;
+}
+interface IItem {
+  key: string;
+  name: string;
+  icon?: string;
+  iconFolder: string;
+  rarity?: string;
+  category?: string;
+  cost?: ICost;
+  value?: IValue;
+  newlyAdded?: boolean;
+  mapCoordinates?: IMapCoordinatesItem[];
+  quality?: string;
+  description?: string;
+  rarityNumber?: number;
+  canBePlaced?: boolean;
+  obtainable?: boolean;
+  addedIn?: string;
+  type?: string;
+  tags?: ITagsItem[];
+  maxStackSize?: number;
+  sources?: ISources;
+  buyable?: boolean;
+  canBeSoldTo?: string[];
+  sellable?: boolean;
+  requiredFor?: IRequiredFor;
+  storageCapacity?: number;
+}
+interface ICost {
+  currency: ICurrency;
+  amount: number;
+  quantity: number;
+}
+interface IValue {
+  currency: ICurrency;
+  amount: number;
+}
+interface IMapCoordinatesItem {
+  map: string;
+  location: ILocation;
+  outer: string;
+}
+interface ILocation {
+  X: number;
+  Y: number;
+  Z: number;
+}
+interface ITag {
+  key: string;
+  name: string;
+  nameNumbered: string;
+  generated?: boolean;
+  icon?: string;
+}
+interface ISubConditionsItem {
+  type: string;
+  dialogueType?: string;
+  dialogue?: IDialogue;
+  playerTag?: IPlayerTag;
+  item?: IItem;
+  gatherables?: string[];
+  tag?: ITag;
+  quest?: IQuest;
 }
 interface IPlayerTag {
   key: string;
@@ -333,12 +229,72 @@ interface IPlayerTag {
   nameNumbered: string;
   generated: boolean;
 }
+interface ISources {
+  slidingPuzzle?: string[];
+  mailMessages?: IMailMessagesItem[];
+  items?: IItemsItem[];
+  books?: IBooksItem[];
+  quests?: IQuestsItem[];
+  levelerConfig?: string[];
+  stores?: IStoresItem[];
+  dialogues?: IDialoguesItem[];
+  gatherables?: IGatherablesItem[];
+  recipes?: IRecipesItem[];
+  fishs?: IFishsItem[];
+  shrineBundles?: string[];
+  timedDrops?: string[];
+}
+interface IQuestsItem {
+  key: string;
+  name: string;
+  description: string;
+  icon: string;
+  iconFolder: string;
+  category: string;
+  newlyAdded: boolean;
+  addedIn: string;
+}
+interface IItemsItem {
+  key?: string;
+  name?: string;
+  icon?: string;
+  iconFolder?: string;
+  category?: string;
+  mapCoordinates?: IMapCoordinatesItem[];
+  newlyAdded?: boolean;
+  rarity?: string;
+  cost?: ICost;
+  value?: IValue;
+  quality?: string;
+  item?: IItem;
+  amount?: number;
+  starQuality?: boolean;
+  requirements?: IRequirements;
+  purchaseLimits?: IPurchaseLimits;
+  costTable?: ICostTableItem[];
+  additionalCosts?: IAdditionalCostsItem[];
+}
 interface IMailMessage {
   key: string;
   name: string;
   icon?: string;
   iconFolder: string;
-  addedIn: string;
+  newlyAdded: boolean;
+  addedIn?: string;
+  metadata?: IMetadata;
+}
+interface IMailMessagesItem {
+  key: string;
+  name: string;
+  icon?: string;
+  iconFolder: string;
+  metadata?: IMetadata;
+  newlyAdded: boolean;
+  addedIn?: string;
+}
+interface IMetadata {
+  name: string;
+  type: string;
 }
 interface IPlayerTagRequirementsItem {
   tag: ITag;
@@ -348,6 +304,12 @@ interface IPlayerTagRequirementsItem {
 interface IBranchingGoalsItem {
   goals: IGoalsItem[];
   rewards: IRewardsItem[];
+}
+interface IBooksItem {
+  key: string;
+  name: string;
+  metadata: IMetadata;
+  newlyAdded: boolean;
 }
 interface IRecipe {
   key: string;
@@ -359,11 +321,16 @@ interface IRecipe {
   category?: string;
   quality?: string;
   cost?: ICost;
-  addedIn: string;
+  newlyAdded?: boolean;
+  addedIn?: string;
+  metadata?: IMetadata;
   requires?: string;
   craftTime?: number;
   timeLimit?: number;
   enabled?: boolean;
+  entityType?: string;
+  description?: string;
+  rarityNumber?: number;
   outputItem?: IOutputItem;
   outputQuantity?: number;
   allowedCrafters?: string[] | (string | null)[];
@@ -374,12 +341,8 @@ interface IRecipe {
   steps?: IStepsItem[];
   sources?: ISources;
   obtainable?: boolean;
-  entityType?: string;
-  description?: string;
-  rarityNumber?: number;
   type?: string;
-  buyable?: boolean;
-  gatherable?: boolean;
+  valueBasedProduction?: IValueBasedProductionItem[];
 }
 interface ICreatureTag {
   key: string;
@@ -401,19 +364,96 @@ interface IItemTag {
   icon?: string;
   generated?: boolean;
 }
-interface ISubConditionsItem {
-  type: string;
-  item?: IItem;
-  amountRequired?: number;
-  playerTag?: IPlayerTag;
-  quest?: IQuest;
-  dialogueType?: string;
-  dialogue?: IDialogue;
+interface IFishsItem {
+  key: string;
+  fishLootTableEntries: IFishLootTableEntriesItem[];
+  newlyAdded: boolean;
+  addedIn: string;
+}
+interface IFishLootTableEntriesItem {
+  fishLoot: IFishLoot;
+  chance: IChance;
+}
+interface IFishLoot {
+  key: string;
+  name: string;
+  waterType: string;
+  coords: ICoordsItem[];
+  newlyAdded: boolean;
+  addedIn: string;
+  baits?: IBaitsItem[];
+}
+interface ICoordsItem {
+  outer: string;
+  location: ILocation;
+}
+interface IChance {
+  fishKey: string;
+  timeOfDay: ITimeOfDay;
+  requirements?: IRequirements;
+  weigth: number;
+  rate: number;
+}
+interface ITimeOfDay {
+  periods: string[];
+}
+interface IRequirements {
+  playerTag?: IPlayerTagItem[];
+  weather?: string[];
+  quest?: IQuestItem[];
+  items?: IItemsItem[];
+  timeOfDay?: ITimeOfDay;
+  recipe?: IRecipeItem[];
+  accomplishment?: string[];
+}
+interface IPlayerTagItem {
+  tag: string;
+  min: number;
+  max: number;
 }
 interface ICreature {
   key: string;
   name: string;
+  newlyAdded: boolean;
   addedIn: string;
+}
+interface ITagsItem {
+  key: string;
+  name: string;
+  nameNumbered: string;
+  generated?: boolean;
+  icon?: string;
+}
+interface ISkill {
+  key: string;
+  name: string;
+  icon: string;
+  iconFolder: string;
+  store: IStore;
+  villager?: IVillager;
+  category: string;
+  newlyAdded?: boolean;
+  addedIn: string;
+  type?: string;
+  currency?: ICurrency;
+  levelToDisplayCurrency?: number;
+  xpRequiredPerLevel?: string;
+  description?: string;
+  obtainable?: boolean;
+}
+interface IStore {
+  key: string;
+  name: string;
+  type: string;
+  villager?: IVillager;
+  newlyAdded?: boolean;
+  addedIn: string;
+  items?: IItemsItem[];
+  recipes?: IRecipesItem[];
+  obtainable?: boolean;
+  buyCategories?: string[];
+  tagRequirements?: ITagRequirements;
+  skill?: ISkill;
 }
 interface IVillagerItem {
   villager: IVillager;
@@ -437,7 +477,59 @@ interface IRelationshipLevelsItem {
   type: string;
   requiredValue: number;
   levelName: string;
-  levelDescription: string;
+  levelDescription?: string;
+}
+interface IItemItem {
+  item: IItem;
+}
+interface IStoresItem {
+  key: string;
+  name: string;
+  type: string;
+  newlyAdded: boolean;
+  addedIn: string;
+  villager?: IVillager;
+}
+interface IGatherablesItem {
+  key: string;
+  name: string;
+  type: string;
+  skill: ISkill;
+  newlyAdded: boolean;
+  addedIn: string;
+  rarity?: string;
+  icon?: string;
+  iconFolder?: string;
+}
+interface IRecipesItem {
+  key?: string;
+  item?: IItem;
+  name?: string;
+  icon?: string;
+  iconFolder?: string;
+  rarity?: string;
+  category?: string;
+  quality?: string;
+  newlyAdded?: boolean;
+  addedIn?: string;
+  cost?: ICost;
+  metadata?: IMetadata;
+  recipe?: IRecipe;
+  requirements?: IRequirements;
+}
+interface IRequiredFor {
+  recipes?: IRecipesItem[];
+}
+interface IBaitsItem {
+  key: string;
+  name: string;
+  icon: string;
+  iconFolder: string;
+  rarity: string;
+  category: string;
+  quality: string;
+  mapCoordinates?: IMapCoordinatesItem[];
+  newlyAdded: boolean;
 }
 interface IRecipeItem {
   recipe: IRecipe;
@@ -450,7 +542,10 @@ interface IOutputItem {
   rarity?: string;
   category?: string;
   quality?: string;
+  value?: IValue;
+  newlyAdded: boolean;
   cost?: ICost;
+  mapCoordinates?: IMapCoordinatesItem[];
 }
 interface IIngredientsItem {
   type: string;
@@ -459,30 +554,40 @@ interface IIngredientsItem {
   tagReplaced?: boolean;
   tag?: ITag;
 }
+interface IValueBasedProductionItem {
+  isValid: boolean;
+  key: string;
+  name: string;
+  description: string;
+  icon: string;
+  iconFolder: string;
+  maxStackSize: number;
+  category: string;
+  rarity: string;
+  rarityNumber: number;
+  quality: string;
+  canBePlaced: boolean;
+  cost: ICost;
+  value: IValue;
+}
 interface ISkillItem {
   skill: ISkill;
 }
 interface IStoreItem {
   store: IStore;
 }
-interface IRequirements {
-  timeOfDay?: ITimeOfDay;
-  playerTag?: IPlayerTagItem[];
-  recipe?: IRecipeItem[];
-  accomplishment?: string[];
-  quest?: IQuestItem[];
-}
-interface ITimeOfDay {
-  periods: number;
-}
 interface ITagRequirements {
   timeOfDay?: ITimeOfDay;
   playerTag?: IPlayerTagItem[];
 }
-interface IPlayerTagItem {
-  tag: string;
+interface IPurchaseLimits {
+  tag: ITag;
   min: number;
   max: number;
+}
+interface ICostTableItem {
+  quantity: number;
+  amount: number;
 }
 interface IAdditionalCostsItem {
   item: IItem;
@@ -493,20 +598,21 @@ interface IGatherableItem {
 }
 interface IGatherable {
   key: string;
+  mapCoordinates?: IMapCoordinatesItem[];
   items: IItemsItem[];
   skill: ISkill;
   name: string;
   description?: string;
   icon?: string;
   iconFolder?: string;
+  type: string;
   rarity?: string;
   rarityNumber: number;
-  creature?: ICreature;
   starQualityChance?: number;
-  starQualityGatherable?: string;
   finalRewardsLootBundle?: string;
-  type?: string;
+  isGatherable: boolean;
   addedIn: string;
+  obtainable?: boolean;
   requirements?: IRequirements;
   vitalRewardsLootBundle?: string;
   lootPerVitalAmount?: number;

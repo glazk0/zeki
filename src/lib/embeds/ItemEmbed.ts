@@ -167,8 +167,8 @@ export class ItemEmbed extends Embed {
       }
     }
 
-    if (item.sourceOf) {
-      for (const [key, value] of Object.entries(item.sourceOf)) {
+    if (item.requiredFor) {
+      for (const [key, value] of Object.entries(item.requiredFor)) {
         if (key === 'recipes') {
           this.addFields({
             name: 'Teaches Recipe',
