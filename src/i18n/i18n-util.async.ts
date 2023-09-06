@@ -7,11 +7,15 @@ import { loadedFormatters, loadedLocales, locales } from './i18n-util'
 
 const localeTranslationLoaders = {
 	en: () => import('./en'),
+	nl: () => import('./nl'),
 }
 
 const localeNamespaceLoaders = {
 	en: {
 		commands: () => import('./en/commands')
+	},
+	nl: {
+		commands: () => import('./nl/commands')
 	}
 }
 

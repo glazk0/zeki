@@ -7,6 +7,7 @@ export type BaseLocale = 'en'
 
 export type Locales =
 	| 'en'
+	| 'nl'
 
 export type Translation = RootTranslation & DisallowNamespaces
 
@@ -99,7 +100,7 @@ type RootTranslation = {
 			 */
 			no_results: string
 			/**
-			 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​ ​f​o​r​ ​{​q​u​e​r​y​}​.
+			 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​ ​f​o​r​ ​"​{​q​u​e​r​y​}​"​.
 			 * @param {unknown} query
 			 */
 			no_results_for: RequiredParams<'query'>
@@ -148,13 +149,33 @@ export type NamespaceCommandsTranslation = {
 		 */
 		description: string
 	}
-	'settings.news.channel': {
+	'settings.news.enable': {
+		/**
+		 * e​n​a​b​l​e
+		 */
+		name: string
+		/**
+		 * E​n​a​b​l​e​ ​t​h​e​ ​n​e​w​s​ ​f​e​a​t​u​r​e​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 */
+		description: string
+	}
+	'settings.news.enable.channel': {
 		/**
 		 * c​h​a​n​n​e​l
 		 */
 		name: string
 		/**
 		 * T​h​e​ ​c​h​a​n​n​e​l​ ​w​h​e​r​e​ ​n​e​w​s​ ​w​i​l​l​ ​b​e​ ​s​e​n​t​.
+		 */
+		description: string
+	}
+	'settings.news.disable': {
+		/**
+		 * d​i​s​a​b​l​e
+		 */
+		name: string
+		/**
+		 * D​i​s​a​b​l​e​ ​t​h​e​ ​n​e​w​s​ ​f​e​a​t​u​r​e​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
 		 */
 		description: string
 	}
@@ -373,7 +394,7 @@ export type TranslationFunctions = {
 			 */
 			no_results: () => LocalizedString
 			/**
-			 * No results found for {query}.
+			 * No results found for "{query}".
 			 */
 			no_results_for: (arg: { query: unknown }) => LocalizedString
 		}
@@ -419,13 +440,33 @@ export type TranslationFunctions = {
 			 */
 			description: () => LocalizedString
 		}
-		'settings.news.channel': {
+		'settings.news.enable': {
+			/**
+			 * enable
+			 */
+			name: () => LocalizedString
+			/**
+			 * Enable the news feature for your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.news.enable.channel': {
 			/**
 			 * channel
 			 */
 			name: () => LocalizedString
 			/**
 			 * The channel where news will be sent.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.news.disable': {
+			/**
+			 * disable
+			 */
+			name: () => LocalizedString
+			/**
+			 * Disable the news feature for your server.
 			 */
 			description: () => LocalizedString
 		}

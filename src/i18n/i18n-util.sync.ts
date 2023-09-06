@@ -6,13 +6,19 @@ import type { Locales, Translations } from './i18n-types'
 import { loadedFormatters, loadedLocales, locales } from './i18n-util'
 
 import en from './en'
+import nl from './nl'
 
 import en_commands from './en/commands'
+import nl_commands from './nl/commands'
 
 const localeTranslations = {
 	en: {
 		...en,
 		commands: en_commands
+	},
+	nl: {
+		...nl,
+		commands: nl_commands
 	},
 }
 
