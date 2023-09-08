@@ -46,6 +46,43 @@ export class VillagerEmbed extends Embed {
       });
     }
 
+    const weeklyWantsByRewardLevel = villager.weeklyGiftPreferences?.reduce(
+      (acc, weeklyWant) => {
+        const rewardLevel = weeklyWant.rewardLevel;
+
+        if (!acc[rewardLevel]) {
+          acc[rewardLevel] = [];
+        }
+
+        acc[rewardLevel]?.push(weeklyWant);
+
+        return acc;
+      },
+      {} as Record<string, IVillager['weeklyGiftPreferences']>,
+    );
+
+    if (
+      weeklyWantsByRewardLevel &&
+      Object.keys(weeklyWantsByRewardLevel).length
+    )
+      for (const rewardLevel in weeklyWantsByRewardLevel) {
+        const weeklyWants = weeklyWantsByRewardLevel[rewardLevel];
+
+        if (!weeklyWants || !weeklyWants.length) continue;
+
+        this.addFields({
+          name: rewardLevel,
+          value: weeklyWants
+            .map((weeklyWant) => {
+              return `- ${hyperlink(
+                weeklyWant.item.name,
+                `${PALIA_URL}/item/${weeklyWant.item.key}`,
+              )}`;
+            })
+            .join('\n'),
+        });
+      }
+
     if (relationshipLevel) {
       this.addFields({
         name: `${relationshipLevel.type} level ${relationshipLevel.level} - ${relationshipLevel.levelName} (Requires ${relationshipLevel.requiredValue})`,

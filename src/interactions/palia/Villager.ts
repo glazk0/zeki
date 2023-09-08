@@ -4,6 +4,7 @@ import {
   ApplicationCommandOptionType,
   ApplicationCommandType,
   AutocompleteInteraction,
+  ButtonInteraction,
   CacheType,
   ChatInputCommandInteraction,
   InteractionResponse,
@@ -16,8 +17,8 @@ import { Client } from '../../structures/Client';
 import { Context, Interaction } from '../../structures/Interaction';
 
 import { commands } from '../../i18n';
-import { clientSymbol } from '../../utils/Constants';
 import { VillagerEmbed } from '../../lib/embeds/VillagerEmbed';
+import { clientSymbol } from '../../utils/Constants';
 
 @injectable()
 export default class Villager extends Interaction {
@@ -123,6 +124,45 @@ export default class Villager extends Interaction {
 
     return interaction.update({
       embeds: [embed],
+    });
+  }
+
+  public async button(
+    interaction: ButtonInteraction<CacheType>,
+    context: Context,
+  ): Promise<any> {
+    const [_, key] = interaction.customId.split('_') as [string, string];
+
+    const villager = await this.client.api.getVillager(key);
+
+    if (!villager)
+      return interaction.reply({
+        content: context.i18n.interactions.miscellaneous.no_results_for({
+          query: key,
+        }),
+        ephemeral: true,
+      });
+
+    const embed = new VillagerEmbed(villager, null, context);
+
+    const dropdown =
+      new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+        new StringSelectMenuBuilder()
+          .setCustomId('villager')
+          .setPlaceholder('Select a relationship level')
+          .addOptions(
+            generateRelationshipLevels(villager.relationshipLevels!).map(
+              (step, index: number) => ({
+                label: step.levelName,
+                value: `${villager.key}_${index}`,
+              }),
+            ) || [],
+          ),
+      );
+
+    return interaction.update({
+      embeds: [embed],
+      components: [dropdown],
     });
   }
 }

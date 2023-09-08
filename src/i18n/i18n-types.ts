@@ -67,11 +67,6 @@ type RootTranslation = {
 		settings: {
 			news: {
 				/**
-				 * I​ ​d​o​n​'​t​ ​h​a​v​e​ ​t​h​e​ ​p​e​r​m​i​s​s​i​o​n​ ​t​o​ ​v​i​e​w​ ​o​r​ ​s​e​n​d​ ​m​e​s​s​a​g​e​s​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
-				 * @param {unknown} channel
-				 */
-				no_permissions: RequiredParams<'channel'>
-				/**
 				 * N​e​w​s​ ​w​i​l​l​ ​n​o​w​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
 				 * @param {unknown} channel
 				 */
@@ -86,6 +81,22 @@ type RootTranslation = {
 				 */
 				disabled: RequiredParams<'channel'>
 			}
+			weekly_wants: {
+				/**
+				 * W​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​w​i​l​l​ ​n​o​w​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+				 * @param {unknown} channel
+				 */
+				enabled: RequiredParams<'channel'>
+				/**
+				 * W​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​a​r​e​ ​n​o​t​ ​e​n​a​b​l​e​d​ ​f​o​r​ ​t​h​i​s​ ​s​e​r​v​e​r​.
+				 */
+				not_enabled: string
+				/**
+				 * W​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​w​i​l​l​ ​n​o​ ​l​o​n​g​e​r​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+				 * @param {unknown} channel
+				 */
+				disabled: RequiredParams<'channel'>
+			}
 			locale: {
 				/**
 				 * T​h​e​ ​l​o​c​a​l​e​ ​h​a​s​ ​b​e​e​n​ ​s​e​t​ ​t​o​ ​{​l​o​c​a​l​e​}​.
@@ -95,6 +106,11 @@ type RootTranslation = {
 			}
 		}
 		miscellaneous: {
+			/**
+			 * I​ ​d​o​n​'​t​ ​h​a​v​e​ ​t​h​e​ ​p​e​r​m​i​s​s​i​o​n​ ​t​o​ ​v​i​e​w​ ​o​r​ ​s​e​n​d​ ​m​e​s​s​a​g​e​s​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+			 * @param {unknown} channel
+			 */
+			no_permissions: RequiredParams<'channel'>
 			/**
 			 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​.
 			 */
@@ -176,6 +192,66 @@ export type NamespaceCommandsTranslation = {
 		name: string
 		/**
 		 * D​i​s​a​b​l​e​ ​t​h​e​ ​n​e​w​s​ ​f​e​a​t​u​r​e​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 */
+		description: string
+	}
+	'settings.weekly-wants': {
+		/**
+		 * w​e​e​k​l​y​-​w​a​n​t​s
+		 */
+		name: string
+		/**
+		 * M​a​n​a​g​e​ ​t​h​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​o​f​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 */
+		description: string
+	}
+	'settings.weekly-wants.enable': {
+		/**
+		 * e​n​a​b​l​e
+		 */
+		name: string
+		/**
+		 * E​n​a​b​l​e​ ​t​h​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 */
+		description: string
+	}
+	'settings.weekly-wants.enable.channel': {
+		/**
+		 * c​h​a​n​n​e​l
+		 */
+		name: string
+		/**
+		 * T​h​e​ ​c​h​a​n​n​e​l​ ​w​h​e​r​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​w​i​l​l​ ​b​e​ ​s​e​n​t​.
+		 */
+		description: string
+	}
+	'settings.weekly-wants.enable.daily': {
+		/**
+		 * d​a​i​l​y
+		 */
+		name: string
+		/**
+		 * W​o​u​l​d​ ​y​o​u​ ​l​i​k​e​ ​t​o​ ​r​e​c​e​i​v​e​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​f​o​r​ ​d​a​i​l​y​ ​r​e​f​r​e​s​h​e​s​?​ ​(​T​r​u​e​ ​f​o​r​ ​y​e​s​,​ ​F​a​l​s​e​ ​f​o​r​ ​n​o​)
+		 */
+		description: string
+	}
+	'settings.weekly-wants.enable.weekly': {
+		/**
+		 * w​e​e​k​l​y
+		 */
+		name: string
+		/**
+		 * W​o​u​l​d​ ​y​o​u​ ​l​i​k​e​ ​t​o​ ​r​e​c​e​i​v​e​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​f​o​r​ ​w​e​e​k​l​y​ ​r​e​f​r​e​s​h​e​s​?​ ​(​T​r​u​e​ ​f​o​r​ ​y​e​s​,​ ​F​a​l​s​e​ ​f​o​r​ ​n​o​)
+		 */
+		description: string
+	}
+	'settings.weekly-wants.disable': {
+		/**
+		 * d​i​s​a​b​l​e
+		 */
+		name: string
+		/**
+		 * D​i​s​a​b​l​e​ ​t​h​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
 		 */
 		description: string
 	}
@@ -365,10 +441,6 @@ export type TranslationFunctions = {
 		settings: {
 			news: {
 				/**
-				 * I don't have the permission to view or send messages in {channel}.
-				 */
-				no_permissions: (arg: { channel: unknown }) => LocalizedString
-				/**
 				 * News will now be sent in {channel}.
 				 */
 				enabled: (arg: { channel: unknown }) => LocalizedString
@@ -381,6 +453,20 @@ export type TranslationFunctions = {
 				 */
 				disabled: (arg: { channel: unknown }) => LocalizedString
 			}
+			weekly_wants: {
+				/**
+				 * Weekly wants notifications will now be sent in {channel}.
+				 */
+				enabled: (arg: { channel: unknown }) => LocalizedString
+				/**
+				 * Weekly wants notifications are not enabled for this server.
+				 */
+				not_enabled: () => LocalizedString
+				/**
+				 * Weekly wants notifications will no longer be sent in {channel}.
+				 */
+				disabled: (arg: { channel: unknown }) => LocalizedString
+			}
 			locale: {
 				/**
 				 * The locale has been set to {locale}.
@@ -389,6 +475,10 @@ export type TranslationFunctions = {
 			}
 		}
 		miscellaneous: {
+			/**
+			 * I don't have the permission to view or send messages in {channel}.
+			 */
+			no_permissions: (arg: { channel: unknown }) => LocalizedString
 			/**
 			 * No results found.
 			 */
@@ -467,6 +557,66 @@ export type TranslationFunctions = {
 			name: () => LocalizedString
 			/**
 			 * Disable the news feature for your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.weekly-wants': {
+			/**
+			 * weekly-wants
+			 */
+			name: () => LocalizedString
+			/**
+			 * Manage the weekly wants notifications of your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.weekly-wants.enable': {
+			/**
+			 * enable
+			 */
+			name: () => LocalizedString
+			/**
+			 * Enable the weekly wants notifications for your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.weekly-wants.enable.channel': {
+			/**
+			 * channel
+			 */
+			name: () => LocalizedString
+			/**
+			 * The channel where weekly wants notifications will be sent.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.weekly-wants.enable.daily': {
+			/**
+			 * daily
+			 */
+			name: () => LocalizedString
+			/**
+			 * Would you like to receive notifications for daily refreshes? (True for yes, False for no)
+			 */
+			description: () => LocalizedString
+		}
+		'settings.weekly-wants.enable.weekly': {
+			/**
+			 * weekly
+			 */
+			name: () => LocalizedString
+			/**
+			 * Would you like to receive notifications for weekly refreshes? (True for yes, False for no)
+			 */
+			description: () => LocalizedString
+		}
+		'settings.weekly-wants.disable': {
+			/**
+			 * disable
+			 */
+			name: () => LocalizedString
+			/**
+			 * Disable the weekly wants notifications for your server.
 			 */
 			description: () => LocalizedString
 		}

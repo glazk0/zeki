@@ -1,7 +1,8 @@
 import queryString from 'query-string';
 
-import { PALIA_URL } from '../utils/Constants';
 import { request } from '../utils/Commons';
+import { PALIA_URL } from '../utils/Constants';
+import { IWeeklyWants, IWeeklyWantsEntry } from '../types';
 
 export class API {
   /**
@@ -12,7 +13,6 @@ export class API {
   private version: string;
 
   constructor() {
-    // Get the version of the API and refresh it every 5 minutes.
     this.refreshVersion();
     setInterval(() => this.refreshVersion(), 5 * 60 * 1000);
   }
@@ -63,6 +63,26 @@ export class API {
     if (!villager) return null;
 
     return villager;
+  }
+
+  public async getWeeklyWants(
+    key?: string,
+  ): Promise<IWeeklyWants | IWeeklyWantsEntry | null> {
+    const data = await request<IWeeklyWants>(
+      `${PALIA_URL}/tools/weekly-wants/api/${this.version}`,
+    );
+
+    if (!data) return null;
+
+    if (key) {
+      const entry = data.entries.find((entry) => entry.villager.key === key);
+
+      if (!entry) return null;
+
+      return entry;
+    }
+
+    return data;
   }
 
   /**

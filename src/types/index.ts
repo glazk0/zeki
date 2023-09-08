@@ -1,12 +1,14 @@
 import { InferSelectModel } from 'drizzle-orm';
 
-import { news, guilds } from '../db/schema';
+import { news, guilds, weeklyWants } from '../db/schema';
 
 export type Guild = InferSelectModel<typeof guilds>;
 export type News = InferSelectModel<typeof news>;
+export type WeeklyWants = InferSelectModel<typeof weeklyWants>;
 
-export type GuildWithNews = Guild & {
+export type GuildWithSettings = Guild & {
   news: News;
+  weeklyWants: WeeklyWants;
 };
 
 export interface INews {
@@ -17,4 +19,20 @@ export interface INews {
   type?: string;
   image?: string;
   url?: string;
+}
+
+export interface IWeeklyWants {
+  version: number;
+  currentTime: number;
+  nextMonday: number;
+  entries: IWeeklyWantsEntry[];
+}
+
+export interface IWeeklyWantsEntry {
+  villager: IVillager;
+  weeklyWants: {
+    item: ISearchItem;
+    name: string;
+    rewardLevel: string;
+  }[];
 }

@@ -27,7 +27,7 @@ import { locales } from '../../i18n/i18n-util';
 import { clientSymbol, localesMap } from '../../utils/Constants';
 
 import { db } from '../../db';
-import { guilds, news } from '../../db/schema';
+import { guilds, news, weeklyWants } from '../../db/schema';
 
 @injectable()
 export default class Settings extends Interaction {
@@ -38,7 +38,7 @@ export default class Settings extends Interaction {
   public readonly command: ApplicationCommandData = {
     type: ApplicationCommandType.ChatInput,
     ...commands['settings'],
-    defaultMemberPermissions: 'ManageGuild',
+    defaultMemberPermissions: PermissionFlagsBits.ManageGuild,
     dmPermission: false,
     options: [
       {
@@ -87,6 +87,43 @@ export default class Settings extends Interaction {
           },
         ],
       },
+      // {
+      //   type: ApplicationCommandOptionType.SubcommandGroup,
+      //   ...commands['settings.weekly-wants'],
+      //   options: [
+      //     {
+      //       type: ApplicationCommandOptionType.Subcommand,
+      //       ...commands['settings.weekly-wants.enable'],
+      //       options: [
+      //         {
+      //           type: ApplicationCommandOptionType.Channel,
+      //           ...commands['settings.weekly-wants.enable.channel'],
+      //           channelTypes: [
+      //             ChannelType.GuildAnnouncement,
+      //             ChannelType.GuildText,
+      //             ChannelType.GuildForum,
+      //             ChannelType.PublicThread,
+      //           ],
+      //           required: true,
+      //         },
+      //         {
+      //           type: ApplicationCommandOptionType.Boolean,
+      //           ...commands['settings.weekly-wants.enable.daily'],
+      //           required: true,
+      //         },
+      //         {
+      //           type: ApplicationCommandOptionType.Boolean,
+      //           ...commands['settings.weekly-wants.enable.weekly'],
+      //           required: true,
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       type: ApplicationCommandOptionType.Subcommand,
+      //       ...commands['settings.weekly-wants.disable'],
+      //     },
+      //   ],
+      // },
     ],
   };
 
@@ -107,6 +144,9 @@ export default class Settings extends Interaction {
 
     let channel = options.getChannel('channel') as GuildChannel;
     let role = options.getRole('role') as Role;
+
+    let daily = options.getBoolean('daily');
+    let weekly = options.getBoolean('weekly');
 
     switch (subcommand) {
       case 'locale':
@@ -137,7 +177,7 @@ export default class Settings extends Interaction {
           case 'enable':
             if (!this.checkPermission(interaction, channel))
               return await interaction.reply({
-                content: i18n.interactions.settings.news.no_permissions({
+                content: i18n.interactions.miscellaneous.no_permissions({
                   channel: channel.toString(),
                 }),
                 ephemeral: true,
@@ -197,6 +237,75 @@ export default class Settings extends Interaction {
             break;
         }
         break;
+      case 'weekly-wants':
+        switch (subcommand) {
+          case 'enable':
+            if (!this.checkPermission(interaction, channel))
+              return await interaction.reply({
+                content: i18n.interactions.miscellaneous.no_permissions({
+                  channel: channel.toString(),
+                }),
+                ephemeral: true,
+              });
+
+            try {
+              await db
+                .insert(weeklyWants)
+                .values({
+                  guildId: interaction.guild!.id,
+                  channel: channel.id,
+                  daily: daily ?? false,
+                  weekly: weekly ?? false,
+                })
+                .onConflictDoUpdate({
+                  target: [weeklyWants.guildId],
+                  set: {
+                    channel: channel.id,
+                    daily: daily ?? false,
+                    weekly: weekly ?? false,
+                  },
+                });
+            } catch (error) {
+              this.client.logger.error(
+                `Error while updating weeklyWants channel for guild ${interaction.guild?.id}`,
+                error,
+              );
+            }
+
+            await interaction.reply({
+              content: i18n.interactions.settings.weekly_wants.enabled({
+                channel: channel.toString(),
+              }),
+              ephemeral: true,
+            });
+            break;
+
+          case 'disable':
+            if (!guild.weeklyWants || !guild.weeklyWants.channel)
+              return await interaction.reply({
+                content: i18n.interactions.settings.weekly_wants.not_enabled(),
+                ephemeral: true,
+              });
+
+            try {
+              await db
+                .delete(weeklyWants)
+                .where(eq(weeklyWants.guildId, interaction.guild!.id));
+            } catch (error) {
+              this.client.logger.error(
+                `Error while updating weeklyWants channel for guild ${interaction.guild?.id}`,
+                error,
+              );
+            }
+
+            await interaction.reply({
+              content: i18n.interactions.settings.weekly_wants.disabled({
+                channel: channelMention(guild.weeklyWants.channel),
+              }),
+              ephemeral: true,
+            });
+            break;
+        }
     }
   }
 
