@@ -2,12 +2,11 @@ import { readdir } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 
 import {
+  ButtonInteraction,
   CacheType,
   Collection,
   CommandInteraction,
   Events,
-  REST,
-  Routes,
   StringSelectMenuInteraction,
 } from 'discord.js';
 import { container } from 'tsyringe';
@@ -19,8 +18,8 @@ import { initLocales } from '../i18n';
 
 import L from '../i18n/i18n-node';
 
-import { GuildWithNews } from '../types';
 import { findOrCreate } from '../db';
+import { GuildWithSettings } from '../types';
 
 export default class InteractionHandler extends Event {
   /**
@@ -93,30 +92,108 @@ export default class InteractionHandler extends Event {
 
     await ready;
 
-    const rest = new REST().setToken(process.env.TOKEN);
+    const currentInteractions = await this.client.application?.commands.fetch();
 
-    try {
+    this.client.logger.info('Refreshing interactions...');
+
+    const interactionsToUpdate = this.interactions
+      .filter((interaction) => interaction.enabled)
+      .map((interaction) => interaction.command);
+
+    const newInteractions = interactionsToUpdate.filter(
+      (interaction) =>
+        !currentInteractions?.some((i) => i.name === interaction.name),
+    );
+    const deletedInteractions = currentInteractions?.filter(
+      (interaction) =>
+        !interactionsToUpdate.some((i) => i.name === interaction.name),
+    );
+
+    const updatedInteractions = interactionsToUpdate.filter((interaction) =>
+      currentInteractions?.some((i) => i.name === interaction.name),
+    );
+
+    await Promise.all(
+      newInteractions.map((newInteraction) =>
+        this.client.application?.commands.create(newInteraction),
+      ),
+    );
+
+    if (newInteractions.length > 0)
       this.client.logger.info(
-        `Started refreshing ${this.interactions.size} application (/) commands.`,
+        `Created ${newInteractions.length} interaction(s).`,
       );
 
-      const data = (await rest.put(
-        Routes.applicationCommands(this.client.user!.id),
-        {
-          body: this.interactions
-            .filter((interaction) => interaction.enabled)
-            .map((interaction) => interaction.command),
-        },
-      )) as any[];
+    await Promise.all(
+      deletedInteractions?.map((deletedInteraction) =>
+        deletedInteraction.delete(),
+      ) || [],
+    );
 
+    if (deletedInteractions && deletedInteractions.size > 0)
       this.client.logger.info(
-        `Successfully reloaded ${data.length} application (/) commands.`,
+        `Deleted ${deletedInteractions.size} interaction(s).`,
       );
-    } catch (error) {
-      this.client.logger.error(
-        `Failed to reload application (/) commands: ${error}`,
+
+    let updatedInteractionsCount = 0;
+
+    await Promise.all(
+      updatedInteractions.map(async (updatedInteraction) => {
+        const previousInteraction = currentInteractions?.find(
+          (i) => i.name === updatedInteraction.name,
+        );
+
+        if (!previousInteraction) return;
+
+        const hasNameChange =
+          previousInteraction.name !== updatedInteraction.name;
+
+        const hasPermissionChange =
+          previousInteraction.defaultMemberPermissions !==
+          updatedInteraction.defaultMemberPermissions;
+
+        const hasDMPermissionChange =
+          previousInteraction.dmPermission !== updatedInteraction.dmPermission;
+
+        if (hasNameChange || hasPermissionChange || hasDMPermissionChange) {
+          await previousInteraction.edit(updatedInteraction);
+          updatedInteractionsCount++;
+        }
+      }),
+    );
+
+    if (updatedInteractionsCount > 0)
+      this.client.logger.info(
+        `Refreshed ${updatedInteractionsCount} interaction(s).`,
       );
-    }
+    else this.client.logger.info('No interaction to refresh.');
+
+    // This is disabled because it's not working properly.
+
+    // const rest = new REST().setToken(process.env.TOKEN);
+
+    // try {
+    //   this.client.logger.info(
+    //     `Started refreshing ${this.interactions.size} application (/) commands.`,
+    //   );
+
+    //   const data = (await rest.put(
+    //     Routes.applicationCommands(this.client.user!.id),
+    //     {
+    //       body: this.interactions
+    //         .filter((interaction) => interaction.enabled)
+    //         .map((interaction) => interaction.command),
+    //     },
+    //   )) as any[];
+
+    //   this.client.logger.info(
+    //     `Successfully reloaded ${data.length} application (/) commands.`,
+    //   );
+    // } catch (error) {
+    //   this.client.logger.error(
+    //     `Failed to reload application (/) commands: ${error}`,
+    //   );
+    // }
   }
 
   /**
@@ -130,7 +207,7 @@ export default class InteractionHandler extends Event {
     if (!this.client.isReady) return undefined;
     if (!interaction) return undefined;
 
-    let guild: GuildWithNews | undefined = undefined;
+    let guild: GuildWithSettings | undefined = undefined;
 
     let context = {
       i18n: L['en'],
@@ -193,6 +270,26 @@ export default class InteractionHandler extends Event {
       } catch (error) {
         this.client.logger.error(
           `Failed to run interaction ${selectMenu.customId}: ${error}`,
+        );
+      }
+    }
+
+    if (interaction.isButton()) {
+      const button = interaction as ButtonInteraction;
+
+      const id = button.customId.split('_')[0];
+
+      if (!this.interactions.has(id)) return undefined;
+
+      command = this.interactions.get(id);
+
+      if (!command) return undefined;
+
+      try {
+        await command.button?.(interaction, context);
+      } catch (error) {
+        this.client.logger.error(
+          `Failed to run interaction ${button.customId}: ${error}`,
         );
       }
     }

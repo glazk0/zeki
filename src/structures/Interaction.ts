@@ -1,6 +1,7 @@
 import {
   ApplicationCommandData,
   AutocompleteInteraction,
+  ButtonInteraction,
   CacheType,
   ChatInputCommandInteraction,
   InteractionResponse,
@@ -9,10 +10,10 @@ import {
 } from 'discord.js';
 
 import { TranslationFunctions } from '../i18n/i18n-types';
-import { GuildWithNews } from '../types';
+import { GuildWithSettings } from '../types';
 
 export type Context = {
-  guild: GuildWithNews;
+  guild: GuildWithSettings;
   i18n: TranslationFunctions;
 };
 
@@ -69,6 +70,17 @@ export abstract class Interaction implements InteractionInterface {
     interaction: StringSelectMenuInteraction<CacheType>,
     context: Context,
   ): Promise<any> {}
+
+  /**
+   * Handles the interaction button.
+   *
+   * @param interaction - The interaction.
+   * @param context - The context.
+   */
+  public async button?(
+    interaction: ButtonInteraction<CacheType>,
+    context: Context,
+  ): Promise<any> {}
 }
 
 export interface InteractionInterface {
@@ -85,6 +97,10 @@ export interface InteractionInterface {
   ): Promise<void>;
   selectMenu?(
     interaction: StringSelectMenuInteraction<CacheType>,
+    context: Context,
+  ): Promise<any>;
+  button?(
+    interaction: ButtonInteraction<CacheType>,
     context: Context,
   ): Promise<any>;
 }

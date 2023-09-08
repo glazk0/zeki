@@ -86,7 +86,7 @@ export async function request<T>(
   type: 'json' | 'text' = 'json',
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
   headers: RequestInit['headers'] = {
-    'User-Agent': process.env.USER_AGENT || 'glazk0.dev/Seki/DiscordBot',
+    'User-Agent': process.env.USER_AGENT || 'glazk0.dev/Zeki/DiscordBot',
   },
   body?: RequestInit['body'],
 ): Promise<T> {

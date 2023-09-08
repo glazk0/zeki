@@ -1,7 +1,7 @@
 interface IRootObject {
   search: ISearchItem[];
-  quest: IQuestItem[];
   villager: IVillagerItem[];
+  quest: IQuestItem[];
   item: IItemItem[];
   recipe: IRecipeItem[];
   skill: ISkillItem[];
@@ -17,6 +17,159 @@ interface ISearchItem {
   iconSize?: number;
   newlyAdded: boolean;
 }
+interface IVillagerItem {
+  villager: IVillager;
+}
+interface IVillager {
+  key: string;
+  persistId?: number;
+  entityType?: string;
+  name: string;
+  isVisibleInUi?: boolean;
+  description?: string;
+  icon?: string;
+  iconFolder: string;
+  isVisible?: boolean;
+  canAcceptGifts?: boolean;
+  friendshipLevelNecessaryForRomance?: number;
+  relationshipDifficulty?: string;
+  friendshipPoints?: IFriendshipPoints;
+  romancePoints?: IRomancePoints;
+  giftPreferences?: IGiftPreferencesItem[];
+  relationshipLevels?: IRelationshipLevelsItem[];
+  obtainable?: boolean;
+  weeklyGiftPreferences?: IWeeklyGiftPreferencesItem[];
+  addedIn: string;
+  type?: string;
+  rarity?: string;
+  isRomanceable?: boolean;
+  newlyAdded?: boolean;
+  id?: number;
+}
+interface IFriendshipPoints {
+  0: number;
+  1: number;
+  2: number;
+  3: number;
+  4: number;
+}
+interface IRomancePoints {
+  0: number;
+  1: number;
+  2: number;
+  3: number;
+  4: number;
+}
+interface IGiftPreferencesItem {
+  item?: IItem;
+  persistId: number;
+  tags: ITagsItem[];
+  isDefault: boolean;
+  rewardLevel: string;
+  rewardLevelNumber: number;
+  isRomantic: boolean;
+  rewardPoints: number;
+  rewardLevelIfInappropriate: string;
+  preferenceWeight: number;
+  isAlwaysOn: boolean;
+  difficultyGrouping: string;
+  goldValueMinimum: number;
+  goldValueMaximum: number;
+}
+interface IItem {
+  key: string;
+  name: string;
+  icon?: string;
+  iconFolder: string;
+  rarity?: string;
+  category?: string;
+  quality?: string;
+  value?: IValue;
+  newlyAdded?: boolean;
+  cost?: ICost;
+  mapCoordinates?: IMapCoordinates;
+  entityType?: string;
+  description?: string;
+  rarityNumber?: number;
+  canBePlaced?: boolean;
+  obtainable?: boolean;
+  addedIn?: string;
+  type?: string;
+  tags?: ITagsItem[];
+  maxStackSize?: number;
+  sources?: ISources;
+  buyable?: boolean;
+  canBeSoldTo?: string[];
+  sellable?: boolean;
+  requiredFor?: IRequiredFor;
+  storageCapacity?: number;
+}
+interface IValue {
+  currency: ICurrency;
+  amount: number;
+}
+interface ICurrency {
+  key: string;
+  name: string;
+  icon: string;
+  type?: string;
+  iconFolder: string;
+  newlyAdded: boolean;
+  addedIn: string;
+}
+interface ICost {
+  currency: ICurrency;
+  amount: number;
+  quantity: number;
+}
+interface ITagsItem {
+  key: string;
+  name: string;
+  nameNumbered: string;
+  icon?: string;
+  generated?: boolean;
+}
+interface IRelationshipLevelsItem {
+  level: number;
+  type: string;
+  requiredValue: number;
+  levelName: string;
+  levelDescription?: string;
+}
+interface IWeeklyGiftPreferencesItem {
+  item: IItem;
+  name: string;
+  rewardLevel: string;
+}
+interface IMapCoordinates {
+  Village?: IVillage;
+  processed: boolean;
+  AZ1?: IAZ1;
+  null?: {
+    key: null;
+    coords: ICoordsItem[];
+  };
+  Events?: IEvents;
+}
+interface IVillage {
+  key: string;
+  coords: ICoordsItem[];
+  title: string;
+  tiles: string;
+}
+interface ICoordsItem {
+  x: number;
+  y: number;
+  z: number;
+  title: string;
+  map: string | null;
+}
+interface IAZ1 {
+  key: string;
+  coords: ICoordsItem[];
+  title: string;
+  tiles: string;
+}
 interface IQuestItem {
   quest: IQuest;
   status?: string;
@@ -24,6 +177,7 @@ interface IQuestItem {
 }
 interface IQuest {
   key: string;
+  entityType?: string;
   name: string;
   description: string;
   icon: string;
@@ -58,7 +212,7 @@ interface IGoalsItem {
   description?: string;
   showCountType: string;
   hide: boolean;
-  mapCoordinates?: IMapCoordinatesItem[];
+  mapCoordinates?: IMapCoordinates;
 }
 interface ICondition {
   type?: string;
@@ -68,7 +222,7 @@ interface ICondition {
   item?: IItem;
   amountRequired?: number;
   tag?: ITag;
-  mapCoordinates?: IMapCoordinatesItem[];
+  mapCoordinates?: IMapCoordinates;
   subConditions?: ISubConditionsItem[];
   playerTag?: IPlayerTag;
   sources?: ISources;
@@ -100,15 +254,6 @@ interface IRewardsItem {
   quest?: IQuest;
   recipe?: IRecipe;
 }
-interface ICurrency {
-  key: string;
-  name: string;
-  icon: string;
-  type?: string;
-  iconFolder: string;
-  newlyAdded: boolean;
-  addedIn: string;
-}
 interface ITurnInDialogue {
   dialogue?: IDialogue;
 }
@@ -121,26 +266,6 @@ interface IDialogue {
   text?: string;
   newlyAdded: boolean;
   addedIn: string;
-}
-interface IVillager {
-  key: string;
-  name: string;
-  icon?: string;
-  iconFolder: string;
-  newlyAdded?: boolean;
-  addedIn: string;
-  isVisibleInUi?: boolean;
-  description?: string;
-  isVisible?: boolean;
-  canAcceptGifts?: boolean;
-  friendshipLevelNecessaryForRomance?: number;
-  relationshipDifficulty?: string;
-  giftPreferences?: IGiftPreferencesItem[];
-  relationshipLevels?: IRelationshipLevelsItem[];
-  obtainable?: boolean;
-  type?: string;
-  rarity?: string;
-  isRomanceable?: boolean;
 }
 interface IStarters {
   dialogues?: IDialoguesItem[];
@@ -159,52 +284,6 @@ interface IDialoguesItem {
   newlyAdded: boolean;
   addedIn: string;
   text?: string;
-}
-interface IItem {
-  key: string;
-  name: string;
-  icon?: string;
-  iconFolder: string;
-  rarity?: string;
-  category?: string;
-  cost?: ICost;
-  value?: IValue;
-  newlyAdded?: boolean;
-  mapCoordinates?: IMapCoordinatesItem[];
-  quality?: string;
-  description?: string;
-  rarityNumber?: number;
-  canBePlaced?: boolean;
-  obtainable?: boolean;
-  addedIn?: string;
-  type?: string;
-  tags?: ITagsItem[];
-  maxStackSize?: number;
-  sources?: ISources;
-  buyable?: boolean;
-  canBeSoldTo?: string[];
-  sellable?: boolean;
-  requiredFor?: IRequiredFor;
-  storageCapacity?: number;
-}
-interface ICost {
-  currency: ICurrency;
-  amount: number;
-  quantity: number;
-}
-interface IValue {
-  currency: ICurrency;
-  amount: number;
-}
-interface IMapCoordinatesItem {
-  map: string;
-  location: ILocation;
-  outer: string;
-}
-interface ILocation {
-  X: number;
-  Y: number;
-  Z: number;
 }
 interface ITag {
   key: string;
@@ -260,7 +339,7 @@ interface IItemsItem {
   icon?: string;
   iconFolder?: string;
   category?: string;
-  mapCoordinates?: IMapCoordinatesItem[];
+  mapCoordinates?: IMapCoordinates;
   newlyAdded?: boolean;
   rarity?: string;
   cost?: ICost;
@@ -324,11 +403,11 @@ interface IRecipe {
   newlyAdded?: boolean;
   addedIn?: string;
   metadata?: IMetadata;
+  entityType?: string;
   requires?: string;
   craftTime?: number;
   timeLimit?: number;
   enabled?: boolean;
-  entityType?: string;
   description?: string;
   rarityNumber?: number;
   outputItem?: IOutputItem;
@@ -378,14 +457,10 @@ interface IFishLoot {
   key: string;
   name: string;
   waterType: string;
-  coords: ICoordsItem[];
+  mapCoordinates: IMapCoordinates;
   newlyAdded: boolean;
   addedIn: string;
   baits?: IBaitsItem[];
-}
-interface ICoordsItem {
-  outer: string;
-  location: ILocation;
 }
 interface IChance {
   fishKey: string;
@@ -417,12 +492,11 @@ interface ICreature {
   newlyAdded: boolean;
   addedIn: string;
 }
-interface ITagsItem {
+interface IEvents {
   key: string;
-  name: string;
-  nameNumbered: string;
-  generated?: boolean;
-  icon?: string;
+  coords: ICoordsItem[];
+  title: string;
+  tiles: string;
 }
 interface ISkill {
   key: string;
@@ -434,6 +508,7 @@ interface ISkill {
   category: string;
   newlyAdded?: boolean;
   addedIn: string;
+  entityType?: string;
   type?: string;
   currency?: ICurrency;
   levelToDisplayCurrency?: number;
@@ -448,36 +523,13 @@ interface IStore {
   villager?: IVillager;
   newlyAdded?: boolean;
   addedIn: string;
+  entityType?: string;
   items?: IItemsItem[];
   recipes?: IRecipesItem[];
   obtainable?: boolean;
   buyCategories?: string[];
   tagRequirements?: ITagRequirements;
   skill?: ISkill;
-}
-interface IVillagerItem {
-  villager: IVillager;
-}
-interface IGiftPreferencesItem {
-  item?: IItem;
-  tags: ITagsItem[];
-  isDefault: boolean;
-  rewardLevel: string;
-  rewardLevelNumber: number;
-  isRomantic: boolean;
-  rewardLevelIfInappropriate: string;
-  preferenceWeight: number;
-  isAlwaysOn: boolean;
-  difficultyGrouping: string;
-  goldValueMinimum: number;
-  goldValueMaximum: number;
-}
-interface IRelationshipLevelsItem {
-  level: number;
-  type: string;
-  requiredValue: number;
-  levelName: string;
-  levelDescription?: string;
 }
 interface IItemItem {
   item: IItem;
@@ -519,6 +571,8 @@ interface IRecipesItem {
 }
 interface IRequiredFor {
   recipes?: IRecipesItem[];
+  quests?: IQuestsItem[];
+  questStarters?: IQuestStartersItem[];
 }
 interface IBaitsItem {
   key: string;
@@ -528,8 +582,17 @@ interface IBaitsItem {
   rarity: string;
   category: string;
   quality: string;
-  mapCoordinates?: IMapCoordinatesItem[];
   newlyAdded: boolean;
+}
+interface IQuestStartersItem {
+  key: string;
+  name: string;
+  description: string;
+  icon: string;
+  iconFolder: string;
+  category: string;
+  newlyAdded: boolean;
+  addedIn: string;
 }
 interface IRecipeItem {
   recipe: IRecipe;
@@ -545,7 +608,6 @@ interface IOutputItem {
   value?: IValue;
   newlyAdded: boolean;
   cost?: ICost;
-  mapCoordinates?: IMapCoordinatesItem[];
 }
 interface IIngredientsItem {
   type: string;
@@ -557,6 +619,7 @@ interface IIngredientsItem {
 interface IValueBasedProductionItem {
   isValid: boolean;
   key: string;
+  entityType: string;
   name: string;
   description: string;
   icon: string;
@@ -598,7 +661,8 @@ interface IGatherableItem {
 }
 interface IGatherable {
   key: string;
-  mapCoordinates?: IMapCoordinatesItem[];
+  entityType: string;
+  mapCoordinates?: IMapCoordinates;
   items: IItemsItem[];
   skill: ISkill;
   name: string;
