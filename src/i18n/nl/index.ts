@@ -19,17 +19,24 @@ const nl = {
   interactions: {
     settings: {
       news: {
-        no_permissions:
-          "I don't have the permission to view or send messages in {channel}.",
         enabled: 'News will now be sent in {channel}.',
         not_enabled: 'News are not enabled for this server.',
         disabled: 'News will no longer be sent in {channel}.',
+      },
+      weekly_wants: {
+        enabled: 'Weekly wants notifications will now be sent in {channel}.',
+        not_enabled:
+          'Weekly wants notifications are not enabled for this server.',
+        disabled:
+          'Weekly wants notifications will no longer be sent in {channel}.',
       },
       locale: {
         success: 'The locale has been set to {locale}.',
       },
     },
     miscellaneous: {
+      no_permissions:
+        "I don't have the permission to view or send messages in {channel}.",
       no_results: 'No results found.',
       no_results_for: 'No results found for "{query}".',
     },

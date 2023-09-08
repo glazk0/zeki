@@ -27,6 +27,32 @@ export default {
     name: 'disable',
     description: 'Schakel de nieuwsfunctie uit voor uw server.',
   },
+  ['settings.weekly-wants']: {
+    name: 'weekly-wants',
+    description: 'Manage the weekly wants notifications of your server.',
+  },
+  ['settings.weekly-wants.enable']: {
+    name: 'enable',
+    description: 'Enable the weekly wants notifications for your server.',
+  },
+  ['settings.weekly-wants.enable.channel']: {
+    name: 'channel',
+    description: 'The channel where weekly wants notifications will be sent.',
+  },
+  ['settings.weekly-wants.enable.daily']: {
+    name: 'daily',
+    description:
+      'Should I send notifications for daily refreshes? (True = yes, False = no)',
+  },
+  ['settings.weekly-wants.enable.weekly']: {
+    name: 'weekly',
+    description:
+      'Should I send notifications for weekly refreshes? (True = yes, False = no)',
+  },
+  ['settings.weekly-wants.disable']: {
+    name: 'disable',
+    description: 'Disable the weekly wants notifications for your server.',
+  },
   help: {
     name: 'help',
     description: "Toont alle commando's van Zeki.",
@@ -78,5 +104,13 @@ export default {
   'item.query': {
     name: 'query',
     description: 'De zoekopdracht waarnaar moet worden gezocht.',
+  },
+  weekly: {
+    name: 'weekly',
+    description: 'Searches for a villager and displays their weekly wants.',
+  },
+  'weekly.villager': {
+    name: 'villager',
+    description: 'The villager to search for.',
   },
 };
