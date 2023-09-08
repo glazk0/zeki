@@ -4,7 +4,7 @@ import postgres from 'postgres';
 
 import * as schema from './schema';
 
-import { GuildWithNews } from '../types';
+import { GuildWithSettings } from '../types';
 
 const connection = postgres(process.env.DATABASE_URL, {
   max: 1,
@@ -26,10 +26,11 @@ migrate(db, { migrationsFolder: './db/migrations' })
 
 export const findOrCreate = async (
   guildId: string,
-): Promise<GuildWithNews | undefined> => {
+): Promise<GuildWithSettings | undefined> => {
   let guild = await db.query.guilds.findFirst({
     with: {
       news: true,
+      weeklyWants: true,
     },
     where(guild, { eq }) {
       return eq(guild.guildId, guildId);
@@ -45,6 +46,7 @@ export const findOrCreate = async (
       return tx.query.guilds.findFirst({
         with: {
           news: true,
+          weeklyWants: true,
         },
         where(guild, { eq }) {
           return eq(guild.guildId, guildId);
