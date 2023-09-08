@@ -109,8 +109,4 @@ export default {
     name: 'weekly',
     description: 'Searches for a villager and displays their weekly wants.',
   },
-  'weekly.villager': {
-    name: 'villager',
-    description: 'The villager to search for.',
-  },
 };
