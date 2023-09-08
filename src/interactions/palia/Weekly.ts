@@ -18,7 +18,7 @@ import { clientSymbol } from '../../utils/Constants';
 
 @injectable()
 export default class Weekly extends Interaction {
-  public enabled = true;
+  public enabled = false;
 
   public readonly category = 'Palia';
 

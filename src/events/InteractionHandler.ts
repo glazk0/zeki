@@ -92,75 +92,81 @@ export default class InteractionHandler extends Event {
 
     await ready;
 
-    const currentInteractions = await this.client.application!.commands.fetch();
+    const currentInteractions = await this.client.application?.commands.fetch();
 
-    this.client.logger.info('Synchronizing interactions.');
+    this.client.logger.info('Refreshing interactions...');
 
-    const interactions = this.interactions
+    const interactionsToUpdate = this.interactions
       .filter((interaction) => interaction.enabled)
       .map((interaction) => interaction.command);
 
-    const newInteractions = interactions.filter(
+    const newInteractions = interactionsToUpdate.filter(
       (interaction) =>
-        !currentInteractions.some((i) => i.name === interaction.name),
+        !currentInteractions?.some((i) => i.name === interaction.name),
+    );
+    const deletedInteractions = currentInteractions?.filter(
+      (interaction) =>
+        !interactionsToUpdate.some((i) => i.name === interaction.name),
     );
 
-    for (let newInteraction of newInteractions) {
-      await this.client.application!.commands.create(newInteraction);
-    }
+    const updatedInteractions = interactionsToUpdate.filter((interaction) =>
+      currentInteractions?.some((i) => i.name === interaction.name),
+    );
+
+    await Promise.all(
+      newInteractions.map((newInteraction) =>
+        this.client.application?.commands.create(newInteraction),
+      ),
+    );
 
     if (newInteractions.length > 0)
       this.client.logger.info(
         `Created ${newInteractions.length} interaction(s).`,
       );
 
-    const deletedInteractions = currentInteractions
-      .filter(
-        (interaction) => !interactions.some((i) => i.name === interaction.name),
-      )
-      .toJSON();
-
-    for (let deletedInteraction of deletedInteractions) {
-      await deletedInteraction.delete();
-    }
-
-    if (deletedInteractions.length > 0)
-      this.client.logger.info(
-        `Deleted ${deletedInteractions.length} interaction(s).`,
-      );
-
-    const updatedInteractions = interactions.filter((interaction) =>
-      currentInteractions.some((i) => i.name === interaction.name),
+    await Promise.all(
+      deletedInteractions?.map((deletedInteraction) =>
+        deletedInteraction.delete(),
+      ) || [],
     );
+
+    if (deletedInteractions && deletedInteractions.size > 0)
+      this.client.logger.info(
+        `Deleted ${deletedInteractions.size} interaction(s).`,
+      );
 
     let updatedInteractionsCount = 0;
 
-    for (let updatedInteraction of updatedInteractions) {
-      const newInteraction = updatedInteraction;
-      const previousInteraction = currentInteractions.find(
-        (i) => i.name === updatedInteraction.name,
-      );
-      let modified = false;
-      if (previousInteraction?.name !== newInteraction.name) modified = true;
-      if (
-        previousInteraction?.defaultMemberPermissions !==
-        newInteraction.defaultMemberPermissions
-      )
-        modified = true;
-      if (previousInteraction?.dmPermission !== newInteraction.dmPermission)
-        modified = true;
-      if (modified) {
-        await previousInteraction?.edit(newInteraction);
-        updatedInteractionsCount++;
-      }
-    }
+    await Promise.all(
+      updatedInteractions.map(async (updatedInteraction) => {
+        const previousInteraction = currentInteractions?.find(
+          (i) => i.name === updatedInteraction.name,
+        );
+
+        if (!previousInteraction) return;
+
+        const hasNameChange =
+          previousInteraction.name !== updatedInteraction.name;
+
+        const hasPermissionChange =
+          previousInteraction.defaultMemberPermissions !==
+          updatedInteraction.defaultMemberPermissions;
+
+        const hasDMPermissionChange =
+          previousInteraction.dmPermission !== updatedInteraction.dmPermission;
+
+        if (hasNameChange || hasPermissionChange || hasDMPermissionChange) {
+          await previousInteraction.edit(updatedInteraction);
+          updatedInteractionsCount++;
+        }
+      }),
+    );
 
     if (updatedInteractionsCount > 0)
       this.client.logger.info(
-        `Updated ${updatedInteractionsCount} interaction(s).`,
+        `Refreshed ${updatedInteractionsCount} interaction(s).`,
       );
-
-    this.client.logger.info('Interactions synchronized.');
+    else this.client.logger.info('No interaction to refresh.');
 
     // This is disabled because it's not working properly.
 
