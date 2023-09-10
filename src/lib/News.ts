@@ -1,7 +1,7 @@
 import { load } from 'cheerio';
-import { container } from 'tsyringe';
-import { eq } from 'drizzle-orm';
 import { MessageCreateOptions, MessagePayload } from 'discord.js';
+import { eq } from 'drizzle-orm';
+import { container } from 'tsyringe';
 
 import { Client } from '../structures/Client';
 
@@ -15,6 +15,7 @@ import { guilds, news } from '../db/schema';
 import { clusterIdOfGuildId } from '../utils/Commons';
 
 import { NewsEmbed } from './embeds/NewsEmbed';
+
 import { Broadcaster } from './Broadcaster';
 
 export class News {
@@ -48,10 +49,13 @@ export class News {
 
   constructor() {
     this.client = container.resolve(clientSymbol);
+
     this.client.logger.info('News scrapper initialized.');
   }
 
   public async refresh() {
+    this.client.logger.info('Refreshing news...');
+
     let data = await this.filter(await this.scrape());
 
     if (!data.length) return;

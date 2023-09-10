@@ -1,11 +1,10 @@
 import { ActivityType, Events } from 'discord.js';
-import { schedule } from 'node-cron';
+import { ScheduleOptions, schedule } from 'node-cron';
 
 import { Event } from '../structures/Event';
 
 import { News } from '../lib/News';
 import { TaskFunction, createCronJob } from '../lib/CronJob';
-import PaliaTime from '../lib/PaliaTime';
 
 export default class Ready extends Event {
   constructor() {
@@ -19,27 +18,21 @@ export default class Ready extends Event {
         : [...this.client.cluster.ids.keys()];
 
     const news = new News();
-    const paliaTime = new PaliaTime();
 
     const newsTask: TaskFunction = async () => {
       await news.refresh();
     };
 
-    const paliaTimeTask: TaskFunction = async () => {
-      this.client.user?.setActivity({
-        name: paliaTime.getCurrentPeriod(),
-        type: ActivityType.Playing,
-      });
-    };
-
-    const tasksAndSchedules: { task: TaskFunction; schedule: string }[] = [
-      { task: newsTask, schedule: '*/1 * * * *' }, // Schedule for News
-      { task: paliaTimeTask, schedule: '*/5 * * * *' }, // Schedule for PaliaTime
-      // { task: anotherTask, schedule: '*/5 * * * *' }, // Schedule for another task
-    ];
+    const tasksAndSchedules: {
+      task: TaskFunction;
+      schedule: string;
+      options?: ScheduleOptions;
+    }[] = [{ task: newsTask, schedule: '*/1 * * * *' }];
 
     tasksAndSchedules
-      .map(({ task, schedule }) => createCronJob(task, schedule))
+      .map(({ task, schedule, options }) =>
+        createCronJob(task, schedule, options),
+      )
       .forEach((job) => job.start());
 
     this.client.logger.info(
