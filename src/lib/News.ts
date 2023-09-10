@@ -48,17 +48,13 @@ export class News {
 
   constructor() {
     this.client = container.resolve(clientSymbol);
-  }
-
-  public init() {
     this.client.logger.info('News scrapper initialized.');
-    setInterval(() => this.refresh(), 1 * 60 * 1000);
   }
 
-  private async refresh() {
+  public async refresh() {
     let data = await this.filter(await this.scrape());
 
-    if (!data.length) return console.log('No new news.');
+    if (!data.length) return;
 
     let settings = await db
       .select()
