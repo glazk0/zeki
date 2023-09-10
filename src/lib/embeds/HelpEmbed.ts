@@ -17,6 +17,10 @@ export class HelpEmbed extends Embed {
       icon_url: this.client.user?.displayAvatarURL(),
     };
 
+    this.data.thumbnail = {
+      url: this.client.user!.displayAvatarURL(),
+    };
+
     this.data.description = i18n.embeds.help.description();
 
     for (const category of categories) {
