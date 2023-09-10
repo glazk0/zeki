@@ -267,25 +267,5 @@ export default class InteractionHandler extends Event {
         );
       }
     }
-
-    if (interaction.isButton()) {
-      const button = interaction as ButtonInteraction;
-
-      const id = button.customId.split('_')[0];
-
-      if (!this.interactions.has(id)) return undefined;
-
-      command = this.interactions.get(id);
-
-      if (!command) return undefined;
-
-      try {
-        await command.button?.(interaction, context);
-      } catch (error) {
-        this.client.logger.error(
-          `Failed to run interaction ${button.customId}: ${error}`,
-        );
-      }
-    }
   }
 }
