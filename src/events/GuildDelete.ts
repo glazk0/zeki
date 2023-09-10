@@ -13,10 +13,14 @@ export default class GuildDelete extends Event {
   async run(guild: Guild): Promise<void> {
     if (!this.client.isReady) return;
 
-    await db.transaction(async (tx) => {
-      await tx.delete(news).where(eq(news.guildId, guild.id));
-      await tx.delete(guilds).where(eq(guilds.guildId, guild.id));
-    });
+    try {
+      await db.transaction(async (tx) => {
+        await tx.delete(news).where(eq(news.guildId, guild.id));
+        await tx.delete(guilds).where(eq(guilds.guildId, guild.id));
+      });
+    } catch (error) {
+      this.client.logger.error('Error while deleting a guild', error);
+    }
 
     this.client.logger.info(`Leaved ${guild.name} (${guild.id})`);
   }

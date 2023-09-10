@@ -30,9 +30,15 @@ export interface IWeeklyWants {
 
 export interface IWeeklyWantsEntry {
   villager: IVillager;
-  weeklyWants: {
-    item: ISearchItem;
-    name: string;
-    rewardLevel: string;
-  }[];
+  weeklyWants: IWeeklyGiftPreferencesItem[];
+}
+
+export interface ITimeObject {
+  hour: number;
+  minute: number;
+}
+
+export interface IPeriod {
+  start: ITimeObject;
+  end: ITimeObject;
 }

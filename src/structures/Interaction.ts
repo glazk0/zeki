@@ -70,17 +70,6 @@ export abstract class Interaction implements InteractionInterface {
     interaction: StringSelectMenuInteraction<CacheType>,
     context: Context,
   ): Promise<any> {}
-
-  /**
-   * Handles the interaction button.
-   *
-   * @param interaction - The interaction.
-   * @param context - The context.
-   */
-  public async button?(
-    interaction: ButtonInteraction<CacheType>,
-    context: Context,
-  ): Promise<any> {}
 }
 
 export interface InteractionInterface {
@@ -97,10 +86,6 @@ export interface InteractionInterface {
   ): Promise<void>;
   selectMenu?(
     interaction: StringSelectMenuInteraction<CacheType>,
-    context: Context,
-  ): Promise<any>;
-  button?(
-    interaction: ButtonInteraction<CacheType>,
     context: Context,
   ): Promise<any>;
 }
