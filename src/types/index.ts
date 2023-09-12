@@ -21,18 +21,6 @@ export interface INews {
   url?: string;
 }
 
-export interface IWeeklyWants {
-  version: number;
-  currentTime: number;
-  nextMonday: number;
-  entries: IWeeklyWantsEntry[];
-}
-
-export interface IWeeklyWantsEntry {
-  villager: IVillager;
-  weeklyWants: IWeeklyGiftPreferencesItem[];
-}
-
 export interface ITimeObject {
   hour: number;
   minute: number;

@@ -13,7 +13,6 @@ import { Client } from '../../structures/Client';
 import { Context, Interaction } from '../../structures/Interaction';
 
 import { commands } from '../../i18n';
-import { IWeeklyWants } from '../../types';
 import { clientSymbol } from '../../utils/Constants';
 
 @injectable()
@@ -35,9 +34,10 @@ export default class Weekly extends Interaction {
     interaction: ChatInputCommandInteraction<CacheType>,
     ctx: Context,
   ): Promise<InteractionResponse<boolean>> {
-    const villager = (await this.client.api.getWeeklyWants()) as IWeeklyWants;
+    const villager =
+      (await this.client.api.getWeeklyWants()) as IWeeklyWantsItem;
 
-    const villagers = villager.entries.map((entry) => {
+    const villagers = villager.entries?.map((entry) => {
       return {
         label: entry.villager.name,
         value: entry.villager.key,

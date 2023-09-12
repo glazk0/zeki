@@ -29,11 +29,7 @@ export class Broadcaster {
   ): Promise<Message<true> | Message<false> | null> {
     const channel = this.client.channels.cache.get(channelId);
 
-    console.log(channel);
-
     if (!channel || !channel.isTextBased()) return null;
-
-    console.log(message);
 
     return await channel.send(message).catch((e) => {
       this.client.logger.error(`Unable to send message`, e);
