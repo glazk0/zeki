@@ -1,48 +1,43 @@
-import { hyperlink } from 'discord.js';
+import { bold, hyperlink } from 'discord.js';
+
 import { Embed } from './Embed';
 
-import { IWeeklyWantsEntry } from '../../types';
 import { PALIA_URL } from '../../utils/Constants';
 
 export class WeeklyWantsEmbed extends Embed {
-  constructor(weeklyWants: IWeeklyWantsEntry) {
+  constructor(weeklyWants: IWeeklyWantsItem) {
     super();
 
-    this.data.title = weeklyWants.villager.name;
+    const now = new Date().toLocaleDateString('en-US', {
+      timeZone: 'UTC',
+    });
 
-    this.data.thumbnail = {
-      url: `${PALIA_URL}/images/villagers/128/${weeklyWants.villager.icon}.webp`,
-    };
+    this.data.title = `Weekly Wants Rotation`;
 
-    this.data.url = `${PALIA_URL}/villager/${weeklyWants.villager.key}`;
+    this.data.url = `${PALIA_URL}/tools/weekly-wants`;
 
-    const weeklyWantsByRewardLevel = weeklyWants.weeklyWants.reduce(
-      (acc, weeklyWant) => {
-        const rewardLevel = weeklyWant.rewardLevel;
+    this.data.description = `The weekly wants rotation for ${bold(
+      now,
+    )} is now available! You can find the full list of weekly wants on [Paliapedia](${PALIA_URL}).`;
 
-        if (!acc[rewardLevel]) {
-          acc[rewardLevel] = [];
-        }
-
-        acc[rewardLevel].push(weeklyWant);
-
-        return acc;
-      },
-      {} as Record<string, IWeeklyWantsEntry['weeklyWants']>,
+    const entries = weeklyWants.entries?.splice(
+      0,
+      Math.floor(weeklyWants.entries.length / 2),
     );
 
-    for (const rewardLevel in weeklyWantsByRewardLevel) {
-      const weeklyWants = weeklyWantsByRewardLevel[rewardLevel];
+    for (const entry of entries!) {
       this.addFields({
-        name: rewardLevel,
-        value: weeklyWants
-          .map((weeklyWant) => {
-            return `- ${hyperlink(
-              weeklyWant.item.name,
-              `https://palia.com/item/${weeklyWant.item.key}`,
-            )}`;
-          })
-          .join('\n'),
+        name: `${entry.villager.name}`,
+        value:
+          entry.weeklyWants
+            .map((item) => {
+              return `- ${item.rewardLevel} ${hyperlink(
+                item.item?.name as string,
+                `${PALIA_URL}/item/${item.item?.key}`,
+              )}`;
+            })
+            .join('\n') || 'No weekly wants available.',
+        inline: true,
       });
     }
   }

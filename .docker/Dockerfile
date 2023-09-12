@@ -10,15 +10,6 @@ COPY package.json pnpm-lock.yaml ./
 
 RUN pnpm install --frozen-lockfile
 
-
-FROM base as migration
-
-WORKDIR /app
-
-COPY . .
-
-COPY --from=dependencies /app/node_modules ./node_modules
-
 FROM base as builder
 
 WORKDIR /app

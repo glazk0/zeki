@@ -2,7 +2,6 @@ import queryString from 'query-string';
 
 import { request } from '../utils/Commons';
 import { PALIA_URL } from '../utils/Constants';
-import { IWeeklyWants, IWeeklyWantsEntry } from '../types';
 
 export class API {
   /**
@@ -67,12 +66,12 @@ export class API {
 
   public async getWeeklyWants(
     key?: string,
-  ): Promise<IWeeklyWants | IWeeklyWantsEntry | null> {
-    const data = await request<IWeeklyWants>(
+  ): Promise<IWeeklyWantsItem | IEntriesItem | null> {
+    const data = await request<IWeeklyWantsItem>(
       `${PALIA_URL}/tools/weekly-wants/api/${this.version}`,
     );
 
-    if (!data) return null;
+    if (!data || !data.entries) return null;
 
     if (key) {
       const entry = data.entries.find((entry) => entry.villager.key === key);

@@ -1,10 +1,12 @@
-import { ActivityType, Events } from 'discord.js';
-import { ScheduleOptions, schedule } from 'node-cron';
+import { Events } from 'discord.js';
+import { ScheduleOptions } from 'node-cron';
 
 import { Event } from '../structures/Event';
 
-import { News } from '../lib/News';
 import { TaskFunction, createCronJob } from '../lib/CronJob';
+
+import { News } from '../lib/News';
+import { WeeklyWants } from '../lib/WeeklyWants';
 
 export default class Ready extends Event {
   constructor() {
@@ -18,16 +20,28 @@ export default class Ready extends Event {
         : [...this.client.cluster.ids.keys()];
 
     const news = new News();
+    const weeklyWants = new WeeklyWants();
 
     const newsTask: TaskFunction = async () => {
       await news.refresh();
+    };
+
+    const weeklyWantsTask: TaskFunction = async () => {
+      await weeklyWants.refresh();
     };
 
     const tasksAndSchedules: {
       task: TaskFunction;
       schedule: string;
       options?: ScheduleOptions;
-    }[] = [{ task: newsTask, schedule: '*/1 * * * *' }];
+    }[] = [
+      { task: newsTask, schedule: '*/1 * * * *' },
+      {
+        task: weeklyWantsTask,
+        schedule: '0 */1 * * *',
+        options: { runOnInit: true },
+      },
+    ];
 
     tasksAndSchedules
       .map(({ task, schedule, options }) =>
