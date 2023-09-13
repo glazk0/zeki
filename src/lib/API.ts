@@ -136,6 +136,23 @@ export class API {
   }
 
   /**
+   * Get a bundle by its key.
+   *
+   * @param key - The bundle's key.
+   *
+   * @returns {Promise<IBundle | null>} The bundle or null if not found.
+   */
+  public async getBundle(key: string): Promise<IBundle | null> {
+    const { bundle } = await request<{
+      bundle: IBundle;
+    }>(`${PALIA_URL}/bundle/${key}/api/${this.version}`);
+
+    if (!bundle) return null;
+
+    return bundle;
+  }
+
+  /**
    * Refresh the version of the API.
    */
   private async refreshVersion(): Promise<void> {
