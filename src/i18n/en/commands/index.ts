@@ -109,4 +109,12 @@ export default {
     name: 'weekly',
     description: 'Searches for a villager and displays their weekly wants.',
   },
+  bundle: {
+    name: 'bundle',
+    description: 'Searches for a bundle.',
+  },
+  'bundle.query': {
+    name: 'query',
+    description: 'The query to search for.',
+  },
 };

@@ -1,5 +1,4 @@
 import {
-  ActionRowBuilder,
   ApplicationCommandData,
   ApplicationCommandOptionType,
   ApplicationCommandType,
@@ -7,7 +6,6 @@ import {
   CacheType,
   ChatInputCommandInteraction,
   InteractionResponse,
-  StringSelectMenuBuilder,
 } from 'discord.js';
 import { inject, injectable } from 'tsyringe';
 
