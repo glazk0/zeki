@@ -30,6 +30,10 @@ export default class Ready extends Event {
       await weeklyWants.refresh();
     };
 
+    const apiRefreshTask: TaskFunction = async () => {
+      await this.client.api.refreshVersion();
+    };
+
     const tasksAndSchedules: {
       task: TaskFunction;
       schedule: string;
@@ -39,6 +43,11 @@ export default class Ready extends Event {
       {
         task: weeklyWantsTask,
         schedule: '0 */1 * * *',
+        options: { runOnInit: true },
+      },
+      {
+        task: apiRefreshTask,
+        schedule: '0 */6 * * *',
         options: { runOnInit: true },
       },
     ];

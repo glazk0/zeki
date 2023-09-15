@@ -11,10 +11,10 @@ export class API {
    */
   private version: string;
 
-  constructor() {
-    this.refreshVersion();
-    setInterval(() => this.refreshVersion(), 5 * 60 * 1000);
-  }
+  // constructor() {
+  //   this.refreshVersion();
+  //   setInterval(() => this.refreshVersion(), 5 * 60 * 1000);
+  // }
 
   /**
    * Search for a villager, quest or recipe.
@@ -154,8 +154,10 @@ export class API {
 
   /**
    * Refresh the version of the API.
+   *
+   * @returns {Promise<void>} Nothing.
    */
-  private async refreshVersion(): Promise<void> {
+  public async refreshVersion(): Promise<void> {
     const { version } = await request<{
       version: string;
     }>(`${PALIA_URL}/api/version`);
