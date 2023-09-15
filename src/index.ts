@@ -12,10 +12,6 @@ const manager = new ClusterManager(`${__dirname}/structures/Client.js`, {
   mode: 'process',
   shardsPerClusters: 8,
   token: process.env.TOKEN,
-  restarts: {
-    interval: 60 * 60 * 24 * 1000,
-    max: 5,
-  },
 });
 
 registerClusterEvents(manager, Logger);
