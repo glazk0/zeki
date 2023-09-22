@@ -92,8 +92,8 @@ export class WeeklyWants {
         .setURL(`${PALIA_URL}/tools/weekly-wants`),
       new ButtonBuilder()
         .setURL(BOT_INVITE)
-        .setLabel("Invite me")
-        .setStyle(ButtonStyle.Link)
+        .setLabel('Invite me')
+        .setStyle(ButtonStyle.Link),
     );
 
     await Promise.all(

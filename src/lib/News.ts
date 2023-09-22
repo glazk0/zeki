@@ -1,5 +1,11 @@
 import { load } from 'cheerio';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageCreateOptions, MessagePayload } from 'discord.js';
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  MessageCreateOptions,
+  MessagePayload,
+} from 'discord.js';
 import { eq } from 'drizzle-orm';
 import { container } from 'tsyringe';
 
@@ -71,11 +77,11 @@ export class News {
         this.client.cluster.id,
     );
 
-    const components = new ActionRowBuilder().addComponents(
+    const components = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setURL(BOT_INVITE)
-        .setLabel("Invite me")
-        .setStyle(ButtonStyle.Link)
+        .setLabel('Invite me')
+        .setStyle(ButtonStyle.Link),
     );
 
     let message: string | MessagePayload | MessageCreateOptions;
@@ -104,7 +110,7 @@ export class News {
 
           message = {
             embeds: [embed],
-            components: [components]
+            components: [components],
           };
 
           await this.broadcaster.broadcast(channel.id, message);
