@@ -124,4 +124,7 @@ export const discordLocaleMappings = {
 export const localesMap = {
   en: 'English',
   nl: 'Dutch',
+  es: 'Español',
+  fr: 'Français',
+  it: 'Italiano'
 } as Record<string, string>;
