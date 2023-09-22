@@ -14,7 +14,7 @@ import { db } from '../db';
 import { guilds, news } from '../db/schema';
 
 import { clusterIdOfGuildId } from '../utils/Commons';
-import { PALIA_URL, clientSymbol } from '../utils/Constants';
+import { BOT_INVITE, PALIA_URL, clientSymbol } from '../utils/Constants';
 
 import { Broadcaster } from './Broadcaster';
 
@@ -90,6 +90,10 @@ export class WeeklyWants {
         .setStyle(ButtonStyle.Link)
         .setLabel('View full list')
         .setURL(`${PALIA_URL}/tools/weekly-wants`),
+      new ButtonBuilder()
+        .setURL(BOT_INVITE)
+        .setLabel("Invite me")
+        .setStyle(ButtonStyle.Link)
     );
 
     await Promise.all(

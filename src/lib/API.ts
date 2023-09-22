@@ -11,11 +11,6 @@ export class API {
    */
   private version: string;
 
-  // constructor() {
-  //   this.refreshVersion();
-  //   setInterval(() => this.refreshVersion(), 5 * 60 * 1000);
-  // }
-
   /**
    * Search for a villager, quest or recipe.
    *
