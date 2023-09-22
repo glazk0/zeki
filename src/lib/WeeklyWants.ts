@@ -85,7 +85,7 @@ export class WeeklyWants {
 
     const embed = new WeeklyWantsEmbed(data);
 
-    const component = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    const components = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel('View full list')
@@ -104,7 +104,7 @@ export class WeeklyWants {
 
         message = {
           embeds: [embed],
-          components: [component],
+          components: [components],
         };
 
         await this.broadcaster.broadcast(channel.id, message);

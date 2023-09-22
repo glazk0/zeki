@@ -76,7 +76,8 @@ export class News {
         clusterIdOfGuildId(this.client, s.guilds.guildId) ===
         this.client.cluster.id,
     );
-
+    
+    // TODO: Fix this 
     const components = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setURL(BOT_INVITE)
@@ -110,7 +111,6 @@ export class News {
 
           message = {
             embeds: [embed],
-            components: [components],
           };
 
           await this.broadcaster.broadcast(channel.id, message);
