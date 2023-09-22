@@ -77,14 +77,6 @@ export class News {
         this.client.cluster.id,
     );
     
-    // TODO: Fix this 
-    const components = new ActionRowBuilder<ButtonBuilder>().addComponents(
-      new ButtonBuilder()
-        .setURL(BOT_INVITE)
-        .setLabel('Invite me')
-        .setStyle(ButtonStyle.Link),
-    );
-
     let message: string | MessagePayload | MessageCreateOptions;
 
     let embeds = data.map((item) => {
