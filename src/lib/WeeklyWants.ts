@@ -73,7 +73,9 @@ export class WeeklyWants {
     let settings = await db
       .select()
       .from(guilds)
-      .innerJoin(news, eq(guilds.guildId, news.guildId));
+      .innerJoin(news, eq(news.guildId, guilds.guildId));
+
+    if (!settings.length) return;
 
     settings = settings.filter(
       (s) =>

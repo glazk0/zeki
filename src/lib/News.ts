@@ -1,5 +1,11 @@
 import { load } from 'cheerio';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageCreateOptions, MessagePayload } from 'discord.js';
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  MessageCreateOptions,
+  MessagePayload,
+} from 'discord.js';
 import { eq } from 'drizzle-orm';
 import { container } from 'tsyringe';
 
@@ -60,16 +66,22 @@ export class News {
 
     if (!data.length) return;
 
+    this.client.logger.info(`Found ${data.length} new news.`);
+
     let settings = await db
       .select()
       .from(guilds)
-      .innerJoin(news, eq(guilds.guildId, news.guildId));
+      .innerJoin(news, eq(news.guildId, guilds.guildId));
+
+    if (!settings.length) return;
 
     settings = settings.filter(
       (s) =>
         clusterIdOfGuildId(this.client, s.guilds.guildId) ===
-        this.client.cluster.id,
+          this.client.cluster.id && s.news.channel,
     );
+
+    this.client.logger.info(`Found ${settings.length} servers.`);
 
     let message: string | MessagePayload | MessageCreateOptions;
 
@@ -95,16 +107,19 @@ export class News {
 
         if (!channel) return;
 
+        this.client.logger.info(`Reached channel ${channel?.id}`);
+
         embeds = embeds.filter(
           ({ locale }) => locale === setting.guilds.locale,
         );
 
         for (const { embeds: embed } of embeds) {
-
           message = {
             embeds: [embed],
-            components: [components]
+            components: [components],
           };
+
+          this.client.logger.info(`Sending message to ${channel?.id}`);
 
           await this.broadcaster.broadcast(channel.id, message);
         }
