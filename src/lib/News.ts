@@ -85,7 +85,7 @@ export class News {
 
     let message: string | MessagePayload | MessageCreateOptions;
 
-    let embeds = data.map((item) => {
+    const embeds = data.map((item) => {
       const locale =
         item.locale && item.locale.length ? item.locale.split('-')[0] : 'en';
       return {
@@ -109,11 +109,11 @@ export class News {
 
         this.client.logger.info(`Reached channel ${channel?.id}`);
 
-        embeds = embeds.filter(
+        const embedsToSend = embeds.filter(
           ({ locale }) => locale === setting.guilds.locale,
         );
 
-        for (const { embeds: embed } of embeds) {
+        for (const { embeds: embed } of embedsToSend) {
           message = {
             embeds: [embed],
             components: [components],
