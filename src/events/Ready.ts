@@ -39,7 +39,7 @@ export default class Ready extends Event {
       schedule: string;
       options?: ScheduleOptions;
     }[] = [
-      { task: newsTask, schedule: '*/1 * * * *' },
+      { task: newsTask, schedule: '*/5 * * * *' },
       {
         task: weeklyWantsTask,
         schedule: '0 */1 * * *',
