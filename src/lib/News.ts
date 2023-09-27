@@ -68,6 +68,15 @@ export class News {
 
     this.client.logger.info(`Found ${data.length} new news.`);
 
+    for (const item of data) {
+      await this.client.cache.set(
+        `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
+        JSON.stringify(item),
+      );
+
+      this.client.logger.info(`Cached news ${item.key}`);
+    }
+
     let settings = await db
       .select()
       .from(guilds)
@@ -125,13 +134,6 @@ export class News {
         }
       }),
     );
-
-    for (const item of data) {
-      await this.client.cache.set(
-        `news:${this.client.cluster.id}:${item.key}:${item.locale}`,
-        JSON.stringify(item),
-      );
-    }
   }
 
   private async filter(data: INews[]) {
