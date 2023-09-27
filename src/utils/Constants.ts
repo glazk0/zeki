@@ -18,7 +18,7 @@ export const PALIA_URL = 'https://paliapedia.com';
  * @type {string}
  */
 export const BOT_INVITE =
-  'https://discord.com/oauth2/authorize?client_id=1145033945688318015&permissions=274878285824&scope=bot%20applications.commands';
+  'https://discord.com/oauth2/authorize?client_id=1156557693402759258&permissions=274878285824&scope=bot%20applications.commands';
 
 /**
  * The support server invite link.
@@ -126,5 +126,5 @@ export const localesMap = {
   nl: 'Dutch',
   es: 'Español',
   fr: 'Français',
-  it: 'Italiano'
+  it: 'Italiano',
 } as Record<string, string>;
