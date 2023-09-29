@@ -106,6 +106,14 @@ export class AccomplishmentEmbed extends Embed {
               `${PALIA_URL}/item/${item.item.key}`,
             )}`;
           })
+          .splice(0, 5)
+          .concat(
+            `- [See ${
+              accomplishment.requirement?.items?.length - 5
+            } more ...](${PALIA_URL}/accomplishment/${
+              accomplishment.key
+            } 'See on paliapedia.com')`,
+          )
           .join('\n'),
       });
     }
