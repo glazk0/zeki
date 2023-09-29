@@ -71,14 +71,6 @@ export class AccomplishmentEmbed extends Embed {
               return `- WIP: ${reward.type}`;
             }
           })
-          .splice(0, 5)
-          .concat(
-            `- [See ${
-              accomplishment.rewards.length - 5
-            } more ...](${PALIA_URL}/accomplishment/${
-              accomplishment.key
-            } 'See on paliapedia.com')`,
-          )
           .join('\n'),
       });
     }
@@ -93,29 +85,29 @@ export class AccomplishmentEmbed extends Embed {
       });
     }
 
-    if (accomplishment.requirement?.items?.length) {
-      this.addFields({
-        name: 'Requirements',
-        value: accomplishment.requirement.items
-          .map((item) => {
-            if (typeof item.item === 'string' || !item.item)
-              return `${item.amount} ${item ? item : 'Unknown'}`;
+    // if (accomplishment.requirement?.items?.length) {
+    //   this.addFields({
+    //     name: 'Requirements',
+    //     value: accomplishment.requirement.items
+    //       .map((item) => {
+    //         if (typeof item.item === 'string' || !item.item)
+    //           return `${item.amount} ${item ? item : 'Unknown'}`;
 
-            return `${item.amount} ${hyperlink(
-              item.item.name,
-              `${PALIA_URL}/item/${item.item.key}`,
-            )}`;
-          })
-          .splice(0, 5)
-          .concat(
-            `- [See ${
-              accomplishment.requirement?.items?.length - 5
-            } more ...](${PALIA_URL}/accomplishment/${
-              accomplishment.key
-            } 'See on paliapedia.com')`,
-          )
-          .join('\n'),
-      });
-    }
+    //         return `${item.amount} ${hyperlink(
+    //           item.item.name,
+    //           `${PALIA_URL}/item/${item.item.key}`,
+    //         )}`;
+    //       })
+    //       .splice(0, 5)
+    //       .concat(
+    //         `- [See ${
+    //           accomplishment.requirement?.items?.length - 5
+    //         } more ...](${PALIA_URL}/accomplishment/${
+    //           accomplishment.key
+    //         } 'See on paliapedia.com')`,
+    //       )
+    //       .join('\n'),
+    //   });
+    // }
   }
 }
