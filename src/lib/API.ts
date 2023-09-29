@@ -21,7 +21,7 @@ export class API {
    */
   public async search(
     query: string,
-    type: 'villager' | 'quest' | 'recipe' | 'item' = 'villager',
+    type: 'villager' | 'quest' | 'recipe' | 'item' | 'accomplishment',
   ): Promise<ISearchItem[]> {
     const queries = queryString.stringify(
       {
@@ -59,6 +59,13 @@ export class API {
     return villager;
   }
 
+  /**
+   * Get the weekly wants.
+   *
+   * @param key - The villager's key.
+   *
+   * @returns {Promise<IWeeklyWantsItem | IEntriesItem | null>} The weekly wants or null if not found.
+   */
   public async getWeeklyWants(
     key?: string,
   ): Promise<IWeeklyWantsItem | IEntriesItem | null> {
@@ -145,6 +152,23 @@ export class API {
     if (!bundle) return null;
 
     return bundle;
+  }
+
+  /**
+   * Get an accomplishment by its key.
+   *
+   * @param key - The accomplishment's key.
+   *
+   * @returns {Promise<IAccomplishment | null>} The accomplishment or null if not found.
+   */
+  public async getAccomplishment(key: string): Promise<IAccomplishment | null> {
+    const { accomplishment } = await request<IAccomplishmentItem>(
+      `${PALIA_URL}/accomplishment/${key}/api/${this.version}`,
+    );
+
+    if (!accomplishment) return null;
+
+    return accomplishment;
   }
 
   /**

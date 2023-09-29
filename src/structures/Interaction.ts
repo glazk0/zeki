@@ -27,7 +27,7 @@ export abstract class Interaction implements InteractionInterface {
   /**
    * The interaction category.
    */
-  public readonly category: string = 'Other';
+  public readonly category: 'General' | 'Palia' | 'Configuration' = 'General';
 
   /**
    * The command data.
