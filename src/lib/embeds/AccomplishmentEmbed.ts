@@ -71,6 +71,14 @@ export class AccomplishmentEmbed extends Embed {
               return `- WIP: ${reward.type}`;
             }
           })
+          .splice(0, 5)
+          .concat(
+            `- [See ${
+              accomplishment.rewards.length - 5
+            } more ...](${PALIA_URL}/accomplishment/${
+              accomplishment.key
+            } 'See on paliapedia.com')`,
+          )
           .join('\n'),
       });
     }
