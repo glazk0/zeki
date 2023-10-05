@@ -11,7 +11,7 @@ import {
  * The http://paliapedia.com URL.
  * @type {string}
  */
-export const PALIA_URL = 'https://paliapedia.com';
+export const PALIA_URL = 'https://api.paliapedia.com';
 
 /**
  * The bot invite link.
