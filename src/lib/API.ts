@@ -1,9 +1,9 @@
 import queryString from 'query-string';
 
 import { request } from '../utils/Commons';
-import { PALIA_MAP_URL, PALIA_API_URL } from '../utils/Constants';
+import { PALIA_API_URL } from '../utils/Constants';
 import { Locales } from '../i18n/i18n-types';
-import { INode } from '../types';
+// import { INode } from '../types';
 
 export class API {
   /**
@@ -173,36 +173,37 @@ export class API {
 
     return accomplishment;
   }
-  /**
-   * Get nodes or a node.
-   *
-   * @param query - The query to find.
-   * @param locale - The locale to make the search.
-   *
-   * @returns {Promise<INode[] | []>} The node(s) or a empty array;
-   */
-  public async getNodes(
-    query?: string,
-    locale?: Locales,
-  ): Promise<INode[] | []> {
-    const queries = queryString.stringify(
-      {
-        q: query,
-        locale: locale,
-      },
-      {
-        skipNull: true,
-      },
-    );
 
-    const data = await request<INode[]>(
-      `${PALIA_MAP_URL}/api/nodes?${queries}`,
-    );
+  // /**
+  //  * Get nodes or a node.
+  //  *
+  //  * @param query - The query to find.
+  //  * @param locale - The locale to make the search.
+  //  *
+  //  * @returns {Promise<INode[] | []>} The node(s) or a empty array;
+  //  */
+  // public async getNodes(
+  //   query?: string,
+  //   locale?: Locales,
+  // ): Promise<INode[] | []> {
+  //   const queries = queryString.stringify(
+  //     {
+  //       q: query,
+  //       locale: locale,
+  //     },
+  //     {
+  //       skipNull: true,
+  //     },
+  //   );
 
-    if (!data) return [];
+  //   const data = await request<INode[]>(
+  //     `${PALIA_MAP_URL}/api/nodes?${queries}`,
+  //   );
 
-    return data;
-  }
+  //   if (!data) return [];
+
+  //   return data;
+  // }
 
   /**
    * Refresh the version of the API.
