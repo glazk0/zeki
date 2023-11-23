@@ -16,7 +16,6 @@ The Bot may collect usage data, including but not limited to:
 
 - Command usage
 - Timestamps of command executions
-- Server and channel activity related to the Bot
 
 ## How We Use Information
 
