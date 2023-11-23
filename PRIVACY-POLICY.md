@@ -8,8 +8,7 @@ This privacy policy governs the use of the Discord bot Zeki ("the Bot") develope
 
 The Bot may collect and store the following user data:
 
-- Discord User IDs
-- Server and Channel IDs
+- Server IDs
 
 ### Usage Data
 
