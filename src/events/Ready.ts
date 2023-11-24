@@ -23,58 +23,44 @@ export default class Ready extends Event {
         ? [...this.client.cluster.ids.keys()].join(', ')
         : [...this.client.cluster.ids.keys()];
 
-    // const news = new News();
-    // const weeklyWants = new WeeklyWants();
+    const news = new News();
+    const weeklyWants = new WeeklyWants();
 
-    // const newsTask: TaskFunction = async () => {
-    //   await news.refresh();
-    // };
+    const newsTask: TaskFunction = async () => {
+      await news.refresh();
+    };
 
-    // const weeklyWantsTask: TaskFunction = async () => {
-    //   await weeklyWants.refresh();
-    // };
+    const weeklyWantsTask: TaskFunction = async () => {
+      await weeklyWants.refresh();
+    };
 
-    // const apiRefreshTask: TaskFunction = async () => {
-    //   await this.client.api.refreshVersion();
-    // };
+    const apiRefreshTask: TaskFunction = async () => {
+      await this.client.api.refreshVersion();
+    };
 
-    // const tasksAndSchedules: {
-    //   task: TaskFunction;
-    //   schedule: string;
-    //   options?: ScheduleOptions;
-    // }[] = [
-    //   { task: newsTask, schedule: '*/5 * * * *' },
-    //   {
-    //     task: weeklyWantsTask,
-    //     schedule: '0 */1 * * *',
-    //     options: { runOnInit: true },
-    //   },
-    //   {
-    //     task: apiRefreshTask,
-    //     schedule: '0 */6 * * *',
-    //     options: { runOnInit: true },
-    //   },
-    // ];
+    const tasksAndSchedules: {
+      task: TaskFunction;
+      schedule: string;
+      options?: ScheduleOptions;
+    }[] = [
+      { task: newsTask, schedule: '*/5 * * * *' },
+      {
+        task: weeklyWantsTask,
+        schedule: '0 */1 * * *',
+        options: { runOnInit: true },
+      },
+      {
+        task: apiRefreshTask,
+        schedule: '0 */6 * * *',
+        options: { runOnInit: true },
+      },
+    ];
 
-    // tasksAndSchedules
-    //   .map(({ task, schedule, options }) =>
-    //     createCronJob(task, schedule, options),
-    //   )
-    //   .forEach((job) => job.start());
-
-    // TODO Remove
-    let settings = await db
-      .select()
-      .from(guilds)
-      .innerJoin(news, eq(news.guildId, guilds.guildId));
-
-    settings.forEach(async (setting) => {
-      const guild = this.client.guilds.cache.get(setting.guilds.guildId);
-      const channel = guild?.channels.cache.get(setting.news.channel) as GuildTextBasedChannel;
-      if (channel) {
-        await channel.send(`Zeki is being shut down until further notice, you can see the reason ${hyperlink('here', PALIA_URL)}\n\nThank you to everyone who used Zeki, it was a fun project to work on and I hope you all enjoyed it.`);
-      }
-    });
+    tasksAndSchedules
+      .map(({ task, schedule, options }) =>
+        createCronJob(task, schedule, options),
+      )
+      .forEach((job) => job.start());
 
     this.client.logger.info(
       `${this.client.user?.tag}, ready to serve ${this.client.guilds.cache.size} servers on cluster #${this.client.cluster.id} (Shards: ${shards})`,
