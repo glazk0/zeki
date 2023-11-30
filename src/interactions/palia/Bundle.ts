@@ -41,6 +41,14 @@ export default class Bundle extends Interaction {
             name: 'Vault of the Waves',
             value: 'da-watershrinebundle',
           },
+          {
+            name: "Vault of the Gales",
+            value: 'da-airbundle',
+          },
+          {
+            name: "Tamala's Mysterious Potion Brew",
+            value: 'da-tamalabundle',
+          }
         ],
       },
     ],
@@ -54,7 +62,7 @@ export default class Bundle extends Interaction {
     interaction: ChatInputCommandInteraction<CacheType>,
     ctx: Context,
   ): Promise<InteractionResponse<boolean>> {
-    let query = interaction.options.getString('query', true);
+    const query = interaction.options.getString('query', true);
 
     const bundle = await this.client.api.getBundle(query);
 
