@@ -1,4 +1,4 @@
-import { Events, Guild, GuildTextBasedChannel, hyperlink } from 'discord.js';
+import { Events } from 'discord.js';
 import { ScheduleOptions } from 'node-cron';
 
 import { Event } from '../structures/Event';
@@ -7,10 +7,6 @@ import { TaskFunction, createCronJob } from '../lib/CronJob';
 
 import { News } from '../lib/News';
 import { WeeklyWants } from '../lib/WeeklyWants';
-import { guilds, news } from '../db/schema';
-import { eq } from 'drizzle-orm';
-import { db } from '../db';
-import { PALIA_URL } from '../utils/Constants';
 
 export default class Ready extends Event {
   constructor() {
@@ -43,18 +39,18 @@ export default class Ready extends Event {
       schedule: string;
       options?: ScheduleOptions;
     }[] = [
-      { task: newsTask, schedule: '*/5 * * * *' },
-      {
-        task: weeklyWantsTask,
-        schedule: '0 */1 * * *',
-        options: { runOnInit: true },
-      },
-      {
-        task: apiRefreshTask,
-        schedule: '0 */6 * * *',
-        options: { runOnInit: true },
-      },
-    ];
+        { task: newsTask, schedule: '*/5 * * * *' },
+        {
+          task: weeklyWantsTask,
+          schedule: '0 */1 * * *',
+          options: { runOnInit: true },
+        },
+        {
+          task: apiRefreshTask,
+          schedule: '0 */6 * * *',
+          options: { runOnInit: true },
+        },
+      ];
 
     tasksAndSchedules
       .map(({ task, schedule, options }) =>
