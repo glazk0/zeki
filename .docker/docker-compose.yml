@@ -13,6 +13,7 @@ services:
       - network
     environment:
       - TOKEN=${TOKEN}
+      - USER_AGENT=${USER_AGENT}
       - POSTGRES_HOST=postgres
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

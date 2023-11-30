@@ -245,6 +245,15 @@ export class QuestEmbed extends Embed {
               } else if (reward.villager && reward.type === 'RomancePoints') {
                 return `- ${reward.amount} Romance Points with ${reward.villager.name}`;
               } else if (reward.villager && reward.type === 'MailMessage') {
+                if (
+                  !reward.mailMessage ||
+                  typeof reward.mailMessage === 'string'
+                )
+                  return `- ${hyperlink(
+                    `${reward.villager.name}'s mail`,
+                    `${PALIA_URL}/mail-message/${reward.mailMessage}`,
+                  )}`;
+
                 return `- ${hyperlink(
                   reward.mailMessage?.name ??
                     `${reward.mailMessage?.name}'s mail`,

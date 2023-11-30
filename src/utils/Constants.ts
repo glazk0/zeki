@@ -14,6 +14,12 @@ import {
 export const PALIA_URL = 'https://paliapedia.com';
 
 /**
+ * The http://api.paliapedia.com URL.
+ * @type {string}
+ */
+export const PALIA_API_URL = 'https://api.paliapedia.com';
+
+/**
  * The bot invite link.
  * @type {string}
  */

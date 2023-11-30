@@ -117,4 +117,12 @@ export default {
     name: 'query',
     description: 'The query to search for.',
   },
+  accomplishment: {
+    name: 'accomplishment',
+    description: 'Searches for an accomplishment.',
+  },
+  'accomplishment.query': {
+    name: 'query',
+    description: 'The query to search for.',
+  },
 };

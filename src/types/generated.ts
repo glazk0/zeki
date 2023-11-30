@@ -9,6 +9,7 @@ interface IRootObject {
   recipe: IRecipeItem[];
   skill: ISkillItem[];
   store: IStoreItem[];
+  accomplishment: IAccomplishmentItem[];
   gatherable: IGatherableItem[];
 }
 interface ISearchItem {
@@ -53,6 +54,7 @@ interface IVillager {
   romancePoints?: IRomancePoints;
   giftPreferences?: IGiftPreferencesItem[];
   relationshipLevels?: IRelationshipLevelsItem[];
+  quests?: IQuestsItem[];
   obtainable?: boolean;
   weeklyGiftPreferences?: IWeeklyGiftPreferencesItem[];
   type?: string;
@@ -66,26 +68,38 @@ interface IItem {
   iconFolder: string;
   rarity?: string;
   category?: string;
-  quality?: string;
   cost?: ICost;
   value?: IValue;
   newlyAdded: boolean;
+  quality?: string;
   mapCoordinates?: IMapCoordinates;
   entityType?: string;
+  nameLocalized?: INameLocalized;
   description?: string;
+  descriptionLocalized?: IDescriptionLocalized;
   rarityNumber?: number;
   canBePlaced?: boolean;
-  obtainable?: boolean;
+  canBeConsumed?: boolean;
   addedIn?: string;
+  obtainable?: boolean;
   type?: string;
   tags?: ITagsItem[];
   maxStackSize?: number;
   consumeRewards?: IConsumeRewardsItem[];
+  autoConsumed?: boolean;
   sources?: ISources;
   buyable?: boolean;
+  requiredFor?: IRequiredFor;
   canBeSoldTo?: string[];
   sellable?: boolean;
-  requiredFor?: IRequiredFor;
+  gardenBuff?: string;
+  gardenBuffLocalized?: IGardenBuffLocalized;
+  harvestItem?: IHarvestItem;
+  plantSize?: string;
+  buffSize?: number;
+  growthDays?: number;
+  maxHarvests?: number;
+  reharvestDays?: number;
   storageCapacity?: number;
 }
 interface ICost {
@@ -107,37 +121,8 @@ interface IValue {
   amount: number;
 }
 interface INowItem {
-  limitedEvents: ILimitedEventsItem[];
+  limitedEvents: any[];
   fishs: IFishsItem[];
-}
-interface ILimitedEventsItem {
-  key: string;
-  name: string;
-  description: string;
-  icon: string;
-  iconFolder: string;
-  eventStartTime: string;
-  eventEndTime: string;
-  eventSpecificInfo: IEventSpecificInfo;
-  newlyAdded: boolean;
-  addedIn: string;
-}
-interface IEventSpecificInfo {
-  marketOpeningTime: IMarketOpeningTime;
-  marketClosingTime: IMarketClosingTime;
-  chapaaChaseStartTime: IChapaaChaseStartTime;
-}
-interface IMarketOpeningTime {
-  hour: number;
-  minute: number;
-}
-interface IMarketClosingTime {
-  hour: number;
-  minute: number;
-}
-interface IChapaaChaseStartTime {
-  hour: number;
-  minute: number;
 }
 interface IFishsItem {
   key: string;
@@ -145,6 +130,7 @@ interface IFishsItem {
   timeOfDay?: string[];
   locations?: string[];
   baits?: string[];
+  timed?: boolean;
   weather?: string[];
   fishLootTableEntries?: IFishLootTableEntriesItem[];
   newlyAdded?: boolean;
@@ -197,6 +183,17 @@ interface IRelationshipLevelsItem {
   levelName: string;
   levelDescription?: string;
 }
+interface IQuestsItem {
+  key: string;
+  name: string;
+  description: string;
+  icon: string;
+  iconFolder: string;
+  category: string;
+  villager?: IVillager;
+  addedIn: string;
+  newlyAdded: boolean;
+}
 interface IWeeklyGiftPreferencesItem {
   item: IItem;
   name: string;
@@ -243,12 +240,12 @@ interface IBundle {
   iconFolder: string;
   rewards: IRewardsItem[];
   subBundles: ISubBundlesItem[];
-  obtainable: boolean;
   addedIn: string;
+  obtainable: boolean;
   newlyAdded: boolean;
 }
 interface IRewardsItem {
-  type: string;
+  type?: string;
   tag?: ITag;
   amount?: number;
   operation?: string;
@@ -258,7 +255,7 @@ interface IRewardsItem {
   currency?: ICurrency;
   villager?: IVillager;
   playerTagRequirements?: IPlayerTagRequirementsItem[];
-  mailMessage?: IMailMessage;
+  mailMessage?: IMailMessage | string;
   quest?: IQuest;
 }
 interface ITag {
@@ -286,34 +283,33 @@ interface IRecipe {
   iconFolder: string;
   rarity?: string;
   category?: string;
+  alwaysAvailable: boolean;
+  newlyAdded: boolean;
+  addedIn: string;
   quality?: string;
   cost?: ICost;
-  metadata?: IMetadata;
-  newlyAdded?: boolean;
-  addedIn?: string;
   entityType?: string;
   requires?: string;
   craftTime?: number;
   timeLimit?: number;
   enabled?: boolean;
+  nameLocalized?: INameLocalized;
   description?: string;
+  descriptionLocalized?: IDescriptionLocalized;
   rarityNumber?: number;
   outputItem?: IOutputItem;
   outputQuantity?: number;
   allowedCrafters?: string[] | (string | null)[];
   showInCarousel?: boolean;
   visible?: boolean;
-  alwaysAvailable?: boolean;
+  persistId?: number;
   ingredients?: IIngredientsItem[];
   steps?: IStepsItem[];
   sources?: ISources;
   obtainable?: boolean;
   type?: string;
+  requiredFor?: IRequiredFor;
   valueBasedProduction?: IValueBasedProductionItem[];
-}
-interface IMetadata {
-  name: string;
-  type: string;
 }
 interface IQuestItem {
   quest: IQuest;
@@ -332,10 +328,12 @@ interface IQuest {
   persistId?: number;
   steps?: IStepsItem[];
   starters?: IStarters;
-  obtainable?: boolean;
+  villager?: IVillager;
   addedIn: string;
+  obtainable?: boolean;
   newlyAdded: boolean;
   type?: string;
+  isAccomplishment?: boolean;
   startRewards?: IStartRewardsItem[];
 }
 interface IStepsItem {
@@ -366,22 +364,28 @@ interface ICondition {
   dialogue?: IDialogue;
   item?: IItem;
   amountRequired?: number;
-  tag?: ITag;
-  mapCoordinates?: IMapCoordinates;
+  starQuality?: boolean;
   subConditions?: ISubConditionsItem[];
   playerTag?: IPlayerTag;
+  tag?: ITag;
+  mapCoordinates?: IMapCoordinates;
   sources?: ISources;
   mailMessage?: IMailMessage;
   villager?: IVillager;
   releaseMethod?: number;
   currency?: ICurrency;
   acquireMethod?: number;
+  items?: IItemsItem[];
+  books?: IBooksItem[];
+  dialogues?: IDialoguesItem[];
   hasUpperLimit?: boolean;
   upperLimit?: number;
   recipe?: IRecipe;
   creatureTag?: ICreatureTag;
   itemTag?: IItemTag;
   deductOnComplete?: boolean;
+  quests?: IQuestsItem[];
+  minimumRarity?: string;
   creature?: ICreature;
   tags?: ITagsItem[];
   skill?: ISkill;
@@ -418,13 +422,15 @@ interface IDialoguesItem {
   text?: string;
 }
 interface ISubConditionsItem {
-  type: string;
+  type?: string;
   dialogueType?: string;
   dialogue?: IDialogue;
   playerTag?: IPlayerTag;
   item?: IItem;
-  gatherables?: string[];
+  starQuality?: boolean;
+  dialogues?: IDialoguesItem[];
   tag?: ITag;
+  gatherables?: string[];
   quest?: IQuest;
 }
 interface IPlayerTag {
@@ -436,26 +442,16 @@ interface IPlayerTag {
 interface ISources {
   slidingPuzzle?: string[];
   mailMessages?: IMailMessagesItem[];
-  items?: IItemsItem[];
-  books?: IBooksItem[];
-  quests?: IQuestsItem[];
-  levelerConfig?: string[];
+  bundles?: string[] | IBundlesItem[];
   stores?: IStoresItem[];
   dialogues?: IDialoguesItem[];
   gatherables?: IGatherablesItem[];
   recipes?: IRecipesItem[];
   fishs?: IFishsItem[];
-  shrineBundles?: string[];
-}
-interface IQuestsItem {
-  key: string;
-  name: string;
-  description: string;
-  icon: string;
-  iconFolder: string;
-  category: string;
-  newlyAdded: boolean;
-  addedIn: string;
+  items?: IItemsItem[];
+  quests?: IQuestsItem[];
+  accomplishments?: IAccomplishmentsItem[];
+  books?: IBooksItem[];
 }
 interface IItemsItem {
   key?: string;
@@ -469,7 +465,7 @@ interface IItemsItem {
   cost?: ICost;
   value?: IValue;
   quality?: string;
-  item?: IItem;
+  item?: IItem | string;
   amount?: number;
   starQuality?: boolean;
   requirements?: IRequirements;
@@ -483,17 +479,15 @@ interface IMailMessage {
   icon?: string;
   iconFolder: string;
   newlyAdded: boolean;
-  addedIn?: string;
-  metadata?: IMetadata;
+  addedIn: string;
 }
 interface IMailMessagesItem {
   key: string;
   name: string;
   icon?: string;
   iconFolder: string;
-  metadata?: IMetadata;
   newlyAdded: boolean;
-  addedIn?: string;
+  addedIn: string;
 }
 interface IBranchingGoalsItem {
   goals: IGoalsItem[];
@@ -507,8 +501,11 @@ interface IPlayerTagRequirementsItem {
 interface IBooksItem {
   key: string;
   name: string;
-  metadata: IMetadata;
+  icon: string;
+  iconFolder: string;
+  mapCoordinates?: IMapCoordinates;
   newlyAdded: boolean;
+  addedIn: string;
 }
 interface ICreatureTag {
   key: string;
@@ -611,6 +608,8 @@ interface ISkill {
 interface IStore {
   key: string;
   name: string;
+  icon?: string;
+  iconFolder?: string;
   type: string;
   villager?: IVillager;
   newlyAdded: boolean;
@@ -623,8 +622,14 @@ interface IStore {
   tagRequirements?: ITagRequirements;
   skill?: ISkill;
 }
-interface IItemItem {
-  item: IItem;
+interface IBundlesItem {
+  key: string;
+  name: string;
+  icon: string;
+  iconFolder: string;
+  type: string;
+  newlyAdded: boolean;
+  addedIn: string;
 }
 interface IStoresItem {
   key: string;
@@ -632,7 +637,26 @@ interface IStoresItem {
   type: string;
   newlyAdded: boolean;
   addedIn: string;
+  icon?: string;
+  iconFolder?: string;
   villager?: IVillager;
+}
+interface IItemItem {
+  item: IItem;
+}
+interface INameLocalized {
+  de?: string;
+  en?: string;
+  es?: string;
+  fr?: string;
+  it?: string;
+}
+interface IDescriptionLocalized {
+  de?: string;
+  en?: string;
+  es?: string;
+  fr?: string;
+  it?: string;
 }
 interface IConsumeRewardsItem {
   type: string;
@@ -643,9 +667,17 @@ interface IConsumeRewardsItem {
   tag?: ITag;
   operation?: string;
   recipe?: IRecipe;
-  lootBundle?: string;
+  lootBundle?: ILootBundle;
   mailMessage?: IMailMessage;
   villager?: IVillager;
+}
+interface IRequiredFor {
+  books?: IBooksItem[];
+  recipes?: IRecipesItem[];
+  accomplishments?: IAccomplishmentsItem[];
+  quests?: IQuestsItem[];
+  questStarters?: IQuestStartersItem[];
+  fishs?: IFishsItem[];
 }
 interface IGatherablesItem {
   key: string;
@@ -667,17 +699,19 @@ interface IRecipesItem {
   rarity?: string;
   category?: string;
   quality?: string;
-  metadata?: IMetadata;
+  alwaysAvailable?: boolean;
   newlyAdded?: boolean;
   addedIn?: string;
   cost?: ICost;
   recipe?: IRecipe;
   requirements?: IRequirements;
 }
-interface IRequiredFor {
-  recipes?: IRecipesItem[];
-  quests?: IQuestsItem[];
-  questStarters?: IQuestStartersItem[];
+interface IAccomplishmentsItem {
+  key: string;
+  icon: string;
+  iconFolder: string;
+  name: string;
+  category?: string;
 }
 interface IQuestStartersItem {
   key: string;
@@ -686,8 +720,38 @@ interface IQuestStartersItem {
   icon: string;
   iconFolder: string;
   category: string;
+  addedIn: string;
+  newlyAdded: boolean;
+}
+interface IGardenBuffLocalized {
+  de?: string;
+  en: string;
+  es: string;
+  fr?: string;
+  it: string;
+}
+interface IHarvestItem {
+  item: IItem | string;
+  harvestAmount: number;
+  boostAmount: number;
+}
+interface ILootBundle {
+  key: string;
+  lootPools: ILootPoolsItem[];
   newlyAdded: boolean;
   addedIn: string;
+}
+interface ILootPoolsItem {
+  key: string;
+  loots: ILootsItem[];
+}
+interface ILootsItem {
+  weight: number;
+  requirements: IRequirements;
+  item?: IItem;
+  itemAmount: number;
+  qualityStars: number;
+  dropChance: number;
 }
 interface IRecipeItem {
   recipe: IRecipe;
@@ -716,7 +780,9 @@ interface IValueBasedProductionItem {
   key: string;
   entityType: string;
   name: string;
+  nameLocalized: INameLocalized;
   description: string;
+  descriptionLocalized: IDescriptionLocalized;
   icon: string;
   iconFolder: string;
   maxStackSize: number;
@@ -725,8 +791,11 @@ interface IValueBasedProductionItem {
   rarityNumber: number;
   quality: string;
   canBePlaced: boolean;
+  canBeConsumed: boolean;
   cost: ICost;
   value: IValue;
+  gardenBuff?: string;
+  gardenBuffLocalized?: IGardenBuffLocalized;
 }
 interface ISkillItem {
   skill: ISkill;
@@ -751,12 +820,51 @@ interface IAdditionalCostsItem {
   item: IItem;
   amount: number;
 }
+interface IAccomplishmentItem {
+  accomplishment: IAccomplishment;
+}
+interface IAccomplishment {
+  key: string;
+  icon: string;
+  iconFolder: string;
+  nameLocalized: INameLocalized;
+  name: string;
+  descriptionLocalized: IDescriptionLocalized;
+  description: string;
+  unlockedDescriptionLocalized: IUnlockedDescriptionLocalized;
+  unlockedDescription?: string;
+  requirement?: IRequirement;
+  rewards: IRewardsItem[];
+  obtainable: boolean;
+  type: string;
+  group?: string;
+  tier?: number;
+  category?: string;
+}
+interface IUnlockedDescriptionLocalized {
+  de?: string;
+  en?: string;
+  es?: string;
+  fr?: string;
+  it?: string;
+}
+interface IRequirement {
+  type: string;
+  items?: IItemsItem[];
+  amount?: number | null;
+  quest?: IQuest;
+  currency?: ICurrency;
+  creatures?: number[];
+  vital?: string;
+  tag?: ITag;
+}
 interface IGatherableItem {
   gatherable: IGatherable;
 }
 interface IGatherable {
   key: string;
   entityType: string;
+  mapCoordinates?: IMapCoordinates;
   items: IItemsItem[];
   skill: ISkill;
   name: string;
@@ -766,13 +874,13 @@ interface IGatherable {
   type: string;
   rarity?: string;
   rarityNumber: number;
+  creature?: ICreature;
   starQualityChance?: number;
   finalRewardsLootBundle?: string;
   isGatherable: boolean;
-  obtainable?: boolean;
   addedIn: string;
   newlyAdded: boolean;
-  mapCoordinates?: IMapCoordinates;
+  obtainable?: boolean;
   requirements?: IRequirements;
   vitalRewardsLootBundle?: string;
   lootPerVitalAmount?: number;

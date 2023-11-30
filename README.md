@@ -1,5 +1,8 @@
 # Zeki Discord bot <img src="https://paliapedia.com/images/villagers/128/thesalesman.webp" height="40" width="40" alt="Zeki's logo" />
 
+> [!CAUTION]
+> This project has been archived and is no longer maintained and running. See the reason [paliapedia.com](https://paliapedia.com/).
+
 An intuitive and user-friendly [Discord.js](https://discord.js.org/#/) bot connected to [paliapedia.com](https://paliapedia.com/)
 
 [![Discord](https://img.shields.io/discord/1145399904009736232.svg?logo=discord)](https://discord.gg/rGEk2Dv7qe)
