@@ -28,7 +28,7 @@ The collected information is used for the following purposes:
 
 ## Data Storage and Security
 
-The collected data is stored securely and is accessible only to the Developer. The Developer undertakes reasonable efforts to protect user data from unauthorized access, disclosure, alteration, and destruction.
+The collected data is stored securely and is accessible only to the Developer. Data collected is stored for a maximum of up to 30 days. This coincides with Discords privacy and security policies. The Developer of Zeki undertake reasonable efforts to protect user data from unauthorized access, disclosure, alteration, and destruction.
 
 ## Data Sharing
 
@@ -56,4 +56,4 @@ The Developer may update this privacy policy from time to time. Users are advise
 
 For any questions or concerns regarding this privacy policy, please contact the Developer at hi@glazk0.dev or by joining the [Discord server](<(https://discord.gg/vQF9ENEkaq)>).
 
-Last updated: 2023-11-23
+Last updated: 2023-11-30
