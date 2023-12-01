@@ -1,0 +1,32 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.4.1/schema.json",
+	"files": {
+		"ignore": [
+			"src/i18n",
+			"src/db/migrations"
+		]
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"complexity": {
+				"useLiteralKeys": "off"
+			}
+		}
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 200,
+		"lineEnding": "lf"
+	},
+	"javascript": {
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
+	}
+}
