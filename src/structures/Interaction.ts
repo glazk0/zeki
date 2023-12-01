@@ -1,91 +1,63 @@
-import {
-  ApplicationCommandData,
-  AutocompleteInteraction,
-  ButtonInteraction,
-  CacheType,
-  ChatInputCommandInteraction,
-  InteractionResponse,
-  Message,
-  StringSelectMenuInteraction,
-} from 'discord.js';
+import { ApplicationCommandData, AutocompleteInteraction, CacheType, ChatInputCommandInteraction, InteractionResponse, Message, StringSelectMenuInteraction } from "discord.js";
 
-import { TranslationFunctions } from '../i18n/i18n-types';
-import { GuildWithSettings } from '../types';
+import { GuildWithSettings } from "../@types/index.js";
+
+import { TranslationFunctions } from "../i18n/i18n-types.js";
 
 export type Context = {
-  guild: GuildWithSettings;
-  i18n: TranslationFunctions;
+	guild: GuildWithSettings;
+	i18n: TranslationFunctions;
 };
 
-export abstract class Interaction implements InteractionInterface {
-  /**
-   * Whether the interaction is enabled.
-   * @type {boolean}
-   */
-  public readonly enabled: boolean = true;
-
-  /**
-   * The interaction category.
-   */
-  public readonly category: 'General' | 'Palia' | 'Configuration' = 'General';
-
-  /**
-   * The command data.
-   * @type {ApplicationCommandData}
-   */
-  public readonly command: ApplicationCommandData;
-
-  /**
-   * Runs the interaction.
-   *
-   * @param interaction - The interaction.
-   * @param context - The context.
-   *
-   * @returns {Promise<void>}
-   */
-  public async run(
-    interaction: ChatInputCommandInteraction<CacheType>,
-    context: Context,
-  ): Promise<InteractionResponse<boolean> | Message<boolean>> {
-    throw new Error(`Command ${this.command.name} not implemented.`);
-  }
-
-  /**
-   * Handles the interaction autocomplete.
-   *
-   * @param interaction - The interaction.
-   * @param context - The context.
-   */
-  public async autocomplete?(
-    interaction: AutocompleteInteraction<CacheType>,
-  ): Promise<void> {}
-
-  /**
-   * Handles the interaction select menu.
-   *
-   * @param interaction - The interaction.
-   * @param context - The context.
-   */
-  public async selectMenu?(
-    interaction: StringSelectMenuInteraction<CacheType>,
-    context: Context,
-  ): Promise<any> {}
+export enum Category {
+	General = "General",
+	Palia = "Palia",
+	Configuration = "Configuration",
 }
 
-export interface InteractionInterface {
-  readonly enabled: boolean;
-  readonly category: string;
-  readonly command: ApplicationCommandData;
-  run(
-    interaction: ChatInputCommandInteraction<CacheType>,
-    context: Context,
-  ): Promise<InteractionResponse<boolean> | Message<boolean>>;
-  autocomplete?(
-    interaction: AutocompleteInteraction<CacheType>,
-    context: Context,
-  ): Promise<void>;
-  selectMenu?(
-    interaction: StringSelectMenuInteraction<CacheType>,
-    context: Context,
-  ): Promise<any>;
+export abstract class Interaction {
+	/**
+	 * Whether the interaction is enabled.
+	 */
+	enabled = true;
+
+	/**
+	 * The interaction category.
+	 */
+	category: Category = Category.General;
+
+	/**
+	 * The command data.
+	 */
+	command: ApplicationCommandData;
+
+	/**
+	 * Runs the interaction.
+	 *
+	 * @param interaction - The interaction.
+	 * @param context - The context.
+	 *
+	 * @returns {Promise<void>}
+	 */
+	abstract run(interaction: ChatInputCommandInteraction<CacheType>, context: Context): Promise<InteractionResponse<boolean> | Message<boolean>>;
+
+	/**
+	 * Handles the interaction autocomplete.
+	 *
+	 * @param interaction - The interaction.
+	 * @param context - The context.
+	 */
+	async autocomplete?(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+		throw new Error("Not implemented");
+	}
+
+	/**
+	 * Handles the interaction select menu.
+	 *
+	 * @param interaction - The interaction.
+	 * @param context - The context.
+	 */
+	async selectMenu?(interaction: StringSelectMenuInteraction<CacheType>, context: Context): Promise<any> {
+		throw new Error("Not implemented");
+	}
 }

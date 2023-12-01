@@ -1,82 +1,66 @@
-import {
-  ApplicationCommandData,
-  ApplicationCommandOptionType,
-  ApplicationCommandType,
-  AutocompleteInteraction,
-  CacheType,
-  ChatInputCommandInteraction,
-  InteractionResponse,
-} from 'discord.js';
-import { inject, injectable } from 'tsyringe';
+import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, AutocompleteInteraction, CacheType, ChatInputCommandInteraction, InteractionResponse } from "discord.js";
+import { inject, injectable } from "tsyringe";
 
-import { Client } from '../../structures/Client';
-import { Context, Interaction } from '../../structures/Interaction';
+import { Client } from "../../structures/Client.js";
+import { Category, Context, Interaction } from "../../structures/Interaction.js";
 
-import { commands } from '../../i18n';
-import { clientSymbol } from '../../utils/Constants';
-import { AccomplishmentEmbed } from '../../lib/embeds/AccomplishmentEmbed';
+import { commands } from "../../i18n/commands.js";
+import { clientSymbol } from "../../utils/Constants.js";
+import { AccomplishmentEmbed } from "../../lib/embeds/AccomplishmentEmbed.js";
 
 @injectable()
 export default class Accomplishment extends Interaction {
-  public enabled = true;
+	public enabled = true;
 
-  public readonly category = 'Palia';
+	public readonly category = Category.Palia;
 
-  public readonly command: ApplicationCommandData = {
-    type: ApplicationCommandType.ChatInput,
-    ...commands['accomplishment'],
-    options: [
-      {
-        type: ApplicationCommandOptionType.String,
-        ...commands['accomplishment.query'],
-        required: true,
-        autocomplete: true,
-      },
-    ],
-  };
+	public readonly command: ApplicationCommandData = {
+		type: ApplicationCommandType.ChatInput,
+		...commands["accomplishment"],
+		options: [
+			{
+				type: ApplicationCommandOptionType.String,
+				...commands["accomplishment.query"],
+				required: true,
+				autocomplete: true,
+			},
+		],
+	};
 
-  constructor(@inject(clientSymbol) private client: Client) {
-    super();
-  }
+	constructor(@inject(clientSymbol) private client: Client) {
+		super();
+	}
 
-  public async run(
-    interaction: ChatInputCommandInteraction<CacheType>,
-    ctx: Context,
-  ): Promise<InteractionResponse<boolean>> {
-    let query = interaction.options.getString('query', true);
+	public async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+		let query = interaction.options.getString("query", true);
 
-    const accomplishment = await this.client.api.getAccomplishment(query);
+		const accomplishment = await this.client.api.getAccomplishment(query);
 
-    if (!accomplishment)
-      return interaction.reply({
-        content: ctx.i18n.interactions.miscellaneous.no_results_for({ query }),
-        ephemeral: true,
-      });
+		if (!accomplishment)
+			return interaction.reply({
+				content: ctx.i18n.interactions.miscellaneous.no_results_for({ query }),
+				ephemeral: true,
+			});
 
-    const embed = new AccomplishmentEmbed(accomplishment, ctx);
+		const embed = new AccomplishmentEmbed(accomplishment, ctx);
 
-    return interaction.reply({
-      embeds: [embed],
-    });
-  }
+		return interaction.reply({
+			embeds: [embed],
+		});
+	}
 
-  public async autocomplete(
-    interaction: AutocompleteInteraction<CacheType>,
-  ): Promise<void> {
-    const value = interaction.options.getFocused();
+	public async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+		const value = interaction.options.getFocused();
 
-    if (!value) return await interaction.respond([]);
+		if (!value) return await interaction.respond([]);
 
-    const data = (await this.client.api.search(value, 'accomplishment')).slice(
-      0,
-      25,
-    );
+		const data = (await this.client.api.search(value, "accomplishment")).slice(0, 25);
 
-    await interaction.respond(
-      data.map((item) => ({
-        name: item.name,
-        value: item.key,
-      })),
-    );
-  }
+		await interaction.respond(
+			data.map((item) => ({
+				name: item.name,
+				value: item.key,
+			})),
+		);
+	}
 }

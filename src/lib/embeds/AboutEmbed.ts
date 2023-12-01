@@ -1,38 +1,42 @@
-import { Embed } from '../../lib/embeds/Embed';
-import { Context } from '../../structures/Interaction';
+import { userMention } from "discord.js";
 
-export class AboutEmbed extends Embed {
-  constructor(data: any, { i18n }: Context) {
-    super();
+import { BaseEmbed } from "./BaseEmbed.js";
 
-    this.data.author = {
-      name: this.client.user!.username,
-      icon_url: this.client.user!.displayAvatarURL(),
-    };
+import { Context } from "../../structures/Interaction.js";
 
-    this.data.thumbnail = { url: this.client.user!.displayAvatarURL() };
+import { DEVELOPERS } from "../../utils/Constants.js";
 
-    this.data.description = i18n.embeds.info.description({
-      username: this.client.user?.username,
-    });
+export class AboutEmbed extends BaseEmbed {
+	constructor(data: any, { i18n }: Context) {
+		super();
 
-    this.data.fields = [
-      {
-        name: i18n.embeds.info.statistics_name(),
-        value: i18n.embeds.info.statistics_value({
-          servers: data.guilds.toLocaleString('en-US'),
-          users: data.users.toLocaleString('en-US'),
-        }),
-      },
-      {
-        name: i18n.embeds.info.debug_name(),
-        value: i18n.embeds.info.debug_value({
-          clusters: this.client.cluster.count,
-          shards: this.client.cluster.info.TOTAL_SHARDS,
-          shardId: data.shardId,
-          clusterId: this.client.cluster.id,
-        }),
-      },
-    ];
-  }
+		this.data.author = {
+			name: this.client.user!.username,
+			icon_url: this.client.user!.displayAvatarURL(),
+		};
+
+		this.data.thumbnail = { url: this.client.user!.displayAvatarURL() };
+
+		this.data.description = i18n.embeds.about.description({
+			username: this.client.user?.username,
+			developers: DEVELOPERS.map(userMention).join(", "),
+		});
+
+		this.data.fields = [
+			{
+				name: i18n.embeds.about.statistics_name(),
+				value: i18n.embeds.about.statistics_value({
+					servers: data.guilds.toLocaleString("en-US"),
+					users: data.users.toLocaleString("en-US"),
+				}),
+			},
+			{
+				name: i18n.embeds.about.debug_name(),
+				value: i18n.embeds.about.debug_value({
+					shards: this.client.ws.shards.size,
+					shardId: this.client.shard?.ids[0],
+				}),
+			},
+		];
+	}
 }

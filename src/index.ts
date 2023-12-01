@@ -1,25 +1,26 @@
-import 'reflect-metadata';
-import 'dotenv/config';
+import "reflect-metadata";
+import "dotenv/config";
 
-import { ClusterManager } from 'discord-hybrid-sharding';
+import { ShardingManager } from "discord.js";
 
-import { Logger } from './lib/Logger';
-import { registerClusterEvents } from './lib/RegisterEvents';
+import { Logger } from "./lib/Logger.js";
 
-const manager = new ClusterManager(`${__dirname}/structures/Client.js`, {
-  totalShards: 'auto',
-  totalClusters: 'auto',
-  mode: 'process',
-  shardsPerClusters: 8,
-  token: process.env.TOKEN,
+import { getFilePath } from "./utils/File.js";
+
+const manager = new ShardingManager(getFilePath("Bot.js"), {
+	totalShards: "auto",
+	mode: "process",
+	token: process.env.TOKEN,
 });
 
-registerClusterEvents(manager, Logger);
-
 manager
-  .spawn({
-    timeout: -1,
-  })
-  .catch((reason: any) =>
-    Logger.error('Shard spawn has occured a error', reason),
-  );
+	.spawn({
+		timeout: -1,
+	})
+	.catch((reason) => Logger.error(reason));
+
+process.on("SIGINT", () => {
+	Logger.info("SIGINT signal received.");
+	manager.broadcastEval((client) => client.destroy());
+	process.exit(0);
+});

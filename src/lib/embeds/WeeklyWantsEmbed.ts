@@ -1,44 +1,44 @@
-import { bold, hyperlink } from 'discord.js';
+import { bold, hyperlink } from "discord.js";
 
-import { Embed } from './Embed';
+import { BaseEmbed } from "./BaseEmbed.js";
 
-import { PALIA_URL } from '../../utils/Constants';
+import { PALIA_URL } from "../../utils/Constants.js";
 
-export class WeeklyWantsEmbed extends Embed {
-  constructor(weeklyWants: IWeeklyWantsItem) {
-    super();
+import { Context } from "../../structures/Interaction.js";
 
-    const now = new Date().toLocaleDateString('en-US', {
-      timeZone: 'UTC',
-    });
+import { IWeeklyWantsItem } from "../../@types/generated.js";
 
-    this.data.title = `Weekly Wants Rotation`;
+export class WeeklyWantsEmbed extends BaseEmbed {
+	constructor(weeklyWants: IWeeklyWantsItem, { i18n }: Context) {
+		super();
 
-    this.data.url = `${PALIA_URL}/tools/weekly-wants`;
+		const now = new Date().toLocaleDateString(i18n.locale(), {
+			timeZone: "UTC",
+		});
 
-    this.data.description = `The weekly wants rotation for ${bold(
-      now,
-    )} is now available! You can find the full list of weekly wants on [Paliapedia](${PALIA_URL}).`;
+		this.data.title = i18n.embeds.weekly_wants.title();
 
-    const entries = weeklyWants.entries?.splice(
-      0,
-      Math.floor(weeklyWants.entries.length / 2),
-    );
+		this.data.url = `${PALIA_URL}/tools/weekly-wants`;
 
-    for (const entry of entries!) {
-      this.addFields({
-        name: `${entry.villager.name}`,
-        value:
-          entry.weeklyWants
-            .map((item) => {
-              return `- ${item.rewardLevel} ${hyperlink(
-                item.item?.name as string,
-                `${PALIA_URL}/item/${item.item?.key}`,
-              )}`;
-            })
-            .join('\n') || 'No weekly wants available.',
-        inline: true,
-      });
-    }
-  }
+		this.data.description = i18n.embeds.weekly_wants.description({
+			date: bold(now),
+			url: hyperlink("paliapedia.com", PALIA_URL),
+		});
+
+		const entries = weeklyWants.entries?.splice(0, Math.floor(weeklyWants.entries.length / 2));
+
+		if (entries?.length) {
+			for (const entry of entries) {
+				this.addFields({
+					name: `${entry.villager.name}`,
+					value: entry.weeklyWants
+						.map((item) => {
+							return `- ${item.rewardLevel} ${hyperlink(item.item?.name as string, `${PALIA_URL}/item/${item.item?.key}`)}`;
+						})
+						.join("\n"),
+					inline: true,
+				});
+			}
+		}
+	}
 }

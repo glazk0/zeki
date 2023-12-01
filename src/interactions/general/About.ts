@@ -1,85 +1,65 @@
-import {
-  ActionRowBuilder,
-  ApplicationCommandData,
-  ApplicationCommandType,
-  ButtonBuilder,
-  ButtonStyle,
-  CacheType,
-  ChatInputCommandInteraction,
-  InteractionResponse,
-} from 'discord.js';
-import { inject, injectable } from 'tsyringe';
+import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandType, ButtonBuilder, ButtonStyle, CacheType, ChatInputCommandInteraction, InteractionResponse } from "discord.js";
+import { inject, injectable } from "tsyringe";
 
-import { Client } from '../../structures/Client';
-import { Context, Interaction } from '../../structures/Interaction';
+import { Client } from "../../structures/Client.js";
+import { Category, Context, Interaction } from "../../structures/Interaction.js";
 
-import { AboutEmbed } from '../../lib/embeds/AboutEmbed';
+import { AboutEmbed } from "../../lib/embeds/AboutEmbed.js";
 
-import {
-  BOT_INVITE,
-  SUPPORT_SERVER,
-  clientSymbol,
-} from '../../utils/Constants';
+import { BOT_INVITE, SUPPORT_SERVER, clientSymbol } from "../../utils/Constants.js";
 
-import { commands } from '../../i18n';
+import { commands } from "../../i18n/commands.js";
 
 export const helpersButtons = new ActionRowBuilder<ButtonBuilder>({
-  components: [
-    new ButtonBuilder({
-      label: 'Invite me',
-      style: ButtonStyle.Link,
-      url: BOT_INVITE,
-    }),
-    new ButtonBuilder({
-      label: 'Support server',
-      style: ButtonStyle.Link,
-      url: SUPPORT_SERVER,
-    }),
-    new ButtonBuilder({
-      label: 'GitHub',
-      style: ButtonStyle.Link,
-      url: 'https://github.com/glazk0/zeki',
-    }),
-  ],
+	components: [
+		new ButtonBuilder({
+			label: "Invite me",
+			style: ButtonStyle.Link,
+			url: BOT_INVITE,
+		}),
+		new ButtonBuilder({
+			label: "Support server",
+			style: ButtonStyle.Link,
+			url: SUPPORT_SERVER,
+		}),
+		new ButtonBuilder({
+			label: "GitHub",
+			style: ButtonStyle.Link,
+			url: "https://github.com/glazk0/zeki",
+		}),
+	],
 });
 
 @injectable()
 export default class About extends Interaction {
-  public enabled = true;
+	public enabled = true;
 
-  public readonly category = 'General';
+	public readonly category = Category.General;
 
-  public readonly command: ApplicationCommandData = {
-    type: ApplicationCommandType.ChatInput,
-    ...commands['about'],
-  };
+	public readonly command: ApplicationCommandData = {
+		type: ApplicationCommandType.ChatInput,
+		...commands["about"],
+	};
 
-  constructor(@inject(clientSymbol) private client: Client) {
-    super();
-  }
+	constructor(@inject(clientSymbol) private client: Client) {
+		super();
+	}
 
-  public async run(
-    interaction: ChatInputCommandInteraction<CacheType>,
-    ctx: Context,
-  ): Promise<InteractionResponse<boolean>> {
-    const guilds = await this.client.cluster.broadcastEval(
-      (client) => client.guilds.cache.size,
-    );
-    const users = await this.client.cluster.broadcastEval((client) =>
-      client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
-    );
+	public async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+		const guilds = await this.client.shard?.broadcastEval((client) => client.guilds.cache.size);
+		const users = await this.client.shard?.broadcastEval((client) => client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0));
 
-    const data = {
-      guilds: guilds.reduce((acc, guildCount) => acc + guildCount, 0),
-      users: users.reduce((acc, memberCount) => acc + memberCount, 0),
-      shardId: interaction.guild?.shardId || 0,
-    };
+		const data = {
+			guilds: guilds?.reduce((acc, guild) => acc + guild, 0) || 0,
+			users: users?.reduce((acc, user) => acc + user, 0) || 0,
+			shardId: interaction.guild?.shardId || 0,
+		};
 
-    const embed = new AboutEmbed(data, ctx);
+		const embed = new AboutEmbed(data, ctx);
 
-    return await interaction.reply({
-      embeds: [embed],
-      components: [helpersButtons],
-    });
-  }
+		return await interaction.reply({
+			embeds: [embed],
+			components: [helpersButtons],
+		});
+	}
 }
