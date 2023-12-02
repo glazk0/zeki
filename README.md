@@ -15,6 +15,7 @@ A simple & user-friendly Discord bot integration of [paliapedia.com](https://pal
 - [Usage](#usage)
 - [Installation](#installation)
 - [Contributing](#contributing)
+- [Localization](#localization)
 - [Self-Hosting](#self-hosting)
 - [Issues](#issues)
 - [License](#license)
@@ -69,6 +70,14 @@ We welcome contributions from the community. If you have ideas for improvements 
 <a href="https://github.com/glazk0/zeki/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=glazk0/zeki" />
 </a>
+
+## Localization
+
+Zeki is currently available in the following languages:
+
+- English
+
+If you would like to contribute to the localization of Zeki, please refer to the [Localization](.github/LOCALIZATION.md) guide.
 
 ## Self-Hosting
 
