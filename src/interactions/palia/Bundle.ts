@@ -1,11 +1,11 @@
 import {
 	ActionRowBuilder,
-	ApplicationCommandData,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	CacheType,
 	ChatInputCommandInteraction,
 	InteractionResponse,
+	RESTPostAPIApplicationCommandsJSONBody,
 	StringSelectMenuBuilder,
 	StringSelectMenuInteraction,
 } from "discord.js";
@@ -22,11 +22,11 @@ import { commands } from "../../i18n/commands.js";
 
 @injectable()
 export default class Bundle extends Interaction {
-	public enabled = true;
+	enabled = true;
 
-	public readonly category = Category.Palia;
+	category = Category.Palia;
 
-	public readonly command: ApplicationCommandData = {
+	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
 		...commands["bundle"],
 		options: [
@@ -60,7 +60,7 @@ export default class Bundle extends Interaction {
 		super();
 	}
 
-	public async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		const query = interaction.options.getString("query", true);
 
 		const bundle = await this.client.api.getBundle(query);
@@ -91,7 +91,7 @@ export default class Bundle extends Interaction {
 		});
 	}
 
-	public async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, ctx: Context): Promise<any> {
+	async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, ctx: Context): Promise<any> {
 		const [key, index] = interaction.values[0].split("_") as [string, number];
 
 		const bundle = await this.client.api.getBundle(key);

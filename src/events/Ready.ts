@@ -1,11 +1,12 @@
 import { Events } from "discord.js";
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
-import { Event } from "../structures/Event.js";
 import { Client } from "../structures/Client.js";
+import { Event } from "../structures/Event.js";
 
 import { clientSymbol } from "../utils/Constants.js";
 
+@injectable()
 export default class Ready extends Event {
 	constructor(@inject(clientSymbol) private client: Client) {
 		super("onReady", Events.ClientReady, true);

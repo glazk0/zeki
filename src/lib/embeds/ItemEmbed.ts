@@ -1,5 +1,6 @@
 import { hyperlink } from "discord.js";
-import { BaseEmbed } from "./BaseEmbed";
+
+import { BaseEmbed } from "./BaseEmbed.js";
 
 import { Context } from "../../structures/Interaction.js";
 

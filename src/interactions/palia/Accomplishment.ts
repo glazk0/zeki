@@ -1,20 +1,28 @@
-import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, AutocompleteInteraction, CacheType, ChatInputCommandInteraction, InteractionResponse } from "discord.js";
+import {
+	ApplicationCommandOptionType,
+	ApplicationCommandType,
+	AutocompleteInteraction,
+	CacheType,
+	ChatInputCommandInteraction,
+	InteractionResponse,
+	RESTPostAPIApplicationCommandsJSONBody,
+} from "discord.js";
 import { inject, injectable } from "tsyringe";
 
 import { Client } from "../../structures/Client.js";
 import { Category, Context, Interaction } from "../../structures/Interaction.js";
 
 import { commands } from "../../i18n/commands.js";
-import { clientSymbol } from "../../utils/Constants.js";
 import { AccomplishmentEmbed } from "../../lib/embeds/AccomplishmentEmbed.js";
+import { clientSymbol } from "../../utils/Constants.js";
 
 @injectable()
 export default class Accomplishment extends Interaction {
-	public enabled = true;
+	enabled = true;
 
-	public readonly category = Category.Palia;
+	category = Category.Palia;
 
-	public readonly command: ApplicationCommandData = {
+	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
 		...commands["accomplishment"],
 		options: [
@@ -31,7 +39,7 @@ export default class Accomplishment extends Interaction {
 		super();
 	}
 
-	public async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		let query = interaction.options.getString("query", true);
 
 		const accomplishment = await this.client.api.getAccomplishment(query);

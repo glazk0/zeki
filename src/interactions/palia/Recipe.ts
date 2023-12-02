@@ -1,4 +1,13 @@
-import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, AutocompleteInteraction, CacheType, ChatInputCommandInteraction, InteractionResponse } from "discord.js";
+import {
+	ApplicationCommandData,
+	ApplicationCommandOptionType,
+	ApplicationCommandType,
+	AutocompleteInteraction,
+	CacheType,
+	ChatInputCommandInteraction,
+	InteractionResponse,
+	RESTPostAPIApplicationCommandsJSONBody,
+} from "discord.js";
 import { inject, injectable } from "tsyringe";
 
 import { Client } from "../../structures/Client.js";
@@ -12,11 +21,11 @@ import { commands } from "../../i18n/commands.js";
 
 @injectable()
 export default class Recipe extends Interaction {
-	public enabled = true;
+	enabled = true;
 
-	public readonly category = Category.Palia;
+	category = Category.Palia;
 
-	public readonly command: ApplicationCommandData = {
+	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
 		...commands["recipe"],
 		options: [
@@ -38,7 +47,7 @@ export default class Recipe extends Interaction {
 		super();
 	}
 
-	public async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		let query = interaction.options.getString("query", true);
 		let amount = interaction.options.getInteger("amount", false) ?? 1;
 
@@ -59,7 +68,7 @@ export default class Recipe extends Interaction {
 		});
 	}
 
-	public async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+	async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
 		const value = interaction.options.getFocused();
 
 		if (!value) return await interaction.respond([]);

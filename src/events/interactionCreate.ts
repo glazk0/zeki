@@ -1,9 +1,9 @@
 import { CacheType, CommandInteraction, Events, StringSelectMenuInteraction } from "discord.js";
 import { inject, injectable } from "tsyringe";
 
+import { Client } from "../structures/Client.js";
 import { Event } from "../structures/Event.js";
 import { Context, Interaction } from "../structures/Interaction.js";
-import { Client } from "../structures/Client.js";
 
 import { clientSymbol } from "../utils/Constants.js";
 
@@ -20,8 +20,7 @@ export default class InteractionCreate extends Event {
 	}
 
 	public async run(interaction: CommandInteraction<CacheType>): Promise<any> {
-		if (!this.client.isReady) return undefined;
-		if (!interaction) return undefined;
+		if (!this.client.isReady || !interaction) return undefined;
 
 		let guild: GuildWithSettings | undefined = undefined;
 
@@ -40,8 +39,8 @@ export default class InteractionCreate extends Event {
 		let command: Interaction | undefined = undefined;
 
 		if (interaction.isChatInputCommand() || interaction.isAutocomplete()) {
-			command = this.client.interactions.get(interaction.commandName);
 			if (!this.client.interactions.has(interaction.commandName)) return undefined;
+			command = this.client.interactions.get(interaction.commandName);
 		}
 
 		if (interaction.isChatInputCommand()) {

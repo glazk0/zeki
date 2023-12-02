@@ -1,11 +1,11 @@
 import { Events, Guild } from "discord.js";
-import { inject, injectable } from "tsyringe";
 import { eq } from "drizzle-orm";
+import { inject, injectable } from "tsyringe";
 
-import { Event } from "../../structures/Event";
-import { Client } from "../../structures/Client";
+import { Client } from "../../structures/Client.js";
+import { Event } from "../../structures/Event.js";
 
-import { clientSymbol } from "../../utils/Constants";
+import { clientSymbol } from "../../utils/Constants.js";
 
 import { db } from "../../db/index.js";
 import { guilds, news } from "../../db/schema/index.js";

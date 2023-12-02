@@ -21,7 +21,6 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - REDIS_HOST=redis
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-    command: pnpm start
 
   redis:
     image: redis:7.0.11

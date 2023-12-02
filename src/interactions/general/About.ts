@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandType, ButtonBuilder, ButtonStyle, CacheType, ChatInputCommandInteraction, InteractionResponse } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandType, ButtonBuilder, ButtonStyle, CacheType, ChatInputCommandInteraction, InteractionResponse, RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
 import { inject, injectable } from "tsyringe";
 
 import { Client } from "../../structures/Client.js";
@@ -32,11 +32,11 @@ export const helpersButtons = new ActionRowBuilder<ButtonBuilder>({
 
 @injectable()
 export default class About extends Interaction {
-	public enabled = true;
+	enabled = true;
 
-	public readonly category = Category.General;
+	category = Category.General;
 
-	public readonly command: ApplicationCommandData = {
+	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
 		...commands["about"],
 	};
@@ -45,7 +45,7 @@ export default class About extends Interaction {
 		super();
 	}
 
-	public async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		const guilds = await this.client.shard?.broadcastEval((client) => client.guilds.cache.size);
 		const users = await this.client.shard?.broadcastEval((client) => client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0));
 

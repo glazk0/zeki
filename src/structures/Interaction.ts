@@ -1,4 +1,4 @@
-import { ApplicationCommandData, AutocompleteInteraction, CacheType, ChatInputCommandInteraction, InteractionResponse, Message, StringSelectMenuInteraction } from "discord.js";
+import { AutocompleteInteraction, CacheType, ChatInputCommandInteraction, InteractionResponse, Message, RESTPostAPIApplicationCommandsJSONBody, StringSelectMenuInteraction } from "discord.js";
 
 import { GuildWithSettings } from "../@types/index.js";
 
@@ -29,7 +29,7 @@ export abstract class Interaction {
 	/**
 	 * The command data.
 	 */
-	command: ApplicationCommandData;
+	command: RESTPostAPIApplicationCommandsJSONBody;
 
 	/**
 	 * Runs the interaction.

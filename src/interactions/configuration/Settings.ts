@@ -1,5 +1,4 @@
 import {
-	ApplicationCommandData,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	CacheType,
@@ -8,6 +7,7 @@ import {
 	GuildChannel,
 	NewsChannel,
 	PermissionFlagsBits,
+	RESTPostAPIApplicationCommandsJSONBody,
 	Role,
 	TextChannel,
 	ThreadChannel,
@@ -31,15 +31,15 @@ import { guilds, news } from "../../db/schema/index.js";
 
 @injectable()
 export default class Settings extends Interaction {
-	public readonly enabled = true;
+	enabled = true;
 
-	public readonly category = Category.Configuration;
+	category = Category.Configuration;
 
-	public readonly command: ApplicationCommandData = {
+	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
 		...commands["settings"],
-		defaultMemberPermissions: PermissionFlagsBits.ManageGuild,
-		dmPermission: false,
+		default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
+		dm_permission: false,
 		options: [
 			{
 				type: ApplicationCommandOptionType.Subcommand,
@@ -67,7 +67,7 @@ export default class Settings extends Interaction {
 							{
 								type: ApplicationCommandOptionType.Channel,
 								...commands["settings.news.enable.channel"],
-								channelTypes: [ChannelType.GuildAnnouncement, ChannelType.GuildText, ChannelType.GuildForum, ChannelType.PublicThread],
+								channel_types: [ChannelType.GuildAnnouncement, ChannelType.GuildText, ChannelType.GuildForum, ChannelType.PublicThread],
 								required: true,
 							},
 							//   {
@@ -89,7 +89,7 @@ export default class Settings extends Interaction {
 		super();
 	}
 
-	public async run(interaction: ChatInputCommandInteraction<CacheType>, { guild, i18n }: Context): Promise<any> {
+	async run(interaction: ChatInputCommandInteraction<CacheType>, { guild, i18n }: Context): Promise<any> {
 		const options = interaction.options;
 
 		const group = options.getSubcommandGroup();

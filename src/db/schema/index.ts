@@ -1,2 +1,2 @@
-export * from "./Guild";
-export * from "./News";
+export * from "./Guild.js";
+export * from "./News.js";

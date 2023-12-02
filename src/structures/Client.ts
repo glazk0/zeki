@@ -1,14 +1,15 @@
 import "reflect-metadata";
 
 import { ClientOptions, Collection, Client as DiscordClient, REST, Routes } from "discord.js";
-import { container, injectable } from "tsyringe";
+import { Logger } from "pino";
+import { container } from "tsyringe";
 
-import { Interaction } from "./Interaction.js";
 import { Event } from "./Event.js";
+import { Interaction } from "./Interaction.js";
 
-import { Logger, createLogger } from "../lib/Logger.js";
-import { redis } from "../lib/Redis.js";
 import { API } from "../lib/API.js";
+import { createLogger } from "../lib/Logger.js";
+import { redis } from "../lib/Redis.js";
 
 import { clientSymbol } from "../utils/Constants.js";
 import { getFilePaths, importFile } from "../utils/File.js";
@@ -17,7 +18,7 @@ export class Client extends DiscordClient {
 	/**
 	 * The logger instance for the shard.
 	 */
-	readonly logger: typeof Logger;
+	readonly logger: Logger;
 
 	/**
 	 * The redis cache instance.
@@ -32,7 +33,7 @@ export class Client extends DiscordClient {
 	/**
 	 * The client's interactions mapped by their name.
 	 */
-	interactions: Collection<string, Interaction>;
+	readonly interactions: Collection<string, Interaction>;
 
 	/**
 	 * @param options - The client options.
@@ -44,11 +45,13 @@ export class Client extends DiscordClient {
 			useValue: this,
 		});
 
-		this.cache = redis;
+		this.logger = createLogger(this.shard?.ids[0]);
+
+		// this.cache = redis;
 
 		this.api = new API();
 
-		this.logger = createLogger(this.shard?.ids[0]);
+		this.interactions = new Collection();
 	}
 
 	/**
@@ -58,7 +61,7 @@ export class Client extends DiscordClient {
 	 */
 	async init(): Promise<void> {
 		try {
-			await this.cache.connect();
+			// await this.cache.connect();
 			await this.registerInteractions();
 			await this.registerEvents();
 			await this.login(process.env.TOKEN);

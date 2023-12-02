@@ -1,6 +1,5 @@
 import {
 	ActionRowBuilder,
-	ApplicationCommandData,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	AutocompleteInteraction,
@@ -8,6 +7,7 @@ import {
 	CacheType,
 	ChatInputCommandInteraction,
 	InteractionResponse,
+	RESTPostAPIApplicationCommandsJSONBody,
 	StringSelectMenuBuilder,
 	StringSelectMenuInteraction,
 } from "discord.js";
@@ -26,11 +26,11 @@ import { commands } from "../../i18n/commands.js";
 
 @injectable()
 export default class Villager extends Interaction {
-	public enabled = true;
+	enabled = true;
 
-	public readonly category = Category.Palia;
+	category = Category.Palia;
 
-	public readonly command: ApplicationCommandData = {
+	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
 		...commands["villager"],
 		options: [
@@ -47,7 +47,7 @@ export default class Villager extends Interaction {
 		super();
 	}
 
-	public async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		let query = interaction.options.getString("query", true);
 
 		const villager = await this.client.api.getVillager(query);
@@ -80,7 +80,7 @@ export default class Villager extends Interaction {
 		});
 	}
 
-	public async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+	async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
 		const value = interaction.options.getFocused();
 
 		if (!value) return await interaction.respond([]);
@@ -95,7 +95,7 @@ export default class Villager extends Interaction {
 		);
 	}
 
-	public async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, context: Context): Promise<any> {
+	async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, context: Context): Promise<any> {
 		const [key, relationshipLevel] = interaction.values[0].split("_") as [string, number];
 
 		const villager = await this.client.api.getVillager(key);
@@ -117,7 +117,7 @@ export default class Villager extends Interaction {
 		});
 	}
 
-	public async button(interaction: ButtonInteraction<CacheType>, context: Context): Promise<any> {
+	async button(interaction: ButtonInteraction<CacheType>, context: Context): Promise<any> {
 		const [_, key] = interaction.customId.split("_") as [string, string];
 
 		const villager = await this.client.api.getVillager(key);

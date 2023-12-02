@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandType, CacheType, ChatInputCommandInteraction, InteractionResponse, StringSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandType, CacheType, ChatInputCommandInteraction, InteractionResponse, RESTPostAPIApplicationCommandsJSONBody, StringSelectMenuBuilder } from "discord.js";
 import { inject, injectable } from "tsyringe";
 
 import { Client } from "../../structures/Client.js";
@@ -12,11 +12,11 @@ import { commands } from "../../i18n/commands.js";
 
 @injectable()
 export default class Weekly extends Interaction {
-	public enabled = true;
+	enabled = true;
 
-	public readonly category = Category.Palia;
+	category = Category.Palia;
 
-	public readonly command: ApplicationCommandData = {
+	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
 		...commands["weekly"],
 	};
@@ -25,7 +25,7 @@ export default class Weekly extends Interaction {
 		super();
 	}
 
-	public async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		const villager = (await this.client.api.getWeeklyWants()) as IWeeklyWantsItem;
 
 		const villagers = villager.entries?.map((entry) => {
