@@ -44,8 +44,6 @@ export class API extends RedisClient {
 			},
 		);
 
-		// TODO Cache on 3 chars
-
 		const cacheKey = this.join("search", query, type, locale, this.version);
 
 		const cached = await this.client.get(cacheKey);
@@ -56,7 +54,7 @@ export class API extends RedisClient {
 
 		if (!data) return [];
 
-		await this.client.set(cacheKey, JSON.stringify(data), { EX: 60 * 60 * 24 });
+		if (query.length >= 3) await this.client.set(cacheKey, JSON.stringify(data), { EX: 60 * 60 * 24 });
 
 		return data;
 	}
