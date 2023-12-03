@@ -23,7 +23,7 @@ export default class GuildCreate extends Event {
 				guildId: guild.id,
 			});
 		} catch (error) {
-			this.client.logger.error("Error while inserting a guild", error);
+			this.client.logger.error(`Error while inserting a guild into the database: ${error}`);
 		}
 
 		this.client.logger.info(`Joined ${guild.name} (${guild.id})`);

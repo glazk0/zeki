@@ -26,7 +26,7 @@ export default class Weekly extends Interaction {
 	}
 
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
-		const villager = (await this.client.api.getWeeklyWants()) as IWeeklyWantsItem;
+		const villager = (await this.client.api.getWeeklyWants(undefined, ctx.guild?.locale)) as IWeeklyWantsItem;
 
 		const villagers = villager.entries?.map((entry) => {
 			return {

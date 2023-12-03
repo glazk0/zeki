@@ -3,12 +3,13 @@
   "version": "2.0.0",
   "description": "A Discord bot integration of the paliapedia.com database.",
   "type": "module",
+  "main": "dist/index",
   "scripts": {
     "start": "node dist/index",
     "build": "tsc && pnpm postbuild",
     "postbuild": "ncp \"src/db/migrations\" \"dist/db/migrations\"",
     "i18n": "typesafe-i18n",
-    "biome:format": "biome format src --write",
+    "format": "biome format src --write",
     "db:drop": "drizzle-kit drop",
     "db:generate": "drizzle-kit generate:pg",
     "db:studio": "drizzle-kit studio"
@@ -41,7 +42,7 @@
     "dotenv": "^16.3.1",
     "drizzle-orm": "^0.28.6",
     "glob": "10.3.10",
-    "node-cron": "^3.0.3",
+    "node-schedule": "2.1.1",
     "pino": "^8.16.2",
     "pino-pretty": "^10.2.3",
     "postgres": "^3.4.3",
@@ -54,7 +55,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
     "@types/node": "^20.10.1",
-    "@types/node-cron": "^3.0.11",
+    "@types/node-schedule": "2.1.4",
     "drizzle-kit": "^0.19.13",
     "ncp": "2.0.0",
     "ts-node": "^10.9.1",

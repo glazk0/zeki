@@ -13,6 +13,6 @@ export default class Ready extends Event {
 	}
 
 	async run(): Promise<void> {
-		this.client.logger.info(`${this.client.user?.tag}, ready to serve ${this.client.guilds.cache.size} servers on cluster #${this.client.shard?.ids[0]}`);
+		this.client.logger.info(`${this.client.user?.tag}, ready to serve ${this.client.guilds.cache.size} servers on shard #${this.client.shard?.ids[0]}`);
 	}
 }

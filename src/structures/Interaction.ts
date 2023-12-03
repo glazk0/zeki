@@ -5,7 +5,7 @@ import { GuildWithSettings } from "../@types/index.js";
 import { TranslationFunctions } from "../i18n/i18n-types.js";
 
 export type Context = {
-	guild: GuildWithSettings;
+	guild?: GuildWithSettings;
 	i18n: TranslationFunctions;
 };
 
@@ -47,7 +47,7 @@ export abstract class Interaction {
 	 * @param interaction - The interaction.
 	 * @param context - The context.
 	 */
-	async autocomplete?(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+	async autocomplete?(interaction: AutocompleteInteraction<CacheType>, context: Context): Promise<void> {
 		throw new Error("Not implemented");
 	}
 

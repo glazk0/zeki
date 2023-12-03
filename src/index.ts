@@ -3,24 +3,36 @@ import "reflect-metadata";
 
 import { ShardingManager } from "discord.js";
 
-import { Logger } from "./lib/Logger.js";
+import { Manager } from "./structures/Manager.js";
+
+import { Jobs } from "./lib/Jobs.js";
+import { logger } from "./lib/Logger.js";
+import { Retention } from "./lib/jobs/Retention.js";
 
 import { getFilePath } from "./utils/File.js";
 
-const manager = new ShardingManager(getFilePath("Bot.js"), {
+const shardManager = new ShardingManager(getFilePath("Bot.js"), {
 	totalShards: "auto",
 	mode: "process",
 	token: process.env.TOKEN,
 });
 
-manager
-	.spawn({
-		timeout: -1,
-	})
-	.catch((reason) => Logger.error(reason));
+const jobs = new Jobs([
+	new Retention(),
+	// new News(),
+	// new WeeklyWants(shardManager)
+]);
+
+const manager = new Manager(shardManager, jobs);
+
+try {
+	manager.init();
+} catch (error) {
+	logger.error(error);
+}
 
 process.on("SIGINT", () => {
-	Logger.info("SIGINT signal received.");
-	manager.broadcastEval((client) => client.destroy());
+	logger.info("SIGINT signal received.");
+	manager.shutdown();
 	process.exit(0);
 });

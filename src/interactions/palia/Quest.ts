@@ -45,9 +45,9 @@ export default class Quest extends Interaction {
 	}
 
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
-		let query = interaction.options.getString("query", true);
+		const query = interaction.options.getString("query", true);
 
-		const quest = await this.client.api.getQuest(query);
+		const quest = await this.client.api.getQuest(query, ctx.guild?.locale);
 
 		if (!quest)
 			return interaction.reply({

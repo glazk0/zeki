@@ -1,4 +1,4 @@
-import { ChannelType, DMChannel, Events, NonThreadGuildBasedChannel } from "discord.js";
+import { DMChannel, Events, NonThreadGuildBasedChannel } from "discord.js";
 import { eq } from "drizzle-orm";
 import { inject, injectable } from "tsyringe";
 
@@ -8,7 +8,7 @@ import { Event } from "../structures/Event.js";
 import { clientSymbol } from "../utils/Constants.js";
 
 import { db } from "../db/index.js";
-import { news } from "../db/schema/index.js";
+import { guildsNews } from "../db/schema/index.js";
 
 @injectable()
 export default class ChannelDelete extends Event {
@@ -19,9 +19,13 @@ export default class ChannelDelete extends Event {
 	async run(channel: NonThreadGuildBasedChannel | DMChannel): Promise<void> {
 		if (!this.client.isReady) return;
 
-		if (channel.isDMBased() || [ChannelType.GuildVoice].includes(channel.type)) return;
+		if (channel.isDMBased() || !channel.isTextBased()) return;
 
-		await db.delete(news).where(eq(news.channel, channel.id));
+		try {
+			await db.delete(guildsNews).where(eq(guildsNews.channel, channel.id));
+		} catch (error) {
+			this.client.logger.error(`Error while deleting a channel from the database: ${error}`);
+		}
 
 		this.client.logger.info(`Channel ${channel.id} deleted in guild ${channel.guildId}.`);
 	}

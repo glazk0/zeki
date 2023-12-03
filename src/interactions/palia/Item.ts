@@ -42,9 +42,9 @@ export default class Item extends Interaction {
 	}
 
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
-		let query = interaction.options.getString("query", true);
+		const query = interaction.options.getString("query", true);
 
-		const item = await this.client.api.getItem(query);
+		const item = await this.client.api.getItem(query, ctx.guild?.locale);
 
 		if (!item)
 			return interaction.reply({
@@ -59,12 +59,12 @@ export default class Item extends Interaction {
 		});
 	}
 
-	async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+	async autocomplete(interaction: AutocompleteInteraction<CacheType>, ctx: Context): Promise<void> {
 		const value = interaction.options.getFocused();
 
 		if (!value) return await interaction.respond([]);
 
-		const data = (await this.client.api.search(value, "item")).slice(0, 25);
+		const data = (await this.client.api.search(value, "item", ctx.guild?.locale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({

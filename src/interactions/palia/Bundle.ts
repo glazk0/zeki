@@ -63,7 +63,7 @@ export default class Bundle extends Interaction {
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		const query = interaction.options.getString("query", true);
 
-		const bundle = await this.client.api.getBundle(query);
+		const bundle = await this.client.api.getBundle(query, ctx.guild?.locale);
 
 		if (!bundle)
 			return interaction.reply({
@@ -94,7 +94,7 @@ export default class Bundle extends Interaction {
 	async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, ctx: Context): Promise<any> {
 		const [key, index] = interaction.values[0].split("_") as [string, number];
 
-		const bundle = await this.client.api.getBundle(key);
+		const bundle = await this.client.api.getBundle(key, ctx.guild?.locale);
 
 		if (!bundle)
 			return interaction.reply({

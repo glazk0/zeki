@@ -1,5 +1,4 @@
 import {
-	ApplicationCommandData,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	AutocompleteInteraction,
@@ -48,10 +47,10 @@ export default class Recipe extends Interaction {
 	}
 
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
-		let query = interaction.options.getString("query", true);
+		const query = interaction.options.getString("query", true);
 		let amount = interaction.options.getInteger("amount", false) ?? 1;
 
-		const recipe = await this.client.api.getRecipe(query);
+		const recipe = await this.client.api.getRecipe(query, ctx.guild?.locale);
 
 		if (!recipe)
 			return interaction.reply({
@@ -59,7 +58,7 @@ export default class Recipe extends Interaction {
 				ephemeral: true,
 			});
 
-		if (amount < 1 || amount > 9999) amount = 1;
+		amount = Math.max(1, Math.min(9999, amount));
 
 		const embed = new RecipeEmbed(recipe, amount, ctx);
 
@@ -68,12 +67,12 @@ export default class Recipe extends Interaction {
 		});
 	}
 
-	async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+	async autocomplete(interaction: AutocompleteInteraction<CacheType>, ctx: Context): Promise<void> {
 		const value = interaction.options.getFocused();
 
 		if (!value) return await interaction.respond([]);
 
-		const data = (await this.client.api.search(value, "recipe")).slice(0, 25);
+		const data = (await this.client.api.search(value, "recipe", ctx.guild?.locale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({

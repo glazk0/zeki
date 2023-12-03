@@ -48,9 +48,9 @@ export default class Villager extends Interaction {
 	}
 
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
-		let query = interaction.options.getString("query", true);
+		const query = interaction.options.getString("query", true);
 
-		const villager = await this.client.api.getVillager(query);
+		const villager = await this.client.api.getVillager(query, ctx.guild?.locale);
 
 		if (!villager)
 			return interaction.reply({
@@ -80,12 +80,12 @@ export default class Villager extends Interaction {
 		});
 	}
 
-	async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+	async autocomplete(interaction: AutocompleteInteraction<CacheType>, ctx: Context): Promise<void> {
 		const value = interaction.options.getFocused();
 
 		if (!value) return await interaction.respond([]);
 
-		const data = await this.client.api.search(value, "villager");
+		const data = (await this.client.api.search(value, "villager", ctx.guild?.locale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({
@@ -98,7 +98,7 @@ export default class Villager extends Interaction {
 	async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, context: Context): Promise<any> {
 		const [key, relationshipLevel] = interaction.values[0].split("_") as [string, number];
 
-		const villager = await this.client.api.getVillager(key);
+		const villager = await this.client.api.getVillager(key, context.guild?.locale);
 
 		if (!villager)
 			return interaction.reply({
@@ -120,7 +120,7 @@ export default class Villager extends Interaction {
 	async button(interaction: ButtonInteraction<CacheType>, context: Context): Promise<any> {
 		const [_, key] = interaction.customId.split("_") as [string, string];
 
-		const villager = await this.client.api.getVillager(key);
+		const villager = await this.client.api.getVillager(key, context.guild?.locale);
 
 		if (!villager)
 			return interaction.reply({

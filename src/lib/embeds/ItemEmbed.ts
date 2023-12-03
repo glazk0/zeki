@@ -99,12 +99,13 @@ export class ItemEmbed extends BaseEmbed {
 						name: i18n.embeds.item.obtained_from(),
 						value: (value as IItemsItem[]).map((item) => `- ${hyperlink(item.name ?? "Unknown", `${PALIA_URL}/item/${item.key}`)}`).join("\n"),
 					});
-				} else {
-					this.addFields({
-						name: "WIP",
-						value: (value as any[]).map((unknown) => `- ${unknown}`).join("\n"),
-					});
 				}
+				// else {
+				// 	this.addFields({
+				// 		name: "WIP",
+				// 		value: (value as any[]).map((unknown) => `- ${unknown}`).join("\n"),
+				// 	});
+				// }
 			}
 		}
 
@@ -125,12 +126,13 @@ export class ItemEmbed extends BaseEmbed {
 						name: i18n.embeds.item.contains_item(),
 						value: (value as IItemsItem[]).map((item) => `- ${hyperlink(item.name ?? "Unknown", `${PALIA_URL}/item/${item.key}`)}`).join("\n"),
 					});
-				} else {
-					this.addFields({
-						name: "WIP",
-						value: (value as any[]).map((unknown) => `- ${unknown}`).join("\n"),
-					});
 				}
+				// else {
+				// 	this.addFields({
+				// 		name: "WIP",
+				// 		value: (value as any[]).map((unknown) => `- ${unknown}`).join("\n"),
+				// 	});
+				// }
 			}
 		}
 	}

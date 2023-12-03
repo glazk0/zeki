@@ -4,8 +4,9 @@ import postgres from "postgres";
 
 import * as schema from "./schema/index.js";
 
-import { GuildWithSettings } from "../@types/index.js";
 import { getFilePath } from "../utils/File.js";
+
+import { GuildWithSettings } from "../@types/index.js";
 
 const connection = postgres(process.env.DATABASE_URL);
 

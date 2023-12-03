@@ -1,6 +1,6 @@
 import pino from "pino";
 
-export const createLogger = (id?: string | number) => {
+export const createLogger = (id?: string) => {
 	return pino({
 		level: "info",
 		transport: {
@@ -16,4 +16,4 @@ export const createLogger = (id?: string | number) => {
 	});
 };
 
-export const Logger = createLogger();
+export const logger = createLogger();

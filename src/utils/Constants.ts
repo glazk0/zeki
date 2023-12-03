@@ -1,5 +1,7 @@
 import { Locale } from "discord.js";
 
+import { Locales } from "../i18n/i18n-types.js";
+
 /**
  * The http://paliapedia.com URL.
  */
@@ -42,58 +44,69 @@ export const apiSymbol = Symbol("api");
  * List of Discord locales.
  */
 export const discordLocales = [
-	"vi",
-	"da",
-	"he",
-	"zh-TW",
-	"ja",
-	"th",
-	"hi",
-	"ru",
-	"pl",
-	"fr",
-	"lt",
-	"en-GB",
-	"pt-BR",
-	"it",
-	"cs",
-	"bg",
-	"hr",
-	"tr",
-	"hu",
-	"ro",
-	"ar",
-	"de",
-	"ko",
-	"el",
-	"en-US",
-	"no",
-	"sv-SE",
-	"uk",
-	"zh-CN",
-	"nl",
-	"es-ES",
-	"fi",
+	"id", // Indonesian
+	"da", // Danish
+	"de", // German
+	"en-GB", // English, UK
+	"en-US", // English, US
+	"es-ES", // Spanish
+	"fr", // French
+	"hr", // Croatian
+	"it", // Italian
+	"lt", // Lithuanian
+	"hu", // Hungarian
+	"nl", // Dutch
+	"no", // Norwegian
+	"pl", // Polish
+	"pt-BR", // Portuguese, Brazilian
+	"ro", // Romanian, Romania
+	"fi", // Finnish
+	"sv-SE", // Swedish
+	"vi", // Vietnamese
+	"tr", // Turkish
+	"cs", // Czech
+	"el", // Greek
+	"bg", // Bulgarian
+	"ru", // Russian
+	"uk", // Ukrainian
+	"hi", // Hindi
+	"th", // Thai
+	"zh-CN", // Chinese, China
+	"ja", // Japanese
+	"zh-TW", // Chinese, Taiwan
+	"ko", // Korean
 ] as Locale[];
 
 /**
  * Match short locales to Discord locales.
- * @type {Record<string, Locale>}
  */
 export const discordLocaleMappings = {
 	en: "en-US",
 	es: "es-ES",
 	pt: "pt-BR",
+	zh: "zh-CN",
 } as Record<string, Locale>;
 
 /**
- * Lilith locales to their full name.
- * @type {Record<string, string>}
+ * List of Paliapedia locales.
+ */
+export const paliaLocales = [
+	"en", // English
+	"de", // German
+	"es", // Spanish
+	"fr", // French
+	"it", // Italian
+	"ru", // Russian
+];
+
+/**
+ * Zeki locales to their full name.
  */
 export const localesMap = {
-	en: "English",
-	nl: "Dutch",
-	es: "Español",
-	fr: "Français",
-	it: "Italiano",
-} as Record<string, string>;
+	en: "English", // Supported by Paliapedia
+	// de: "Deutsch", // Supported by Paliapedia
+	// es: "Español", // Supported by Paliapedia
+	// fr: "Français", // Supported by Paliapedia
+	// it: "Italiano", // Supported by Paliapedia
+	// ru: "Русский", // Supported by Paliapedia
+} as Record<Locales, string>;

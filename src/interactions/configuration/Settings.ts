@@ -27,7 +27,7 @@ import { locales } from "../../i18n/i18n-util.js";
 import { clientSymbol, localesMap } from "../../utils/Constants.js";
 
 import { db } from "../../db/index.js";
-import { guilds, news } from "../../db/schema/index.js";
+import { guilds, guildsNews } from "../../db/schema/index.js";
 
 @injectable()
 export default class Settings extends Interaction {
@@ -103,9 +103,9 @@ export default class Settings extends Interaction {
 		switch (subcommand) {
 			case "locale":
 				try {
-					await db.update(guilds).set({ locale }).where(eq(guilds.guildId, interaction.guild!.id));
+					await db.update(guilds).set({ locale }).where(eq(guilds.guildId, interaction.guildId as string));
 				} catch (error) {
-					this.client.logger.error(`Error while updating locale for guild ${interaction.guild?.id}`, error);
+					this.client.logger.error(`Error while updating locale for guild ${interaction.guild?.id}: ${error}`);
 				}
 
 				await interaction.reply({
@@ -131,19 +131,19 @@ export default class Settings extends Interaction {
 
 						try {
 							await db
-								.insert(news)
+								.insert(guildsNews)
 								.values({
 									guildId: interaction.guild!.id,
 									channel: channel.id,
 								})
 								.onConflictDoUpdate({
-									target: [news.guildId],
+									target: [guildsNews.guildId],
 									set: {
 										channel: channel.id,
 									},
 								});
 						} catch (error) {
-							this.client.logger.error(`Error while updating news channel for guild ${interaction.guild?.id}`, error);
+							this.client.logger.error(`Error while updating news channel for guild ${interaction.guild?.id}: ${error}`);
 						}
 
 						await interaction.reply({
@@ -154,16 +154,16 @@ export default class Settings extends Interaction {
 						});
 						break;
 					case "disable":
-						if (!guild.news || !guild.news.channel)
+						if (!guild?.news || !guild?.news.channel)
 							return await interaction.reply({
 								content: i18n.interactions.settings.news.not_enabled(),
 								ephemeral: true,
 							});
 
 						try {
-							await db.delete(news).where(eq(news.guildId, interaction.guild!.id));
+							await db.delete(guildsNews).where(eq(guildsNews.guildId, interaction.guildId as string));
 						} catch (error) {
-							this.client.logger.error(`Error while updating news channel for guild ${interaction.guild?.id}`, error);
+							this.client.logger.error(`Error while updating news channel for guild ${interaction.guild?.id} to null: ${error}`);
 						}
 
 						await interaction.reply({

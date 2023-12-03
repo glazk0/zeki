@@ -9,7 +9,6 @@ import { Interaction } from "./Interaction.js";
 
 import { API } from "../lib/API.js";
 import { createLogger } from "../lib/Logger.js";
-import { redis } from "../lib/Redis.js";
 
 import { clientSymbol } from "../utils/Constants.js";
 import { getFilePaths, importFile } from "../utils/File.js";
@@ -19,11 +18,6 @@ export class Client extends DiscordClient {
 	 * The logger instance for the shard.
 	 */
 	readonly logger: Logger;
-
-	/**
-	 * The redis cache instance.
-	 */
-	readonly cache: typeof redis;
 
 	/**
 	 * The API that interacts with the Palia API.
@@ -45,9 +39,7 @@ export class Client extends DiscordClient {
 			useValue: this,
 		});
 
-		this.logger = createLogger(this.shard?.ids[0]);
-
-		// this.cache = redis;
+		this.logger = createLogger(this.shard?.ids[0].toString());
 
 		this.api = new API();
 
@@ -61,7 +53,7 @@ export class Client extends DiscordClient {
 	 */
 	async init(): Promise<void> {
 		try {
-			// await this.cache.connect();
+			await this.api.connect();
 			await this.registerInteractions();
 			await this.registerEvents();
 			await this.login(process.env.TOKEN);
@@ -105,7 +97,7 @@ export class Client extends DiscordClient {
 		const rest = new REST().setToken(process.env.TOKEN);
 
 		try {
-			this.logger.info(`Started refreshing ${this.interactions.size} application (/) commands.`);
+			this.logger.info(`Started refreshing ${this.interactions.size} application (/) commands`);
 
 			const body = this.interactions.map((interaction) => interaction.command);
 
@@ -113,7 +105,7 @@ export class Client extends DiscordClient {
 				body,
 			});
 
-			this.logger.info(`Successfully reloaded ${this.interactions.size} application (/) commands.`);
+			this.logger.info(`Successfully reloaded ${this.interactions.size} application (/) commands`);
 		} catch (error) {
 			this.logger.error(error);
 		}

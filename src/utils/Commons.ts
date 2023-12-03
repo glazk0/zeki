@@ -1,4 +1,4 @@
-import { Logger } from "../lib/Logger.js";
+import { logger } from "../lib/Logger.js";
 
 /**
  * Wait for a given amount of milliseconds.
@@ -99,7 +99,7 @@ export async function request<T>(
 			return (await req.text()) as T;
 		}
 	} catch (error) {
-		Logger.error(error);
+		logger.error(error);
 		throw error;
 	}
 }

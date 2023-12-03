@@ -44,3 +44,7 @@ const client = new Client({
 });
 
 client.init();
+
+process.on("unhandledRejection", (error) => {
+	client.logger.error(error);
+});

@@ -1,5 +1,6 @@
 import { CacheType, CommandInteraction, Events, StringSelectMenuInteraction } from "discord.js";
 import { inject, injectable } from "tsyringe";
+import { eq } from "drizzle-orm";
 
 import { Client } from "../structures/Client.js";
 import { Event } from "../structures/Event.js";
@@ -7,11 +8,14 @@ import { Context, Interaction } from "../structures/Interaction.js";
 
 import { clientSymbol } from "../utils/Constants.js";
 
-import L from "../i18n/i18n-node.js";
-
-import { findOrCreate } from "../db/index.js";
+import { db, findOrCreate } from "../db/index.js";
+import { guilds } from "../db/schema/Guild.js";
 
 import { GuildWithSettings } from "../@types/index.js";
+
+import L from "../i18n/i18n-node.js";
+import { Locales } from "../i18n/i18n-types.js";
+import { baseLocale } from "../i18n/i18n-util.js";
 
 @injectable()
 export default class InteractionCreate extends Event {
@@ -25,15 +29,18 @@ export default class InteractionCreate extends Event {
 		let guild: GuildWithSettings | undefined = undefined;
 
 		const context = {
-			i18n: L["en"],
+			i18n: L[baseLocale],
+			guild: undefined,
 		} as Context;
 
-		if (interaction.inGuild() && !interaction.isAutocomplete()) {
+		if (interaction.inGuild()) {
 			guild = await findOrCreate(interaction.guildId);
 			if (guild) {
+				context.i18n = L[guild.locale as Locales];
 				context.guild = guild;
-				context.i18n = L[guild.locale as keyof typeof L];
 			}
+
+			if (interaction.isChatInputCommand()) await db.update(guilds).set({ lastSeen: new Date() }).where(eq(guilds.guildId, interaction.guildId));
 		}
 
 		let command: Interaction | undefined = undefined;
@@ -55,7 +62,7 @@ export default class InteractionCreate extends Event {
 
 		if (interaction.isAutocomplete()) {
 			try {
-				await command?.autocomplete?.(interaction);
+				await command?.autocomplete?.(interaction, context);
 			} catch (error) {
 				this.client.logger.error(`Failed to run autocomplete for interaction ${command?.command.name}: ${error}`);
 			}
