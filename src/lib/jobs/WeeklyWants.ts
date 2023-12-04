@@ -19,8 +19,6 @@ import { locales } from "../../i18n/i18n-util.js";
 
 import { WeeklyWantsEmbed } from "../embeds/WeeklyWantsEmbed.js";
 
-// TODO - ERROR: Failed to run job Weekly Wants: Error: Attempted to resolve unregistered dependency token: "Symbol(client)"
-
 export class WeeklyWants extends Job {
 	name = "Weekly Wants";
 
@@ -71,7 +69,7 @@ export class WeeklyWants extends Job {
 		);
 
 		await this.manager.broadcastEval(
-			async (client, { settings }) => {
+			async (client, { settings, embeds }) => {
 				const shardSettings = settings.filter((s) => ShardClientUtil.shardIdForGuildId(s.guilds.guildId, client.options.shardCount as number) === client.shard?.ids[0]);
 
 				for (const setting of shardSettings) {
@@ -79,7 +77,7 @@ export class WeeklyWants extends Job {
 
 					if (!channel || !channel.isTextBased()) continue;
 
-					await channel.send({ embeds: [embeds[setting.guilds.locale]] });
+					await channel.send({ embeds: [embeds[setting.guilds.locale]] }).catch(() => {});
 				}
 			},
 			{

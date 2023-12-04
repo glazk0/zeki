@@ -4,6 +4,8 @@ import postgres from "postgres";
 
 import * as schema from "./schema/index.js";
 
+import { logger } from "../lib/Logger.js";
+
 import { getFilePath } from "../utils/File.js";
 
 import { GuildWithSettings } from "../@types/index.js";
@@ -11,16 +13,15 @@ import { GuildWithSettings } from "../@types/index.js";
 const connection = postgres(process.env.DATABASE_URL);
 
 export const db = drizzle(connection, {
-	logger: true,
 	schema,
 });
 
 migrate(db, { migrationsFolder: getFilePath("db/migrations") })
 	.then(() => {
-		console.log("Migrations ran successfully");
+		logger.info("Migrations ran successfully");
 	})
 	.catch((error) => {
-		console.error("Migrations failed", error);
+		logger.error(`Error running migrations: ${error}`);
 		process.exit(1);
 	});
 

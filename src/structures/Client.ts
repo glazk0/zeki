@@ -10,7 +10,6 @@ import { Interaction } from "./Interaction.js";
 import { API } from "../lib/API.js";
 import { createLogger } from "../lib/Logger.js";
 
-import { clientSymbol } from "../utils/Constants.js";
 import { getFilePaths, importFile } from "../utils/File.js";
 
 export class Client extends DiscordClient {
@@ -34,10 +33,6 @@ export class Client extends DiscordClient {
 	 */
 	constructor(options: ClientOptions) {
 		super(options);
-
-		container.register(clientSymbol, {
-			useValue: this,
-		});
 
 		this.logger = createLogger(this.shard?.ids[0].toString());
 

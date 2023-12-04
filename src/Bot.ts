@@ -1,8 +1,11 @@
 import "reflect-metadata";
 
 import { ActivityType, GatewayIntentBits, Options, Partials } from "discord.js";
+import { container } from "tsyringe";
 
 import { Client } from "./structures/Client.js";
+
+import { clientSymbol } from "./utils/Constants.js";
 
 const client = new Client({
 	makeCache: Options.cacheWithLimits({
@@ -43,8 +46,10 @@ const client = new Client({
 	},
 });
 
+container.registerInstance(clientSymbol, client);
+
 client.init();
 
 process.on("unhandledRejection", (error) => {
-	client.logger.error(error);
+	client.logger.error(`Unhandled rejection: ${error}`);
 });

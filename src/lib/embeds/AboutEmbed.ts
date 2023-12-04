@@ -1,14 +1,23 @@
 import { userMention } from "discord.js";
+import { container } from "tsyringe";
 
 import { BaseEmbed } from "./BaseEmbed.js";
 
+import { Client } from "../../structures/Client.js";
 import { Context } from "../../structures/Interaction.js";
 
-import { DEVELOPERS } from "../../utils/Constants.js";
+import { DEVELOPERS, clientSymbol } from "../../utils/Constants.js";
 
 export class AboutEmbed extends BaseEmbed {
+	/**
+	 * The client instance.
+	 */
+	private readonly client: Client;
+
 	constructor(data: any, { i18n }: Context) {
 		super();
+
+		this.client = container.resolve<Client>(clientSymbol);
 
 		this.data.author = {
 			name: this.client.user!.username,

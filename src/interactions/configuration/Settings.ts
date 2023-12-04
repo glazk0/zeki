@@ -103,7 +103,10 @@ export default class Settings extends Interaction {
 		switch (subcommand) {
 			case "locale":
 				try {
-					await db.update(guilds).set({ locale }).where(eq(guilds.guildId, interaction.guildId as string));
+					await db
+						.update(guilds)
+						.set({ locale })
+						.where(eq(guilds.guildId, interaction.guildId as string));
 				} catch (error) {
 					this.client.logger.error(`Error while updating locale for guild ${interaction.guild?.id}: ${error}`);
 				}

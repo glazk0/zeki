@@ -1,4 +1,4 @@
-import { BaseEmbed } from "./BaseEmbed";
+import { BaseEmbed } from "./BaseEmbed.js";
 
 import { INews } from "../../@types/index.js";
 
@@ -8,8 +8,8 @@ export class NewsEmbed extends BaseEmbed {
 
 		this.data.title = news.type?.length ? `${news.type} - ${news.title}` : news.title;
 
-		this.data.url = `https://palia.com${news.url}`;
+		this.data.url = news.url;
 
-		if (news.image) this.data.image = { url: `https:${news.image}` };
+		if (news.image) this.data.image = { url: news.image };
 	}
 }

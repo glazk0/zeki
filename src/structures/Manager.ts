@@ -26,13 +26,14 @@ export class Manager {
 	 * Initializes the manager.
 	 */
 	async init(): Promise<void> {
-		this.registerEvents();
-		await this.manager
-			.spawn({
-				timeout: -1,
-			})
-			.then(() => logger.info("All shards launched"));
-		this.jobs.init();
+		try {
+			this.registerEvents();
+			await this.manager.spawn({ timeout: -1 }).then(() => logger.info("All shards launched"));
+			this.jobs.init();
+		} catch (error) {
+			logger.error(`Error initializing manager: ${error}`);
+			process.exit(1);
+		}
 	}
 
 	/**
