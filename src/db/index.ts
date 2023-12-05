@@ -2,6 +2,8 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 
+// TODO - Actually need to remove .js from imports
+
 import * as schema from "./schema/index.js";
 
 import { logger } from "../lib/Logger.js";

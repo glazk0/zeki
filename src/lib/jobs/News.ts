@@ -1,6 +1,6 @@
 import { load } from "cheerio";
 import { ShardClientUtil, ShardingManager } from "discord.js";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 import { logger } from "../Logger.js";
 import { Job } from "./Job.js";
@@ -11,13 +11,15 @@ import { duration } from "../../utils/Commons.js";
 
 import { db } from "../../db/index.js";
 import { guilds, guildsNews } from "../../db/schema/Guild.js";
+import { news } from "../../db/schema/News.js";
 
 import { INews } from "../../@types/index.js";
+
 
 export class News extends Job {
 	name = "News Notifier";
 
-	schedule = "*/10 * * * *";
+	schedule = "*/1 * * * *";
 
 	delay = duration.seconds(30);
 
@@ -43,13 +45,34 @@ export class News extends Job {
 	}
 
 	async run(): Promise<void> {
-		const data = await this.scrape();
-
-		console.log(data);
+		let data = await this.scrape();
 
 		if (!data.length) return logger.error("Failed to fetch news data.");
 
-		// TODO - Handle database filtering
+		const exists = await db
+			.select({
+				key: news.key,
+			})
+			.from(news)
+			.where(inArray(news.key, data.filter((item) => item.key).map((item) => item.key as string)));
+
+		const existingKeysSet = new Set(exists.map((item) => item.key));
+
+		data = data.filter((item) => !existingKeysSet.has(item.key as string));
+
+		if (!data.length) return;
+
+		logger.info(`Inserting ${data.length} news.`);
+
+		await db.insert(news).values(data.map((item) => {
+			return {
+				key: item.key as string,
+				title: item.title as string,
+				locale: item.locale as string,
+			};
+		}));
+
+		logger.info(`Inserted ${data.length} news.`);
 
 		const settings = await db.select().from(guilds).innerJoin(guildsNews, eq(guildsNews.guildId, guilds.guildId));
 
@@ -60,8 +83,6 @@ export class News extends Job {
 				const embed = new NewsEmbed(item);
 
 				if (!item.locale) return acc;
-
-				item.locale = item.locale?.split("-")[0];
 
 				if (!acc[item.locale]) acc[item.locale] = [];
 
@@ -100,36 +121,23 @@ export class News extends Job {
 	}
 
 	private async scrape(): Promise<INews[]> {
-		const promises = this.locales.map((locale) => {
-			return fetch(this.url(locale), {
+		const scrape: INews[] = [];
+
+		for (const locale of this.locales) {
+			const response = await fetch(this.url(locale), {
 				headers: {
 					"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
 				},
 			});
-		});
 
-		const responses = await Promise.all(promises);
-
-		const data = await Promise.all(
-			responses.map((response) => {
-				return response.text();
-			}),
-		);
-
-		const scrape: INews[] = [];
-
-		for (const html of data) {
+			const html = await response.text();
 			const $ = load(html);
 
 			const news = $(".css-ST7ZI article");
 
-			for (const item of news) {
+			news.each((_, item) => {
 				const title = $(item).find(".css-BubDx a").text();
-				const [date, type] = $(item)
-					.find("div.u-fs-p3")
-					.text()
-					.split("|")
-					.map((item) => item.trim());
+				const [date, type] = $(item).find("div.u-fs-p3").text().split("|").map((item) => item.trim());
 				const image = $(item).find(".css-bHOAO").attr("src");
 				const url = $(item).find(".css-BubDx a").attr("href");
 				const locale = url?.split("/")[1] === "news" ? "en-US" : url?.split("/")[1];
@@ -140,11 +148,11 @@ export class News extends Job {
 					title,
 					date,
 					type,
-					image: image ? `https:${image}` : undefined,
-					url: `${this.website}${url}`,
-					locale,
+					image: image ? `https:${image} ` : undefined,
+					url: `${this.website}${url} `,
+					locale: locale?.split("-")[0],
 				});
-			}
+			});
 		}
 
 		return scrape.reverse();
