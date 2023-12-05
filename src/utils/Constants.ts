@@ -1,4 +1,4 @@
-import { Locale } from "discord.js";
+import { InviteGenerationOptions, Locale, OAuth2Scopes, PermissionFlagsBits } from "discord.js";
 
 import { Locales } from "../i18n/i18n-types.js";
 
@@ -13,9 +13,20 @@ export const PALIA_URL = "https://paliapedia.com";
 export const PALIA_API_URL = "https://api.paliapedia.com";
 
 /**
- * The bot invite link.
+ * The bot invite link with slash commands only.
  */
-export const BOT_INVITE = "https://discord.com/oauth2/authorize?client_id=1156557693402759258&permissions=274878285824&scope=bot%20applications.commands";
+export const BOT_PERMISSIONS: InviteGenerationOptions = {
+	scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
+	permissions: [
+		PermissionFlagsBits.SendMessages,
+		PermissionFlagsBits.SendMessagesInThreads,
+		PermissionFlagsBits.EmbedLinks,
+		PermissionFlagsBits.AttachFiles,
+		PermissionFlagsBits.UseExternalEmojis,
+		PermissionFlagsBits.UseExternalStickers,
+		PermissionFlagsBits.AddReactions,
+	],
+};
 
 /**
  * The support server invite link.

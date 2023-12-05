@@ -3,7 +3,7 @@ import type { BaseTranslation } from "../../i18n-types";
 const en_embeds = {
 	help: {
 		title: "{username}'s commands",
-		description: "Here is a list of all my commands. If you need more information about a command, use `/help <command>`.",
+		description: "Here is a list of all my commands. You can also see them when you type `/` in Discord.",
 	},
 	about: {
 		description:

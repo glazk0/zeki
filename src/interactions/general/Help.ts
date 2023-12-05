@@ -1,4 +1,14 @@
-import { ApplicationCommandType, CacheType, ChatInputCommandInteraction, Collection, InteractionResponse, RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
+import {
+	ActionRowBuilder,
+	ApplicationCommandType,
+	ButtonBuilder,
+	ButtonStyle,
+	CacheType,
+	ChatInputCommandInteraction,
+	Collection,
+	InteractionResponse,
+	RESTPostAPIApplicationCommandsJSONBody,
+} from "discord.js";
 import { inject, injectable } from "tsyringe";
 
 import { Client } from "../../structures/Client.js";
@@ -6,9 +16,7 @@ import { Category, Context, Interaction } from "../../structures/Interaction.js"
 
 import { HelpEmbed } from "../../lib/embeds/HelpEmbed.js";
 
-import { clientSymbol } from "../../utils/Constants.js";
-
-import { helpersButtons } from "../../interactions/general/About.js";
+import { BOT_PERMISSIONS, SUPPORT_SERVER, clientSymbol } from "../../utils/Constants.js";
 
 import { commands } from "../../i18n/commands.js";
 
@@ -34,9 +42,24 @@ export default class Help extends Interaction {
 
 		const embed = new HelpEmbed(commands, ctx);
 
+		const components = new ActionRowBuilder<ButtonBuilder>({
+			components: [
+				new ButtonBuilder({
+					label: "Invite me",
+					style: ButtonStyle.Link,
+					url: this.client.generateInvite(BOT_PERMISSIONS),
+				}),
+				new ButtonBuilder({
+					label: `${this.client.user?.username} support`,
+					style: ButtonStyle.Link,
+					url: SUPPORT_SERVER,
+				}),
+			],
+		});
+
 		return await interaction.reply({
 			embeds: [embed],
-			components: [helpersButtons],
+			components: [components],
 		});
 	}
 }

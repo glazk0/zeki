@@ -1,6 +1,6 @@
 import { CacheType, CommandInteraction, Events, StringSelectMenuInteraction } from "discord.js";
-import { inject, injectable } from "tsyringe";
 import { eq } from "drizzle-orm";
+import { inject, injectable } from "tsyringe";
 
 import { Client } from "../structures/Client.js";
 import { Event } from "../structures/Event.js";
@@ -35,6 +35,7 @@ export default class InteractionCreate extends Event {
 
 		if (interaction.inGuild()) {
 			guild = await findOrCreate(interaction.guildId);
+
 			if (guild) {
 				context.i18n = L[guild.locale as Locales];
 				context.guild = guild;

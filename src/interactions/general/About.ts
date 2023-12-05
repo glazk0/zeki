@@ -6,29 +6,9 @@ import { Category, Context, Interaction } from "../../structures/Interaction.js"
 
 import { AboutEmbed } from "../../lib/embeds/AboutEmbed.js";
 
-import { BOT_INVITE, SUPPORT_SERVER, clientSymbol } from "../../utils/Constants.js";
+import { BOT_PERMISSIONS, SUPPORT_SERVER, clientSymbol } from "../../utils/Constants.js";
 
 import { commands } from "../../i18n/commands.js";
-
-export const helpersButtons = new ActionRowBuilder<ButtonBuilder>({
-	components: [
-		new ButtonBuilder({
-			label: "Invite me",
-			style: ButtonStyle.Link,
-			url: BOT_INVITE,
-		}),
-		new ButtonBuilder({
-			label: "Support server",
-			style: ButtonStyle.Link,
-			url: SUPPORT_SERVER,
-		}),
-		new ButtonBuilder({
-			label: "GitHub",
-			style: ButtonStyle.Link,
-			url: "https://github.com/glazk0/zeki",
-		}),
-	],
-});
 
 @injectable()
 export default class About extends Interaction {
@@ -57,9 +37,29 @@ export default class About extends Interaction {
 
 		const embed = new AboutEmbed(data, ctx);
 
+		const components = new ActionRowBuilder<ButtonBuilder>({
+			components: [
+				new ButtonBuilder({
+					label: "Invite me",
+					style: ButtonStyle.Link,
+					url: this.client.generateInvite(BOT_PERMISSIONS),
+				}),
+				new ButtonBuilder({
+					label: `${this.client.user?.username} support`,
+					style: ButtonStyle.Link,
+					url: SUPPORT_SERVER,
+				}),
+				new ButtonBuilder({
+					label: "Github",
+					style: ButtonStyle.Link,
+					url: "https://github.com/glazk0/zeki",
+				}),
+			],
+		});
+
 		return await interaction.reply({
 			embeds: [embed],
-			components: [helpersButtons],
+			components: [components],
 		});
 	}
 }

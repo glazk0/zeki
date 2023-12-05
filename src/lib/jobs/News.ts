@@ -15,7 +15,6 @@ import { news } from "../../db/schema/News.js";
 
 import { INews } from "../../@types/index.js";
 
-
 export class News extends Job {
 	name = "News Notifier";
 
@@ -54,7 +53,12 @@ export class News extends Job {
 				key: news.key,
 			})
 			.from(news)
-			.where(inArray(news.key, data.filter((item) => item.key).map((item) => item.key as string)));
+			.where(
+				inArray(
+					news.key,
+					data.filter((item) => item.key).map((item) => item.key as string),
+				),
+			);
 
 		const existingKeysSet = new Set(exists.map((item) => item.key));
 
@@ -64,13 +68,15 @@ export class News extends Job {
 
 		logger.info(`Inserting ${data.length} news.`);
 
-		await db.insert(news).values(data.map((item) => {
-			return {
-				key: item.key as string,
-				title: item.title as string,
-				locale: item.locale as string,
-			};
-		}));
+		await db.insert(news).values(
+			data.map((item) => {
+				return {
+					key: item.key as string,
+					title: item.title as string,
+					locale: item.locale as string,
+				};
+			}),
+		);
 
 		logger.info(`Inserted ${data.length} news.`);
 
@@ -137,7 +143,11 @@ export class News extends Job {
 
 			news.each((_, item) => {
 				const title = $(item).find(".css-BubDx a").text();
-				const [date, type] = $(item).find("div.u-fs-p3").text().split("|").map((item) => item.trim());
+				const [date, type] = $(item)
+					.find("div.u-fs-p3")
+					.text()
+					.split("|")
+					.map((item) => item.trim());
 				const image = $(item).find(".css-bHOAO").attr("src");
 				const url = $(item).find(".css-BubDx a").attr("href");
 				const locale = url?.split("/")[1] === "news" ? "en-US" : url?.split("/")[1];
