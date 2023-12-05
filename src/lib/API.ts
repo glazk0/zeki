@@ -1,220 +1,293 @@
-import queryString from 'query-string';
+import queryString from "query-string";
 
-import { request } from '../utils/Commons';
-import { PALIA_API_URL } from '../utils/Constants';
-import { Locales } from '../i18n/i18n-types';
-// import { INode } from '../types';
+import { RedisClient } from "../structures/RedisClient.js";
 
-export class API {
-  /**
-   * The version of the API for caching purposes.
-   * @type {string}
-   * @private
-   */
-  private version: string;
+import { request } from "../utils/Commons.js";
+import { PALIA_API_URL, paliaLocales } from "../utils/Constants.js";
 
-  /**
-   * Search for a villager, quest or recipe.
-   *
-   * @param query - The query to search for.
-   * @param type - The type of the query.
-   *
-   * @returns {Promise<ISearchItem[]>} The search results.
-   */
-  public async search(
-    query: string,
-    type: 'villager' | 'quest' | 'recipe' | 'item' | 'accomplishment',
-  ): Promise<ISearchItem[]> {
-    const queries = queryString.stringify(
-      {
-        q: query,
-        type: type,
-      },
-      {
-        skipNull: true,
-      },
-    );
+import { IAccomplishment, IBundle, IEntriesItem, IItem, IQuest, IRecipe, ISearchItem, IVillager, IWeeklyWantsItem } from "../@types/generated.js";
 
-    const data = await request<ISearchItem[]>(
-      `${PALIA_API_URL}/api/search?${queries}`,
-    );
+import { baseLocale } from "../i18n/i18n-util.js";
 
-    if (!data) return [];
+export class API extends RedisClient {
+	/**
+	 * The version of the API for caching purposes.
+	 * @type {string}
+	 * @private
+	 */
+	private version: string;
 
-    return data;
-  }
+	constructor() {
+		super();
 
-  /**
-   * Get a villager by their key.
-   *
-   * @param key - The villager's key.
-   *
-   * @returns {Promise<IVillager | null>} The villager or null if not found.
-   */
-  public async getVillager(key: string): Promise<IVillager | null> {
-    const { villager } = await request<{
-      villager: IVillager;
-    }>(`${PALIA_API_URL}/villager/${key}/api/${this.version}`);
+		this.refreshVersion();
+		setInterval(() => this.refreshVersion(), 1000 * 60 * 60 * 24);
+	}
 
-    if (!villager) return null;
+	/**
+	 * Search for a villager, quest or recipe.
+	 *
+	 * @param query - The query to search for.
+	 * @param type - The type of the query.
+	 *
+	 * @returns {Promise<ISearchItem[] | []>} The search results.
+	 */
+	async search(query: string, type: "villager" | "quest" | "recipe" | "item" | "accomplishment", locale: string = baseLocale): Promise<ISearchItem[] | []> {
+		const queries = queryString.stringify(
+			{
+				q: query,
+				type: type,
+				l: locale,
+			},
+			{
+				skipNull: true,
+			},
+		);
 
-    return villager;
-  }
+		const cacheKey = this.join("search", query, type, locale, this.version);
 
-  /**
-   * Get the weekly wants.
-   *
-   * @param key - The villager's key.
-   *
-   * @returns {Promise<IWeeklyWantsItem | IEntriesItem | null>} The weekly wants or null if not found.
+		const cached = await this.client.get(cacheKey);
 
-   */
-  public async getWeeklyWants(
-    key?: string,
-  ): Promise<IWeeklyWantsItem | IEntriesItem | null> {
-    const data = await request<IWeeklyWantsItem>(
-      `${PALIA_API_URL}/tools/weekly-wants/api/${this.version}`,
-    );
+		if (cached) return JSON.parse(cached);
 
-    if (!data || !data.entries) return null;
+		const data = await request<ISearchItem[]>(`${PALIA_API_URL}/api/search?${queries}`);
 
-    if (key) {
-      const entry = data.entries.find((entry) => entry.villager.key === key);
+		if (!data) return [];
 
-      if (!entry) return null;
+		if (query.length >= 3) await this.client.set(cacheKey, JSON.stringify(data), { EX: 60 * 60 * 24 });
 
-      return entry;
-    }
+		return data;
+	}
 
-    return data;
-  }
+	/**
+	 * Get a villager by their key.
+	 *
+	 * @param key - The villager's key.
+	 *
+	 * @returns {Promise<IVillager | null>} The villager or null if not found.
+	 */
+	async getVillager(key: string, locale?: string): Promise<IVillager | null> {
+		const cacheKey = this.join("villager", key, locale, this.version);
 
-  /**
-   * Get a quest by its key.
-   *
-   * @param key - The quest's key.
-   *
-   * @returns {Promise<IQuest | null>} The quest or null if not found.
-   */
-  public async getQuest(key: string): Promise<IQuest | null> {
-    const { quest } = await request<{
-      quest: IQuest;
-    }>(`${PALIA_API_URL}/quest/${key}/api/${this.version}`);
+		const cached = await this.client.get(cacheKey);
 
-    if (!quest) return null;
+		if (cached) return JSON.parse(cached);
 
-    return quest;
-  }
+		const { villager } = await request<{
+			villager: IVillager;
+		}>(this.url(`villager/${key}`, locale));
 
-  /**
-   * Get a recipe by its key.
-   *
-   * @param key - The recipe's key.
-   *
-   * @returns {Promise<IRecipe | null>} The recipe or null if not found.
-   */
-  public async getRecipe(key: string): Promise<IRecipe | null> {
-    const { recipe } = await request<{
-      recipe: IRecipe;
-    }>(`${PALIA_API_URL}/recipe/${key}/api/${this.version}`);
+		if (!villager) return null;
 
-    if (!recipe) return null;
+		await this.client.set(cacheKey, JSON.stringify(villager), { EX: 60 * 60 * 24 });
 
-    return recipe;
-  }
+		return villager;
+	}
 
-  /**
-   * Get an item by its key.
-   *
-   * @param key - The item's key.
-   *
-   * @returns {Promise<IItem | null>} The item or null if not found.
-   */
-  public async getItem(key: string): Promise<IItem | null> {
-    const { item } = await request<{
-      item: IItem;
-    }>(`${PALIA_API_URL}/item/${key}/api/${this.version}`);
+	/**
+	 * Get the weekly wants.
+	 *
+	 * @param key - The villager's key.
+	 *
+	 * @returns {Promise<IWeeklyWantsItem | IEntriesItem | null>} The weekly wants or null if not found.
 
-    if (!item) return null;
+	 */
+	async getWeeklyWants(key?: string, locale?: string): Promise<IWeeklyWantsItem | IEntriesItem | null> {
+		const data = await request<IWeeklyWantsItem>(this.url("tools/weekly-wants", locale));
 
-    return item;
-  }
+		if (!data || !data.entries) return null;
 
-  /**
-   * Get a bundle by its key.
-   *
-   * @param key - The bundle's key.
-   *
-   * @returns {Promise<IBundle | null>} The bundle or null if not found.
-   */
-  public async getBundle(key: string): Promise<IBundle | null> {
-    const { bundle } = await request<{
-      bundle: IBundle;
-    }>(`${PALIA_API_URL}/bundle/${key}/api/${this.version}`);
+		if (key) {
+			const entry = data.entries.find((entry) => entry.villager.key === key);
 
-    if (!bundle) return null;
+			if (!entry) return null;
 
-    return bundle;
-  }
+			return entry;
+		}
 
-  /**
-   * Get an accomplishment by its key.
-   *
-   * @param key - The accomplishment's key.
-   *
-   * @returns {Promise<IAccomplishment | null>} The accomplishment or null if not found.
-   */
-  public async getAccomplishment(key: string): Promise<IAccomplishment | null> {
-    const { accomplishment } = await request<IAccomplishmentItem>(
-      `${PALIA_API_URL}/accomplishment/${key}/api/${this.version}`,
-    );
+		return data;
+	}
 
-    if (!accomplishment) return null;
+	/**
+	 * Get a quest by its key.
+	 *
+	 * @param key - The quest's key.
+	 *
+	 * @returns {Promise<IQuest | null>} The quest or null if not found.
+	 */
+	async getQuest(key: string, locale?: string): Promise<IQuest | null> {
+		const cacheKey = this.join("quest", key, locale, this.version);
 
-    return accomplishment;
-  }
+		const cached = await this.client.get(cacheKey);
 
-  // /**
-  //  * Get nodes or a node.
-  //  *
-  //  * @param query - The query to find.
-  //  * @param locale - The locale to make the search.
-  //  *
-  //  * @returns {Promise<INode[] | []>} The node(s) or a empty array;
-  //  */
-  // public async getNodes(
-  //   query?: string,
-  //   locale?: Locales,
-  // ): Promise<INode[] | []> {
-  //   const queries = queryString.stringify(
-  //     {
-  //       q: query,
-  //       locale: locale,
-  //     },
-  //     {
-  //       skipNull: true,
-  //     },
-  //   );
+		if (cached) return JSON.parse(cached);
 
-  //   const data = await request<INode[]>(
-  //     `${PALIA_MAP_URL}/api/nodes?${queries}`,
-  //   );
+		const { quest } = await request<{
+			quest: IQuest;
+		}>(this.url(`quest/${key}`, locale));
 
-  //   if (!data) return [];
+		if (!quest) return null;
 
-  //   return data;
-  // }
+		await this.client.set(cacheKey, JSON.stringify(quest), { EX: 60 * 60 * 24 });
 
-  /**
-   * Refresh the version of the API.
-   *
-   * @returns {Promise<void>} Nothing.
-   */
-  public async refreshVersion(): Promise<void> {
-    const { version } = await request<{
-      version: string;
-    }>(`${PALIA_API_URL}/api/version`);
+		return quest;
+	}
 
-    this.version = version;
-  }
+	/**
+	 * Get a recipe by its key.
+	 *
+	 * @param key - The recipe's key.
+	 *
+	 * @returns {Promise<IRecipe | null>} The recipe or null if not found.
+	 */
+	async getRecipe(key: string, locale?: string): Promise<IRecipe | null> {
+		const cacheKey = this.join("recipe", key, locale, this.version);
+
+		const cached = await this.client.get(cacheKey);
+
+		if (cached) return JSON.parse(cached);
+
+		const { recipe } = await request<{
+			recipe: IRecipe;
+		}>(this.url(`recipe/${key}`, locale));
+
+		if (!recipe) return null;
+
+		await this.client.set(cacheKey, JSON.stringify(recipe), { EX: 60 * 60 * 24 });
+
+		return recipe;
+	}
+
+	/**
+	 * Get an item by its key.
+	 *
+	 * @param key - The item's key.
+	 *
+	 * @returns {Promise<IItem | null>} The item or null if not found.
+	 */
+	async getItem(key: string, locale?: string): Promise<IItem | null> {
+		const cacheKey = this.join("item", key, locale, this.version);
+
+		const cached = await this.client.get(cacheKey);
+
+		if (cached) return JSON.parse(cached);
+
+		const { item } = await request<{
+			item: IItem;
+		}>(this.url(`item/${key}`, locale));
+
+		if (!item) return null;
+
+		await this.client.set(cacheKey, JSON.stringify(item), { EX: 60 * 60 * 24 });
+
+		return item;
+	}
+
+	/**
+	 * Get a bundle by its key.
+	 *
+	 * @param key - The bundle's key.
+	 *
+	 * @returns {Promise<IBundle | null>} The bundle or null if not found.
+	 */
+	async getBundle(key: string, locale?: string): Promise<IBundle | null> {
+		const cacheKey = this.join("bundle", key, locale, this.version);
+
+		const cached = await this.client.get(cacheKey);
+
+		if (cached) return JSON.parse(cached);
+
+		const { bundle } = await request<{
+			bundle: IBundle;
+		}>(this.url(`bundle/${key}`, locale));
+
+		if (!bundle) return null;
+
+		await this.client.set(cacheKey, JSON.stringify(bundle), { EX: 60 * 60 * 24 });
+
+		return bundle;
+	}
+
+	/**
+	 * Get an accomplishment by its key.
+	 *
+	 * @param key - The accomplishment's key.
+	 *
+	 * @returns {Promise<IAccomplishment | null>} The accomplishment or null if not found.
+	 */
+	async getAccomplishment(key: string, locale?: string): Promise<IAccomplishment | null> {
+		const cacheKey = this.join("accomplishment", key, locale, this.version);
+
+		const cached = await this.client.get(cacheKey);
+
+		if (cached) return JSON.parse(cached);
+
+		const { accomplishment } = await request<{
+			accomplishment: IAccomplishment;
+		}>(this.url(`accomplishment/${key}`, locale));
+
+		if (!accomplishment) return null;
+
+		await this.client.set(cacheKey, JSON.stringify(accomplishment), { EX: 60 * 60 * 24 });
+
+		return accomplishment;
+	}
+
+	// /**
+	//  * Get nodes or a node.
+	//  *
+	//  * @param query - The query to find.
+	//  * @param locale - The locale to make the search.
+	//  *
+	//  * @returns {Promise<INode[] | []>} The node(s) or a empty array;
+	//  */
+	//  async getNodes(
+	//   query?: string,
+	//   locale?: Locales,
+	// ): Promise<INode[] | []> {
+	//   const queries = queryString.stringify(
+	//     {
+	//       q: query,
+	//       locale: locale,
+	//     },
+	//     {
+	//       skipNull: true,
+	//     },
+	//   );
+
+	//   const data = await request<INode[]>(
+	//     `${PALIA_MAP_URL}/api/nodes?${queries}`,
+	//   );
+
+	//   if (!data) return [];
+
+	//   return data;
+	// }
+
+	/**
+	 * Refresh the version of the API.
+	 *
+	 * @returns {Promise<void>} Nothing.
+	 */
+	private async refreshVersion(): Promise<void> {
+		const { version } = await request<{
+			version: string;
+		}>(`${PALIA_API_URL}/api/version`);
+		this.version = version;
+	}
+
+	/**
+	 * Get the URL for the API.
+	 *
+	 * @param path - The path to the API.
+	 * @param locale - The locale to use.
+	 *
+	 * @returns {string} The URL.
+	 */
+	private url(path: string, locale?: string): string {
+		if (locale && paliaLocales.includes(locale) && locale !== baseLocale) {
+			return `${PALIA_API_URL}/${locale}/${path}/api/${this.version}`;
+		}
+		return `${PALIA_API_URL}/${path}/api/${this.version}`;
+	}
 }

@@ -1,104 +1,96 @@
 {
-  "version": "5",
-  "dialect": "pg",
-  "id": "39403c3a-4f3e-4873-94fd-604a3c111630",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "tables": {
-    "guilds": {
-      "name": "guilds",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "locale": {
-          "name": "locale",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'en'"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "guilds_guild_id_unique": {
-          "name": "guilds_guild_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "guild_id"
-          ]
-        }
-      }
-    },
-    "news": {
-      "name": "news",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "channel": {
-          "name": "channel",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "news_guild_id_guilds_guild_id_fk": {
-          "name": "news_guild_id_guilds_guild_id_fk",
-          "tableFrom": "news",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "news_guild_id_unique": {
-          "name": "news_guild_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "guild_id"
-          ]
-        }
-      }
-    }
-  },
-  "enums": {},
-  "schemas": {},
-  "_meta": {
-    "schemas": {},
-    "tables": {},
-    "columns": {}
-  }
+	"version": "5",
+	"dialect": "pg",
+	"id": "39403c3a-4f3e-4873-94fd-604a3c111630",
+	"prevId": "00000000-0000-0000-0000-000000000000",
+	"tables": {
+		"guilds": {
+			"name": "guilds",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"guild_id": {
+					"name": "guild_id",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"locale": {
+					"name": "locale",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'en'"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"guilds_guild_id_unique": {
+					"name": "guilds_guild_id_unique",
+					"nullsNotDistinct": false,
+					"columns": ["guild_id"]
+				}
+			}
+		},
+		"news": {
+			"name": "news",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"guild_id": {
+					"name": "guild_id",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"channel": {
+					"name": "channel",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"news_guild_id_guilds_guild_id_fk": {
+					"name": "news_guild_id_guilds_guild_id_fk",
+					"tableFrom": "news",
+					"tableTo": "guilds",
+					"columnsFrom": ["guild_id"],
+					"columnsTo": ["guild_id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"news_guild_id_unique": {
+					"name": "news_guild_id_unique",
+					"nullsNotDistinct": false,
+					"columns": ["guild_id"]
+				}
+			}
+		}
+	},
+	"enums": {},
+	"schemas": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	}
 }

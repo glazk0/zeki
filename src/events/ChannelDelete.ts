@@ -1,26 +1,32 @@
-import { ChannelType, DMChannel, Events, GuildChannel } from 'discord.js';
-import { eq } from 'drizzle-orm';
+import { DMChannel, Events, NonThreadGuildBasedChannel } from "discord.js";
+import { eq } from "drizzle-orm";
+import { inject, injectable } from "tsyringe";
 
-import { Event } from '../structures/Event';
+import { Client } from "../structures/Client.js";
+import { Event } from "../structures/Event.js";
 
-import { db } from '../db';
-import { news } from '../db/schema';
+import { clientSymbol } from "../utils/Constants.js";
 
+import { db } from "../db/index.js";
+import { guildsNews } from "../db/schema/index.js";
+
+@injectable()
 export default class ChannelDelete extends Event {
-  constructor() {
-    super('onChannelDelete', Events.ChannelDelete);
-  }
+	constructor(@inject(clientSymbol) private client: Client) {
+		super("onChannelDelete", Events.ChannelDelete);
+	}
 
-  async run(channel: GuildChannel | DMChannel): Promise<void> {
-    if (!this.client.isReady) return;
+	async run(channel: NonThreadGuildBasedChannel | DMChannel): Promise<void> {
+		if (!this.client.isReady) return;
 
-    if (channel.isDMBased() || [ChannelType.GuildVoice].includes(channel.type))
-      return;
+		if (channel.isDMBased() || !channel.isTextBased()) return;
 
-    await db.delete(news).where(eq(news.channel, channel.id));
+		try {
+			await db.delete(guildsNews).where(eq(guildsNews.channel, channel.id));
+		} catch (error) {
+			this.client.logger.error(`Error while deleting a channel from the database: ${error}`);
+		}
 
-    this.client.logger.info(
-      `Channel ${channel.id} deleted in guild ${channel.guildId}.`,
-    );
-  }
+		this.client.logger.info(`Channel ${channel.id} deleted in guild ${channel.guildId}.`);
+	}
 }

@@ -1,132 +1,108 @@
-import 'reflect-metadata';
+import "reflect-metadata";
 
-import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
-import { ClientOptions, Collection, Client as DiscordClient } from 'discord.js';
-import { container } from 'tsyringe';
+import { ClientOptions, Collection, Client as DiscordClient, REST, Routes } from "discord.js";
+import { Logger } from "pino";
+import { container } from "tsyringe";
 
-import { EventHandler } from '../events/EventHandler';
+import { Event } from "./Event.js";
+import { Interaction } from "./Interaction.js";
 
-import { Logger, createLogger } from '../lib/Logger';
-import { registerClientEvents } from '../lib/RegisterEvents';
-import { redis } from '../lib/Redis';
+import { API } from "../lib/API.js";
+import { createLogger } from "../lib/Logger.js";
 
-import { clientSymbol, options } from '../utils/Constants';
-
-import { Interaction } from './Interaction';
-import { API } from '../lib/API';
+import { getFilePaths, importFile } from "../utils/File.js";
 
 export class Client extends DiscordClient {
-  /**
-   * The cluster client.
-   * @type {ClusterClient<DiscordClient>}
-   * @readonly
-   */
-  public readonly cluster: ClusterClient<DiscordClient>;
+	/**
+	 * The logger instance for the shard.
+	 */
+	readonly logger: Logger;
 
-  /**
-   * The event handler.
-   * @type {EventHandler}
-   * @readonly
-   */
-  public readonly eventHandler: EventHandler;
+	/**
+	 * The API that interacts with the Palia API.
+	 */
+	readonly api: API;
 
-  /**
-   * The logger class.
-   * @type {typeof Logger}
-   */
-  public readonly logger: typeof Logger;
+	/**
+	 * The client's interactions mapped by their name.
+	 */
+	readonly interactions: Collection<string, Interaction>;
 
-  /**
-   * The redis cache.
-   * @type {typeof redis}
-   * @readonly
-   */
-  public readonly cache: typeof redis;
+	/**
+	 * @param options - The client options.
+	 */
+	constructor(options: ClientOptions) {
+		super(options);
 
-  /**
-   * The API that interacts with the Palia API.
-   * @type {API}
-   * @readonly
-   */
-  public readonly api: API;
+		this.logger = createLogger(this.shard?.ids[0].toString());
 
-  /**
-   * The client's interactions.
-   * @type {Collection<string, Interaction>}
-   */
-  public interactions: Collection<string, Interaction>;
+		this.api = new API();
 
-  /**
-   * Creates a new client.
-   *
-   * @param options - The client options.
-   */
-  constructor(options: ClientOptions) {
-    super({
-      shards: getInfo().SHARD_LIST,
-      shardCount: getInfo().TOTAL_SHARDS,
-      ...options,
-    });
+		this.interactions = new Collection();
+	}
 
-    container.register(clientSymbol, { useValue: this });
+	/**
+	 * Initializes the client.
+	 *
+	 * @returns {Promise<this>} The client.
+	 */
+	async init(): Promise<void> {
+		try {
+			await this.api.connect();
+			await this.registerInteractions();
+			await this.registerEvents();
+			await this.login(process.env.TOKEN);
+			await this.registerCommands();
+		} catch (error) {
+			this.logger.error(error);
+			process.exit(1);
+		}
+	}
 
-    this.cluster = new ClusterClient(this);
+	private async registerInteractions(): Promise<void> {
+		const filePaths = getFilePaths("interactions/**/*.js");
 
-    this.eventHandler = new EventHandler();
+		for (const filePath of filePaths) {
+			const file = await importFile(filePath);
+			const interaction = container.resolve<Interaction>(file);
 
-    this.cache = redis;
+			if (!interaction.enabled) continue;
 
-    this.api = new API();
+			this.logger.info(`Loaded interaction ${interaction.command.name} from ${interaction.category} category`);
 
-    this.logger = createLogger(String(this.cluster.id));
-  }
+			this.interactions.set(interaction.command.name, interaction);
+		}
+	}
 
-  /**
-   * Initializes the client.
-   *
-   * @returns {Promise<this>} The client.
-   */
-  public async init(): Promise<this> {
-    await this.eventHandler.init();
+	private async registerEvents(): Promise<void> {
+		const filePaths = getFilePaths("events/**/*.js");
 
-    await registerClientEvents();
+		for (const filePath of filePaths) {
+			const file = await importFile(filePath);
+			const event = container.resolve<Event>(file);
 
-    await this.cache.connect();
+			this.logger.info(`Loaded event ${event.id}`);
 
-    try {
-      await super.login(process.env.TOKEN);
-    } catch (err) {
-      this.logger.error(err);
-      process.exit(1);
-    }
+			if (event.once) this.once(event.event, (...args) => event.run(...args));
+			else this.on(event.event, (...args) => event.run(...args));
+		}
+	}
 
-    return this;
-  }
+	private async registerCommands(): Promise<void> {
+		const rest = new REST().setToken(process.env.TOKEN);
 
-  /**
-   * Destroys the client.
-   */
-  public async destroy(): Promise<void> {
-    await super.destroy();
-    process.exit(0);
-  }
+		try {
+			this.logger.info(`Started refreshing ${this.interactions.size} application (/) commands`);
 
-  /**
-   * Sets the interactions.
-   *
-   * @param interactions - The interactions.
-   */
-  public setInteractions(interactions: Collection<string, Interaction>): void {
-    this.interactions = interactions;
-  }
+			const body = this.interactions.map((interaction) => interaction.command);
+
+			await rest.put(Routes.applicationCommands(this.application?.id as string), {
+				body,
+			});
+
+			this.logger.info(`Successfully reloaded ${this.interactions.size} application (/) commands`);
+		} catch (error) {
+			this.logger.error(error);
+		}
+	}
 }
-
-/**
- * Let the ClusterManager spawn the client.
- *
- * TODO : Change this to a better way to spawn the client.
- */
-(async () => {
-  const bot = new Client(options);
-  await bot.init();
-})();

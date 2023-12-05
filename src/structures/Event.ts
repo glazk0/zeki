@@ -1,53 +1,34 @@
-import { Events } from 'discord.js';
-import { container } from 'tsyringe';
+import { ClientEvents } from "discord.js";
 
-import { Client } from './Client';
+export abstract class Event {
+	/**
+	 * Event identifier.
+	 */
+	readonly id: string;
 
-import { clientSymbol } from '../utils/Constants';
+	/**
+	 * Event to trigger.
+	 */
+	readonly event: keyof ClientEvents;
 
-export class Event {
-  /**
-   * The client.
-   * @type {Client}
-   * @readonly
-   */
-  readonly client: Client;
+	/**
+	 * Whether the event should only be triggered once.
+	 */
+	readonly once: boolean;
 
-  /**
-   * Event identifier.
-   * @type {string}
-   * @readonly
-   */
-  readonly id: string;
+	/**
+	 * @param id - Event identifier.
+	 * @param event - Event to trigger.
+	 * @param once - Whether the event should only be triggered once.
+	 */
+	constructor(id: string, event: keyof ClientEvents, once = false) {
+		this.id = id;
+		this.event = event;
+		this.once = once;
+	}
 
-  /**
-   * Event to trigger.
-   * @type {Events}
-   * @readonly
-   */
-  readonly event: Events;
-
-  /**
-   * Creates a new event.
-   *
-   * @param client - The client.
-   * @param id - The event identifier.
-   * @param event - The event to trigger.
-   */
-  constructor(id: string, event: Events) {
-    this.client = container.resolve<Client>(clientSymbol);
-
-    this.id = id;
-
-    this.event = event;
-  }
-
-  /**
-   * Runs the event.
-   *
-   * @param args - The arguments.
-   */
-  async run(...args: any[]): Promise<void> {
-    throw new Error(`Event ${this.id} doesn't provide a run method.`);
-  }
+	/**
+	 * @param args - The arguments.
+	 */
+	abstract run(...args: any[]): Promise<void>;
 }

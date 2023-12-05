@@ -1,12 +1,18 @@
-import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
+import { index, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
-import { guilds } from './Guild';
-
-export const news = pgTable('news', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  guildId: varchar('guild_id')
-    .unique()
-    .notNull()
-    .references(() => guilds.guildId),
-  channel: varchar('channel').notNull(),
-});
+export const news = pgTable(
+	"news",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		key: varchar("key").notNull(),
+		title: varchar("title").notNull(),
+		locale: varchar("locale").default("en").notNull(),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+	},
+	(table) => {
+		return {
+			keyIndex: index("key_index").on(table.key),
+			localeIndex: index("locale_index").on(table.locale),
+		};
+	},
+);

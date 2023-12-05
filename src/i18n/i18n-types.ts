@@ -7,131 +7,31 @@ export type BaseLocale = 'en'
 
 export type Locales =
 	| 'en'
-	| 'nl'
 
 export type Translation = RootTranslation & DisallowNamespaces
 
 export type Translations = RootTranslation &
 {
-	commands: NamespaceCommandsTranslation
+	discord: NamespaceDiscordTranslation,
+	embeds: NamespaceEmbedsTranslation,
+	interactions: NamespaceInteractionsTranslation
 }
 
 type RootTranslation = {
-	embeds: {
-		help: {
-			/**
-			 * {​u​s​e​r​n​a​m​e​}​'​s​ ​c​o​m​m​a​n​d​s
-			 * @param {unknown} username
-			 */
-			title: RequiredParams<'username'>
-			/**
-			 * H​e​r​e​ ​i​s​ ​a​ ​l​i​s​t​ ​o​f​ ​a​l​l​ ​m​y​ ​c​o​m​m​a​n​d​s​.
-			 */
-			description: string
-		}
-		info: {
-			/**
-			 * {​u​s​e​r​n​a​m​e​}​ ​i​s​ ​a​n​ ​i​n​t​u​i​t​i​v​e​ ​a​n​d​ ​u​s​e​r​-​f​r​i​e​n​d​l​y​ ​D​i​s​c​o​r​d​ ​b​o​t​ ​c​o​n​n​e​c​t​e​d​ ​t​o​ ​h​t​t​p​s​:​/​/​p​a​l​i​a​p​e​d​i​a​.​c​o​m​ ​a​n​d​ ​h​a​s​ ​b​e​e​n​ ​c​r​e​a​t​e​d​ ​b​y​ ​[​g​l​a​z​k​0​]​(​d​i​s​c​o​r​d​:​/​/​-​/​u​s​e​r​s​/​2​4​7​3​4​4​1​3​0​7​9​8​2​5​6​1​3​0​)​.
-			 * @param {unknown} username
-			 */
-			description: RequiredParams<'username'>
-			/**
-			 * S​t​a​t​i​s​t​i​c​s
-			 */
-			statistics_name: string
-			/**
-			 * S​e​r​v​e​r​s​:​ ​{​s​e​r​v​e​r​s​}​
-		​U​s​e​r​s​:​ ​{​u​s​e​r​s​}
-			 * @param {unknown} servers
-			 * @param {unknown} users
-			 */
-			statistics_value: RequiredParams<'servers' | 'users'>
-			/**
-			 * D​e​b​u​g
-			 */
-			debug_name: string
-			/**
-			 * C​l​u​s​t​e​r​s​:​ ​{​c​l​u​s​t​e​r​s​}​
-		​S​h​a​r​d​s​:​ ​{​s​h​a​r​d​s​}​
-		​S​h​a​r​d​I​D​:​ ​{​s​h​a​r​d​I​d​}​
-		​C​l​u​s​t​e​r​I​D​:​ ​{​c​l​u​s​t​e​r​I​d​}
-			 * @param {unknown} clusterId
-			 * @param {unknown} clusters
-			 * @param {unknown} shardId
-			 * @param {unknown} shards
-			 */
-			debug_value: RequiredParams<'clusterId' | 'clusters' | 'shardId' | 'shards'>
-		}
-	}
-	interactions: {
-		settings: {
-			news: {
-				/**
-				 * N​e​w​s​ ​w​i​l​l​ ​n​o​w​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
-				 * @param {unknown} channel
-				 */
-				enabled: RequiredParams<'channel'>
-				/**
-				 * N​e​w​s​ ​a​r​e​ ​n​o​t​ ​e​n​a​b​l​e​d​ ​f​o​r​ ​t​h​i​s​ ​s​e​r​v​e​r​.
-				 */
-				not_enabled: string
-				/**
-				 * N​e​w​s​ ​w​i​l​l​ ​n​o​ ​l​o​n​g​e​r​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
-				 * @param {unknown} channel
-				 */
-				disabled: RequiredParams<'channel'>
-			}
-			weekly_wants: {
-				/**
-				 * W​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​w​i​l​l​ ​n​o​w​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
-				 * @param {unknown} channel
-				 */
-				enabled: RequiredParams<'channel'>
-				/**
-				 * W​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​a​r​e​ ​n​o​t​ ​e​n​a​b​l​e​d​ ​f​o​r​ ​t​h​i​s​ ​s​e​r​v​e​r​.
-				 */
-				not_enabled: string
-				/**
-				 * W​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​w​i​l​l​ ​n​o​ ​l​o​n​g​e​r​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
-				 * @param {unknown} channel
-				 */
-				disabled: RequiredParams<'channel'>
-			}
-			locale: {
-				/**
-				 * T​h​e​ ​l​o​c​a​l​e​ ​h​a​s​ ​b​e​e​n​ ​s​e​t​ ​t​o​ ​{​l​o​c​a​l​e​}​.
-				 * @param {unknown} locale
-				 */
-				success: RequiredParams<'locale'>
-			}
-		}
-		miscellaneous: {
-			/**
-			 * I​ ​d​o​n​'​t​ ​h​a​v​e​ ​t​h​e​ ​p​e​r​m​i​s​s​i​o​n​ ​t​o​ ​v​i​e​w​ ​o​r​ ​s​e​n​d​ ​m​e​s​s​a​g​e​s​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
-			 * @param {unknown} channel
-			 */
-			no_permissions: RequiredParams<'channel'>
-			/**
-			 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​.
-			 */
-			no_results: string
-			/**
-			 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​ ​f​o​r​ ​"​{​q​u​e​r​y​}​"​.
-			 * @param {unknown} query
-			 */
-			no_results_for: RequiredParams<'query'>
-		}
-	}
+	/**
+	 * e​n
+	 */
+	locale: string
 }
 
-export type NamespaceCommandsTranslation = {
+export type NamespaceDiscordTranslation = {
 	settings: {
 		/**
 		 * s​e​t​t​i​n​g​s
 		 */
 		name: string
 		/**
-		 * M​a​n​a​g​e​ ​y​o​u​r​ ​s​e​r​v​e​r​ ​s​e​t​t​i​n​g​s​.
+		 * A​c​c​e​s​s​ ​a​n​d​ ​m​a​n​a​g​e​ ​y​o​u​r​ ​s​e​r​v​e​r​ ​s​e​t​t​i​n​g​s​.
 		 */
 		description: string
 	}
@@ -141,7 +41,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * C​h​a​n​g​e​ ​t​h​e​ ​l​o​c​a​l​e​ ​o​f​ ​Z​e​k​i​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 * C​h​a​n​g​e​ ​t​h​e​ ​l​a​n​g​u​a​g​e​ ​s​e​t​t​i​n​g​s​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
 		 */
 		description: string
 	}
@@ -151,7 +51,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * W​h​i​c​h​ ​l​o​c​a​l​e​ ​d​o​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​e​t​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​?
+		 * S​p​e​c​i​f​y​ ​t​h​e​ ​p​r​e​f​e​r​r​e​d​ ​l​a​n​g​u​a​g​e​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
 		 */
 		description: string
 	}
@@ -161,7 +61,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * M​a​n​a​g​e​ ​t​h​e​ ​n​e​w​s​ ​s​e​t​t​i​n​g​s​ ​o​f​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 * C​o​n​t​r​o​l​ ​t​h​e​ ​n​e​w​s​ ​s​e​t​t​i​n​g​s​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
 		 */
 		description: string
 	}
@@ -171,7 +71,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * E​n​a​b​l​e​ ​t​h​e​ ​n​e​w​s​ ​f​e​a​t​u​r​e​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 * A​c​t​i​v​a​t​e​ ​t​h​e​ ​n​e​w​s​ ​f​e​a​t​u​r​e​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
 		 */
 		description: string
 	}
@@ -181,7 +81,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * T​h​e​ ​c​h​a​n​n​e​l​ ​w​h​e​r​e​ ​n​e​w​s​ ​w​i​l​l​ ​b​e​ ​s​e​n​t​.
+		 * D​e​s​i​g​n​a​t​e​ ​t​h​e​ ​c​h​a​n​n​e​l​ ​w​h​e​r​e​ ​n​e​w​s​ ​u​p​d​a​t​e​s​ ​w​i​l​l​ ​b​e​ ​p​o​s​t​e​d​.
 		 */
 		description: string
 	}
@@ -191,67 +91,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * D​i​s​a​b​l​e​ ​t​h​e​ ​n​e​w​s​ ​f​e​a​t​u​r​e​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
-		 */
-		description: string
-	}
-	'settings.weekly-wants': {
-		/**
-		 * w​e​e​k​l​y​-​w​a​n​t​s
-		 */
-		name: string
-		/**
-		 * M​a​n​a​g​e​ ​t​h​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​o​f​ ​y​o​u​r​ ​s​e​r​v​e​r​.
-		 */
-		description: string
-	}
-	'settings.weekly-wants.enable': {
-		/**
-		 * e​n​a​b​l​e
-		 */
-		name: string
-		/**
-		 * E​n​a​b​l​e​ ​t​h​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
-		 */
-		description: string
-	}
-	'settings.weekly-wants.enable.channel': {
-		/**
-		 * c​h​a​n​n​e​l
-		 */
-		name: string
-		/**
-		 * T​h​e​ ​c​h​a​n​n​e​l​ ​w​h​e​r​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​w​i​l​l​ ​b​e​ ​s​e​n​t​.
-		 */
-		description: string
-	}
-	'settings.weekly-wants.enable.daily': {
-		/**
-		 * d​a​i​l​y
-		 */
-		name: string
-		/**
-		 * W​o​u​l​d​ ​y​o​u​ ​l​i​k​e​ ​t​o​ ​r​e​c​e​i​v​e​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​f​o​r​ ​d​a​i​l​y​ ​r​e​f​r​e​s​h​e​s​?​ ​(​T​r​u​e​ ​f​o​r​ ​y​e​s​,​ ​F​a​l​s​e​ ​f​o​r​ ​n​o​)
-		 */
-		description: string
-	}
-	'settings.weekly-wants.enable.weekly': {
-		/**
-		 * w​e​e​k​l​y
-		 */
-		name: string
-		/**
-		 * W​o​u​l​d​ ​y​o​u​ ​l​i​k​e​ ​t​o​ ​r​e​c​e​i​v​e​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​f​o​r​ ​w​e​e​k​l​y​ ​r​e​f​r​e​s​h​e​s​?​ ​(​T​r​u​e​ ​f​o​r​ ​y​e​s​,​ ​F​a​l​s​e​ ​f​o​r​ ​n​o​)
-		 */
-		description: string
-	}
-	'settings.weekly-wants.disable': {
-		/**
-		 * d​i​s​a​b​l​e
-		 */
-		name: string
-		/**
-		 * D​i​s​a​b​l​e​ ​t​h​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​n​o​t​i​f​i​c​a​t​i​o​n​s​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
+		 * D​e​a​c​t​i​v​a​t​e​ ​t​h​e​ ​n​e​w​s​ ​f​e​a​t​u​r​e​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r​.
 		 */
 		description: string
 	}
@@ -261,7 +101,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * D​i​s​p​l​a​y​s​ ​a​l​l​ ​o​f​ ​Z​e​k​i​'​s​ ​c​o​m​m​a​n​d​s​.
+		 * D​i​s​p​l​a​y​ ​a​ ​c​o​m​p​r​e​h​e​n​s​i​v​e​ ​l​i​s​t​ ​o​f​ ​Z​e​k​i​'​s​ ​a​v​a​i​l​a​b​l​e​ ​c​o​m​m​a​n​d​s​.
 		 */
 		description: string
 	}
@@ -271,27 +111,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * D​i​s​p​l​a​y​s​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​Z​e​k​i​.
-		 */
-		description: string
-	}
-	search: {
-		/**
-		 * s​e​a​r​c​h
-		 */
-		name: string
-		/**
-		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​n​y​ ​t​y​p​e​ ​o​f​ ​d​a​t​a​.
-		 */
-		description: string
-	}
-	'search.query': {
-		/**
-		 * q​u​e​r​y
-		 */
-		name: string
-		/**
-		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 * R​e​t​r​i​e​v​e​ ​d​e​t​a​i​l​e​d​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​Z​e​k​i​.
 		 */
 		description: string
 	}
@@ -301,7 +121,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​ ​q​u​e​s​t​.
+		 * S​e​a​r​c​h​ ​f​o​r​ ​q​u​e​s​t​s​ ​a​n​d​ ​r​e​l​a​t​e​d​ ​i​n​f​o​r​m​a​t​i​o​n​.
 		 */
 		description: string
 	}
@@ -311,7 +131,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 * W​h​a​t​ ​q​u​e​s​t​ ​a​r​e​ ​y​o​u​ ​l​o​o​k​i​n​g​ ​f​o​r​?
 		 */
 		description: string
 	}
@@ -321,7 +141,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​ ​v​i​l​l​a​g​e​r​.
+		 * L​o​o​k​ ​u​p​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​s​p​e​c​i​f​i​c​ ​v​i​l​l​a​g​e​r​s​.
 		 */
 		description: string
 	}
@@ -331,7 +151,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 * W​h​a​t​ ​v​i​l​l​a​g​e​r​ ​a​r​e​ ​y​o​u​ ​l​o​o​k​i​n​g​ ​f​o​r​?
 		 */
 		description: string
 	}
@@ -341,7 +161,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​ ​r​e​c​i​p​e​.
+		 * S​e​a​r​c​h​ ​f​o​r​ ​c​r​a​f​t​i​n​g​ ​r​e​c​i​p​e​s​ ​a​n​d​ ​c​r​a​f​t​i​n​g​ ​d​e​t​a​i​l​s​.
 		 */
 		description: string
 	}
@@ -351,7 +171,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 * W​h​a​t​ ​r​e​c​i​p​e​ ​a​r​e​ ​y​o​u​ ​l​o​o​k​i​n​g​ ​f​o​r​?
 		 */
 		description: string
 	}
@@ -361,7 +181,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * T​h​e​ ​a​m​o​u​n​t​ ​o​f​ ​i​t​e​m​s​ ​t​o​ ​c​r​a​f​t​.
+		 * D​e​t​e​r​m​i​n​e​ ​t​h​e​ ​q​u​a​n​t​i​t​y​ ​o​f​ ​i​t​e​m​s​ ​t​o​ ​c​r​a​f​t​.
 		 */
 		description: string
 	}
@@ -371,7 +191,7 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * S​e​a​r​c​h​e​s​ ​f​o​r​ ​a​n​ ​i​t​e​m​.
+		 * S​e​a​r​c​h​ ​f​o​r​ ​i​t​e​m​s​ ​a​n​d​ ​i​t​e​m​ ​d​e​t​a​i​l​s​.
 		 */
 		description: string
 	}
@@ -381,24 +201,614 @@ export type NamespaceCommandsTranslation = {
 		 */
 		name: string
 		/**
-		 * T​h​e​ ​q​u​e​r​y​ ​t​o​ ​s​e​a​r​c​h​ ​f​o​r​.
+		 * W​h​a​t​ ​i​t​e​m​ ​a​r​e​ ​y​o​u​ ​l​o​o​k​i​n​g​ ​f​o​r​?
+		 */
+		description: string
+	}
+	weekly: {
+		/**
+		 * w​e​e​k​l​y
+		 */
+		name: string
+		/**
+		 * R​e​t​r​i​e​v​e​ ​w​e​e​k​l​y​ ​p​r​e​f​e​r​e​n​c​e​s​ ​a​n​d​ ​w​a​n​t​s​ ​o​f​ ​v​i​l​l​a​g​e​r​s​.
+		 */
+		description: string
+	}
+	bundle: {
+		/**
+		 * b​u​n​d​l​e
+		 */
+		name: string
+		/**
+		 * S​e​a​r​c​h​ ​f​o​r​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​b​u​n​d​l​e​s​ ​a​n​d​ ​t​h​e​i​r​ ​c​o​n​t​e​n​t​s​.
+		 */
+		description: string
+	}
+	'bundle.query': {
+		/**
+		 * q​u​e​r​y
+		 */
+		name: string
+		/**
+		 * W​h​a​t​ ​b​u​n​d​l​e​ ​a​r​e​ ​y​o​u​ ​l​o​o​k​i​n​g​ ​f​o​r​?
+		 */
+		description: string
+	}
+	accomplishment: {
+		/**
+		 * a​c​c​o​m​p​l​i​s​h​m​e​n​t
+		 */
+		name: string
+		/**
+		 * S​e​a​r​c​h​ ​f​o​r​ ​a​c​c​o​m​p​l​i​s​h​m​e​n​t​s​ ​a​n​d​ ​a​c​h​i​e​v​e​m​e​n​t​ ​d​e​t​a​i​l​s​.
+		 */
+		description: string
+	}
+	'accomplishment.query': {
+		/**
+		 * q​u​e​r​y
+		 */
+		name: string
+		/**
+		 * W​h​a​t​ ​a​c​c​o​m​p​l​i​s​h​m​e​n​t​ ​a​r​e​ ​y​o​u​ ​l​o​o​k​i​n​g​ ​f​o​r​?
 		 */
 		description: string
 	}
 }
 
+export type NamespaceEmbedsTranslation = {
+	help: {
+		/**
+		 * {​u​s​e​r​n​a​m​e​}​'​s​ ​c​o​m​m​a​n​d​s
+		 * @param {unknown} username
+		 */
+		title: RequiredParams<'username'>
+		/**
+		 * H​e​r​e​ ​i​s​ ​a​ ​l​i​s​t​ ​o​f​ ​a​l​l​ ​m​y​ ​c​o​m​m​a​n​d​s​.​ ​I​f​ ​y​o​u​ ​n​e​e​d​ ​m​o​r​e​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​a​ ​c​o​m​m​a​n​d​,​ ​u​s​e​ ​`​/​h​e​l​p​ ​<​c​o​m​m​a​n​d​>​`​.
+		 */
+		description: string
+	}
+	about: {
+		/**
+		 * {​u​s​e​r​n​a​m​e​}​ ​i​s​ ​a​n​ ​i​n​t​u​i​t​i​v​e​ ​a​n​d​ ​u​s​e​r​-​f​r​i​e​n​d​l​y​ ​D​i​s​c​o​r​d​ ​b​o​t​ ​c​o​n​n​e​c​t​e​d​ ​t​o​ ​h​t​t​p​s​:​/​/​p​a​l​i​a​p​e​d​i​a​.​c​o​m​ ​a​n​d​ ​h​a​s​ ​b​e​e​n​ ​c​r​e​a​t​e​d​ ​b​y​ ​{​d​e​v​e​l​o​p​e​r​s​}​.
+		 * @param {unknown} developers
+		 * @param {unknown} username
+		 */
+		description: RequiredParams<'developers' | 'username'>
+		/**
+		 * S​t​a​t​i​s​t​i​c​s
+		 */
+		statistics_name: string
+		/**
+		 * S​e​r​v​e​r​s​:​ ​{​s​e​r​v​e​r​s​}​
+	​U​s​e​r​s​:​ ​{​u​s​e​r​s​}
+		 * @param {unknown} servers
+		 * @param {unknown} users
+		 */
+		statistics_value: RequiredParams<'servers' | 'users'>
+		/**
+		 * D​e​b​u​g
+		 */
+		debug_name: string
+		/**
+		 * S​h​a​r​d​s​:​ ​{​s​h​a​r​d​s​}​
+	​S​h​a​r​d​I​D​:​ ​{​s​h​a​r​d​I​d​}
+		 * @param {unknown} shardId
+		 * @param {unknown} shards
+		 */
+		debug_value: RequiredParams<'shardId' | 'shards'>
+	}
+	item: {
+		/**
+		 * C​a​t​e​g​o​r​y
+		 */
+		category: string
+		/**
+		 * R​a​r​i​t​y
+		 */
+		rarity: string
+		/**
+		 * Q​u​a​l​i​t​y
+		 */
+		quality: string
+		/**
+		 * C​o​s​t
+		 */
+		cost: string
+		/**
+		 * V​a​l​u​e
+		 */
+		value: string
+		/**
+		 * S​o​l​d​ ​a​t
+		 */
+		sold_at: string
+		/**
+		 * C​r​a​f​t​e​d​ ​b​y
+		 */
+		crafted_by: string
+		/**
+		 * G​a​t​h​e​r​e​d​ ​f​r​o​m
+		 */
+		gathered_from: string
+		/**
+		 * Q​u​e​s​t​ ​r​e​w​a​r​d​ ​f​r​o​m
+		 */
+		quest_reward_from: string
+		/**
+		 * A​t​t​a​c​h​e​d​ ​t​o
+		 */
+		attached_to: string
+		/**
+		 * O​b​t​a​i​n​e​d​ ​b​y​ ​r​e​a​d​i​n​g
+		 */
+		obtained_by_reading: string
+		/**
+		 * R​e​w​a​r​d​ ​f​r​o​m
+		 */
+		reward_from: string
+		/**
+		 * O​b​t​a​i​n​e​d​ ​f​r​o​m
+		 */
+		obtained_from: string
+		/**
+		 * T​e​a​c​h​e​s​ ​r​e​c​i​p​e
+		 */
+		teaches_recipe: string
+		/**
+		 * N​e​e​d​e​d​ ​f​o​r​ ​q​u​e​s​t
+		 */
+		needed_for_quest: string
+		/**
+		 * C​o​n​t​a​i​n​s​ ​i​t​e​m
+		 */
+		contains_item: string
+	}
+	quest: {
+		/**
+		 * S​t​a​r​t​s​ ​w​i​t​h
+		 */
+		starts_with: string
+		/**
+		 * R​e​q​u​i​r​e​m​e​n​t
+		 */
+		requirement: string
+		/**
+		 * R​e​q​u​i​r​e​m​e​n​t​s
+		 */
+		requirements: string
+		/**
+		 * C​o​m​p​l​e​t​e​ ​{​c​o​u​n​t​}​ ​o​f​ ​t​h​e​ ​f​o​l​l​o​w​i​n​g
+		 * @param {unknown} count
+		 */
+		branching_goals: RequiredParams<'count'>
+		/**
+		 * T​u​r​n​ ​i​n
+		 */
+		turn_in: string
+		/**
+		 * Q​u​e​s​t​ ​r​e​t​u​r​n
+		 */
+		quest_return: string
+		/**
+		 * R​e​w​a​r​d
+		 */
+		reward: string
+		/**
+		 * R​e​w​a​r​d​s
+		 */
+		rewards: string
+		/**
+		 * x​{​a​m​o​u​n​t​}​ ​F​r​i​e​n​d​s​h​i​p​ ​P​o​i​n​t​s​ ​w​i​t​h​ ​{​v​i​l​l​a​g​e​r​}
+		 * @param {unknown} amount
+		 * @param {unknown} villager
+		 */
+		friendship_points: RequiredParams<'amount' | 'villager'>
+		/**
+		 * x​{​a​m​o​u​n​t​}​ ​R​o​m​a​n​c​e​ ​P​o​i​n​t​s​ ​w​i​t​h​ ​{​v​i​l​l​a​g​e​r​}
+		 * @param {unknown} amount
+		 * @param {unknown} villager
+		 */
+		romance_points: RequiredParams<'amount' | 'villager'>
+		/**
+		 * {​v​i​l​l​a​g​e​r​}​'​s​ ​m​a​i​l
+		 * @param {unknown} villager
+		 */
+		mail_message: RequiredParams<'villager'>
+		/**
+		 * A​ ​v​i​s​i​t​ ​f​r​o​m​ ​{​v​i​l​l​a​g​e​r​}
+		 * @param {unknown} villager
+		 */
+		visit_from: RequiredParams<'villager'>
+	}
+	recipe: {
+		/**
+		 * C​o​s​t
+		 */
+		cost: string
+		/**
+		 * C​r​a​f​t​ ​t​i​m​e
+		 */
+		craft_time: string
+		/**
+		 * R​e​q​u​i​r​e​d​ ​i​n​g​r​e​d​i​e​n​t​s
+		 */
+		required_ingredients: string
+		/**
+		 * P​r​o​d​u​c​e​s
+		 */
+		produces: string
+		/**
+		 * S​o​l​d​ ​a​t
+		 */
+		sold_at: string
+		/**
+		 * V​e​n​d​o​r​s
+		 */
+		vendors: string
+		/**
+		 * G​a​t​h​e​r​a​b​l​e​s
+		 */
+		gatherables: string
+		/**
+		 * M​a​i​l
+		 */
+		mail: string
+		/**
+		 * R​e​c​i​p​e​s
+		 */
+		recipes: string
+	}
+	villager: {
+		/**
+		 * G​i​f​t​ ​p​r​e​f​e​r​e​n​c​e​s
+		 */
+		gift_preferences: string
+		/**
+		 * W​e​e​k​l​y​ ​w​a​n​t​s
+		 */
+		weekly_wants: string
+		/**
+		 * {​t​y​p​e​}​ ​l​e​v​e​l​ ​{​l​e​v​e​l​}​ ​-​ ​{​l​e​v​e​l​N​a​m​e​}​ ​(​R​e​q​u​i​r​e​s​ ​{​r​e​q​u​i​r​e​d​V​a​l​u​e​}​)
+		 * @param {unknown} level
+		 * @param {unknown} levelName
+		 * @param {unknown} requiredValue
+		 * @param {unknown} type
+		 */
+		relationship: RequiredParams<'level' | 'levelName' | 'requiredValue' | 'type'>
+	}
+	weekly_wants: {
+		/**
+		 * W​e​e​k​l​y​ ​W​a​n​t​s​ ​R​o​t​a​t​i​o​n
+		 */
+		title: string
+		/**
+		 * T​h​e​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​r​o​t​a​t​i​o​n​ ​f​o​r​ ​{​d​a​t​e​}​ ​i​s​ ​n​o​w​ ​a​v​a​i​l​a​b​l​e​!​ ​Y​o​u​ ​c​a​n​ ​f​i​n​d​ ​t​h​e​ ​f​u​l​l​ ​l​i​s​t​ ​o​f​ ​w​e​e​k​l​y​ ​w​a​n​t​s​ ​o​n​ ​{​u​r​l​}​.
+		 * @param {unknown} date
+		 * @param {unknown} url
+		 */
+		description: RequiredParams<'date' | 'url'>
+	}
+	miscellaneous: {
+		/**
+		 * S​e​e​ ​{​c​o​u​n​t​}​ ​m​o​r​e​ ​.​.​.
+		 * @param {unknown} count
+		 */
+		see_more: RequiredParams<'count'>
+		/**
+		 * N​o​ ​d​a​t​a​ ​a​v​a​i​l​a​b​l​e​.
+		 */
+		no_data: string
+	}
+}
+
+export type NamespaceInteractionsTranslation = {
+	settings: {
+		news: {
+			/**
+			 * N​e​w​s​ ​w​i​l​l​ ​n​o​w​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+			 * @param {unknown} channel
+			 */
+			enabled: RequiredParams<'channel'>
+			/**
+			 * N​e​w​s​ ​a​r​e​ ​n​o​t​ ​e​n​a​b​l​e​d​ ​f​o​r​ ​t​h​i​s​ ​s​e​r​v​e​r​.
+			 */
+			not_enabled: string
+			/**
+			 * N​e​w​s​ ​w​i​l​l​ ​n​o​ ​l​o​n​g​e​r​ ​b​e​ ​s​e​n​t​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+			 * @param {unknown} channel
+			 */
+			disabled: RequiredParams<'channel'>
+		}
+		locale: {
+			/**
+			 * T​h​e​ ​l​o​c​a​l​e​ ​h​a​s​ ​b​e​e​n​ ​s​e​t​ ​t​o​ ​{​l​o​c​a​l​e​}​.
+			 * @param {unknown} locale
+			 */
+			success: RequiredParams<'locale'>
+		}
+	}
+	miscellaneous: {
+		/**
+		 * I​ ​d​o​n​'​t​ ​h​a​v​e​ ​t​h​e​ ​p​e​r​m​i​s​s​i​o​n​ ​t​o​ ​v​i​e​w​ ​o​r​ ​s​e​n​d​ ​m​e​s​s​a​g​e​s​ ​i​n​ ​{​c​h​a​n​n​e​l​}​.
+		 * @param {unknown} channel
+		 */
+		no_permissions: RequiredParams<'channel'>
+		/**
+		 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​.
+		 */
+		no_results: string
+		/**
+		 * N​o​ ​r​e​s​u​l​t​s​ ​f​o​u​n​d​ ​f​o​r​ ​"​{​q​u​e​r​y​}​"​.
+		 * @param {unknown} query
+		 */
+		no_results_for: RequiredParams<'query'>
+	}
+}
+
 export type Namespaces =
-	| 'commands'
+	| 'discord'
+	| 'embeds'
+	| 'interactions'
 
 type DisallowNamespaces = {
 	/**
-	 * reserved for 'commands'-namespace\
-	 * you need to use the `./commands/index.ts` file instead
+	 * reserved for 'discord'-namespace\
+	 * you need to use the `./discord/index.ts` file instead
 	 */
-	commands?: "[typesafe-i18n] reserved for 'commands'-namespace. You need to use the `./commands/index.ts` file instead."
+	discord?: "[typesafe-i18n] reserved for 'discord'-namespace. You need to use the `./discord/index.ts` file instead."
+
+	/**
+	 * reserved for 'embeds'-namespace\
+	 * you need to use the `./embeds/index.ts` file instead
+	 */
+	embeds?: "[typesafe-i18n] reserved for 'embeds'-namespace. You need to use the `./embeds/index.ts` file instead."
+
+	/**
+	 * reserved for 'interactions'-namespace\
+	 * you need to use the `./interactions/index.ts` file instead
+	 */
+	interactions?: "[typesafe-i18n] reserved for 'interactions'-namespace. You need to use the `./interactions/index.ts` file instead."
 }
 
 export type TranslationFunctions = {
+	/**
+	 * en
+	 */
+	locale: () => LocalizedString
+	discord: {
+		settings: {
+			/**
+			 * settings
+			 */
+			name: () => LocalizedString
+			/**
+			 * Access and manage your server settings.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.locale': {
+			/**
+			 * locale
+			 */
+			name: () => LocalizedString
+			/**
+			 * Change the language settings for your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.locale.value': {
+			/**
+			 * value
+			 */
+			name: () => LocalizedString
+			/**
+			 * Specify the preferred language for your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.news': {
+			/**
+			 * news
+			 */
+			name: () => LocalizedString
+			/**
+			 * Control the news settings for your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.news.enable': {
+			/**
+			 * enable
+			 */
+			name: () => LocalizedString
+			/**
+			 * Activate the news feature for your server.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.news.enable.channel': {
+			/**
+			 * channel
+			 */
+			name: () => LocalizedString
+			/**
+			 * Designate the channel where news updates will be posted.
+			 */
+			description: () => LocalizedString
+		}
+		'settings.news.disable': {
+			/**
+			 * disable
+			 */
+			name: () => LocalizedString
+			/**
+			 * Deactivate the news feature for your server.
+			 */
+			description: () => LocalizedString
+		}
+		help: {
+			/**
+			 * help
+			 */
+			name: () => LocalizedString
+			/**
+			 * Display a comprehensive list of Zeki's available commands.
+			 */
+			description: () => LocalizedString
+		}
+		about: {
+			/**
+			 * about
+			 */
+			name: () => LocalizedString
+			/**
+			 * Retrieve detailed information about Zeki.
+			 */
+			description: () => LocalizedString
+		}
+		quest: {
+			/**
+			 * quest
+			 */
+			name: () => LocalizedString
+			/**
+			 * Search for quests and related information.
+			 */
+			description: () => LocalizedString
+		}
+		'quest.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * What quest are you looking for?
+			 */
+			description: () => LocalizedString
+		}
+		villager: {
+			/**
+			 * villager
+			 */
+			name: () => LocalizedString
+			/**
+			 * Look up information about specific villagers.
+			 */
+			description: () => LocalizedString
+		}
+		'villager.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * What villager are you looking for?
+			 */
+			description: () => LocalizedString
+		}
+		recipe: {
+			/**
+			 * recipe
+			 */
+			name: () => LocalizedString
+			/**
+			 * Search for crafting recipes and crafting details.
+			 */
+			description: () => LocalizedString
+		}
+		'recipe.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * What recipe are you looking for?
+			 */
+			description: () => LocalizedString
+		}
+		'recipe.amount': {
+			/**
+			 * amount
+			 */
+			name: () => LocalizedString
+			/**
+			 * Determine the quantity of items to craft.
+			 */
+			description: () => LocalizedString
+		}
+		item: {
+			/**
+			 * item
+			 */
+			name: () => LocalizedString
+			/**
+			 * Search for items and item details.
+			 */
+			description: () => LocalizedString
+		}
+		'item.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * What item are you looking for?
+			 */
+			description: () => LocalizedString
+		}
+		weekly: {
+			/**
+			 * weekly
+			 */
+			name: () => LocalizedString
+			/**
+			 * Retrieve weekly preferences and wants of villagers.
+			 */
+			description: () => LocalizedString
+		}
+		bundle: {
+			/**
+			 * bundle
+			 */
+			name: () => LocalizedString
+			/**
+			 * Search for information about bundles and their contents.
+			 */
+			description: () => LocalizedString
+		}
+		'bundle.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * What bundle are you looking for?
+			 */
+			description: () => LocalizedString
+		}
+		accomplishment: {
+			/**
+			 * accomplishment
+			 */
+			name: () => LocalizedString
+			/**
+			 * Search for accomplishments and achievement details.
+			 */
+			description: () => LocalizedString
+		}
+		'accomplishment.query': {
+			/**
+			 * query
+			 */
+			name: () => LocalizedString
+			/**
+			 * What accomplishment are you looking for?
+			 */
+			description: () => LocalizedString
+		}
+	}
 	embeds: {
 		help: {
 			/**
@@ -406,15 +816,15 @@ export type TranslationFunctions = {
 			 */
 			title: (arg: { username: unknown }) => LocalizedString
 			/**
-			 * Here is a list of all my commands.
+			 * Here is a list of all my commands. If you need more information about a command, use `/help <command>`.
 			 */
 			description: () => LocalizedString
 		}
-		info: {
+		about: {
 			/**
-			 * {username} is an intuitive and user-friendly Discord bot connected to https://paliapedia.com and has been created by [glazk0](discord://-/users/247344130798256130).
+			 * {username} is an intuitive and user-friendly Discord bot connected to https://paliapedia.com and has been created by {developers}.
 			 */
-			description: (arg: { username: unknown }) => LocalizedString
+			description: (arg: { developers: unknown, username: unknown }) => LocalizedString
 			/**
 			 * Statistics
 			 */
@@ -429,12 +839,198 @@ export type TranslationFunctions = {
 			 */
 			debug_name: () => LocalizedString
 			/**
-			 * Clusters: {clusters}
-		Shards: {shards}
+			 * Shards: {shards}
 		ShardID: {shardId}
-		ClusterID: {clusterId}
 			 */
-			debug_value: (arg: { clusterId: unknown, clusters: unknown, shardId: unknown, shards: unknown }) => LocalizedString
+			debug_value: (arg: { shardId: unknown, shards: unknown }) => LocalizedString
+		}
+		item: {
+			/**
+			 * Category
+			 */
+			category: () => LocalizedString
+			/**
+			 * Rarity
+			 */
+			rarity: () => LocalizedString
+			/**
+			 * Quality
+			 */
+			quality: () => LocalizedString
+			/**
+			 * Cost
+			 */
+			cost: () => LocalizedString
+			/**
+			 * Value
+			 */
+			value: () => LocalizedString
+			/**
+			 * Sold at
+			 */
+			sold_at: () => LocalizedString
+			/**
+			 * Crafted by
+			 */
+			crafted_by: () => LocalizedString
+			/**
+			 * Gathered from
+			 */
+			gathered_from: () => LocalizedString
+			/**
+			 * Quest reward from
+			 */
+			quest_reward_from: () => LocalizedString
+			/**
+			 * Attached to
+			 */
+			attached_to: () => LocalizedString
+			/**
+			 * Obtained by reading
+			 */
+			obtained_by_reading: () => LocalizedString
+			/**
+			 * Reward from
+			 */
+			reward_from: () => LocalizedString
+			/**
+			 * Obtained from
+			 */
+			obtained_from: () => LocalizedString
+			/**
+			 * Teaches recipe
+			 */
+			teaches_recipe: () => LocalizedString
+			/**
+			 * Needed for quest
+			 */
+			needed_for_quest: () => LocalizedString
+			/**
+			 * Contains item
+			 */
+			contains_item: () => LocalizedString
+		}
+		quest: {
+			/**
+			 * Starts with
+			 */
+			starts_with: () => LocalizedString
+			/**
+			 * Requirement
+			 */
+			requirement: () => LocalizedString
+			/**
+			 * Requirements
+			 */
+			requirements: () => LocalizedString
+			/**
+			 * Complete {count} of the following
+			 */
+			branching_goals: (arg: { count: unknown }) => LocalizedString
+			/**
+			 * Turn in
+			 */
+			turn_in: () => LocalizedString
+			/**
+			 * Quest return
+			 */
+			quest_return: () => LocalizedString
+			/**
+			 * Reward
+			 */
+			reward: () => LocalizedString
+			/**
+			 * Rewards
+			 */
+			rewards: () => LocalizedString
+			/**
+			 * x{amount} Friendship Points with {villager}
+			 */
+			friendship_points: (arg: { amount: unknown, villager: unknown }) => LocalizedString
+			/**
+			 * x{amount} Romance Points with {villager}
+			 */
+			romance_points: (arg: { amount: unknown, villager: unknown }) => LocalizedString
+			/**
+			 * {villager}'s mail
+			 */
+			mail_message: (arg: { villager: unknown }) => LocalizedString
+			/**
+			 * A visit from {villager}
+			 */
+			visit_from: (arg: { villager: unknown }) => LocalizedString
+		}
+		recipe: {
+			/**
+			 * Cost
+			 */
+			cost: () => LocalizedString
+			/**
+			 * Craft time
+			 */
+			craft_time: () => LocalizedString
+			/**
+			 * Required ingredients
+			 */
+			required_ingredients: () => LocalizedString
+			/**
+			 * Produces
+			 */
+			produces: () => LocalizedString
+			/**
+			 * Sold at
+			 */
+			sold_at: () => LocalizedString
+			/**
+			 * Vendors
+			 */
+			vendors: () => LocalizedString
+			/**
+			 * Gatherables
+			 */
+			gatherables: () => LocalizedString
+			/**
+			 * Mail
+			 */
+			mail: () => LocalizedString
+			/**
+			 * Recipes
+			 */
+			recipes: () => LocalizedString
+		}
+		villager: {
+			/**
+			 * Gift preferences
+			 */
+			gift_preferences: () => LocalizedString
+			/**
+			 * Weekly wants
+			 */
+			weekly_wants: () => LocalizedString
+			/**
+			 * {type} level {level} - {levelName} (Requires {requiredValue})
+			 */
+			relationship: (arg: { level: unknown, levelName: unknown, requiredValue: unknown, type: unknown }) => LocalizedString
+		}
+		weekly_wants: {
+			/**
+			 * Weekly Wants Rotation
+			 */
+			title: () => LocalizedString
+			/**
+			 * The weekly wants rotation for {date} is now available! You can find the full list of weekly wants on {url}.
+			 */
+			description: (arg: { date: unknown, url: unknown }) => LocalizedString
+		}
+		miscellaneous: {
+			/**
+			 * See {count} more ...
+			 */
+			see_more: (arg: { count: unknown }) => LocalizedString
+			/**
+			 * No data available.
+			 */
+			no_data: () => LocalizedString
 		}
 	}
 	interactions: {
@@ -450,20 +1046,6 @@ export type TranslationFunctions = {
 				not_enabled: () => LocalizedString
 				/**
 				 * News will no longer be sent in {channel}.
-				 */
-				disabled: (arg: { channel: unknown }) => LocalizedString
-			}
-			weekly_wants: {
-				/**
-				 * Weekly wants notifications will now be sent in {channel}.
-				 */
-				enabled: (arg: { channel: unknown }) => LocalizedString
-				/**
-				 * Weekly wants notifications are not enabled for this server.
-				 */
-				not_enabled: () => LocalizedString
-				/**
-				 * Weekly wants notifications will no longer be sent in {channel}.
 				 */
 				disabled: (arg: { channel: unknown }) => LocalizedString
 			}
@@ -487,268 +1069,6 @@ export type TranslationFunctions = {
 			 * No results found for "{query}".
 			 */
 			no_results_for: (arg: { query: unknown }) => LocalizedString
-		}
-	}
-	commands: {
-		settings: {
-			/**
-			 * settings
-			 */
-			name: () => LocalizedString
-			/**
-			 * Manage your server settings.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.locale': {
-			/**
-			 * locale
-			 */
-			name: () => LocalizedString
-			/**
-			 * Change the locale of Zeki for your server.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.locale.value': {
-			/**
-			 * value
-			 */
-			name: () => LocalizedString
-			/**
-			 * Which locale do you want to set for your server?
-			 */
-			description: () => LocalizedString
-		}
-		'settings.news': {
-			/**
-			 * news
-			 */
-			name: () => LocalizedString
-			/**
-			 * Manage the news settings of your server.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.news.enable': {
-			/**
-			 * enable
-			 */
-			name: () => LocalizedString
-			/**
-			 * Enable the news feature for your server.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.news.enable.channel': {
-			/**
-			 * channel
-			 */
-			name: () => LocalizedString
-			/**
-			 * The channel where news will be sent.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.news.disable': {
-			/**
-			 * disable
-			 */
-			name: () => LocalizedString
-			/**
-			 * Disable the news feature for your server.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.weekly-wants': {
-			/**
-			 * weekly-wants
-			 */
-			name: () => LocalizedString
-			/**
-			 * Manage the weekly wants notifications of your server.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.weekly-wants.enable': {
-			/**
-			 * enable
-			 */
-			name: () => LocalizedString
-			/**
-			 * Enable the weekly wants notifications for your server.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.weekly-wants.enable.channel': {
-			/**
-			 * channel
-			 */
-			name: () => LocalizedString
-			/**
-			 * The channel where weekly wants notifications will be sent.
-			 */
-			description: () => LocalizedString
-		}
-		'settings.weekly-wants.enable.daily': {
-			/**
-			 * daily
-			 */
-			name: () => LocalizedString
-			/**
-			 * Would you like to receive notifications for daily refreshes? (True for yes, False for no)
-			 */
-			description: () => LocalizedString
-		}
-		'settings.weekly-wants.enable.weekly': {
-			/**
-			 * weekly
-			 */
-			name: () => LocalizedString
-			/**
-			 * Would you like to receive notifications for weekly refreshes? (True for yes, False for no)
-			 */
-			description: () => LocalizedString
-		}
-		'settings.weekly-wants.disable': {
-			/**
-			 * disable
-			 */
-			name: () => LocalizedString
-			/**
-			 * Disable the weekly wants notifications for your server.
-			 */
-			description: () => LocalizedString
-		}
-		help: {
-			/**
-			 * help
-			 */
-			name: () => LocalizedString
-			/**
-			 * Displays all of Zeki's commands.
-			 */
-			description: () => LocalizedString
-		}
-		about: {
-			/**
-			 * about
-			 */
-			name: () => LocalizedString
-			/**
-			 * Displays information about Zeki.
-			 */
-			description: () => LocalizedString
-		}
-		search: {
-			/**
-			 * search
-			 */
-			name: () => LocalizedString
-			/**
-			 * Searches for any type of data.
-			 */
-			description: () => LocalizedString
-		}
-		'search.query': {
-			/**
-			 * query
-			 */
-			name: () => LocalizedString
-			/**
-			 * The query to search for.
-			 */
-			description: () => LocalizedString
-		}
-		quest: {
-			/**
-			 * quest
-			 */
-			name: () => LocalizedString
-			/**
-			 * Searches for a quest.
-			 */
-			description: () => LocalizedString
-		}
-		'quest.query': {
-			/**
-			 * query
-			 */
-			name: () => LocalizedString
-			/**
-			 * The query to search for.
-			 */
-			description: () => LocalizedString
-		}
-		villager: {
-			/**
-			 * villager
-			 */
-			name: () => LocalizedString
-			/**
-			 * Searches for a villager.
-			 */
-			description: () => LocalizedString
-		}
-		'villager.query': {
-			/**
-			 * query
-			 */
-			name: () => LocalizedString
-			/**
-			 * The query to search for.
-			 */
-			description: () => LocalizedString
-		}
-		recipe: {
-			/**
-			 * recipe
-			 */
-			name: () => LocalizedString
-			/**
-			 * Searches for a recipe.
-			 */
-			description: () => LocalizedString
-		}
-		'recipe.query': {
-			/**
-			 * query
-			 */
-			name: () => LocalizedString
-			/**
-			 * The query to search for.
-			 */
-			description: () => LocalizedString
-		}
-		'recipe.amount': {
-			/**
-			 * amount
-			 */
-			name: () => LocalizedString
-			/**
-			 * The amount of items to craft.
-			 */
-			description: () => LocalizedString
-		}
-		item: {
-			/**
-			 * item
-			 */
-			name: () => LocalizedString
-			/**
-			 * Searches for an item.
-			 */
-			description: () => LocalizedString
-		}
-		'item.query': {
-			/**
-			 * query
-			 */
-			name: () => LocalizedString
-			/**
-			 * The query to search for.
-			 */
-			description: () => LocalizedString
 		}
 	}
 }

@@ -1,13 +1,15 @@
 {
   "name": "zeki",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A Discord bot integration of the paliapedia.com database.",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index",
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon",
-    "build": "tsc && cp -r src/db/migrations/ dist/db/migrations",
-    "typesafe-i18n": "typesafe-i18n",
+    "start": "node dist/index",
+    "build": "tsc && pnpm postbuild",
+    "postbuild": "ncp \"src/db/migrations\" \"dist/db/migrations\"",
+    "i18n": "typesafe-i18n",
+    "format": "biome format src --write",
     "db:drop": "drizzle-kit drop",
     "db:generate": "drizzle-kit generate:pg",
     "db:studio": "drizzle-kit studio"
@@ -20,7 +22,15 @@
     "url": "https://github.com/glazk0/zeki/issues"
   },
   "homepage": "https://github.com/glazk0/zeki#readme",
-  "keywords": [],
+  "keywords": [
+    "discord",
+    "bot",
+    "palia",
+    "paliapedia",
+    "paliapedia.com",
+    "zeki",
+    "zeki-bot"
+  ],
   "author": "glazk0",
   "contributors": [
     "glazk0 <glazk0@peerat.dev> (https://github.com/glazk0)"
@@ -28,26 +38,27 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "1.0.0-rc.12",
-    "discord-hybrid-sharding": "^2.1.3",
-    "discord.js": "^14.13.0",
+    "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
-    "drizzle-orm": "^0.28.5",
-    "node-cron": "^3.0.2",
-    "pino": "^8.15.0",
-    "pino-pretty": "^10.2.0",
-    "postgres": "^3.3.5",
+    "drizzle-orm": "^0.28.6",
+    "glob": "10.3.10",
+    "node-schedule": "2.1.1",
+    "pino": "^8.16.2",
+    "pino-pretty": "^10.2.3",
+    "postgres": "^3.4.3",
     "query-string": "^7.1.3",
-    "redis": "^4.6.8",
+    "redis": "^4.6.11",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.8.0",
     "typesafe-i18n": "^5.26.2"
   },
   "devDependencies": {
-    "@types/node": "^20.5.6",
-    "@types/node-cron": "^3.0.8",
+    "@biomejs/biome": "1.4.1",
+    "@types/node": "^20.10.1",
+    "@types/node-schedule": "2.1.4",
     "drizzle-kit": "^0.19.13",
-    "nodemon": "^3.0.1",
+    "ncp": "2.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   }
 }

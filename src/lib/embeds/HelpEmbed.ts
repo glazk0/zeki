@@ -1,38 +1,43 @@
-import { Collection } from 'discord.js';
+import { Collection } from "discord.js";
+import { container } from "tsyringe";
 
-import { Embed } from '../../lib/embeds/Embed';
+import { BaseEmbed } from "./BaseEmbed.js";
 
-import { Context, Interaction } from '../../structures/Interaction';
+import { Client } from "../../structures/Client.js";
+import { Context, Interaction } from "../../structures/Interaction.js";
 
-export class HelpEmbed extends Embed {
-  constructor(commands: Collection<string, Interaction>, { i18n }: Context) {
-    super();
+import { clientSymbol } from "../../utils/Constants.js";
 
-    const categories = [
-      ...new Set(commands.map((command) => command.category)),
-    ];
+export class HelpEmbed extends BaseEmbed {
+	/**
+	 * The client instance.
+	 */
+	private readonly client: Client;
 
-    this.data.author = {
-      name: i18n.embeds.help.title({ username: this.client.user?.username }),
-      icon_url: this.client.user?.displayAvatarURL(),
-    };
+	constructor(commands: Collection<string, Interaction>, { i18n }: Context) {
+		super();
 
-    this.data.thumbnail = {
-      url: this.client.user!.displayAvatarURL(),
-    };
+		this.client = container.resolve<Client>(clientSymbol);
 
-    this.data.description = i18n.embeds.help.description();
+		const categories = [...new Set(commands.map((command) => command.category))];
 
-    for (const category of categories) {
-      const commandsInCategory = commands.filter(
-        (command) => command.category === category,
-      );
-      this.addFields({
-        name: category,
-        value: commandsInCategory
-          .map((command) => `\`${command.command.name}\``)
-          .join(', '),
-      });
-    }
-  }
+		this.data.author = {
+			name: i18n.embeds.help.title({ username: this.client.user?.username }),
+			icon_url: this.client.user?.displayAvatarURL(),
+		};
+
+		this.data.thumbnail = {
+			url: this.client.user!.displayAvatarURL(),
+		};
+
+		this.data.description = i18n.embeds.help.description();
+
+		for (const category of categories) {
+			const commandsInCategory = commands.filter((command) => command.category === category);
+			this.addFields({
+				name: category,
+				value: commandsInCategory.map((command) => `\`${command.command.name}\``).join(", "),
+			});
+		}
+	}
 }
