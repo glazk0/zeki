@@ -19,7 +19,7 @@ import { INews } from "../../@types/index.js";
 export class News extends Job {
 	name = "News Notifier";
 
-	schedule = "*/1 * * * *";
+	schedule = "*/10 * * * *";
 
 	delay = duration.seconds(30);
 
