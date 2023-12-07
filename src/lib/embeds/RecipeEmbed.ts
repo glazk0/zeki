@@ -25,7 +25,7 @@ export class RecipeEmbed extends BaseEmbed {
 		if (recipe.cost) {
 			this.addFields({
 				name: i18n.embeds.recipe.cost(),
-				value: `${recipe.cost.amount.toLocaleString(i18n.locale())} ${recipe.cost.currency.name}`,
+				value: `${recipe.cost.amount.toLocaleString(i18n.locale())} ${recipe.cost.currency?.name}`,
 			});
 
 			if (recipe.craftTime) {
@@ -77,7 +77,7 @@ export class RecipeEmbed extends BaseEmbed {
 				} else if (key === "mailMessages") {
 					this.addFields({
 						name: i18n.embeds.recipe.mail(),
-						value: (value as IMailMessagesItem[]).map((mail) => `- ${hyperlink(mail.name, `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n"),
+						value: (value as IMailMessagesItem[]).map((mail) => `- ${hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n"),
 					});
 				} else if (key === "recipes") {
 					this.addFields({

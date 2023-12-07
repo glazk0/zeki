@@ -37,11 +37,11 @@ export class QuestEmbed extends BaseEmbed {
 							}
 						} else if (key === "mailMessages") {
 							for (const mailMessage of value as IMailMessagesItem[]) {
-								valueString += `- ${hyperlink(mailMessage.name, `${PALIA_URL}/mail-message/${mailMessage.key}`)}\n`;
+								valueString += `- ${hyperlink(mailMessage?.name ?? "Unknown", `${PALIA_URL}/mail-message/${mailMessage.key}`)}\n`;
 							}
 						} else if (key === "books") {
 							for (const book of value as IBooksItem[]) {
-								valueString += `- ${hyperlink(book.name, `${PALIA_URL}/item/${book.key}`)}\n`;
+								valueString += `- ${hyperlink(book?.name ?? "Unknown", `${PALIA_URL}/item/${book.key}`)}\n`;
 							}
 						} else if (key === "quests") {
 							for (const quest of value as IQuest[]) {

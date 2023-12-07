@@ -52,7 +52,7 @@ export default class InteractionCreate extends Event {
 		}
 
 		if (interaction.isChatInputCommand()) {
-			this.client.logger.info(`Command ${command?.command.name} was executed in ${interaction.guildId || "DM"}`);
+			this.client.logger.info(`Command ${command?.command?.name} was executed in ${interaction.guildId || "DM"}`);
 
 			try {
 				await command?.run(interaction, context);

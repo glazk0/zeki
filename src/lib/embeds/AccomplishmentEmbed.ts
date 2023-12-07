@@ -39,7 +39,6 @@ export class AccomplishmentEmbed extends BaseEmbed {
 							return `- ${reward.amount} Romance Points with ${reward.villager.name}`;
 						} else if (reward.villager && reward.type === "MailMessage") {
 							if (!reward.mailMessage || typeof reward.mailMessage === "string") return `- ${hyperlink(`${reward.villager.name}'s mail`, `${PALIA_URL}/mail-message/${reward.mailMessage}`)}`;
-
 							return `- ${hyperlink(reward.mailMessage?.name ?? `${reward.mailMessage?.name}'s mail`, `${PALIA_URL}/mail-message/${reward.mailMessage?.key}`)}`;
 						} else if (reward.villager && reward.type === "Visit") {
 							return `- A visit from ${reward.villager.name}`;
@@ -64,29 +63,19 @@ export class AccomplishmentEmbed extends BaseEmbed {
 			});
 		}
 
-		// if (accomplishment.requirement?.items?.length) {
-		//   this.addFields({
-		//     name: 'Requirements',
-		//     value: accomplishment.requirement.items
-		//       .map((item) => {
-		//         if (typeof item.item === 'string' || !item.item)
-		//           return `${item.amount} ${item ? item : 'Unknown'}`;
+		if (accomplishment.requirement?.items?.length) {
+			this.addFields({
+				name: "Requirements",
+				value: accomplishment.requirement.items
+					.map((item) => {
+						if (typeof item.item === "string" || !item.item) return `${item.amount} ${item ? item : "Unknown"}`;
 
-		//         return `${item.amount} ${hyperlink(
-		//           item.item.name,
-		//           `${PALIA_URL}/item/${item.item.key}`,
-		//         )}`;
-		//       })
-		//       .splice(0, 5)
-		//       .concat(
-		//         `- [See ${
-		//           accomplishment.requirement?.items?.length - 5
-		//         } more ...](${PALIA_URL}/accomplishment/${
-		//           accomplishment.key
-		//         } 'See on paliapedia.com')`,
-		//       )
-		//       .join('\n'),
-		//   });
-		// }
+						return `${item.amount} ${hyperlink(item.item.name, `${PALIA_URL}/item/${item.item.key}`)}`;
+					})
+					.splice(0, 5)
+					.concat(`- [See ${accomplishment.requirement?.items?.length - 5} more ...](${PALIA_URL}/accomplishment/${accomplishment.key} 'See on paliapedia.com')`)
+					.join("\n"),
+			});
+		}
 	}
 }
