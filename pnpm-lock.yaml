@@ -56,8 +56,8 @@ devDependencies:
     specifier: ^20.10.1
     version: 20.10.1
   '@types/node-schedule':
-    specifier: 2.1.4
-    version: 2.1.4
+    specifier: 2.1.5
+    version: 2.1.5
   drizzle-kit:
     specifier: ^0.19.13
     version: 0.19.13
@@ -555,8 +555,8 @@ packages:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
     dev: true
 
-  /@types/node-schedule@2.1.4:
-    resolution: {integrity: sha512-H32fetKLCtKatSkQ6VT9wuiHyrLftuUZZp8g3iU8biYxjQIB/MlV0K4UX/mMOIdGnADCnbe5uzIa5mO6LqVD1g==}
+  /@types/node-schedule@2.1.5:
+    resolution: {integrity: sha512-bN0MiplDBUxNMmlEi4iykjLYD7+Ze3DEevzliCn8WYuDwYSPj/5XFh8wZw+YXPLpLxiNWlIONYiQ67g/vowSMA==}
     dependencies:
       '@types/node': 20.10.1
     dev: true
