@@ -73,7 +73,7 @@ export class ItemEmbed extends BaseEmbed {
 						value: (value as IGatherablesItem[])
 							.map(
 								(gatherable) =>
-									`- ${hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`)} (${hyperlink(gatherable.skill?.name ?? "Unknown", `${PALIA_URL}/skill/${gatherable.skill?.key}`)})`,
+									`- ${hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`)} (${gatherable.skill && hyperlink(gatherable.skill?.name, `${PALIA_URL}/skill/${gatherable.skill?.key}`)})`,
 							)
 							.join("\n"),
 					});
@@ -85,7 +85,10 @@ export class ItemEmbed extends BaseEmbed {
 				} else if (key === "mailMessages") {
 					this.addFields({
 						name: i18n.embeds.item.attached_to(),
-						value: (value as IMailMessagesItem[]).map((mail) => `- ${hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n"),
+						value: (value as IMailMessagesItem[]).length > 5
+							? (value as IMailMessagesItem[]).slice(0, 5).map((mail) => `- ${hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n") + `\n...and ${value.length - 5} more`
+							: (value as IMailMessagesItem[]).map((mail) => `- ${hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`)}`)
+								.join("\n"),
 					});
 				} else if (key === "books") {
 					this.addFields({
