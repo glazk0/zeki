@@ -1,6 +1,7 @@
 export interface IRootObject {
 	search: ISearchItem[];
 	"weekly-wants": IWeeklyWantsItem[];
+	"leak-of-the-day": ILeakOfTheDayItem[];
 	now: INowItem[];
 	villager: IVillagerItem[];
 	bundle: IBundleItem[];
@@ -24,6 +25,7 @@ export interface ISearchItem {
 export interface IWeeklyWantsItem {
 	version?: number;
 	entries?: IEntriesItem[];
+	lastUpdated?: string;
 	currentTime?: number;
 	nextMonday?: number;
 	item?: IItem;
@@ -39,13 +41,12 @@ export interface IVillager {
 	name: string;
 	icon?: string;
 	iconFolder: string;
+	metadata: IMetadata;
 	newlyAdded: boolean;
 	id?: number;
-	addedIn: string;
 	persistId?: number;
 	entityType?: string;
 	isVisibleInUi?: boolean;
-	description?: string;
 	isVisible?: boolean;
 	canAcceptGifts?: boolean;
 	friendshipLevelNecessaryForRomance?: number;
@@ -54,12 +55,19 @@ export interface IVillager {
 	romancePoints?: IRomancePoints;
 	giftPreferences?: IGiftPreferencesItem[];
 	relationshipLevels?: IRelationshipLevelsItem[];
+	addedIn?: string;
 	quests?: IQuestsItem[];
+	description?: string;
 	obtainable?: boolean;
 	weeklyGiftPreferences?: IWeeklyGiftPreferencesItem[];
 	type?: string;
 	rarity?: string;
 	isRomanceable?: boolean;
+}
+export interface IMetadata {
+	name: string;
+	ver: string;
+	type: string;
 }
 export interface IItem {
 	key: string;
@@ -68,44 +76,44 @@ export interface IItem {
 	iconFolder: string;
 	rarity?: string;
 	category?: string;
-	cost?: ICost;
 	value?: IValue;
 	newlyAdded: boolean;
+	obtainable: boolean;
+	cost?: ICost;
 	quality?: string;
-	mapCoordinates?: IMapCoordinates;
 	entityType?: string;
-	nameLocalized?: INameLocalized;
-	description?: string;
-	descriptionLocalized?: IDescriptionLocalized;
+	persistId?: number;
+	tags?: ITagsItem[];
+	maxStackSize?: number;
 	rarityNumber?: number;
 	canBePlaced?: boolean;
 	canBeConsumed?: boolean;
+	staticMeshes?: IStaticMeshesItem[];
+	metadata?: IMetadata;
 	addedIn?: string;
-	obtainable?: boolean;
+	description?: string;
 	type?: string;
-	tags?: ITagsItem[];
-	maxStackSize?: number;
-	consumeRewards?: IConsumeRewardsItem[];
-	autoConsumed?: boolean;
+	mapCoordinates?: IMapCoordinates;
+	treedPreview?: boolean;
 	sources?: ISources;
 	buyable?: boolean;
-	requiredFor?: IRequiredFor;
+	consumeRewards?: IConsumeRewardsItem[];
 	canBeSoldTo?: string[];
+	requiredFor?: IRequiredFor;
 	sellable?: boolean;
-	gardenBuff?: string;
-	gardenBuffLocalized?: IGardenBuffLocalized;
 	harvestItem?: IHarvestItem;
 	plantSize?: string;
 	buffSize?: number;
 	growthDays?: number;
 	maxHarvests?: number;
 	reharvestDays?: number;
+	gardenBuff?: string;
+	autoConsumed?: boolean;
 	storageCapacity?: number;
 }
-export interface ICost {
+export interface IValue {
 	currency: ICurrency;
 	amount: number;
-	quantity: number;
 }
 export interface ICurrency {
 	key: string;
@@ -113,16 +121,763 @@ export interface ICurrency {
 	icon: string;
 	type?: string;
 	iconFolder: string;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
 }
-export interface IValue {
-	currency: ICurrency;
+export interface ICost {
+	currency?: ICurrency;
 	amount: number;
+	quantity?: number;
+}
+export interface ILeakOfTheDayItem {
+	item: IItem;
+	names: string[];
+}
+export interface ITagsItem {
+	key: string;
+	name: string;
+	nameNumbered: string;
+	generated?: boolean;
+	icon?: string;
+}
+export interface IStaticMeshesItem {
+	key: string;
+	isValid: boolean;
+	glbPath: string;
+	materials: IMaterials;
+	relativeLocation?: IRelativeLocation;
+	relativeRotation?: IRelativeRotation;
+}
+export interface IMaterials {
+	MI_trophy_72_housing_tier_1?: IMI_trophy_72_housing_tier_1;
+	MI_Narrative_206_Furniture_AncientFish_Plush?: IMI_Narrative_206_Furniture_AncientFish_Plush;
+	MI_Narrative_215_Furniture_StarChart_Fish_01?: IMI_Narrative_215_Furniture_StarChart_Fish_01;
+	MI_Narrative_215_Furniture_StarChart_Fish_02?: IMI_Narrative_215_Furniture_StarChart_Fish_02;
+	MI_Narrative_203_Furniture_Kitsuu_Plush?: IMI_Narrative_203_Furniture_Kitsuu_Plush;
+	MI_Narrative_220_Decor_SilverWing_Plush?: IMI_Narrative_220_Decor_SilverWing_Plush;
+	MI_Narrative_207_Container_AncientHuman_Tier2?: IMI_Narrative_207_Container_AncientHuman_Tier2;
+	T_Narrative_204_Furniture_Frame?: IT_Narrative_204_Furniture_Frame;
+	MI_Narrative_205_Furniture_Framed_Map_Bahari?: IMI_Narrative_205_Furniture_Framed_Map_Bahari;
+	MI_Rewards_Skill_09_Mounted_TreeClimber_head_01?: IMI_Rewards_Skill_09_Mounted_TreeClimber_head_01;
+	M_SawmillTier01?: IM_SawmillTier01;
+	MI_VillageCenter_Wood_01?: IMI_VillageCenter_Wood_01;
+	MI_Smelter_01_B?: IMI_Smelter_01_B;
+	MI_Smelter_01_A?: IMI_Smelter_01_A;
+	MI_Fancy_30_furniture_deco_clock_Custom?: IMI_Fancy_30_furniture_deco_clock_Custom;
+	MI_Fancy_06_furniture_cozy_chair_Custom?: IMI_Fancy_06_furniture_cozy_chair_Custom;
+	MI_Fancy_12_deco_large_wall_Custom?: IMI_Fancy_12_deco_large_wall_Custom;
+	MI_Fancy_11_Furniture_Bed_Custom?: IMI_Fancy_11_Furniture_Bed_Custom;
+	MI_Fancy_StainedGlass?: IMI_Fancy_StainedGlass;
+	MI_Fancy_04_Furniture_Bookshelf_Custom?: IMI_Fancy_04_Furniture_Bookshelf_Custom;
+	MI_Fancy_04_Furniture_Books?: IMI_Fancy_04_Furniture_Books;
+	MI_Fancy_16_Lighting_Chandelier_Custom?: IMI_Fancy_16_Lighting_Chandelier_Custom;
+	MI_Fancy_02_Furniture_Coffee_Table_Custom?: IMI_Fancy_02_Furniture_Coffee_Table_Custom;
+	MI_Fancy_01_Furniture_Couch_Custom?: IMI_Fancy_01_Furniture_Couch_Custom;
+	MI_Fancy_29_furniture_bedroom_canopy_Custom?: IMI_Fancy_29_furniture_bedroom_canopy_Custom;
+	MI_Fancy_18_furniture_dining_chair_Custom?: IMI_Fancy_18_furniture_dining_chair_Custom;
+	MI_Fancy_19_furniture_dining_table_Custom?: IMI_Fancy_19_furniture_dining_table_Custom;
+	MI_Fancy_07_Furniture_Dresser_Custom?: IMI_Fancy_07_Furniture_Dresser_Custom;
+	MI_Fancy_37_furniture_garden_decor_Alphas?: IMI_Fancy_37_furniture_garden_decor_Alphas;
+	MI_Fancy_37_furniture_garden_decor_Custom?: IMI_Fancy_37_furniture_garden_decor_Custom;
+	MI_Fancy_28_furniture_outdoor_fountain2_Custom?: IMI_Fancy_28_furniture_outdoor_fountain2_Custom;
+	MI_fancy_28_furniture_outdoor_fountain2_waterBase?: IMI_fancy_28_furniture_outdoor_fountain2_waterBase;
+	MI_Fancy_25_furniture_bathroom_mirror_Custom?: IMI_Fancy_25_furniture_bathroom_mirror_Custom;
+	MI_Fancy_08_furniture_nightstand_Custom?: IMI_Fancy_08_furniture_nightstand_Custom;
+	MI_Fancy_22_furniture_kitchen_pantry_Custom?: IMI_Fancy_22_furniture_kitchen_pantry_Custom;
+	MI_Fancy_14_deco_picture_frame_Custom?: IMI_Fancy_14_deco_picture_frame_Custom;
+	MI_Picture_DragonShrine_01?: IMI_Picture_DragonShrine_01;
+	MI_Fancy_13_deco_planter_Custom?: IMI_Fancy_13_deco_planter_Custom;
+	MI_Fancy_26_furniture_outdoor_fountain_1_Custom?: IMI_Fancy_26_furniture_outdoor_fountain_1_Custom;
+	MI_Fancy_03_furniture_rug_lrg_Custom?: IMI_Fancy_03_furniture_rug_lrg_Custom;
+	MI_Fancy_10_furniture_rug_med_Custom?: IMI_Fancy_10_furniture_rug_med_Custom;
+	MI_Fancy_38_furniture_garden_decor_Alphas?: IMI_Fancy_38_furniture_garden_decor_Alphas;
+	MI_Fancy_38_furniture_garden_decor2_Custom?: IMI_Fancy_38_furniture_garden_decor2_Custom;
+	MI_Fancy_21_furniture_kitchen_kitchenette_Custom?: IMI_Fancy_21_furniture_kitchen_kitchenette_Custom;
+	MI_Fancy_24_furniture_bathroom_rug_sm_Custom?: IMI_Fancy_24_furniture_bathroom_rug_sm_Custom;
+	MI_Fancy_27_furniture_outdoor_light_Custom?: IMI_Fancy_27_furniture_outdoor_light_Custom;
+	MI_Fancy_17_lighting_lamp_light_Custom?: IMI_Fancy_17_lighting_lamp_light_Custom;
+	MI_Fancy_33_furniture_toilet_Custom?: IMI_Fancy_33_furniture_toilet_Custom;
+	MI_Fancy_20_furniture_kitchen_cupboard_hanging_Custom?: IMI_Fancy_20_furniture_kitchen_cupboard_hanging_Custom;
+	MI_Fancy_05_furniture_shelves_Custom?: IMI_Fancy_05_furniture_shelves_Custom;
+	MI_Fancy_09_Furniture_Wardrobe_Custom?: IMI_Fancy_09_Furniture_Wardrobe_Custom;
+	MI_Fancy_23_furniture_bathroom_bathtub_Custom?: IMI_Fancy_23_furniture_bathroom_bathtub_Custom;
+	MI_trophy_56_bug_catching_tier_0?: IMI_trophy_56_bug_catching_tier_0;
+	MI_trophy_57_cooking_tier_0?: IMI_trophy_57_cooking_tier_0;
+	MI_trophy_58_fishing_tier_0?: IMI_trophy_58_fishing_tier_0;
+	MI_trophy_59_foraging_tier_0?: IMI_trophy_59_foraging_tier_0;
+	MI_trophy_60_furniture_making_tier_0?: IMI_trophy_60_furniture_making_tier_0;
+	MI_trophy_61_gardening_tier_0?: IMI_trophy_61_gardening_tier_0;
+	MI_trophy_62_hunting_tier_0?: IMI_trophy_62_hunting_tier_0;
+	MI_trophy_63_mining_tier_0?: IMI_trophy_63_mining_tier_0;
+	MI_Skill_09_bug_catching_deco_t2?: IMI_Skill_09_bug_catching_deco_t2;
+	Generic_86_deco_quill?: IGeneric_86_deco_quill;
+	MI_Cookware_02?: IMI_Cookware_02;
+	MI_Harvest_Deco_TeaSet_Custom?: IMI_Harvest_Deco_TeaSet_Custom;
+	MI_Campfire_01?: IMI_Campfire_01;
+	MI_Midcentury_08_Furniture_Cozy_Chair_Custom?: IMI_Midcentury_08_Furniture_Cozy_Chair_Custom;
+	MI_Midcentury_26_Furniture_Bathroom_Bathtub_Custom?: IMI_Midcentury_26_Furniture_Bathroom_Bathtub_Custom;
+	MI_Midcentury_13_Furniture_Bed_Custom?: IMI_Midcentury_13_Furniture_Bed_Custom;
+	MI_Midcentury_24_Furniture_Kitchen_Countertops_Custom?: IMI_Midcentury_24_Furniture_Kitchen_Countertops_Custom;
+	MI_Midcentury_17_Lighting_Chandelier_Custom?: IMI_Midcentury_17_Lighting_Chandelier_Custom;
+	MI_Midcentury_02_Furniture_Coffee_Table_Custom?: IMI_Midcentury_02_Furniture_Coffee_Table_Custom;
+	MI_Midcentury_01_Furniture_Couch_Custom?: IMI_Midcentury_01_Furniture_Couch_Custom;
+	MI_Midcentury_19_Furniture_Dining_Chair_Custom?: IMI_Midcentury_19_Furniture_Dining_Chair_Custom;
+	MI_Midcentury_20_Furniture_Dining_Table_Custom?: IMI_Midcentury_20_Furniture_Dining_Table_Custom;
+	MI_Midcentury_28_Furniture_Bathroom_Rug_Small_Custom?: IMI_Midcentury_28_Furniture_Bathroom_Rug_Small_Custom;
+	MI_Midcentury_07_Furniture_Vase_Custom?: IMI_Midcentury_07_Furniture_Vase_Custom;
+	MI_Midcentury_16_Deco_Picture_Frame_Custom?: IMI_Midcentury_16_Deco_Picture_Frame_Custom;
+	MI_Midcentury_23_Furniture_Kitchen_Kitchenette_Custom?: IMI_Midcentury_23_Furniture_Kitchen_Kitchenette_Custom;
+	MI_Midcentury_04_Furniture_Bookshelf_Custom?: IMI_Midcentury_04_Furniture_Bookshelf_Custom;
+	MI_Midcentury_29_Furniture_Bathroom_Mirror_Custom?: IMI_Midcentury_29_Furniture_Bathroom_Mirror_Custom;
+	MI_Midcentury_09_Furniture_Nightstand_Custom?: IMI_Midcentury_09_Furniture_Nightstand_Custom;
+	MI_Midcentury_25_Furniture_Kitchen_Pantry_Custom?: IMI_Midcentury_25_Furniture_Kitchen_Pantry_Custom;
+	Mi_Midcentury_15_Deco_Planter_Custom?: IMi_Midcentury_15_Deco_Planter_Custom;
+	MI_Midcentury_06_Furniture_Round_mirror_Custom?: IMI_Midcentury_06_Furniture_Round_mirror_Custom;
+	MI_Midcentury_11_Furniture_Rug_Med_Custom?: IMI_Midcentury_11_Furniture_Rug_Med_Custom;
+	MI_Midcentury_05_Furniture_Shelves_Custom?: IMI_Midcentury_05_Furniture_Shelves_Custom;
+	MI_Midcentury_27_Furniture_Bathroom_Vanity_Sink_Custom?: IMI_Midcentury_27_Furniture_Bathroom_Vanity_Sink_Custom;
+	MI_Midcentury_12_Furniture_Dresser_Custom?: IMI_Midcentury_12_Furniture_Dresser_Custom;
+	MI_Midcentury_03_Furniture_Rug_Large_Custom?: IMI_Midcentury_03_Furniture_Rug_Large_Custom;
+	MI_Midcentury_18_Furniture_Lamp_Light_Custom?: IMI_Midcentury_18_Furniture_Lamp_Light_Custom;
+	MI_Midcentury_21_Furniture_Kitchen_Cupboard_Hanging_Custom?: IMI_Midcentury_21_Furniture_Kitchen_Cupboard_Hanging_Custom;
+	MI_Midcentury_14_Deco_Large_Wall_Custom?: IMI_Midcentury_14_Deco_Large_Wall_Custom;
+	MI_Midcentury_22_Furniture_Kitchen_Shelf_Custom?: IMI_Midcentury_22_Furniture_Kitchen_Shelf_Custom;
+	MI_Midcentury_10_Furniture_Wardrobe_Custom?: IMI_Midcentury_10_Furniture_Wardrobe_Custom;
+	MI_MajiMarket_Skateboard_Chapaa?: IMI_MajiMarket_Skateboard_Chapaa;
+	MI_Cosmetic_27_Deco_ChapaaMug?: IMI_Cosmetic_27_Deco_ChapaaMug;
+	MI_MajiMarket_02_deco_Phoenix_Plushie?: IMI_MajiMarket_02_deco_Phoenix_Plushie;
+	MI_MajiMarket_27_PillowChapaa?: IMI_MajiMarket_27_PillowChapaa;
+	MI_MajiMarket_27_ChapaaPlushie_Hat_02?: IMI_MajiMarket_27_ChapaaPlushie_Hat_02;
+	MI_Cosmetic_05_deco_chapaa_onesie_plushie_1_Custom?: IMI_Cosmetic_05_deco_chapaa_onesie_plushie_1_Custom;
+	MI_MajiMarket_03_deco_Dragon_Plushie?: IMI_MajiMarket_03_deco_Dragon_Plushie;
+	MI_Narrative_51_Deco_Commemorative_Plate?: IMI_Narrative_51_Deco_Commemorative_Plate;
+	MI_HDA_StringLights_Wind_Cable?: IMI_HDA_StringLights_Wind_Cable;
+	MI_Gothic_04_furniture_frames_Custom?: IMI_Gothic_04_furniture_frames_Custom;
+	MI_Narrative_44_Deco_Custom_Sketch?: IMI_Narrative_44_Deco_Custom_Sketch;
+	MI_Dragon_Deco_Rugs01_Custom?: IMI_Dragon_Deco_Rugs01_Custom;
+	MI_Dragon_Furniture_Cozy_Chair_Custom?: IMI_Dragon_Furniture_Cozy_Chair_Custom;
+	MI_Dragon_Outdoor_Deco_02_Bathtub_Custom?: IMI_Dragon_Outdoor_Deco_02_Bathtub_Custom;
+	MI_Dragon_Furniture_Bed_Custom?: IMI_Dragon_Furniture_Bed_Custom;
+	MI_Dragon_Furniture_Bed_Cloth_Custom?: IMI_Dragon_Furniture_Bed_Cloth_Custom;
+	MI_Dragon_Furniture_Book_Shelf_Props?: IMI_Dragon_Furniture_Book_Shelf_Props;
+	MI_Dragon_Furniture_Book_Shelf_Custom?: IMI_Dragon_Furniture_Book_Shelf_Custom;
+	MI_Dragon_Lighting_Chandelier_Custom?: IMI_Dragon_Lighting_Chandelier_Custom;
+	MI_Dragon_Furniture_Coffee_Table_Custom?: IMI_Dragon_Furniture_Coffee_Table_Custom;
+	MI_Dragon_Furniture_Couch_Custom?: IMI_Dragon_Furniture_Couch_Custom;
+	MI_Dragon_Furniture_Dining_Chair_Custom?: IMI_Dragon_Furniture_Dining_Chair_Custom;
+	MI_Dragon_Furniture_Stand_Custom?: IMI_Dragon_Furniture_Stand_Custom;
+	MI_Dragon_Indoor_Deco_01_Plant_Pot_Custom?: IMI_Dragon_Indoor_Deco_01_Plant_Pot_Custom;
+	MI_Dragon_Indoor_Deco_02_vase_Pot_Custom?: IMI_Dragon_Indoor_Deco_02_vase_Pot_Custom;
+	MI_Dragon_Indoor_Deco_02_vase?: IMI_Dragon_Indoor_Deco_02_vase;
+	MI_Dragon_Furniture_Partition_Custom?: IMI_Dragon_Furniture_Partition_Custom;
+	MI_Dragon_Lighting_Hanging_Light_Custom?: IMI_Dragon_Lighting_Hanging_Light_Custom;
+	MI_Dragon_Outdoor_Deco_03_Urn_Pot_Custom?: IMI_Dragon_Outdoor_Deco_03_Urn_Pot_Custom;
+	MI_Dragon_Outdoor_Deco_03_Urn?: IMI_Dragon_Outdoor_Deco_03_Urn;
+	MI_Dragon_Side_Table_Custom?: IMI_Dragon_Side_Table_Custom;
+	MI_Dragon_Furniture_Special_02_Mirror_Custom?: IMI_Dragon_Furniture_Special_02_Mirror_Custom;
+	MI_Dragon_Furniture_Nighstand_Custom?: IMI_Dragon_Furniture_Nighstand_Custom;
+	MI_Dragon_Furniture_Special_01_Vase?: IMI_Dragon_Furniture_Special_01_Vase;
+	MI_Dragon_Furniture_Special_01_Vase_Pot_Custom?: IMI_Dragon_Furniture_Special_01_Vase_Pot_Custom;
+	MI_Dragon_Furniture_Kitchen_Cupboard_Pots?: IMI_Dragon_Furniture_Kitchen_Cupboard_Pots;
+	MI_Dragon_Furniture_Kitchen_Cupboard_Custom?: IMI_Dragon_Furniture_Kitchen_Cupboard_Custom;
+	MI_Dragon_Deco_Rugs03_Custom?: IMI_Dragon_Deco_Rugs03_Custom;
+	MI_Dragon_Furniture_Shelves_Round_Props_Custom?: IMI_Dragon_Furniture_Shelves_Round_Props_Custom;
+	MI_Dragon_Furniture_Shelves_Round_Pots_Custom?: IMI_Dragon_Furniture_Shelves_Round_Pots_Custom;
+	MI_Dragon_Furniture_Shelves_Round_Custom?: IMI_Dragon_Furniture_Shelves_Round_Custom;
+	MI_Dragon_Deco_Rugs02_Custom?: IMI_Dragon_Deco_Rugs02_Custom;
+	MI_Dragon_Furniture_Storage_Cabinet_Glass_Custom?: IMI_Dragon_Furniture_Storage_Cabinet_Glass_Custom;
+	MI_Dragon_Furniture_Storage_Cabinet_Custom?: IMI_Dragon_Furniture_Storage_Cabinet_Custom;
+	MI_Dragon_Furniture_Bed_Bench_Custom?: IMI_Dragon_Furniture_Bed_Bench_Custom;
+	MI_Dragon_Lighting_Lamp_Light_Custom?: IMI_Dragon_Lighting_Lamp_Light_Custom;
+	MI_Dragon_Indoor_Deco_03_Wall_Decor_Custom?: IMI_Dragon_Indoor_Deco_03_Wall_Decor_Custom;
+	MI_Dragon_Lighting_Wall_Lighting_Custom?: IMI_Dragon_Lighting_Wall_Lighting_Custom;
+	MI_Dragon_Furniture_Wardrobe_Custom?: IMI_Dragon_Furniture_Wardrobe_Custom;
+	MI_Generic_Deco_Framed_Art_C?: IMI_Generic_Deco_Framed_Art_C;
+	MI_Generic_Deco_FramedArt_C_Pic?: IMI_Generic_Deco_FramedArt_C_Pic;
+	MI_Phoenix_11_furniture_bed_Custom?: IMI_Phoenix_11_furniture_bed_Custom;
+	MI_phoenix_04_furniture_bookshelf_Custom?: IMI_phoenix_04_furniture_bookshelf_Custom;
+	MI_Phoenix_26_furniture_outdoor_deco_2_Custom?: IMI_Phoenix_26_furniture_outdoor_deco_2_Custom;
+	MI_Phoenix_18_furniture_dining_table_Custom?: IMI_Phoenix_18_furniture_dining_table_Custom;
+	MI_Phoenix_15_lighting_chandelier_Custom?: IMI_Phoenix_15_lighting_chandelier_Custom;
+	MI_Phoenix_08_furniture_nightstand_Custom?: IMI_Phoenix_08_furniture_nightstand_Custom;
+	MI_Phoenix_16_lighting_lamp_light_Custom?: IMI_Phoenix_16_lighting_lamp_light_Custom;
+	MI_Phoenix_17_furniture_dining_chair_Custom?: IMI_Phoenix_17_furniture_dining_chair_Custom;
+	MI_Phoenix_33_furniture_lamp_Custom?: IMI_Phoenix_33_furniture_lamp_Custom;
+	MI_FabricMaker_Crafter?: IMI_FabricMaker_Crafter;
+	MI_Narrative_146_Furniture_Acceptance_Wreath_Fall?: IMI_Narrative_146_Furniture_Acceptance_Wreath_Fall;
+	MI_Narrative_47_Deco_Fancy_Chest?: IMI_Narrative_47_Deco_Fancy_Chest;
+	MI_Skill_45_foraging_deco_t3_Foliage?: IMI_Skill_45_foraging_deco_t3_Foliage;
+	MI_Skill_45_foraging_deco_t3?: IMI_Skill_45_foraging_deco_t3;
+	MI_Skill_44_foraging_deco_t2?: IMI_Skill_44_foraging_deco_t2;
+	MI_Generic_117_deco_gardening_can_4?: IMI_Generic_117_deco_gardening_can_4;
+	MI_Generic_113_deco_gardening_jug_3?: IMI_Generic_113_deco_gardening_jug_3;
+	MI_Generic_79_deco_herbal_teapot?: IMI_Generic_79_deco_herbal_teapot;
+	MI_Generic_107_deco_gardening_shovel?: IMI_Generic_107_deco_gardening_shovel;
+	MI_Generic_115_deco_gardening_can_2?: IMI_Generic_115_deco_gardening_can_2;
+	MI_Skill_30_gardening_deco_t2?: IMI_Skill_30_gardening_deco_t2;
+	MI_Skill_31_gardening_deco_t3?: IMI_Skill_31_gardening_deco_t3;
+	MI_BuildingConstructionProps?: IMI_BuildingConstructionProps;
+	MI_ConstructionSign?: IMI_ConstructionSign;
+	MI_GlassMaker_Crafter?: IMI_GlassMaker_Crafter;
+	MI_Crafter_Bag?: IMI_Crafter_Bag;
+	MI_WormFarm_01?: IMI_WormFarm_01;
+	MI_trophy_64_bug_catching_tier_2?: IMI_trophy_64_bug_catching_tier_2;
+	MI_trophy_65_cooking_tier_2?: IMI_trophy_65_cooking_tier_2;
+	MI_trophy_66_fishing_tier_2?: IMI_trophy_66_fishing_tier_2;
+	MI_trophy_67_foraging_tier_2?: IMI_trophy_67_foraging_tier_2;
+	MI_trophy_68_furniture_making_tier_2?: IMI_trophy_68_furniture_making_tier_2;
+	MI_trophy_69_gardening_tier_2?: IMI_trophy_69_gardening_tier_2;
+	MI_trophy_70_hunting_tier_2?: IMI_trophy_70_hunting_tier_2;
+	MI_trophy_71_mining_tier_2?: IMI_trophy_71_mining_tier_2;
+	MI_Village_GolemStone?: IMI_Village_GolemStone;
+	MI_Narrative_218_Decor_Grimalkin_Night_Light?: IMI_Narrative_218_Decor_Grimalkin_Night_Light;
+	MI_Narrative_50_Deco_High_Tech_Laser_Pointer?: IMI_Narrative_50_Deco_High_Tech_Laser_Pointer;
+	MI_HealersKit?: IMI_HealersKit;
+	MI_ArcadeTrophy_Gold_01?: IMI_ArcadeTrophy_Gold_01;
+	MI_Sawmill_Crafter?: IMI_Sawmill_Crafter;
+	M_SmelterTier02?: IM_SmelterTier02;
+	MI_Harvest_Deco_Alarm_Clock_Custom?: IMI_Harvest_Deco_Alarm_Clock_Custom;
+	MI_Harvest_Furniture_Chair_Bedroom_B_Custom?: IMI_Harvest_Furniture_Chair_Bedroom_B_Custom;
+	MI_Harvest_Deco_Banner_Floral_Custom?: IMI_Harvest_Deco_Banner_Floral_Custom;
+	MI_Harvest_Ambient_Props_sm_Barrel_Custom?: IMI_Harvest_Ambient_Props_sm_Barrel_Custom;
+	MI_Harvest_Furniture_Bookshelf_Lg_Custom?: IMI_Harvest_Furniture_Bookshelf_Lg_Custom;
+	MI_Harvest_Furniture_Display_Case_Sm_Table_Custom?: IMI_Harvest_Furniture_Display_Case_Sm_Table_Custom;
+	MI_Harvest_Furniture_Display_Case_Lrg_Tall_Glass_Custom?: IMI_Harvest_Furniture_Display_Case_Lrg_Tall_Glass_Custom;
+	MI_Harvest_Deco_Candles_Custom?: IMI_Harvest_Deco_Candles_Custom;
+	MI_Harvest_Furniture_Coffee_Table_Custom?: IMI_Harvest_Furniture_Coffee_Table_Custom;
+	MI_Harvest_Deco_Pots_And_Pans_Custom?: IMI_Harvest_Deco_Pots_And_Pans_Custom;
+	MI_Harvest_Furniture_ChairBedroom_A_Custom?: IMI_Harvest_Furniture_ChairBedroom_A_Custom;
+	MI_Harvest_Furniture_Kitchen_Dining_Chair_Custom?: IMI_Harvest_Furniture_Kitchen_Dining_Chair_Custom;
+	MI_Harvest_Furniture_Kitchen_Dining_Table_Custom?: IMI_Harvest_Furniture_Kitchen_Dining_Table_Custom;
+	MI_Harvest_Furniture_Display_Case_Lrg_Tall_Custom?: IMI_Harvest_Furniture_Display_Case_Lrg_Tall_Custom;
+	MI_Harvest_Ambient_Prop_Mannequin_Custom?: IMI_Harvest_Ambient_Prop_Mannequin_Custom;
+	MI_Harvest_Furniture_End_Table_Custom?: IMI_Harvest_Furniture_End_Table_Custom;
+	MI_Harvest_Furniture_Kitchen_Floor_Cabinet_Custom?: IMI_Harvest_Furniture_Kitchen_Floor_Cabinet_Custom;
+	MI_Harvest_Deco_Planter_Yellow_Flower_P?: IMI_Harvest_Deco_Planter_Yellow_Flower_P;
+	MI_Harvest_Deco_Planter_Yellow_Flower_Custom?: IMI_Harvest_Deco_Planter_Yellow_Flower_Custom;
+	MI_Harvest_Furniture_Kitchen_Cold_Storage_custom?: IMI_Harvest_Furniture_Kitchen_Cold_Storage_custom;
+	MI_Harvest_Furniture_Kitchen_Bench_Custom?: IMI_Harvest_Furniture_Kitchen_Bench_Custom;
+	MI_Harvest_Furniture_Dresser_Custom?: IMI_Harvest_Furniture_Dresser_Custom;
+	MI_Harvest_Deco_Framed_Art_Large_Custom?: IMI_Harvest_Deco_Framed_Art_Large_Custom;
+	MI_Harvest_Lighting_Hanging_Fixture_B3_Custom?: IMI_Harvest_Lighting_Hanging_Fixture_B3_Custom;
+	MI_Harvest_Deco_Rug_Square_Large_Custom?: IMI_Harvest_Deco_Rug_Square_Large_Custom;
+	MI_Harvest_Deco_String_Instrument_Custom?: IMI_Harvest_Deco_String_Instrument_Custom;
+	MI_Harvest_Furniture_Bed_Med_Custom?: IMI_Harvest_Furniture_Bed_Med_Custom;
+	MI_Harvest_Deco_Framed_Art_Med_Custom?: IMI_Harvest_Deco_Framed_Art_Med_Custom;
+	MI_Harvest_Lighting_Hanging_Fixture_B1_Custom?: IMI_Harvest_Lighting_Hanging_Fixture_B1_Custom;
+	MI_Harvest_Deco_Rug_Rect_Med_Custom?: IMI_Harvest_Deco_Rug_Rect_Med_Custom;
+	MI_Harvest_Furniture_Mirror_Med_Wall_Custom?: IMI_Harvest_Furniture_Mirror_Med_Wall_Custom;
+	M_Harvest_Deco_Mirror?: IM_Harvest_Deco_Mirror;
+	MI_Harvest_Furniture_Nightstand_Bedroom_Custom?: IMI_Harvest_Furniture_Nightstand_Bedroom_Custom;
+	MI_Harvest_Furniture_Kitchen_Pantry_Custom?: IMI_Harvest_Furniture_Kitchen_Pantry_Custom;
+	MI_Harvest_Furniture_Kitchen_Pantry_Glass_1?: IMI_Harvest_Furniture_Kitchen_Pantry_Glass_1;
+	MI_Harvest_Deco_Planter_Large_Venus_Flower_P?: IMI_Harvest_Deco_Planter_Large_Venus_Flower_P;
+	MI_Harvest_Deco_Planter_Large_Venus_Flower_Custom?: IMI_Harvest_Deco_Planter_Large_Venus_Flower_Custom;
+	MI_Harvest_Deco_Rug_Runner_Med_Custom?: IMI_Harvest_Deco_Rug_Runner_Med_Custom;
+	MI_Harvest_Cabinet_Storage_Lrg_Custom?: IMI_Harvest_Cabinet_Storage_Lrg_Custom;
+	MI_Harvest_Furniture_Bench_Bedroom_Custom?: IMI_Harvest_Furniture_Bench_Bedroom_Custom;
+	MI_Harvest_Ambient_Props_Bottle_03_Custom?: IMI_Harvest_Ambient_Props_Bottle_03_Custom;
+	MI_Harvest_Furniture_Cabinets_Med_Custom?: IMI_Harvest_Furniture_Cabinets_Med_Custom;
+	MI_Harvest_Lighting_Hanging_Fixture_B2_Custom?: IMI_Harvest_Lighting_Hanging_Fixture_B2_Custom;
+	MI_Harvest_Furniture_Stool_Bedroom_Custom?: IMI_Harvest_Furniture_Stool_Bedroom_Custom;
+	MI_Harvest_Ambient_Props_Bottle_01_Custom?: IMI_Harvest_Ambient_Props_Bottle_01_Custom;
+	MI_Harvest_Deco_Panter_Med_A_Custom?: IMI_Harvest_Deco_Panter_Med_A_Custom;
+	MI_Harvest_Deco_Rug_Small_Custom?: IMI_Harvest_Deco_Rug_Small_Custom;
+	MI_Harvest_Furniture_Kitchen_Wall_Cabinet_Custom?: IMI_Harvest_Furniture_Kitchen_Wall_Cabinet_Custom;
+	MI_Harvest_Furniture_Kitchen_Wall_Cabinet_Glass?: IMI_Harvest_Furniture_Kitchen_Wall_Cabinet_Glass;
+	MI_Harvest_Furniture_Kitchen_Wall_Cabinet_Dishes?: IMI_Harvest_Furniture_Kitchen_Wall_Cabinet_Dishes;
+	MI_Harvest_Deco_Wall_Clock_Custom?: IMI_Harvest_Deco_Wall_Clock_Custom;
+	MI_Harvest_Furniture_Shelf_Sm_Custom?: IMI_Harvest_Furniture_Shelf_Sm_Custom;
+	MI_Harvest_Furniture_Wardrobe_Custom?: IMI_Harvest_Furniture_Wardrobe_Custom;
+	MI_Harvest_Furniture_Kitchen_Waste_Bin_Custom?: IMI_Harvest_Furniture_Kitchen_Waste_Bin_Custom;
+	MI_Harvest_Deco_Framed_Art_Sm_Custom?: IMI_Harvest_Deco_Framed_Art_Sm_Custom;
+	MI_Skill_38_hunting_deco_t3?: IMI_Skill_38_hunting_deco_t3;
+	MI_Skill_37_hunting_deco_t2?: IMI_Skill_37_hunting_deco_t2;
+	MI_Skill_37_hunting_deco_t2_target?: IMI_Skill_37_hunting_deco_t2_target;
+	MI_Narrative_62_Deco_Illuminated_Manuscript?: IMI_Narrative_62_Deco_Illuminated_Manuscript;
+	MI_Ironwood_06_Furniture_Cozy_Chair_Custom?: IMI_Ironwood_06_Furniture_Cozy_Chair_Custom;
+	MI_Ironwood_22_Furniture_Bathroom_Bathtub_Custom?: IMI_Ironwood_22_Furniture_Bathroom_Bathtub_Custom;
+	MI_Ironwood_11_Furniture_Bed_Custom?: IMI_Ironwood_11_Furniture_Bed_Custom;
+	MI_Ironwood_04_Furniture_Bookshelf_Custom?: IMI_Ironwood_04_Furniture_Bookshelf_Custom;
+	MI_Ironwood_19_Furniture_Kitchen_Cupboard_Hanging_Custom?: IMI_Ironwood_19_Furniture_Kitchen_Cupboard_Hanging_Custom;
+	MI_Ironwood_15_Lighting_Chandelier_Custom?: IMI_Ironwood_15_Lighting_Chandelier_Custom;
+	MI_Ironwood_02_Furniture_Coffee_Table_Custom?: IMI_Ironwood_02_Furniture_Coffee_Table_Custom;
+	MI_Ironwood_01_Furniture_Couch_Custom?: IMI_Ironwood_01_Furniture_Couch_Custom;
+	MI_Ironwood_17_Furniture_Dining_Chair_Custom?: IMI_Ironwood_17_Furniture_Dining_Chair_Custom;
+	MI_Ironwood_18_Furniture_Dining_Table_Custom?: IMI_Ironwood_18_Furniture_Dining_Table_Custom;
+	MI_Ironwood_07_Furniture_Dresser_Custom?: IMI_Ironwood_07_Furniture_Dresser_Custom;
+	MI_Ironwood_13_Deco_Planter_Custom?: IMI_Ironwood_13_Deco_Planter_Custom;
+	MI_Ironwood_21_Furniture_Kitchen_Pantry1_Custom?: IMI_Ironwood_21_Furniture_Kitchen_Pantry1_Custom;
+	MI_Ironwood_24_Furniture_Bathroom_Mirror_Custom?: IMI_Ironwood_24_Furniture_Bathroom_Mirror_Custom;
+	MI_Ironwood_08_Furniture_nightstand_Custom?: IMI_Ironwood_08_Furniture_nightstand_Custom;
+	MI_Ironwood_14_Deco_Picture_Frame_Custom?: IMI_Ironwood_14_Deco_Picture_Frame_Custom;
+	MI_Ironwood_14_Deco_Picture_Frame_Picture?: IMI_Ironwood_14_Deco_Picture_Frame_Picture;
+	MI_Ironwood_03_Furniture_Rug_Lrg_Custom?: IMI_Ironwood_03_Furniture_Rug_Lrg_Custom;
+	MI_Ironwood_10_Furniture_Rug_med_Custom?: IMI_Ironwood_10_Furniture_Rug_med_Custom;
+	MI_Ironwood_20_Furniture_Kitchen_Kitchenette_Custom?: IMI_Ironwood_20_Furniture_Kitchen_Kitchenette_Custom;
+	MI_Ironwood_23_Furniture_Bathroom_Rug_Sm_Custom?: IMI_Ironwood_23_Furniture_Bathroom_Rug_Sm_Custom;
+	MI_Ironwood_12_Deco_Large_Wall_Custom?: IMI_Ironwood_12_Deco_Large_Wall_Custom;
+	MI_Ironwood_16_Lighting_Lamp_Light_Custom?: IMI_Ironwood_16_Lighting_Lamp_Light_Custom;
+	MI_Ironwood_05_Furniture_Shelves_Custom?: IMI_Ironwood_05_Furniture_Shelves_Custom;
+	MI_Ironwood_09_Furniture_Wardrobe_Custom?: IMI_Ironwood_09_Furniture_Wardrobe_Custom;
+	MI_TheOrder_02_furniture_Chair?: IMI_TheOrder_02_furniture_Chair;
+	MI_TheOrder_01_furniture_Banner?: IMI_TheOrder_01_furniture_Banner;
+	MI_TheOrder_05_furniture_Bed?: IMI_TheOrder_05_furniture_Bed;
+	MI_TheOrder_03_furniture_Desk_Custom?: IMI_TheOrder_03_furniture_Desk_Custom;
+	MI_TheOrder_03_furniture_Desk?: IMI_TheOrder_03_furniture_Desk;
+	MI_TheOrder_04_furniture_SideTable_Custom?: IMI_TheOrder_04_furniture_SideTable_Custom;
+	MI_TheOrder_04_furniture_SideTable?: IMI_TheOrder_04_furniture_SideTable;
+	MI_TheOrder_09_furniture_Sideboard?: IMI_TheOrder_09_furniture_Sideboard;
+	MI_Winter_12_Deco_Rug_02?: IMI_Winter_12_Deco_Rug_02;
+	MI_Winter_11_Deco_Rug_01_Custom?: IMI_Winter_11_Deco_Rug_01_Custom;
+	MI_Tavern_Deco_Pot_Planter_Metal?: IMI_Tavern_Deco_Pot_Planter_Metal;
+	MI_Tavern_Deco_Flag_Banner?: IMI_Tavern_Deco_Flag_Banner;
+	MI_FerryDock_Planks_01?: IMI_FerryDock_Planks_01;
+	MI_VillageCenter_SymbolDecal_01?: IMI_VillageCenter_SymbolDecal_01;
+	MI_Rewards_Skill_01_Bug_Display_A?: IMI_Rewards_Skill_01_Bug_Display_A;
+	MI_Tavern_Deco_Candle?: IMI_Tavern_Deco_Candle;
+	MI_Harvest_Furniture_Couch_Custom?: IMI_Harvest_Furniture_Couch_Custom;
+	MI_Tavern_Deco_Horn?: IMI_Tavern_Deco_Horn;
+	MI_Tavern_Deco_Frame_Oval_Med?: IMI_Tavern_Deco_Frame_Oval_Med;
+	MI_Tavern_Deco_Fireplace_Receptacle?: IMI_Tavern_Deco_Fireplace_Receptacle;
+	MI_Rewards_Skill_06_Mounted_Fish_A?: IMI_Rewards_Skill_06_Mounted_Fish_A;
+	MI_Rewards_Skill_03_Foraging_Basket?: IMI_Rewards_Skill_03_Foraging_Basket;
+	MI_Tavern_Deco_Gourd_Basket?: IMI_Tavern_Deco_Gourd_Basket;
+	MI_Tavern_Deco_Mead_Bottle?: IMI_Tavern_Deco_Mead_Bottle;
+	MI_Rewards_Skill_05_Mounted_Chapaa_Head?: IMI_Rewards_Skill_05_Mounted_Chapaa_Head;
+	M_CearnukTier03?: IM_CearnukTier03;
+	MI_Rewards_Skill_04_Mounted_Cearnuk_head?: IMI_Rewards_Skill_04_Mounted_Cearnuk_head;
+	MI_Tavern_Main_Couch?: IMI_Tavern_Main_Couch;
+	MI_Tavern_Main_Dining_Chair?: IMI_Tavern_Main_Dining_Chair;
+	MI_Tavern_Main_Dining_Table?: IMI_Tavern_Main_Dining_Table;
+	MI_Tavern_Deco_Rug_Rect_Large?: IMI_Tavern_Deco_Rug_Rect_Large;
+	MI_Tavern_Deco_Vial?: IMI_Tavern_Deco_Vial;
+	MI_Tavern_Deco_Rug_Round_Fringes?: IMI_Tavern_Deco_Rug_Round_Fringes;
+	MI_Tavern_Main_Gaming_Table?: IMI_Tavern_Main_Gaming_Table;
+	MI_Tavern_Deco_Rug_Runner?: IMI_Tavern_Deco_Rug_Runner;
+	MI_Tavern_Deco_Beer_Stein?: IMI_Tavern_Deco_Beer_Stein;
+	MI_Tavern_Main_Bar_Stool?: IMI_Tavern_Main_Bar_Stool;
+	MI_KoiPond_2?: IMI_KoiPond_2;
+	MI_Tavern_Deco_Lantern_LightGlass?: IMI_Tavern_Deco_Lantern_LightGlass;
+	MI_Tavern_Deco_Lantern_Light?: IMI_Tavern_Deco_Lantern_Light;
+	MI_Tavern_Deco_Banner?: IMI_Tavern_Deco_Banner;
+	MI_Rewards_Skill_08_Palium_Bar_02?: IMI_Rewards_Skill_08_Palium_Bar_02;
+	MI_Rewards_Skill_08_Palium_Bar?: IMI_Rewards_Skill_08_Palium_Bar;
+	MI_Tavern_Deco_Ormuu_Horn_Mount?: IMI_Tavern_Deco_Ormuu_Horn_Mount;
+	MI_Tavern_Deco_Frame_Ornate_Round?: IMI_Tavern_Deco_Frame_Ornate_Round;
+	MI_Tavern_Deco_Frame_Tall_Med?: IMI_Tavern_Deco_Frame_Tall_Med;
+	MI_Tavern_Deco_Pod_Flower_Planter_Med?: IMI_Tavern_Deco_Pod_Flower_Planter_Med;
+	MI_Tavern_Deco_Pod_planter_Med?: IMI_Tavern_Deco_Pod_planter_Med;
+	MI_Narrative_204_Furniture_Framed_Map_Kilima?: IMI_Narrative_204_Furniture_Framed_Map_Kilima;
+	MI_Tavern_Deco_Picture_Frame_Ornate_Wide?: IMI_Tavern_Deco_Picture_Frame_Ornate_Wide;
+	MI_Blacksmith_Oldwheel?: IMI_Blacksmith_Oldwheel;
+	MI_Tavern_Deco_Wheat_Flower_PlanterPot_Large?: IMI_Tavern_Deco_Wheat_Flower_PlanterPot_Large;
+	MI_Tavern_Deco_Wheat_Flower_Planter_Large?: IMI_Tavern_Deco_Wheat_Flower_Planter_Large;
+	MI_Narrative_202_Furniture_Tau_Plush?: IMI_Narrative_202_Furniture_Tau_Plush;
+	MI_Log_Furniture_Chair_Cozy_Custom?: IMI_Log_Furniture_Chair_Cozy_Custom;
+	MI_Log_Furniture_Bed_Blanket_Custom?: IMI_Log_Furniture_Bed_Blanket_Custom;
+	MI_Log_Furniture_Bed_Custom?: IMI_Log_Furniture_Bed_Custom;
+	MI_Log_Furniture_Bookshelf_Custom?: IMI_Log_Furniture_Bookshelf_Custom;
+	MI_Log_Furniture_Bookshelf_Assets?: IMI_Log_Furniture_Bookshelf_Assets;
+	MI_Log_Furniture_Hanging_Light_Lamp_Custom?: IMI_Log_Furniture_Hanging_Light_Lamp_Custom;
+	MI_Log_Furniture_Hanging_Light_Custom?: IMI_Log_Furniture_Hanging_Light_Custom;
+	MI_Log_Furniture_Coffee_Table_Custom?: IMI_Log_Furniture_Coffee_Table_Custom;
+	MI_Log_Furniture_Couch_Custom?: IMI_Log_Furniture_Couch_Custom;
+	MI_Log_Furniture_Dining_Chair_Custom?: IMI_Log_Furniture_Dining_Chair_Custom;
+	MI_Log_Furniture_Dining_Table_Round_Custom?: IMI_Log_Furniture_Dining_Table_Round_Custom;
+	MI_Log_Furniture_Partition_Custom?: IMI_Log_Furniture_Partition_Custom;
+	MI_Log_Outdoor_Wooden_Log_Deer_Custom?: IMI_Log_Outdoor_Wooden_Log_Deer_Custom;
+	MI_Log_Deco_Rug_02_Custom?: IMI_Log_Deco_Rug_02_Custom;
+	MI_Log_Outdoor_Bench_Custom?: IMI_Log_Outdoor_Bench_Custom;
+	MI_Log_18_furniture_wall_torch_Custom?: IMI_Log_18_furniture_wall_torch_Custom;
+	MI_Log_Deco_Log_Stand_Custom?: IMI_Log_Deco_Log_Stand_Custom;
+	MI_Makeshift_Deco_Wood_Logstand?: IMI_Makeshift_Deco_Wood_Logstand;
+	MI_Log_Furniture_Nightstand_Custom?: IMI_Log_Furniture_Nightstand_Custom;
+	MI_Log_Deco_Rug_01_Custom?: IMI_Log_Deco_Rug_01_Custom;
+	MI_Log_Deco_01_Custom?: IMI_Log_Deco_01_Custom;
+	MI_Log_Outdoor_Deco_01_Custom?: IMI_Log_Outdoor_Deco_01_Custom;
+	MI_Log_Outdoor_Deco_01_Lamp_Custom?: IMI_Log_Outdoor_Deco_01_Lamp_Custom;
+	MI_Log_Furniture_Storage_Cabinet_Custom?: IMI_Log_Furniture_Storage_Cabinet_Custom;
+	MI_Log_17_furniture_small_standing_torch_Custom?: IMI_Log_17_furniture_small_standing_torch_Custom;
+	MI_Log_Furniture_Lamp_Custom?: IMI_Log_Furniture_Lamp_Custom;
+	MI_Log_Furniture_Lamp_Lamp_Custom?: IMI_Log_Furniture_Lamp_Lamp_Custom;
+	MI_Log_Outdoor_Wooden_Stool_Custom?: IMI_Log_Outdoor_Wooden_Stool_Custom;
+	MI_Log_Outdoor_Wooden_Stump_Chair_Custom?: IMI_Log_Outdoor_Wooden_Stump_Chair_Custom;
+	MI_Log_Furniture_Kitchen_Cupboard_Custom?: IMI_Log_Furniture_Kitchen_Cupboard_Custom;
+	MI_Log_Furniture_Wall_Clock_Custom?: IMI_Log_Furniture_Wall_Clock_Custom;
+	MI_Log_Deco_Branch_On_The_Wall_Custom?: IMI_Log_Deco_Branch_On_The_Wall_Custom;
+	MI_Log_Furniture_Wall_Light_Lamp_Custom?: IMI_Log_Furniture_Wall_Light_Lamp_Custom;
+	MI_Log_Furniture_Wall_light_Custom?: IMI_Log_Furniture_Wall_light_Custom;
+	MI_Log_Furniture_Wall_Shelf_Custom?: IMI_Log_Furniture_Wall_Shelf_Custom;
+	MI_Log_16_furniture_hanging_torch_Custom?: IMI_Log_16_furniture_hanging_torch_Custom;
+	MI_Log_Furniture_Wardrobe_Custom?: IMI_Log_Furniture_Wardrobe_Custom;
+	MI_Narrative_103_Furniture_Lucky_Horseshoe?: IMI_Narrative_103_Furniture_Lucky_Horseshoe;
+	MI_Narrative_100_Furniture_Lucky_Stew_Pot?: IMI_Narrative_100_Furniture_Lucky_Stew_Pot;
+	MI_Narrative_59_Deco_Lute?: IMI_Narrative_59_Deco_Lute;
+	MI_MajiMarket_12_lighting_Lantern_01?: IMI_MajiMarket_12_lighting_Lantern_01;
+	MI_MajiMarket_15_outdoor_MarketArch_Roof?: IMI_MajiMarket_15_outdoor_MarketArch_Roof;
+	MI_MajiMarket_15_outdoor_MarketArch?: IMI_MajiMarket_15_outdoor_MarketArch;
+	MI_MajiMarket_14_outdoor_MerchCart?: IMI_MajiMarket_14_outdoor_MerchCart;
+	MI_MajiMarket_14_outdoor_MerchCart_Roof?: IMI_MajiMarket_14_outdoor_MerchCart_Roof;
+	MI_MajiMarket_20_outdoor_StandeeChapaa?: IMI_MajiMarket_20_outdoor_StandeeChapaa;
+	MI_MajiMarket_05_deco_Fan?: IMI_MajiMarket_05_deco_Fan;
+	MI_MajiMarket_01_furniture_ShojiScreen?: IMI_MajiMarket_01_furniture_ShojiScreen;
+	MI_MajiMarket_06_deco_MajiDrum_base?: IMI_MajiMarket_06_deco_MajiDrum_base;
+	MI_MajiMarket_04_deco_Poster_01?: IMI_MajiMarket_04_deco_Poster_01;
+	MI_MajiMarket_21_outdoor_StandeeOrmuu?: IMI_MajiMarket_21_outdoor_StandeeOrmuu;
+	MI_MajiMarket_08_deco_Spirit_Blossom_Plant?: IMI_MajiMarket_08_deco_Spirit_Blossom_Plant;
+	MI_Cosmetic_45_deco_mochi_lantern?: IMI_Cosmetic_45_deco_mochi_lantern;
+	MI_Cosmetic_44_deco_mochi_basket?: IMI_Cosmetic_44_deco_mochi_basket;
+	MI_Makeshift_Deco_Alarm_Clock_Custom?: IMI_Makeshift_Deco_Alarm_Clock_Custom;
+	MI_Makeshift_Furniture_Large_Chair_Custom?: IMI_Makeshift_Furniture_Large_Chair_Custom;
+	MI_Makeshift_Furniture_Bed_Med_Custom?: IMI_Makeshift_Furniture_Bed_Med_Custom;
+	MI_Makeshift_Furniture_Bench_Bedroom_Custom?: IMI_Makeshift_Furniture_Bench_Bedroom_Custom;
+	MI_Makeshift_Birdbath_Custom?: IMI_Makeshift_Birdbath_Custom;
+	MI_Makeshift_Furniture_Bookshelf_Large_Custom?: IMI_Makeshift_Furniture_Bookshelf_Large_Custom;
+	MI_Makeshift_Deco_C_Hanging_Pails_Custom?: IMI_Makeshift_Deco_C_Hanging_Pails_Custom;
+	MI_Makeshift_Lighting_Wall_Ladlecandle_Custom?: IMI_Makeshift_Lighting_Wall_Ladlecandle_Custom;
+	MI_Makeshift_Lighting_Wheel_Chandelier_Custom?: IMI_Makeshift_Lighting_Wheel_Chandelier_Custom;
+	MI_Makeshift_Deco_Chappa_Rug_Custom?: IMI_Makeshift_Deco_Chappa_Rug_Custom;
+	MI_Makeshift_Bread_and_Jam_Custom?: IMI_Makeshift_Bread_and_Jam_Custom;
+	MI_Makeshift_Deco_Suitcase_Custom?: IMI_Makeshift_Deco_Suitcase_Custom;
+	MI_Makeshift_Deco_Chappa_Mount_Custom?: IMI_Makeshift_Deco_Chappa_Mount_Custom;
+	MI_Makeshift_Deco_Cearnuk_Mount_Custom?: IMI_Makeshift_Deco_Cearnuk_Mount_Custom;
+	MI_Makeshift_Clothes_Line_Custom?: IMI_Makeshift_Clothes_Line_Custom;
+	MI_Makeshift_Coat_Rack_Custom?: IMI_Makeshift_Coat_Rack_Custom;
+	MI_Makeshift_Furniture_Coffee_Table_Custom?: IMI_Makeshift_Furniture_Coffee_Table_Custom;
+	MI_Makeshift_Pots_and_Pans_Custom?: IMI_Makeshift_Pots_and_Pans_Custom;
+	MI_Makeshift_Furniture_Couch_Custom?: IMI_Makeshift_Furniture_Couch_Custom;
+	MI_Makeshift_Deco_Fish_Mount_Custom?: IMI_Makeshift_Deco_Fish_Mount_Custom;
+	MI_Makeshift_Furniture_Bedroom_Chair_Custom?: IMI_Makeshift_Furniture_Bedroom_Chair_Custom;
+	MI_Makeshift_Furniture_Dresser_Custom?: IMI_Makeshift_Furniture_Dresser_Custom;
+	MI_Makeshift_Furniture_Nightstand_Bedroom_Custom?: IMI_Makeshift_Furniture_Nightstand_Bedroom_Custom;
+	MI_Makeshift_Furniture_End_Table_Custom?: IMI_Makeshift_Furniture_End_Table_Custom;
+	MI_Makeshift_Furniture_Mirror_Med_Wall_Custom?: IMI_Makeshift_Furniture_Mirror_Med_Wall_Custom;
+	MI_Makeshift_Deco_Sad_Tree_Planter_Custom?: IMI_Makeshift_Deco_Sad_Tree_Planter_Custom;
+	MI_Makeshift_Deco_Pot_Planter_Custom?: IMI_Makeshift_Deco_Pot_Planter_Custom;
+	MI_Makeshift_Furniture_Kitchen_Cabinet_Custom?: IMI_Makeshift_Furniture_Kitchen_Cabinet_Custom;
+	MI_Makeshift_Deco_Jug_Vase_Custom?: IMI_Makeshift_Deco_Jug_Vase_Custom;
+	MI_Makeshift_Wagonwheel_Deco_Custom?: IMI_Makeshift_Wagonwheel_Deco_Custom;
+	MI_Makeshift_Lawn_Ornament_Chappa_Custom?: IMI_Makeshift_Lawn_Ornament_Chappa_Custom;
+	MI_Makeshift_Deco_Hanging_Planter02_Custom?: IMI_Makeshift_Deco_Hanging_Planter02_Custom;
+	MI_Makeshift_Deco_Old_Shoe_Custom?: IMI_Makeshift_Deco_Old_Shoe_Custom;
+	MI_Makeshift_Deco_Cabinet_Planter_Custom?: IMI_Makeshift_Deco_Cabinet_Planter_Custom;
+	MI_Makeshift_Deco_F_Ladder_Deco_Custom?: IMI_Makeshift_Deco_F_Ladder_Deco_Custom;
+	MI_Makeshift_Furniture_Kitchen_Cabinet_Hanging_Glass?: IMI_Makeshift_Furniture_Kitchen_Cabinet_Hanging_Glass;
+	MI_Makeshift_Furniture_Kitchen_Cabinet_Hanging_Custom?: IMI_Makeshift_Furniture_Kitchen_Cabinet_Hanging_Custom;
+	MI_Makeshift_Furniture_Kettle_Lamp_Custom?: IMI_Makeshift_Furniture_Kettle_Lamp_Custom;
+	MI_Makeshift_Deco_Kettle_Lamp?: IMI_Makeshift_Deco_Kettle_Lamp;
+	MI_Makeshift_Deco_E_Rake_Shelf_Custom?: IMI_Makeshift_Deco_E_Rake_Shelf_Custom;
+	MI_Makeshift_Furniture_Kitchen_Shelf_Custom?: IMI_Makeshift_Furniture_Kitchen_Shelf_Custom;
+	MI_Makeshift_Furniture_Dining_Table_Custom?: IMI_Makeshift_Furniture_Dining_Table_Custom;
+	MI_Makeshift_Deco_Wreath_B_Custom?: IMI_Makeshift_Deco_Wreath_B_Custom;
+	MI_Makeshift_Lawn_Chair_Custom?: IMI_Makeshift_Lawn_Chair_Custom;
+	MI_Makeshift_Deco_Wood_Logstand_Custom?: IMI_Makeshift_Deco_Wood_Logstand_Custom;
+	MI_Makeshift_Deco_Hanging_Planter_Custom?: IMI_Makeshift_Deco_Hanging_Planter_Custom;
+	MI_Makeshift_Deco_Suitcase_Stool_Custom?: IMI_Makeshift_Deco_Suitcase_Stool_Custom;
+	MI_Makeshift_Outhouse_Structure_Custom?: IMI_Makeshift_Outhouse_Structure_Custom;
+	MI_Makeshift_Furniture_Kitchen_Pantry_Custom?: IMI_Makeshift_Furniture_Kitchen_Pantry_Custom;
+	MI_Makeshift_Sun_Umbrella_Custom?: IMI_Makeshift_Sun_Umbrella_Custom;
+	MI_Makeshift_Picnic_Blanket_Custom?: IMI_Makeshift_Picnic_Blanket_Custom;
+	MI_Makeshift_Picnic_Table_Custom?: IMI_Makeshift_Picnic_Table_Custom;
+	MI_Makeshift_Deco_Framed_Art_Large_Custom?: IMI_Makeshift_Deco_Framed_Art_Large_Custom;
+	Mi_Makeshift_Deco_Rug_Rect_Custom?: IMi_Makeshift_Deco_Rug_Rect_Custom;
+	MI_Makeshift_Furniture_Small_Round_Table_Custom?: IMI_Makeshift_Furniture_Small_Round_Table_Custom;
+	MI_Makeshift_Deco_Framed_Art_Med_Custom?: IMI_Makeshift_Deco_Framed_Art_Med_Custom;
+	MI_Makeshift_Deco_Cearnuk_Rug_Custom?: IMI_Makeshift_Deco_Cearnuk_Rug_Custom;
+	MI_Makeshift_Furniture_Short_Round_Keg_Table_Custom?: IMI_Makeshift_Furniture_Short_Round_Keg_Table_Custom;
+	MI_Makeshift_Deco_D_Wall_Cabinet_Custom?: IMI_Makeshift_Deco_D_Wall_Cabinet_Custom;
+	MI_Makeshift_Deco_D_Wall_Cabinet_Glass?: IMI_Makeshift_Deco_D_Wall_Cabinet_Glass;
+	MI_Makeshift_Deco_Framed_Art_Small_Custom?: IMI_Makeshift_Deco_Framed_Art_Small_Custom;
+	MI_Makeshift_Furniture_Lamp_Custom?: IMI_Makeshift_Furniture_Lamp_Custom;
+	MI_Makeshift_Deco_Wall_Graterplanter_Custom?: IMI_Makeshift_Deco_Wall_Graterplanter_Custom;
+	MI_Makeshift_Furniture_Short_Square_Table_Custom?: IMI_Makeshift_Furniture_Short_Square_Table_Custom;
+	MI_Makeshift_Deco_Rug_Rect_Large_Custom?: IMI_Makeshift_Deco_Rug_Rect_Large_Custom;
+	MI_Makeshift_Furniture_Stool_Custom?: IMI_Makeshift_Furniture_Stool_Custom;
+	MI_Makeshift_Deco_Ugly_Plant_Custom?: IMI_Makeshift_Deco_Ugly_Plant_Custom;
+	MI_Makeshift_Deco_Earwax_Candle02_Custom?: IMI_Makeshift_Deco_Earwax_Candle02_Custom;
+	MI_Makeshift_Deco_Earwax_Candle01_Custom?: IMI_Makeshift_Deco_Earwax_Candle01_Custom;
+	MI_Makeshift_Deco_Thistle_Planter_Custom?: IMI_Makeshift_Deco_Thistle_Planter_Custom;
+	MI_Makeshift_Trellus_Leaves?: IMI_Makeshift_Trellus_Leaves;
+	MI_Makeshift_Trellus_Custom?: IMI_Makeshift_Trellus_Custom;
+	MI_Makeshift_Deco_B_Shutter_Shelf_Custom?: IMI_Makeshift_Deco_B_Shutter_Shelf_Custom;
+	MI_Makeshift_Deco_Wall_Clock_Custom?: IMI_Makeshift_Deco_Wall_Clock_Custom;
+	MI_Makeshift_Lighting_Wall_Lampshade_Custom?: IMI_Makeshift_Lighting_Wall_Lampshade_Custom;
+	MI_Makeshift_Deco_A_Shelf_Custom?: IMI_Makeshift_Deco_A_Shelf_Custom;
+	MI_Makeshift_Furniture_Wardrobe_Custom?: IMI_Makeshift_Furniture_Wardrobe_Custom;
+	MI_Makeshift_Trash_Bin_Custom?: IMI_Makeshift_Trash_Bin_Custom;
+	MI_Makeshift_Deco_Ormuu_Mount_Custom?: IMI_Makeshift_Deco_Ormuu_Mount_Custom;
+	MI_Cosmetic_26_deco_bee_beesleeper_plushie_wings?: IMI_Cosmetic_26_deco_bee_beesleeper_plushie_wings;
+	MI_Cosmetic_26_deco_bee_beesleeper_plushie_Custom?: IMI_Cosmetic_26_deco_bee_beesleeper_plushie_Custom;
+	MI_Narrative_102_Furniture_Mechanical_Chapaa?: IMI_Narrative_102_Furniture_Mechanical_Chapaa;
+	MI_Mining_Node_MetalPebbles_01?: IMI_Mining_Node_MetalPebbles_01;
+	MI_Harvest_MixingTable?: IMI_Harvest_MixingTable;
+	MI_ModificationBench_Props?: IMI_ModificationBench_Props;
+	MI_ModificationBench_Crafter?: IMI_ModificationBench_Crafter;
+	MI_Alchemist_22_furniture_bathroom_bathtub_Custom?: IMI_Alchemist_22_furniture_bathroom_bathtub_Custom;
+	MI_Alchemist_11_furniture_bed_Custom?: IMI_Alchemist_11_furniture_bed_Custom;
+	MI_Alchemist_04_furniture_bookshelf_Custom?: IMI_Alchemist_04_furniture_bookshelf_Custom;
+	MI_Alchemist_15_lighting_chandelier_Custom?: IMI_Alchemist_15_lighting_chandelier_Custom;
+	MI_Alchemist_02_furniture_coffee_table_Custom?: IMI_Alchemist_02_furniture_coffee_table_Custom;
+	MI_Alchemist_01_furniture_couch_Custom?: IMI_Alchemist_01_furniture_couch_Custom;
+	MI_Alchemist_17_furniture_dining_chair_Custom?: IMI_Alchemist_17_furniture_dining_chair_Custom;
+	MI_Alchemist_18_furniture_dining_table_Custom?: IMI_Alchemist_18_furniture_dining_table_Custom;
+	MI_Alchemist_13_deco_planter_Custom?: IMI_Alchemist_13_deco_planter_Custom;
+	MI_Alchemist_06_deco_grimoire_Custom?: IMI_Alchemist_06_deco_grimoire_Custom;
+	MI_Alchemist_25_furniture_outdoor_deco_1_Custom?: IMI_Alchemist_25_furniture_outdoor_deco_1_Custom;
+	MI_Alchemist_08_furniture_nightstand_Custom?: IMI_Alchemist_08_furniture_nightstand_Custom;
+	MI_Alchemist_03_furniture_rug_lrg_Custom?: IMI_Alchemist_03_furniture_rug_lrg_Custom;
+	MI_Alchemist_10_furniture_rug_med_Custom?: IMI_Alchemist_10_furniture_rug_med_Custom;
+	MI_Alchemist_23_furniture_bathroom_rug_sm_Custom?: IMI_Alchemist_23_furniture_bathroom_rug_sm_Custom;
+	MI_Alchemist_26_furniture_outdoor_deco_2_Custom?: IMI_Alchemist_26_furniture_outdoor_deco_2_Custom;
+	MI_Alchemist_16_lighting_lamp_light_Custom?: IMI_Alchemist_16_lighting_lamp_light_Custom;
+	MI_Alchemist_12_deco_large_wall_Custom?: IMI_Alchemist_12_deco_large_wall_Custom;
+	MI_Alchemist_05_furniture_shelves_Custom?: IMI_Alchemist_05_furniture_shelves_Custom;
+	MI_Alchemist_09_furniture_wardrobe_Custom?: IMI_Alchemist_09_furniture_wardrobe_Custom;
+	MI_Narrative_79_Deco_Mud_Pie?: IMI_Narrative_79_Deco_Mud_Pie;
+	MI_Cosmetic_28_Deco_OrmuuMug?: IMI_Cosmetic_28_Deco_OrmuuMug;
+	MI_Narrative_25_Deco_Phoenix_Statue?: IMI_Narrative_25_Deco_Phoenix_Statue;
+	MI_Narrative_214_Container_Bahari_Tier3?: IMI_Narrative_214_Container_Bahari_Tier3;
+	MI_Narrative_213_Container_Bahari_Tier2?: IMI_Narrative_213_Container_Bahari_Tier2;
+	MI_Narrative_212_Container_Bahari_Tier1?: IMI_Narrative_212_Container_Bahari_Tier1;
+	MI_Harvest_ChoppingTable?: IMI_Harvest_ChoppingTable;
+	MI_PreservesJar_01?: IMI_PreservesJar_01;
+	MI_Rustic_03_furniture_rug_lrg_Custom?: IMI_Rustic_03_furniture_rug_lrg_Custom;
+	MI_Rustic_06_furniture_cozy_chair_Custom?: IMI_Rustic_06_furniture_cozy_chair_Custom;
+	MI_Rustic_22_furniture_bathroom_bathtub_Custom?: IMI_Rustic_22_furniture_bathroom_bathtub_Custom;
+	MI_Rustic_11_furniture_bed_Custom?: IMI_Rustic_11_furniture_bed_Custom;
+	MI_Rustic_27_furniture_outdoor_deco_3_Custom?: IMI_Rustic_27_furniture_outdoor_deco_3_Custom;
+	MI_Library_11_Books?: IMI_Library_11_Books;
+	MI_Rustic_04_furniture_bookshelf_Custom?: IMI_Rustic_04_furniture_bookshelf_Custom;
+	MI_Rustic_28_deco_plush_b_Custom?: IMI_Rustic_28_deco_plush_b_Custom;
+	MI_Rustic_29_Deco_plush_b_02?: IMI_Rustic_29_Deco_plush_b_02;
+	MI_Rustic_15_lighting_chandelier_Custom?: IMI_Rustic_15_lighting_chandelier_Custom;
+	MI_Rustic_30_Deco_plush_c_Custom?: IMI_Rustic_30_Deco_plush_c_Custom;
+	MI_Rustic_28_deco_plush_Custom?: IMI_Rustic_28_deco_plush_Custom;
+	MI_Rustic_02_furniture_coffee_table_Custom?: IMI_Rustic_02_furniture_coffee_table_Custom;
+	MI_Rustic_01_furniture_couch_Custom?: IMI_Rustic_01_furniture_couch_Custom;
+	MI_Rustic_17_furniture_dining_chair_Custom?: IMI_Rustic_17_furniture_dining_chair_Custom;
+	MI_Rustic_18_furniture_dining_table_Custom?: IMI_Rustic_18_furniture_dining_table_Custom;
+	MI_Rustic_23_furniture_bathroom_rug_sm_Custom?: IMI_Rustic_23_furniture_bathroom_rug_sm_Custom;
+	MI_Rustic_07_furniture_dresser_Custom?: IMI_Rustic_07_furniture_dresser_Custom;
+	MI_Rustic_25_furniture_outdoor_deco_1_Custom?: IMI_Rustic_25_furniture_outdoor_deco_1_Custom;
+	MI_Rustic_26_furniture_outdoor_deco_2_Custom?: IMI_Rustic_26_furniture_outdoor_deco_2_Custom;
+	MI_Rustic_24_furniture_bathroom_mirror_Custom?: IMI_Rustic_24_furniture_bathroom_mirror_Custom;
+	MI_Rustic_08_furniture_nightstand_Custom?: IMI_Rustic_08_furniture_nightstand_Custom;
+	MI_Rustic_21_furniture_kitchen_pantry_Custom?: IMI_Rustic_21_furniture_kitchen_pantry_Custom;
+	MI_Rustic_10_furniture_rug_med_Custom?: IMI_Rustic_10_furniture_rug_med_Custom;
+	MI_Rustic_20_furniture_kitchen_kitchenette_Custom?: IMI_Rustic_20_furniture_kitchen_kitchenette_Custom;
+	MI_Rustic_16_lighting_lamp_light_Custom?: IMI_Rustic_16_lighting_lamp_light_Custom;
+	MI_Rustic_13_deco_planter_Custom?: IMI_Rustic_13_deco_planter_Custom;
+	MI_Rustic_19_furniture_kitchen_cupboard_hanging_Custom?: IMI_Rustic_19_furniture_kitchen_cupboard_hanging_Custom;
+	MI_Rustic_14_deco_picture_frame_Custom?: IMI_Rustic_14_deco_picture_frame_Custom;
+	MI_Rustic_05_furniture_shelves_Custom?: IMI_Rustic_05_furniture_shelves_Custom;
+	MI_Rustic_09_furniture_wardrobe_Custom?: IMI_Rustic_09_furniture_wardrobe_Custom;
+	MI_Gothic_28_furniture_Cozy_Chair_Custom?: IMI_Gothic_28_furniture_Cozy_Chair_Custom;
+	MI_Gothic_20_furniture_bathtub_Custom?: IMI_Gothic_20_furniture_bathtub_Custom;
+	MI_Gothic_12_furniture_candle_stand_Custom?: IMI_Gothic_12_furniture_candle_stand_Custom;
+	MI_Gothic_09_furniture_chandelier_Custom?: IMI_Gothic_09_furniture_chandelier_Custom;
+	MI_Gothic_09_furniture_pendant_light_Custom?: IMI_Gothic_09_furniture_pendant_light_Custom;
+	MI_Gothic_19_furniture_display_table_Custom?: IMI_Gothic_19_furniture_display_table_Custom;
+	MI_Gothic_03_furniture_couch_Custom?: IMI_Gothic_03_furniture_couch_Custom;
+	MI_Gothic_30_furniture_Dining_Chair_Custom?: IMI_Gothic_30_furniture_Dining_Chair_Custom;
+	MI_Gothic_29_furniture_Dining_table_Custom?: IMI_Gothic_29_furniture_Dining_table_Custom;
+	MI_Gothic_18_furniture_rug_small_Custom?: IMI_Gothic_18_furniture_rug_small_Custom;
+	MI_Gothic_32_furniture_kitchen_cupboard_Custom?: IMI_Gothic_32_furniture_kitchen_cupboard_Custom;
+	MI_Gothic_37_furniture_outdoor_deco_stonework_Custom?: IMI_Gothic_37_furniture_outdoor_deco_stonework_Custom;
+	MI_Gothic_06_furniture_flower_vase_Custom?: IMI_Gothic_06_furniture_flower_vase_Custom;
+	MI_Gothic_36_furniture_partition_Custom?: IMI_Gothic_36_furniture_partition_Custom;
+	MI_Gothic_07_furniture_display_stand_Custom?: IMI_Gothic_07_furniture_display_stand_Custom;
+	MI_Gothic_13_furniture_picture_frame_large_Custom?: IMI_Gothic_13_furniture_picture_frame_large_Custom;
+	MI_Gothic_13_furniture_frames_art?: IMI_Gothic_13_furniture_frames_art;
+	MI_Gothic_14_furniture_picture_frame_medium_Custom?: IMI_Gothic_14_furniture_picture_frame_medium_Custom;
+	MI_Gothic_14_furniture_frames_art?: IMI_Gothic_14_furniture_frames_art;
+	MI_Gothic_02_furniture_mirror_Custom?: IMI_Gothic_02_furniture_mirror_Custom;
+	MI_Gothic_21_furniture_nightstand_Custom?: IMI_Gothic_21_furniture_nightstand_Custom;
+	MI_Gothic_31_furniture_Storage_cabinet_Custom?: IMI_Gothic_31_furniture_Storage_cabinet_Custom;
+	MI_Gothic_17_furniture_rug_medium_Custom?: IMI_Gothic_17_furniture_rug_medium_Custom;
+	MI_Gothic_01_furniture_bed_Custom?: IMI_Gothic_01_furniture_bed_Custom;
+	MI_Gothic_23_furniture_lamp_light_Custom?: IMI_Gothic_23_furniture_lamp_light_Custom;
+	MI_Gothic_15_furniture_picture_frame_small_Custom?: IMI_Gothic_15_furniture_picture_frame_small_Custom;
+	MI_Gothic_15_furniture_frames_art?: IMI_Gothic_15_furniture_frames_art;
+	MI_Gothic_08_furniture_spotlight_Custom?: IMI_Gothic_08_furniture_spotlight_Custom;
+	MI_Gothic_42_furniture_outdoor_lamp_Custom?: IMI_Gothic_42_furniture_outdoor_lamp_Custom;
+	MI_Gothic_41_furniture_toilet_Custom?: IMI_Gothic_41_furniture_toilet_Custom;
+	MI_Gothic_39_furniture_deco_vase_Custom?: IMI_Gothic_39_furniture_deco_vase_Custom;
+	MI_Gothic_43_furniture_wall_cupboard_Custom?: IMI_Gothic_43_furniture_wall_cupboard_Custom;
+	MI_Gothic_27_furniture_wall_clock_Custom?: IMI_Gothic_27_furniture_wall_clock_Custom;
+	MI_Gothic_11_furniture_wall_light_Custom?: IMI_Gothic_11_furniture_wall_light_Custom;
+	MI_Gothic_05_furniture_wall_mirror_Custom?: IMI_Gothic_05_furniture_wall_mirror_Custom;
+	MI_Gothic_26_furniture_shelves_Custom?: IMI_Gothic_26_furniture_shelves_Custom;
+	MI_Gothic_22_furniture_wardrobe_Custom?: IMI_Gothic_22_furniture_wardrobe_Custom;
+	MI_Blacksmith_Anvil?: IMI_Blacksmith_Anvil;
+	M_WorkBenchTier01?: IM_WorkBenchTier01;
+	MI_Narrative_63_Deco_Mounted_Creature?: IMI_Narrative_63_Deco_Mounted_Creature;
+	MI_Cosmetic_29_Deco_SingingStone?: IMI_Cosmetic_29_Deco_SingingStone;
+	MI_SeedMaker_01?: IMI_SeedMaker_01;
+	MI_SeedMaker_01_Belt?: IMI_SeedMaker_01_Belt;
+	MI_Narrative_156_Prop_Seance_Candle?: IMI_Narrative_156_Prop_Seance_Candle;
+	MI_Cosmetic_02_deco_80s_skateboard_1?: IMI_Cosmetic_02_deco_80s_skateboard_1;
+	MI_trophy_56_bug_catching_tier_1?: IMI_trophy_56_bug_catching_tier_1;
+	MI_trophy_57_cooking_tier_1?: IMI_trophy_57_cooking_tier_1;
+	MI_trophy_58_fishing_tier_1?: IMI_trophy_58_fishing_tier_1;
+	MI_trophy_59_foraging_tier_1?: IMI_trophy_59_foraging_tier_1;
+	MI_trophy_60_furniture_making_tier_1?: IMI_trophy_60_furniture_making_tier_1;
+	MI_trophy_61_gardening_tier_1?: IMI_trophy_61_gardening_tier_1;
+	MI_trophy_62_hunting_tier_1?: IMI_trophy_62_hunting_tier_1;
+	MI_trophy_63_mining_tier_1?: IMI_trophy_63_mining_tier_1;
+	MI_Narrative_83_Deco_Sketch_of_Whale?: IMI_Narrative_83_Deco_Sketch_of_Whale;
+	MI_Narrative_61_Deco_Farmhouse_Style_Spicerack?: IMI_Narrative_61_Deco_Farmhouse_Style_Spicerack;
+	MI_Halloween_04_deco_SpookyCandle_01?: IMI_Halloween_04_deco_SpookyCandle_01;
+	MI_Halloween_05_deco_SpookyCandle_02?: IMI_Halloween_05_deco_SpookyCandle_02;
+	MI_GardenCrops_Pumpkin_01A?: IMI_GardenCrops_Pumpkin_01A;
+	MI_Halloween_02_deco_JackOLantern?: IMI_Halloween_02_deco_JackOLantern;
+	MI_Halloween_01_deco_PlainPumpkin?: IMI_Halloween_01_deco_PlainPumpkin;
+	MI_Halloween_06_deco_PumpkinPile?: IMI_Halloween_06_deco_PumpkinPile;
+	MI_Halloween_03_deco_JackOLantern_Searnuk?: IMI_Halloween_03_deco_JackOLantern_Searnuk;
+	MI_Narrative_172_Furniture_Acceptance_Wreaths_Spring?: IMI_Narrative_172_Furniture_Acceptance_Wreaths_Spring;
+	MI_OvenCrafter?: IMI_OvenCrafter;
+	MI_Harvest_Stove?: IMI_Harvest_Stove;
+	MI_Rewards_Skill_02_Bug_Display_B?: IMI_Rewards_Skill_02_Bug_Display_B;
+	MI_Rewards_Skill_07_Mounted_Fish_B?: IMI_Rewards_Skill_07_Mounted_Fish_B;
+	MI_Narrative_170_Furniture_Acceptance_Wreaths_Summer?: IMI_Narrative_170_Furniture_Acceptance_Wreaths_Summer;
+	MI_Cosmetic_03_deco_80s_skateboard_2_02?: IMI_Cosmetic_03_deco_80s_skateboard_2_02;
+	MI_Cosmetic_03_deco_80s_skateboard_2_01?: IMI_Cosmetic_03_deco_80s_skateboard_2_01;
+	MI_Cosmetic_03_deco_80s_skateboard_2_03?: IMI_Cosmetic_03_deco_80s_skateboard_2_03;
+	MI_Narrative_148_Prop_Sword_Mantle_Display?: IMI_Narrative_148_Prop_Sword_Mantle_Display;
+	MI_Narrative_101_Furniture_Tamalas_Special_Perfume?: IMI_Narrative_101_Furniture_Tamalas_Special_Perfume;
+	MI_Narrative_107_Prop_Silverwing_Egg?: IMI_Narrative_107_Prop_Silverwing_Egg;
+	MI_Generic_71_deco_generic_silver_candle_stick?: IMI_Generic_71_deco_generic_silver_candle_stick;
+	MI_Narrative_210_Container_Kilima_Tier2?: IMI_Narrative_210_Container_Kilima_Tier2;
+	MI_ValTech_06_furniture_RecordPlayer_Custom?: IMI_ValTech_06_furniture_RecordPlayer_Custom;
+	MI_Generic_104_deco_bed_Custom?: IMI_Generic_104_deco_bed_Custom;
+	MI_Generic_89_deco_bookshelf_A_Custom?: IMI_Generic_89_deco_bookshelf_A_Custom;
+	MI_Generic_135_deco_large_light_1_Custom?: IMI_Generic_135_deco_large_light_1_Custom;
+	MI_Generic_101_deco_hanging_light_b_Custom?: IMI_Generic_101_deco_hanging_light_b_Custom;
+	MI_Generic_151_deco_clock_1_Custom?: IMI_Generic_151_deco_clock_1_Custom;
+	MI_Generic_56_deco_generic_desk_Custom?: IMI_Generic_56_deco_generic_desk_Custom;
+	MI_Generic_131_deco_table_a_Custom?: IMI_Generic_131_deco_table_a_Custom;
+	MI_Generic_143_deco_coffee_grinder_Custom?: IMI_Generic_143_deco_coffee_grinder_Custom;
+	MI_Generic_138_deco_large_light_4_Custom?: IMI_Generic_138_deco_large_light_4_Custom;
+	MI_Generic_128_deco_kitchen_wall_knives_Custom?: IMI_Generic_128_deco_kitchen_wall_knives_Custom;
+	MI_Generic_136_deco_large_light_2_Custom?: IMI_Generic_136_deco_large_light_2_Custom;
+	MI_Generic_132_deco_table_b_Custom?: IMI_Generic_132_deco_table_b_Custom;
+	MI_Generic_102_deco_sidetable_Custom?: IMI_Generic_102_deco_sidetable_Custom;
+	MI_Generic_90_deco_kitchen_washpan_cabinet_Custom?: IMI_Generic_90_deco_kitchen_washpan_cabinet_Custom;
+	MI_Generic_103_deco_vase_Custom?: IMI_Generic_103_deco_vase_Custom;
+	MI_WellWater_A?: IMI_WellWater_A;
+	MI_Valtech_WindmillB?: IMI_Valtech_WindmillB;
+	MI_Valtech_WindmillA?: IMI_Valtech_WindmillA;
+	MI_Narrative_171_Furniture_Acceptance_Wreaths_Winter?: IMI_Narrative_171_Furniture_Acceptance_Wreaths_Winter;
+	MI_Winter_07_Deco_HolidayAntlers_Custom?: IMI_Winter_07_Deco_HolidayAntlers_Custom;
+	MI_Winter_01_furniture_HolidayTree_Custom?: IMI_Winter_01_furniture_HolidayTree_Custom;
+	MI_Winter_13_Furniture_TreasureChest_Custom?: IMI_Winter_13_Furniture_TreasureChest_Custom;
+	MI_Winter_06_furniture_CoatRack_Custom?: IMI_Winter_06_furniture_CoatRack_Custom;
+	MI_Winter_10_Deco_FancyPlate_Custom_01?: IMI_Winter_10_Deco_FancyPlate_Custom_01;
+	MI_Winter_08_Deco_Wreath_Custom_01?: IMI_Winter_08_Deco_Wreath_Custom_01;
+	MI_Winter_03_Deco_HangingMittens_Custom?: IMI_Winter_03_Deco_HangingMittens_Custom;
+	MI_Winter_10_Deco_FancyPlate_Custom_02?: IMI_Winter_10_Deco_FancyPlate_Custom_02;
+	MI_Winter_08_Deco_Wreath_Custom_02?: IMI_Winter_08_Deco_Wreath_Custom_02;
+	MI_Winter_04_Deco_HangingSkates_Custom?: IMI_Winter_04_Deco_HangingSkates_Custom;
+	MI_Winter_02_Deco_SnowShoes_Custom?: IMI_Winter_02_Deco_SnowShoes_Custom;
+	MI_Winter_05_Deco_HangingStockings_Custom_01?: IMI_Winter_05_Deco_HangingStockings_Custom_01;
+	MI_Winter_05_Deco_HangingStockings_Custom_02?: IMI_Winter_05_Deco_HangingStockings_Custom_02;
+	MI_vfx_workBench_Tier01_lamp?: IMI_vfx_workBench_Tier01_lamp;
+	MI_Narrative_219_Decor_SilverwingNest?: IMI_Narrative_219_Decor_SilverwingNest;
+	MI_Rewards_Skill_10_Mounted_BeachWalker_head_01?: IMI_Rewards_Skill_10_Mounted_BeachWalker_head_01;
+	MI_Generic_152_Deco_BlanketBasket_Custom?: IMI_Generic_152_Deco_BlanketBasket_Custom;
+	MI_trophy_72_housing_tier_0?: IMI_trophy_72_housing_tier_0;
+	MI_MajiMarket_10_deco_Balloon_Chapaa?: IMI_MajiMarket_10_deco_Balloon_Chapaa;
+	MI_Generic_156_Deco_BlanketLadder_custom?: IMI_Generic_156_Deco_BlanketLadder_custom;
+	MI_Generic_155_Deco_Basket_Med_Custom?: IMI_Generic_155_Deco_Basket_Med_Custom;
+	MI_Generic_154_Deco_Basket_Lg_Custom?: IMI_Generic_154_Deco_Basket_Lg_Custom;
+	MI_Phoenix_28_furniture_dresser_Custom?: IMI_Phoenix_28_furniture_dresser_Custom;
+	MI_Phoenix_32_furniture_standing_mirror_Custom?: IMI_Phoenix_32_furniture_standing_mirror_Custom;
+	MI_Phoenix_12_deco_large_wall_Custom?: IMI_Phoenix_12_deco_large_wall_Custom;
+	MI_Rewards_Referral_07_ChapaaFountain?: IMI_Rewards_Referral_07_ChapaaFountain;
+	MI_Rewards_Referral_06_HuggingChapaas?: IMI_Rewards_Referral_06_HuggingChapaas;
+	MI_Generic_159_Deco_FirewoodHolder_Custom?: IMI_Generic_159_Deco_FirewoodHolder_Custom;
+	MI_trophy_72_housing_tier_2?: IMI_trophy_72_housing_tier_2;
+	MI_Cosmetic_19_deco_bee_cozy_chair_Custom?: IMI_Cosmetic_19_deco_bee_cozy_chair_Custom;
+	MI_Cosmetic_18_deco_bee_beesleeper_plushie_Custom?: IMI_Cosmetic_18_deco_bee_beesleeper_plushie_Custom;
+	MI_Cosmetic_18_deco_bee_beesleeper_plushie_wings?: IMI_Cosmetic_18_deco_bee_beesleeper_plushie_wings;
+	MI_Cosmetic_18_deco_bee_beesleeper_curtains?: IMI_Cosmetic_18_deco_bee_beesleeper_curtains;
+	MI_Cosmetic_18_deco_bee_beesleeper_bed_Custom?: IMI_Cosmetic_18_deco_bee_beesleeper_bed_Custom;
+	MI_Cosmetic_20_deco_bee_bookshelf_Custom?: IMI_Cosmetic_20_deco_bee_bookshelf_Custom;
+	MI_TheOrder_07_decor_Rug_B?: IMI_TheOrder_07_decor_Rug_B;
+	MI_TheOrder_06_decor_Rug_A?: IMI_TheOrder_06_decor_Rug_A;
+	MI_TheOrder_08_decor_Rug_C?: IMI_TheOrder_08_decor_Rug_C;
+	MI_Tavern_Deco_Picture_Frame_Ornate_Med?: IMI_Tavern_Deco_Picture_Frame_Ornate_Med;
+	MI_Rewards_External_01_Windmill?: IMI_Rewards_External_01_Windmill;
+	MI_FrogDeposit?: IMI_FrogDeposit;
+	MI_Tavern_Deco_Frame_Rect_Large?: IMI_Tavern_Deco_Frame_Rect_Large;
+	MI_Tavern_Deco_Picture_Frame_Square_med?: IMI_Tavern_Deco_Picture_Frame_Square_med;
+	MI_Crate?: IMI_Crate;
+	MI_Generic_157_Deco_LaundryBasket_Custom?: IMI_Generic_157_Deco_LaundryBasket_Custom;
+	MI_DockProps?: IMI_DockProps;
+	MI_ValTech_34_decor_ceilingfan_custom?: IMI_ValTech_34_decor_ceilingfan_custom;
+	MI_ValTech_13_furniture_smalltable_03_Custom?: IMI_ValTech_13_furniture_smalltable_03_Custom;
+	MI_ValTech_33_decor_deskfan_custom?: IMI_ValTech_33_decor_deskfan_custom;
+	MI_ValTech_16_lighting_tablelamp_custom?: IMI_ValTech_16_lighting_tablelamp_custom;
+	MI_ValTech_09_furniture_shelf_02_Custom?: IMI_ValTech_09_furniture_shelf_02_Custom;
+	MI_ValTech_24_decor_WallPipe_03_custom?: IMI_ValTech_24_decor_WallPipe_03_custom;
+	MI_ValTech_14_decor_ProstheticHand_custom?: IMI_ValTech_14_decor_ProstheticHand_custom;
+	MI_ValTech_31_decor_deskgyro_custom?: IMI_ValTech_31_decor_deskgyro_custom;
+	MI_ValTech_01_furniture_fridge_Custom?: IMI_ValTech_01_furniture_fridge_Custom;
+	MI_ValTech_04_decor_kettle_Custom?: IMI_ValTech_04_decor_kettle_Custom;
+	MI_ValTech_32_lighting_lantern_custom?: IMI_ValTech_32_lighting_lantern_custom;
+	MI_ValTech_29_decor_FloorVent_04_custom?: IMI_ValTech_29_decor_FloorVent_04_custom;
+	MI_ValTech_26_decor_WallVent_02_custom?: IMI_ValTech_26_decor_WallVent_02_custom;
+	MI_ValTech_28_decor_FloorVent_03_custom?: IMI_ValTech_28_decor_FloorVent_03_custom;
+	MI_ValTech_25_decor_WallPipe_04_custom?: IMI_ValTech_25_decor_WallPipe_04_custom;
+	MI_ValTech_19_lighting_walllamp_custom?: IMI_ValTech_19_lighting_walllamp_custom;
+	MI_ValTech_20_decor_WallPipe_01_custom?: IMI_ValTech_20_decor_WallPipe_01_custom;
+	MI_ValTech_22_decor_WallVent_01_custom?: IMI_ValTech_22_decor_WallVent_01_custom;
+	MI_ValTech_15_decor_Microscope_custom?: IMI_ValTech_15_decor_Microscope_custom;
+	MI_ValTech_17_decor_wallhangings01_custom?: IMI_ValTech_17_decor_wallhangings01_custom;
+	MI_vfx_valTech_07_furniture_radio?: IMI_vfx_valTech_07_furniture_radio;
+	MI_ValTech_07_furniture_Radio_Custom?: IMI_ValTech_07_furniture_Radio_Custom;
+	MI_ValTech_05_furniture_kitchenventhood_Custom?: IMI_ValTech_05_furniture_kitchenventhood_Custom;
+	MI_ValTech_12_furniture_smalltable_02_custom?: IMI_ValTech_12_furniture_smalltable_02_custom;
+	MI_ValTech_27_decor_FloorVent_02_custom?: IMI_ValTech_27_decor_FloorVent_02_custom;
+	MI_ValTech_21_decor_WallPipe_02_custom?: IMI_ValTech_21_decor_WallPipe_02_custom;
+	MI_ValTech_10_furniture_sink_custom?: IMI_ValTech_10_furniture_sink_custom;
+	MI_ValTech_30_decor_WallVent_03_custom?: IMI_ValTech_30_decor_WallVent_03_custom;
+	MI_ValTech_11_furniture_smalltable_01_Custom?: IMI_ValTech_11_furniture_smalltable_01_Custom;
+	MI_ValTech_23_decor_FloorVent_01_custom?: IMI_ValTech_23_decor_FloorVent_01_custom;
+	MI_ValTech_18_decor_wallhangings02_custom?: IMI_ValTech_18_decor_wallhangings02_custom;
+	MI_ValTech_08_furniture_shelf_01_custom?: IMI_ValTech_08_furniture_shelf_01_custom;
+	MI_TwitchDrops_02_deco_Palcat_Rug_01?: IMI_TwitchDrops_02_deco_Palcat_Rug_01;
+	MI_TwitchDrops_01_deco_Palcat_Rug_01?: IMI_TwitchDrops_01_deco_Palcat_Rug_01;
+	MI_Rewards_Winter_Release_PalcatPlushie_01?: IMI_Rewards_Winter_Release_PalcatPlushie_01;
+	MI_Rewards_Winter_Release_PalcatPlushie_02?: IMI_Rewards_Winter_Release_PalcatPlushie_02;
+	MI_Rewards_Winter_Release_PalcatPlushie_03?: IMI_Rewards_Winter_Release_PalcatPlushie_03;
+	MI_Rewards_Winter_Release_PalcatPlushie_04?: IMI_Rewards_Winter_Release_PalcatPlushie_04;
+	MI_Generic_160_Deco_PitcherBasin_Custom?: IMI_Generic_160_Deco_PitcherBasin_Custom;
+	MI_Gothic_10_furniture_pendant_light_Custom?: IMI_Gothic_10_furniture_pendant_light_Custom;
+	MI_Generic_153_Deco_SewingBasket_custom?: IMI_Generic_153_Deco_SewingBasket_custom;
+	MI_GeneralStore_WoodTrim1?: IMI_GeneralStore_WoodTrim1;
+	MI_Generic_158_Deco_TieredBasket_Custom?: IMI_Generic_158_Deco_TieredBasket_Custom;
+	MI_Ivy_02?: IMI_Ivy_02;
+	MI_Valtech_outdoor_Deco_Mailbox?: IMI_Valtech_outdoor_Deco_Mailbox;
+	MI_WinterHolidays_Presents_01?: IMI_WinterHolidays_Presents_01;
+	MI_Winter_09_Deco_PreservesGift_Custom?: IMI_Winter_09_Deco_PreservesGift_Custom;
+	MI_WinterHolidays_Leaf_Pile_01?: IMI_WinterHolidays_Leaf_Pile_01;
+}
+export interface IMI_trophy_72_housing_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface ITexturesItem {
+	name: string;
+	index: number;
+	path: string;
 }
 export interface INowItem {
 	limitedEvents: any[];
 	fishs: IFishsItem[];
+	bugs: IBugsItem[];
 }
 export interface IFishsItem {
 	key: string;
@@ -133,8 +888,20 @@ export interface IFishsItem {
 	timed?: boolean;
 	weather?: string[];
 	fishLootTableEntries?: IFishLootTableEntriesItem[];
+	metadata?: IMetadata;
 	newlyAdded?: boolean;
-	addedIn?: string;
+}
+export interface IBugsItem {
+	key: string;
+	name: string;
+	icon: string;
+	iconFolder: string;
+	rarity: string;
+	category: string;
+	newlyAdded: boolean;
+	obtainable: boolean;
+	description: string[];
+	timeOfDay: string[];
 }
 export interface IVillagerItem {
 	villager: IVillager;
@@ -169,30 +936,25 @@ export interface IGiftPreferencesItem {
 	goldValueMinimum: number;
 	goldValueMaximum: number;
 }
-export interface ITagsItem {
-	key: string;
-	name: string;
-	nameNumbered: string;
-	icon?: string;
-	generated?: boolean;
-}
 export interface IRelationshipLevelsItem {
 	level: number;
 	type: string;
 	requiredValue: number;
 	levelName: string;
-	levelDescription?: string;
+	levelDescription: string;
 }
 export interface IQuestsItem {
 	key: string;
 	name: string;
-	description: string;
+	description?: string;
 	icon: string;
 	iconFolder: string;
 	category: string;
+	metadata: IMetadata;
 	villager?: IVillager;
 	addedIn: string;
 	newlyAdded: boolean;
+	obtainable: boolean;
 }
 export interface IWeeklyGiftPreferencesItem {
 	item: IItem;
@@ -200,16 +962,16 @@ export interface IWeeklyGiftPreferencesItem {
 	rewardLevel: string;
 }
 export interface IMapCoordinates {
-	Village?: IVillage;
-	processed?: boolean;
 	AZ1?: IAZ1;
+	processed?: boolean;
+	Village?: IVillage;
 	null?: {
 		key: null;
 		coords: ICoordsItem[];
 	};
 	Events?: IEvents;
 }
-export interface IVillage {
+export interface IAZ1 {
 	key: string;
 	coords: ICoordsItem[];
 	title: string;
@@ -222,40 +984,35 @@ export interface ICoordsItem {
 	title: string;
 	map: string | null;
 }
-export interface IAZ1 {
-	key: string;
-	coords: ICoordsItem[];
-	title: string;
-	tiles: string;
-}
 export interface IBundleItem {
 	bundle: IBundle;
 }
 export interface IBundle {
 	key: string;
-	name: string;
 	entityType: string;
-	type: string;
 	icon: string;
 	iconFolder: string;
 	rewards: IRewardsItem[];
 	subBundles: ISubBundlesItem[];
+	metadata: IMetadata;
 	addedIn: string;
 	obtainable: boolean;
 	newlyAdded: boolean;
+	name: string;
+	type: string;
 }
 export interface IRewardsItem {
 	type?: string;
-	tag?: ITag;
-	amount?: number;
-	operation?: string;
 	item?: IItem;
 	starQuality?: boolean;
+	amount?: number;
+	tag?: ITag;
+	operation?: string;
 	recipe?: IRecipe;
 	currency?: ICurrency;
 	villager?: IVillager;
 	playerTagRequirements?: IPlayerTagRequirementsItem[];
-	mailMessage?: IMailMessage | string;
+	mailMessage?: IMailMessage;
 	quest?: IQuest;
 }
 export interface ITag {
@@ -266,9 +1023,9 @@ export interface ITag {
 	icon?: string;
 }
 export interface ISubBundlesItem {
-	name: string;
 	requiredItems: IRequiredItemsItem[];
-	rewards: IRewardsItem[];
+	name: string;
+	rewards?: IRewardsItem[];
 }
 export interface IRequiredItemsItem {
 	item: IItem;
@@ -283,19 +1040,16 @@ export interface IRecipe {
 	iconFolder: string;
 	rarity?: string;
 	category?: string;
+	metadata: IMetadata;
 	alwaysAvailable: boolean;
+	obtainable: boolean;
 	newlyAdded: boolean;
-	addedIn: string;
 	quality?: string;
 	cost?: ICost;
 	entityType?: string;
-	requires?: string;
 	craftTime?: number;
 	timeLimit?: number;
 	enabled?: boolean;
-	nameLocalized?: INameLocalized;
-	description?: string;
-	descriptionLocalized?: IDescriptionLocalized;
 	rarityNumber?: number;
 	outputItem?: IOutputItem;
 	outputQuantity?: number;
@@ -305,8 +1059,10 @@ export interface IRecipe {
 	persistId?: number;
 	ingredients?: IIngredientsItem[];
 	steps?: IStepsItem[];
+	addedIn?: string;
 	sources?: ISources;
-	obtainable?: boolean;
+	obtainableWithoutInspiration?: boolean;
+	description?: string;
 	type?: string;
 	requiredFor?: IRequiredFor;
 	valueBasedProduction?: IValueBasedProductionItem[];
@@ -319,8 +1075,6 @@ export interface IQuestItem {
 export interface IQuest {
 	key: string;
 	entityType?: string;
-	name: string;
-	description: string;
 	icon: string;
 	iconFolder: string;
 	category: string;
@@ -329,18 +1083,21 @@ export interface IQuest {
 	steps?: IStepsItem[];
 	starters?: IStarters;
 	villager?: IVillager;
+	metadata: IMetadata;
 	addedIn: string;
-	obtainable?: boolean;
+	obtainable: boolean;
 	newlyAdded: boolean;
+	name: string;
 	type?: string;
-	isAccomplishment?: boolean;
+	description?: string;
 	startRewards?: IStartRewardsItem[];
+	isAccomplishment?: boolean;
 }
 export interface IStepsItem {
-	overrideDescription?: string;
 	goals?: IGoalsItem[];
 	rewards?: IRewardsItem[];
 	turnInDialogue?: ITurnInDialogue;
+	overrideDescription?: string;
 	overrideQuestReturnText?: string;
 	hasBranchingGoals?: boolean;
 	minBranchingGoalsRequired?: number;
@@ -352,9 +1109,9 @@ export interface IStepsItem {
 }
 export interface IGoalsItem {
 	condition?: ICondition | null;
-	description?: string;
 	showCountType: string;
 	hide: boolean;
+	description?: string;
 	mapCoordinates?: IMapCoordinates;
 }
 export interface ICondition {
@@ -365,19 +1122,19 @@ export interface ICondition {
 	item?: IItem;
 	amountRequired?: number;
 	starQuality?: boolean;
-	subConditions?: ISubConditionsItem[];
-	playerTag?: IPlayerTag;
 	tag?: ITag;
 	mapCoordinates?: IMapCoordinates;
+	subConditions?: ISubConditionsItem[];
+	playerTag?: IPlayerTag;
 	sources?: ISources;
 	mailMessage?: IMailMessage;
+	dialogues?: IDialoguesItem[];
 	villager?: IVillager;
 	releaseMethod?: number;
 	currency?: ICurrency;
 	acquireMethod?: number;
-	items?: IItemsItem[];
 	books?: IBooksItem[];
-	dialogues?: IDialoguesItem[];
+	items?: IItemsItem[];
 	hasUpperLimit?: boolean;
 	upperLimit?: number;
 	recipe?: IRecipe;
@@ -400,8 +1157,8 @@ export interface IDialogue {
 	iconFolder: string;
 	villager: IVillager;
 	text?: string;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
 }
 export interface IStarters {
 	dialogues?: IDialoguesItem[];
@@ -410,6 +1167,7 @@ export interface IStarters {
 	mailMessages?: IMailMessagesItem[];
 	books?: IBooksItem[];
 	fishs?: IFishsItem[];
+	gatherables?: string[];
 }
 export interface IDialoguesItem {
 	key: string;
@@ -417,20 +1175,28 @@ export interface IDialoguesItem {
 	icon: string;
 	iconFolder: string;
 	villager: IVillager;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
 	text?: string;
+}
+export interface IVillage {
+	key: string;
+	coords: ICoordsItem[];
+	title: string;
+	tiles: string;
 }
 export interface ISubConditionsItem {
 	type?: string;
 	dialogueType?: string;
 	dialogue?: IDialogue;
 	playerTag?: IPlayerTag;
-	item?: IItem;
-	starQuality?: boolean;
+	hasUpperLimit?: boolean;
+	upperLimit?: number;
 	dialogues?: IDialoguesItem[];
 	tag?: ITag;
-	gatherables?: string[];
+	item?: IItem;
+	starQuality?: boolean;
+	mapCoordinates?: IMapCoordinates;
 	quest?: IQuest;
 }
 export interface IPlayerTag {
@@ -442,10 +1208,11 @@ export interface IPlayerTag {
 export interface ISources {
 	slidingPuzzle?: string[];
 	mailMessages?: IMailMessagesItem[];
-	bundles?: string[] | IBundlesItem[];
+	bundles?: IBundlesItem[];
 	stores?: IStoresItem[];
 	dialogues?: IDialoguesItem[];
 	gatherables?: IGatherablesItem[];
+	lootBundles?: ILootBundlesItem[];
 	recipes?: IRecipesItem[];
 	fishs?: IFishsItem[];
 	items?: IItemsItem[];
@@ -461,33 +1228,38 @@ export interface IItemsItem {
 	category?: string;
 	mapCoordinates?: IMapCoordinates;
 	newlyAdded?: boolean;
+	obtainable?: boolean;
 	rarity?: string;
 	cost?: ICost;
 	value?: IValue;
-	quality?: string;
-	item?: IItem | string;
+	item?: IItem;
 	amount?: number;
 	starQuality?: boolean;
+	weight?: number;
+	limitedStock?: number;
+	dropChance?: number | null;
 	requirements?: IRequirements;
 	purchaseLimits?: IPurchaseLimits;
 	costTable?: ICostTableItem[];
 	additionalCosts?: IAdditionalCostsItem[];
+	treedPreview?: boolean;
+	quality?: string;
 }
 export interface IMailMessage {
 	key: string;
 	name: string;
 	icon?: string;
 	iconFolder: string;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
 }
 export interface IMailMessagesItem {
 	key: string;
-	name: string;
+	name?: string;
 	icon?: string;
-	iconFolder: string;
+	iconFolder?: string;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
 }
 export interface IBranchingGoalsItem {
 	goals: IGoalsItem[];
@@ -498,28 +1270,28 @@ export interface IPlayerTagRequirementsItem {
 	min: number;
 	max: number;
 }
+export interface IStartRewardsItem {
+	type: string;
+	tag?: ITag;
+	amount: number;
+	operation?: string;
+	item?: IItem;
+	starQuality?: boolean;
+}
 export interface IBooksItem {
 	key: string;
-	name: string;
+	name?: string;
 	icon: string;
 	iconFolder: string;
+	metadata: IMetadata;
 	mapCoordinates?: IMapCoordinates;
 	newlyAdded: boolean;
-	addedIn: string;
 }
 export interface ICreatureTag {
 	key: string;
 	name: string;
 	nameNumbered: string;
 	generated?: boolean;
-}
-export interface IStartRewardsItem {
-	type: string;
-	item?: IItem;
-	starQuality?: boolean;
-	amount: number;
-	tag?: ITag;
-	operation?: string;
 }
 export interface IItemTag {
 	key: string;
@@ -536,9 +1308,9 @@ export interface IFishLoot {
 	key: string;
 	name: string;
 	waterType: string;
+	metadata: IMetadata;
 	mapCoordinates?: IMapCoordinates;
 	newlyAdded: boolean;
-	addedIn: string;
 	baits?: IBaitsItem[];
 }
 export interface IChance {
@@ -553,10 +1325,10 @@ export interface ITimeOfDay {
 }
 export interface IRequirements {
 	playerTag?: IPlayerTagItem[];
-	weather?: string[];
-	quest?: IQuestItem[];
-	items?: IItemsItem[];
 	timeOfDay?: ITimeOfDay;
+	quest?: IQuestItem[];
+	weather?: string[];
+	items?: IItemsItem[];
 	recipe?: IRecipeItem[];
 	accomplishment?: string[];
 }
@@ -574,12 +1346,13 @@ export interface IBaitsItem {
 	category: string;
 	quality: string;
 	newlyAdded: boolean;
+	obtainable: boolean;
 }
 export interface ICreature {
 	key: string;
 	name: string;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
 }
 export interface IEvents {
 	key: string;
@@ -595,13 +1368,15 @@ export interface ISkill {
 	store: IStore;
 	villager?: IVillager;
 	category: string;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
 	entityType?: string;
 	type?: string;
 	currency?: ICurrency;
 	levelToDisplayCurrency?: number;
+	xpLevels?: number[];
 	xpRequiredPerLevel?: string;
+	addedIn?: string;
 	description?: string;
 	obtainable?: boolean;
 }
@@ -612,13 +1387,15 @@ export interface IStore {
 	iconFolder?: string;
 	type: string;
 	villager?: IVillager;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
 	entityType?: string;
 	items?: IItemsItem[];
 	recipes?: IRecipesItem[];
+	addedIn?: string;
 	obtainable?: boolean;
 	buyCategories?: string[];
+	item?: IItemItem[];
 	tagRequirements?: ITagRequirements;
 	skill?: ISkill;
 }
@@ -628,35 +1405,26 @@ export interface IBundlesItem {
 	icon: string;
 	iconFolder: string;
 	type: string;
+	metadata: IMetadata;
 	newlyAdded: boolean;
-	addedIn: string;
+}
+export interface IItemItem {
+	item: IItem;
+	requirements?: IRequirements;
+	limitedStock?: number;
+	dropChance?: null;
+	purchaseLimits?: IPurchaseLimits;
+	costTable?: ICostTableItem[];
 }
 export interface IStoresItem {
 	key: string;
 	name: string;
-	type: string;
-	newlyAdded: boolean;
-	addedIn: string;
 	icon?: string;
 	iconFolder?: string;
+	type: string;
 	villager?: IVillager;
-}
-export interface IItemItem {
-	item: IItem;
-}
-export interface INameLocalized {
-	de?: string;
-	en?: string;
-	es?: string;
-	fr?: string;
-	it?: string;
-}
-export interface IDescriptionLocalized {
-	de?: string;
-	en?: string;
-	es?: string;
-	fr?: string;
-	it?: string;
+	metadata: IMetadata;
+	newlyAdded: boolean;
 }
 export interface IConsumeRewardsItem {
 	type: string;
@@ -666,10 +1434,11 @@ export interface IConsumeRewardsItem {
 	starQuality?: boolean;
 	tag?: ITag;
 	operation?: string;
-	recipe?: IRecipe;
-	lootBundle?: ILootBundle;
 	mailMessage?: IMailMessage;
 	villager?: IVillager;
+	lootBundle?: ILootBundle;
+	quest?: IQuest;
+	recipe?: IRecipe | string;
 }
 export interface IRequiredFor {
 	books?: IBooksItem[];
@@ -683,12 +1452,33 @@ export interface IGatherablesItem {
 	key: string;
 	name: string;
 	type: string;
-	skill: ISkill;
+	skill?: ISkill;
+	metadata: IMetadata;
+	bpName: string;
 	newlyAdded: boolean;
-	addedIn: string;
 	rarity?: string;
 	icon?: string;
 	iconFolder?: string;
+}
+export interface ILootBundlesItem {
+	key: string;
+	metadata: IMetadata;
+	lootPools: ILootPoolsItem[];
+	newlyAdded: boolean;
+	isInspiration: boolean;
+}
+export interface ILootPoolsItem {
+	key: string;
+	loots: ILootsItem[];
+}
+export interface ILootsItem {
+	weight: number;
+	requirements: IRequirements;
+	item?: IItem;
+	itemAmount: number;
+	qualityStars: number;
+	dropChance: number;
+	recipe?: IRecipe | string;
 }
 export interface IRecipesItem {
 	key?: string;
@@ -698,13 +1488,15 @@ export interface IRecipesItem {
 	iconFolder?: string;
 	rarity?: string;
 	category?: string;
-	quality?: string;
+	metadata?: IMetadata;
 	alwaysAvailable?: boolean;
+	obtainable?: boolean;
 	newlyAdded?: boolean;
-	addedIn?: string;
+	quality?: string;
 	cost?: ICost;
 	recipe?: IRecipe;
 	requirements?: IRequirements;
+	dropChance?: null;
 }
 export interface IAccomplishmentsItem {
 	key: string;
@@ -720,38 +1512,3597 @@ export interface IQuestStartersItem {
 	icon: string;
 	iconFolder: string;
 	category: string;
+	metadata: IMetadata;
 	addedIn: string;
 	newlyAdded: boolean;
+	obtainable: boolean;
 }
-export interface IGardenBuffLocalized {
-	de?: string;
-	en: string;
-	es: string;
-	fr?: string;
-	it: string;
+export interface IMI_Narrative_206_Furniture_AncientFish_Plush {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_215_Furniture_StarChart_Fish_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_215_Furniture_StarChart_Fish_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_203_Furniture_Kitsuu_Plush {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IRelativeLocation {
+	X: number;
+	Y: number;
+	Z: number;
+}
+export interface IRelativeRotation {
+	Pitch: number;
+	Yaw: number;
+	Roll: number;
+}
+export interface IMI_Narrative_220_Decor_SilverWing_Plush {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_207_Container_AncientHuman_Tier2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
 }
 export interface IHarvestItem {
 	item: IItem | string;
 	harvestAmount: number;
 	boostAmount: number;
 }
+export interface IT_Narrative_204_Furniture_Frame {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_205_Furniture_Framed_Map_Bahari {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_09_Mounted_TreeClimber_head_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IM_SawmillTier01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_VillageCenter_Wood_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Smelter_01_B {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Smelter_01_A {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_30_furniture_deco_clock_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_06_furniture_cozy_chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_12_deco_large_wall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_11_Furniture_Bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_StainedGlass {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_04_Furniture_Bookshelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_04_Furniture_Books {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_16_Lighting_Chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_02_Furniture_Coffee_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_01_Furniture_Couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_29_furniture_bedroom_canopy_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_18_furniture_dining_chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_19_furniture_dining_table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_07_Furniture_Dresser_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_37_furniture_garden_decor_Alphas {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_37_furniture_garden_decor_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_28_furniture_outdoor_fountain2_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_fancy_28_furniture_outdoor_fountain2_waterBase {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_25_furniture_bathroom_mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_08_furniture_nightstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_22_furniture_kitchen_pantry_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_14_deco_picture_frame_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Picture_DragonShrine_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_13_deco_planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_26_furniture_outdoor_fountain_1_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_03_furniture_rug_lrg_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_10_furniture_rug_med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_38_furniture_garden_decor_Alphas {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_38_furniture_garden_decor2_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_21_furniture_kitchen_kitchenette_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_24_furniture_bathroom_rug_sm_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_27_furniture_outdoor_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_17_lighting_lamp_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_33_furniture_toilet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_20_furniture_kitchen_cupboard_hanging_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_05_furniture_shelves_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_09_Furniture_Wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Fancy_23_furniture_bathroom_bathtub_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_56_bug_catching_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_57_cooking_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_58_fishing_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_59_foraging_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_60_furniture_making_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_61_gardening_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_62_hunting_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_63_mining_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_09_bug_catching_deco_t2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IGeneric_86_deco_quill {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cookware_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_TeaSet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Campfire_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_08_Furniture_Cozy_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_26_Furniture_Bathroom_Bathtub_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_13_Furniture_Bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_24_Furniture_Kitchen_Countertops_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_17_Lighting_Chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_02_Furniture_Coffee_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_01_Furniture_Couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_19_Furniture_Dining_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_20_Furniture_Dining_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_28_Furniture_Bathroom_Rug_Small_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_07_Furniture_Vase_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_16_Deco_Picture_Frame_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_23_Furniture_Kitchen_Kitchenette_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_04_Furniture_Bookshelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_29_Furniture_Bathroom_Mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_09_Furniture_Nightstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_25_Furniture_Kitchen_Pantry_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMi_Midcentury_15_Deco_Planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_06_Furniture_Round_mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_11_Furniture_Rug_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_05_Furniture_Shelves_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_27_Furniture_Bathroom_Vanity_Sink_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_12_Furniture_Dresser_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_03_Furniture_Rug_Large_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_18_Furniture_Lamp_Light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_21_Furniture_Kitchen_Cupboard_Hanging_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_14_Deco_Large_Wall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_22_Furniture_Kitchen_Shelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Midcentury_10_Furniture_Wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_Skateboard_Chapaa {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_27_Deco_ChapaaMug {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_02_deco_Phoenix_Plushie {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_27_PillowChapaa {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_27_ChapaaPlushie_Hat_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_05_deco_chapaa_onesie_plushie_1_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_03_deco_Dragon_Plushie {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_51_Deco_Commemorative_Plate {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_HDA_StringLights_Wind_Cable {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_04_furniture_frames_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_44_Deco_Custom_Sketch {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Deco_Rugs01_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Cozy_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Outdoor_Deco_02_Bathtub_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Bed_Cloth_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Book_Shelf_Props {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Book_Shelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Lighting_Chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Coffee_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Dining_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Stand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Indoor_Deco_01_Plant_Pot_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Indoor_Deco_02_vase_Pot_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Indoor_Deco_02_vase {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Partition_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Lighting_Hanging_Light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Outdoor_Deco_03_Urn_Pot_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Outdoor_Deco_03_Urn {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Side_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Special_02_Mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Nighstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Special_01_Vase {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Special_01_Vase_Pot_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Kitchen_Cupboard_Pots {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Kitchen_Cupboard_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Deco_Rugs03_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Shelves_Round_Props_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Shelves_Round_Pots_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Shelves_Round_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Deco_Rugs02_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Storage_Cabinet_Glass_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Storage_Cabinet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Bed_Bench_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Lighting_Lamp_Light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Indoor_Deco_03_Wall_Decor_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Lighting_Wall_Lighting_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Dragon_Furniture_Wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_Deco_Framed_Art_C {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_Deco_FramedArt_C_Pic {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_11_furniture_bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_phoenix_04_furniture_bookshelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_26_furniture_outdoor_deco_2_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_18_furniture_dining_table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_15_lighting_chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_08_furniture_nightstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_16_lighting_lamp_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_17_furniture_dining_chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_33_furniture_lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_FabricMaker_Crafter {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_146_Furniture_Acceptance_Wreath_Fall {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_47_Deco_Fancy_Chest {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_45_foraging_deco_t3_Foliage {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_45_foraging_deco_t3 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_44_foraging_deco_t2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_117_deco_gardening_can_4 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_113_deco_gardening_jug_3 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_79_deco_herbal_teapot {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_107_deco_gardening_shovel {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_115_deco_gardening_can_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_30_gardening_deco_t2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_31_gardening_deco_t3 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_BuildingConstructionProps {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ConstructionSign {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_GlassMaker_Crafter {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Crafter_Bag {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_WormFarm_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_64_bug_catching_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_65_cooking_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_66_fishing_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_67_foraging_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_68_furniture_making_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_69_gardening_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_70_hunting_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_71_mining_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Village_GolemStone {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_218_Decor_Grimalkin_Night_Light {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_50_Deco_High_Tech_Laser_Pointer {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_HealersKit {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ArcadeTrophy_Gold_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Sawmill_Crafter {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IM_SmelterTier02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Alarm_Clock_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Chair_Bedroom_B_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Banner_Floral_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Ambient_Props_sm_Barrel_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Bookshelf_Lg_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Display_Case_Sm_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Display_Case_Lrg_Tall_Glass_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Candles_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Coffee_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Pots_And_Pans_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_ChairBedroom_A_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Dining_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Dining_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Display_Case_Lrg_Tall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Ambient_Prop_Mannequin_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_End_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Floor_Cabinet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Planter_Yellow_Flower_P {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Planter_Yellow_Flower_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Cold_Storage_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Bench_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Dresser_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Framed_Art_Large_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Lighting_Hanging_Fixture_B3_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Rug_Square_Large_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_String_Instrument_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Bed_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Framed_Art_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Lighting_Hanging_Fixture_B1_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Rug_Rect_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Mirror_Med_Wall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IM_Harvest_Deco_Mirror {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Nightstand_Bedroom_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Pantry_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Pantry_Glass_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Planter_Large_Venus_Flower_P {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Planter_Large_Venus_Flower_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Rug_Runner_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Cabinet_Storage_Lrg_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Bench_Bedroom_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Ambient_Props_Bottle_03_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Cabinets_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Lighting_Hanging_Fixture_B2_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Stool_Bedroom_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Ambient_Props_Bottle_01_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Panter_Med_A_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Rug_Small_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Wall_Cabinet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Wall_Cabinet_Glass {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Wall_Cabinet_Dishes {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Wall_Clock_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Shelf_Sm_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Kitchen_Waste_Bin_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Deco_Framed_Art_Sm_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_38_hunting_deco_t3 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_37_hunting_deco_t2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Skill_37_hunting_deco_t2_target {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_62_Deco_Illuminated_Manuscript {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_06_Furniture_Cozy_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_22_Furniture_Bathroom_Bathtub_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_11_Furniture_Bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_04_Furniture_Bookshelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_19_Furniture_Kitchen_Cupboard_Hanging_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_15_Lighting_Chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_02_Furniture_Coffee_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_01_Furniture_Couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_17_Furniture_Dining_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_18_Furniture_Dining_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_07_Furniture_Dresser_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_13_Deco_Planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_21_Furniture_Kitchen_Pantry1_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_24_Furniture_Bathroom_Mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_08_Furniture_nightstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_14_Deco_Picture_Frame_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_14_Deco_Picture_Frame_Picture {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_03_Furniture_Rug_Lrg_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_10_Furniture_Rug_med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_20_Furniture_Kitchen_Kitchenette_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_23_Furniture_Bathroom_Rug_Sm_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_12_Deco_Large_Wall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_16_Lighting_Lamp_Light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_05_Furniture_Shelves_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ironwood_09_Furniture_Wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_02_furniture_Chair {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_01_furniture_Banner {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_05_furniture_Bed {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_03_furniture_Desk_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_03_furniture_Desk {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_04_furniture_SideTable_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_04_furniture_SideTable {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_09_furniture_Sideboard {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_12_Deco_Rug_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_11_Deco_Rug_01_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Pot_Planter_Metal {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Flag_Banner {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_FerryDock_Planks_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_VillageCenter_SymbolDecal_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_01_Bug_Display_A {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Candle {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Furniture_Couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Horn {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Frame_Oval_Med {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Fireplace_Receptacle {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_06_Mounted_Fish_A {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_03_Foraging_Basket {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Gourd_Basket {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Mead_Bottle {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_05_Mounted_Chapaa_Head {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IM_CearnukTier03 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_04_Mounted_Cearnuk_head {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Main_Couch {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Main_Dining_Chair {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Main_Dining_Table {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Rug_Rect_Large {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Vial {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Rug_Round_Fringes {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Main_Gaming_Table {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Rug_Runner {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Beer_Stein {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Main_Bar_Stool {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_KoiPond_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Lantern_LightGlass {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Lantern_Light {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Banner {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_08_Palium_Bar_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_08_Palium_Bar {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Ormuu_Horn_Mount {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Frame_Ornate_Round {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Frame_Tall_Med {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Pod_Flower_Planter_Med {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Pod_planter_Med {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_204_Furniture_Framed_Map_Kilima {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Picture_Frame_Ornate_Wide {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Blacksmith_Oldwheel {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Wheat_Flower_PlanterPot_Large {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Wheat_Flower_Planter_Large {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_202_Furniture_Tau_Plush {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Chair_Cozy_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Bed_Blanket_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Bookshelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Bookshelf_Assets {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Hanging_Light_Lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Hanging_Light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Coffee_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Dining_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Dining_Table_Round_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Partition_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Outdoor_Wooden_Log_Deer_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Deco_Rug_02_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Outdoor_Bench_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_18_furniture_wall_torch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Deco_Log_Stand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Wood_Logstand {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Nightstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Deco_Rug_01_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Deco_01_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Outdoor_Deco_01_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Outdoor_Deco_01_Lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Storage_Cabinet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_17_furniture_small_standing_torch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Lamp_Lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Outdoor_Wooden_Stool_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Outdoor_Wooden_Stump_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Kitchen_Cupboard_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Wall_Clock_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Deco_Branch_On_The_Wall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Wall_Light_Lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Wall_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Wall_Shelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_16_furniture_hanging_torch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Log_Furniture_Wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
 export interface ILootBundle {
 	key: string;
+	metadata: IMetadata;
 	lootPools: ILootPoolsItem[];
 	newlyAdded: boolean;
-	addedIn: string;
+	isInspiration: boolean;
 }
-export interface ILootPoolsItem {
-	key: string;
-	loots: ILootsItem[];
+export interface IMI_Narrative_103_Furniture_Lucky_Horseshoe {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
 }
-export interface ILootsItem {
-	weight: number;
-	requirements: IRequirements;
-	item?: IItem;
-	itemAmount: number;
-	qualityStars: number;
-	dropChance: number;
+export interface IMI_Narrative_100_Furniture_Lucky_Stew_Pot {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_59_Deco_Lute {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_12_lighting_Lantern_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_15_outdoor_MarketArch_Roof {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_15_outdoor_MarketArch {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_14_outdoor_MerchCart {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_14_outdoor_MerchCart_Roof {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_20_outdoor_StandeeChapaa {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_05_deco_Fan {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_01_furniture_ShojiScreen {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_06_deco_MajiDrum_base {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_04_deco_Poster_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_21_outdoor_StandeeOrmuu {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_08_deco_Spirit_Blossom_Plant {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_45_deco_mochi_lantern {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_44_deco_mochi_basket {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Alarm_Clock_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Large_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Bed_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Bench_Bedroom_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Birdbath_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Bookshelf_Large_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_C_Hanging_Pails_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Lighting_Wall_Ladlecandle_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Lighting_Wheel_Chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Chappa_Rug_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Bread_and_Jam_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Suitcase_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Chappa_Mount_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Cearnuk_Mount_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Clothes_Line_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Coat_Rack_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Coffee_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Pots_and_Pans_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Fish_Mount_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Bedroom_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Dresser_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Nightstand_Bedroom_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_End_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Mirror_Med_Wall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Sad_Tree_Planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Pot_Planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Kitchen_Cabinet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Jug_Vase_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Wagonwheel_Deco_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Lawn_Ornament_Chappa_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Hanging_Planter02_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Old_Shoe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Cabinet_Planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_F_Ladder_Deco_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Kitchen_Cabinet_Hanging_Glass {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Kitchen_Cabinet_Hanging_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Kettle_Lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Kettle_Lamp {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_E_Rake_Shelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Kitchen_Shelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Dining_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Wreath_B_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Lawn_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Wood_Logstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Hanging_Planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Suitcase_Stool_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Outhouse_Structure_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Kitchen_Pantry_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Sun_Umbrella_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Picnic_Blanket_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Picnic_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Framed_Art_Large_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMi_Makeshift_Deco_Rug_Rect_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Small_Round_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Framed_Art_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Cearnuk_Rug_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Short_Round_Keg_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_D_Wall_Cabinet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_D_Wall_Cabinet_Glass {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Framed_Art_Small_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Wall_Graterplanter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Short_Square_Table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Rug_Rect_Large_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Stool_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Ugly_Plant_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Earwax_Candle02_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Earwax_Candle01_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Thistle_Planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Trellus_Leaves {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Trellus_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_B_Shutter_Shelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Wall_Clock_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Lighting_Wall_Lampshade_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_A_Shelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Furniture_Wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Trash_Bin_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Makeshift_Deco_Ormuu_Mount_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_26_deco_bee_beesleeper_plushie_wings {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_26_deco_bee_beesleeper_plushie_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_102_Furniture_Mechanical_Chapaa {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Mining_Node_MetalPebbles_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_MixingTable {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ModificationBench_Props {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ModificationBench_Crafter {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_22_furniture_bathroom_bathtub_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_11_furniture_bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_04_furniture_bookshelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_15_lighting_chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_02_furniture_coffee_table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_01_furniture_couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_17_furniture_dining_chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_18_furniture_dining_table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_13_deco_planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_06_deco_grimoire_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_25_furniture_outdoor_deco_1_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_08_furniture_nightstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_03_furniture_rug_lrg_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_10_furniture_rug_med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_23_furniture_bathroom_rug_sm_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_26_furniture_outdoor_deco_2_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_16_lighting_lamp_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_12_deco_large_wall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_05_furniture_shelves_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Alchemist_09_furniture_wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_79_Deco_Mud_Pie {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_28_Deco_OrmuuMug {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_25_Deco_Phoenix_Statue {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_214_Container_Bahari_Tier3 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_213_Container_Bahari_Tier2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_212_Container_Bahari_Tier1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_ChoppingTable {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_PreservesJar_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_03_furniture_rug_lrg_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_06_furniture_cozy_chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_22_furniture_bathroom_bathtub_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_11_furniture_bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_27_furniture_outdoor_deco_3_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Library_11_Books {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_04_furniture_bookshelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_28_deco_plush_b_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_29_Deco_plush_b_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_15_lighting_chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_30_Deco_plush_c_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_28_deco_plush_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_02_furniture_coffee_table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_01_furniture_couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_17_furniture_dining_chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_18_furniture_dining_table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_23_furniture_bathroom_rug_sm_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_07_furniture_dresser_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_25_furniture_outdoor_deco_1_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_26_furniture_outdoor_deco_2_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_24_furniture_bathroom_mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_08_furniture_nightstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_21_furniture_kitchen_pantry_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_10_furniture_rug_med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_20_furniture_kitchen_kitchenette_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_16_lighting_lamp_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_13_deco_planter_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_19_furniture_kitchen_cupboard_hanging_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_14_deco_picture_frame_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_05_furniture_shelves_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rustic_09_furniture_wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_28_furniture_Cozy_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_20_furniture_bathtub_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_12_furniture_candle_stand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_09_furniture_chandelier_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_09_furniture_pendant_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_19_furniture_display_table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_03_furniture_couch_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_30_furniture_Dining_Chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_29_furniture_Dining_table_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_18_furniture_rug_small_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_32_furniture_kitchen_cupboard_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_37_furniture_outdoor_deco_stonework_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_06_furniture_flower_vase_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_36_furniture_partition_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_07_furniture_display_stand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_13_furniture_picture_frame_large_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_13_furniture_frames_art {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_14_furniture_picture_frame_medium_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_14_furniture_frames_art {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_02_furniture_mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_21_furniture_nightstand_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_31_furniture_Storage_cabinet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_17_furniture_rug_medium_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_01_furniture_bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_23_furniture_lamp_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_15_furniture_picture_frame_small_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_15_furniture_frames_art {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_08_furniture_spotlight_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_42_furniture_outdoor_lamp_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_41_furniture_toilet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_39_furniture_deco_vase_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_43_furniture_wall_cupboard_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_27_furniture_wall_clock_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_11_furniture_wall_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_05_furniture_wall_mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_26_furniture_shelves_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_22_furniture_wardrobe_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Blacksmith_Anvil {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IM_WorkBenchTier01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_63_Deco_Mounted_Creature {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_29_Deco_SingingStone {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_SeedMaker_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_SeedMaker_01_Belt {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_156_Prop_Seance_Candle {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_02_deco_80s_skateboard_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_56_bug_catching_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_57_cooking_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_58_fishing_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_59_foraging_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_60_furniture_making_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_61_gardening_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_62_hunting_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_63_mining_tier_1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_83_Deco_Sketch_of_Whale {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_61_Deco_Farmhouse_Style_Spicerack {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Halloween_04_deco_SpookyCandle_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Halloween_05_deco_SpookyCandle_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_GardenCrops_Pumpkin_01A {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Halloween_02_deco_JackOLantern {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Halloween_01_deco_PlainPumpkin {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Halloween_06_deco_PumpkinPile {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Halloween_03_deco_JackOLantern_Searnuk {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_172_Furniture_Acceptance_Wreaths_Spring {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_OvenCrafter {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Harvest_Stove {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_02_Bug_Display_B {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_07_Mounted_Fish_B {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_170_Furniture_Acceptance_Wreaths_Summer {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_03_deco_80s_skateboard_2_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_03_deco_80s_skateboard_2_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_03_deco_80s_skateboard_2_03 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_148_Prop_Sword_Mantle_Display {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_101_Furniture_Tamalas_Special_Perfume {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_107_Prop_Silverwing_Egg {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_71_deco_generic_silver_candle_stick {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_210_Container_Kilima_Tier2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_06_furniture_RecordPlayer_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_104_deco_bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_89_deco_bookshelf_A_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_135_deco_large_light_1_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_101_deco_hanging_light_b_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_151_deco_clock_1_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_56_deco_generic_desk_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_131_deco_table_a_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_143_deco_coffee_grinder_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_138_deco_large_light_4_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_128_deco_kitchen_wall_knives_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_136_deco_large_light_2_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_132_deco_table_b_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_102_deco_sidetable_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_90_deco_kitchen_washpan_cabinet_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_103_deco_vase_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_WellWater_A {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Valtech_WindmillB {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Valtech_WindmillA {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_171_Furniture_Acceptance_Wreaths_Winter {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_07_Deco_HolidayAntlers_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_01_furniture_HolidayTree_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_13_Furniture_TreasureChest_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_06_furniture_CoatRack_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_10_Deco_FancyPlate_Custom_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_08_Deco_Wreath_Custom_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_03_Deco_HangingMittens_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_10_Deco_FancyPlate_Custom_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_08_Deco_Wreath_Custom_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_04_Deco_HangingSkates_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_02_Deco_SnowShoes_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_05_Deco_HangingStockings_Custom_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_05_Deco_HangingStockings_Custom_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_vfx_workBench_Tier01_lamp {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Narrative_219_Decor_SilverwingNest {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Skill_10_Mounted_BeachWalker_head_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_152_Deco_BlanketBasket_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_72_housing_tier_0 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_MajiMarket_10_deco_Balloon_Chapaa {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_156_Deco_BlanketLadder_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_155_Deco_Basket_Med_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_154_Deco_Basket_Lg_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_28_furniture_dresser_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_32_furniture_standing_mirror_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Phoenix_12_deco_large_wall_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Referral_07_ChapaaFountain {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Referral_06_HuggingChapaas {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_159_Deco_FirewoodHolder_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_trophy_72_housing_tier_2 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_19_deco_bee_cozy_chair_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_18_deco_bee_beesleeper_plushie_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_18_deco_bee_beesleeper_plushie_wings {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_18_deco_bee_beesleeper_curtains {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_18_deco_bee_beesleeper_bed_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Cosmetic_20_deco_bee_bookshelf_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_07_decor_Rug_B {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_06_decor_Rug_A {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TheOrder_08_decor_Rug_C {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Picture_Frame_Ornate_Med {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_External_01_Windmill {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_FrogDeposit {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Frame_Rect_Large {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Tavern_Deco_Picture_Frame_Square_med {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Crate {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_157_Deco_LaundryBasket_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_DockProps {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_34_decor_ceilingfan_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_13_furniture_smalltable_03_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_33_decor_deskfan_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_16_lighting_tablelamp_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_09_furniture_shelf_02_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_24_decor_WallPipe_03_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_14_decor_ProstheticHand_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_31_decor_deskgyro_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_01_furniture_fridge_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_04_decor_kettle_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_32_lighting_lantern_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_29_decor_FloorVent_04_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_26_decor_WallVent_02_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_28_decor_FloorVent_03_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_25_decor_WallPipe_04_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_19_lighting_walllamp_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_20_decor_WallPipe_01_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_22_decor_WallVent_01_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_15_decor_Microscope_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_17_decor_wallhangings01_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_vfx_valTech_07_furniture_radio {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_07_furniture_Radio_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_05_furniture_kitchenventhood_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_12_furniture_smalltable_02_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_27_decor_FloorVent_02_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_21_decor_WallPipe_02_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_10_furniture_sink_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_30_decor_WallVent_03_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_11_furniture_smalltable_01_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_23_decor_FloorVent_01_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_18_decor_wallhangings02_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_ValTech_08_furniture_shelf_01_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TwitchDrops_02_deco_Palcat_Rug_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_TwitchDrops_01_deco_Palcat_Rug_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Winter_Release_PalcatPlushie_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Winter_Release_PalcatPlushie_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Winter_Release_PalcatPlushie_03 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Rewards_Winter_Release_PalcatPlushie_04 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_160_Deco_PitcherBasin_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Gothic_10_furniture_pendant_light_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_153_Deco_SewingBasket_custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_GeneralStore_WoodTrim1 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Generic_158_Deco_TieredBasket_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Ivy_02 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Valtech_outdoor_Deco_Mailbox {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_WinterHolidays_Presents_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_Winter_09_Deco_PreservesGift_Custom {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
+}
+export interface IMI_WinterHolidays_Leaf_Pile_01 {
+	slotName: string;
+	name: string;
+	textures: ITexturesItem[];
 }
 export interface IRecipeItem {
 	recipe: IRecipe;
@@ -766,7 +5117,9 @@ export interface IOutputItem {
 	quality?: string;
 	value?: IValue;
 	newlyAdded: boolean;
+	obtainable: boolean;
 	cost?: ICost;
+	treedPreview?: boolean;
 }
 export interface IIngredientsItem {
 	type: string;
@@ -779,10 +5132,7 @@ export interface IValueBasedProductionItem {
 	isValid: boolean;
 	key: string;
 	entityType: string;
-	name: string;
-	nameLocalized: INameLocalized;
-	description: string;
-	descriptionLocalized: IDescriptionLocalized;
+	persistId: number;
 	icon: string;
 	iconFolder: string;
 	maxStackSize: number;
@@ -794,8 +5144,9 @@ export interface IValueBasedProductionItem {
 	canBeConsumed: boolean;
 	cost: ICost;
 	value: IValue;
+	name: string;
+	description: string;
 	gardenBuff?: string;
-	gardenBuffLocalized?: IGardenBuffLocalized;
 }
 export interface ISkillItem {
 	skill: ISkill;
@@ -827,12 +5178,9 @@ export interface IAccomplishment {
 	key: string;
 	icon: string;
 	iconFolder: string;
-	nameLocalized: INameLocalized;
 	name: string;
-	descriptionLocalized: IDescriptionLocalized;
 	description: string;
-	unlockedDescriptionLocalized: IUnlockedDescriptionLocalized;
-	unlockedDescription?: string;
+	unlockedDescription: string;
 	requirement?: IRequirement;
 	rewards: IRewardsItem[];
 	obtainable: boolean;
@@ -840,13 +5188,6 @@ export interface IAccomplishment {
 	group?: string;
 	tier?: number;
 	category?: string;
-}
-export interface IUnlockedDescriptionLocalized {
-	de?: string;
-	en?: string;
-	es?: string;
-	fr?: string;
-	it?: string;
 }
 export interface IRequirement {
 	type: string;
@@ -865,10 +5206,12 @@ export interface IGatherable {
 	key: string;
 	entityType: string;
 	mapCoordinates?: IMapCoordinates;
+	timeOfDay?: ITimeOfDay;
+	secondarySpawn?: boolean;
+	secondarySpawnChance?: number;
+	mainSpawners?: string[];
 	items: IItemsItem[];
-	skill: ISkill;
-	name: string;
-	description?: string;
+	skill?: ISkill;
 	icon?: string;
 	iconFolder?: string;
 	type: string;
@@ -876,13 +5219,20 @@ export interface IGatherable {
 	rarityNumber: number;
 	creature?: ICreature;
 	starQualityChance?: number;
+	metadata: IMetadata;
 	finalRewardsLootBundle?: string;
 	isGatherable: boolean;
 	addedIn: string;
 	newlyAdded: boolean;
-	obtainable?: boolean;
+	name: string;
+	description?: string;
+	bpName: string;
+	category?: string;
+	showMap?: boolean;
 	requirements?: IRequirements;
 	vitalRewardsLootBundle?: string;
 	lootPerVitalAmount?: number;
 	defaultItem?: string;
+	obtainable?: boolean;
+	removeAfter?: boolean;
 }

@@ -46,7 +46,7 @@ export class ItemEmbed extends BaseEmbed {
 		if (item.cost)
 			this.addFields({
 				name: i18n.embeds.item.cost(),
-				value: `${item.cost.amount} ${item.cost.currency.name}`,
+				value: `${item.cost.amount.toLocaleString(i18n.locale())} ${item.cost.currency?.name}`,
 			});
 
 		if (item.value)
@@ -71,23 +71,26 @@ export class ItemEmbed extends BaseEmbed {
 					this.addFields({
 						name: i18n.embeds.item.gathered_from(),
 						value: (value as IGatherablesItem[])
-							.map((gatherable) => `- ${hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`)} (${hyperlink(gatherable.skill.name, `${PALIA_URL}/skill/${gatherable.skill.key}`)})`)
+							.map(
+								(gatherable) =>
+									`- ${hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`)} (${hyperlink(gatherable.skill?.name ?? "Unknown", `${PALIA_URL}/skill/${gatherable.skill?.key}`)})`,
+							)
 							.join("\n"),
 					});
 				} else if (key === "dialogues") {
 					this.addFields({
 						name: i18n.embeds.item.quest_reward_from(),
-						value: (value as IDialoguesItem[]).map((vendor) => `- ${hyperlink(vendor.name, `${PALIA_URL}/dialogue/${vendor.key}`)}`).join("\n"),
+						value: (value as IDialoguesItem[]).map((vendor) => `- ${hyperlink(vendor.name ?? "Unknown", `${PALIA_URL}/dialogue/${vendor.key}`)}`).join("\n"),
 					});
 				} else if (key === "mailMessages") {
 					this.addFields({
 						name: i18n.embeds.item.attached_to(),
-						value: (value as IMailMessagesItem[]).map((mail) => `- ${hyperlink(mail.name, `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n"),
+						value: (value as IMailMessagesItem[]).map((mail) => `- ${hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n"),
 					});
 				} else if (key === "books") {
 					this.addFields({
 						name: i18n.embeds.item.obtained_by_reading(),
-						value: (value as IBooksItem[]).map((book) => `- ${hyperlink(book.name, `${PALIA_URL}/item/${book.key}`)}`).join("\n"),
+						value: (value as IBooksItem[]).map((book) => `- ${hyperlink(book?.name ?? "Unknown", `${PALIA_URL}/item/${book.key}`)}`).join("\n"),
 					});
 				} else if (key === "quests") {
 					this.addFields({

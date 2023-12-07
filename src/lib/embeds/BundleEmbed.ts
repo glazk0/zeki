@@ -45,23 +45,24 @@ export class BundleEmbed extends BaseEmbed {
 					.join("\n"),
 			});
 
-			this.addFields({
-				name: `${subBundle.name} Rewards`,
-				value: subBundle.rewards
-					.map((reward) => {
-						if (reward.type === "recipe") {
-							return `- Recipe: ${hyperlink(reward.recipe?.name || "Unknown recipe", `${PALIA_URL}/recipe/${reward.recipe?.key}`)}`;
-						}
-						if (reward.type === "Coins") {
-							return `- ${reward.amount}x ${reward.currency?.name}`;
-						} else if (reward.type === "item") {
-							return `- ${reward.amount}x ${hyperlink(reward.item?.name || "Unknown item", `${PALIA_URL}/item/${reward.item?.key}`)}`;
-						} else {
-							return `- ${reward.amount}x ${reward.type} (WIP)`;
-						}
-					})
-					.join("\n"),
-			});
+			if (subBundle.rewards?.length)
+				this.addFields({
+					name: `${subBundle.name} Rewards`,
+					value: subBundle.rewards
+						.map((reward) => {
+							if (reward.type === "recipe") {
+								return `- Recipe: ${hyperlink(reward.recipe?.name || "Unknown recipe", `${PALIA_URL}/recipe/${reward.recipe?.key}`)}`;
+							}
+							if (reward.type === "Coins") {
+								return `- ${reward.amount}x ${reward.currency?.name}`;
+							} else if (reward.type === "item") {
+								return `- ${reward.amount}x ${hyperlink(reward.item?.name || "Unknown item", `${PALIA_URL}/item/${reward.item?.key}`)}`;
+							} else {
+								return `- ${reward.amount}x ${reward.type} (WIP)`;
+							}
+						})
+						.join("\n"),
+				});
 		}
 	}
 }
