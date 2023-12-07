@@ -46,7 +46,7 @@
     "pino": "^8.16.2",
     "pino-pretty": "^10.2.3",
     "postgres": "^3.4.3",
-    "query-string": "^7.1.3",
+    "query-string": "^8.1.0",
     "redis": "^4.6.11",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.8.0",
