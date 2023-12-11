@@ -48,7 +48,7 @@
     "postgres": "^3.4.3",
     "query-string": "^8.1.0",
     "redis": "^4.6.11",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.1.14",
     "tsyringe": "^4.8.0",
     "typesafe-i18n": "^5.26.2"
   },
