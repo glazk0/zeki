@@ -5,10 +5,14 @@ import { initFormatters } from './formatters.js'
 import type { Locales, Translations } from './i18n-types.js'
 import { loadedFormatters, loadedLocales, locales } from './i18n-util.js'
 
+import de from './de/index.js'
 import en from './en/index.js'
 import it from './it/index.js'
 import ru from './ru/index.js'
 
+import de_discord from './de/discord/index.js'
+import de_embeds from './de/embeds/index.js'
+import de_interactions from './de/interactions/index.js'
 import en_discord from './en/discord/index.js'
 import en_embeds from './en/embeds/index.js'
 import en_interactions from './en/interactions/index.js'
@@ -20,6 +24,12 @@ import ru_embeds from './ru/embeds/index.js'
 import ru_interactions from './ru/interactions/index.js'
 
 const localeTranslations = {
+	de: {
+		...de,
+		discord: de_discord,
+		embeds: de_embeds,
+		interactions: de_interactions
+	},
 	en: {
 		...en,
 		discord: en_discord,

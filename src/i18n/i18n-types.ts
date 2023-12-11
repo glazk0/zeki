@@ -6,6 +6,7 @@ export type BaseTranslation = BaseTranslationType & DisallowNamespaces
 export type BaseLocale = 'en'
 
 export type Locales =
+	| 'de'
 	| 'en'
 	| 'it'
 	| 'ru'

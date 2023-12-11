@@ -115,7 +115,7 @@ export const paliaLocales = [
  */
 export const localesMap: Record<Locales, string> = {
 	en: "English", // Supported by Paliapedia
-	// de: "Deutsch", // Supported by Paliapedia
+	de: "Deutsch", // Supported by Paliapedia
 	// es: "Español", // Supported by Paliapedia
 	// fr: "Français", // Supported by Paliapedia
 	it: "Italiano", // Supported by Paliapedia

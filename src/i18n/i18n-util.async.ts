@@ -6,12 +6,18 @@ import type { Locales, Namespaces, Translations } from './i18n-types.js'
 import { loadedFormatters, loadedLocales, locales } from './i18n-util.js'
 
 const localeTranslationLoaders = {
+	de: () => import('./de/index.js'),
 	en: () => import('./en/index.js'),
 	it: () => import('./it/index.js'),
 	ru: () => import('./ru/index.js'),
 }
 
 const localeNamespaceLoaders = {
+	de: {
+		discord: () => import('./de/discord/index.js'),
+		embeds: () => import('./de/embeds/index.js'),
+		interactions: () => import('./de/interactions/index.js')
+	},
 	en: {
 		discord: () => import('./en/discord/index.js'),
 		embeds: () => import('./en/embeds/index.js'),
