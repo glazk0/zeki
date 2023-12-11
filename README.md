@@ -1,4 +1,4 @@
-# Zeki
+# Zeki, a Palia(pedia) Discord bot
 
 ![GitHub](https://img.shields.io/github/license/glazk0/zeki)
 
@@ -76,8 +76,11 @@ We welcome contributions from the community. If you have ideas for improvements 
 Zeki is currently available in the following languages:
 
 - English
+- Deutsch
+- Italiano
+- Русский
 
-If you would like to contribute to the localization of Zeki, please refer to the [Localization](.github/LOCALIZATION.md) guide.
+If you would like to contribute to the localization of Zeki, please refer to the [localization](.github/LOCALIZATION.md) guide.
 
 ## Self-Hosting
 
