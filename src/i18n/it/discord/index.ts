@@ -1,6 +1,6 @@
-import { BaseTranslation } from "../../i18n-types";
+import { NamespaceDiscordTranslation } from "../../i18n-types";
 
-const it_discord = {
+const it_discord: NamespaceDiscordTranslation = {
   settings: {
     name: 'settings',
     description: 'Accedi e gestisci le impostazioni del tuo server.',
@@ -67,7 +67,7 @@ const it_discord = {
   },
   item: {
     name: 'item',
-    description: 'Cerca l'oggetto e i dettagli correlati.',
+    description: "Cerca l'oggetto e i dettagli correlati.",
   },
   'item.query': {
     name: 'query',
@@ -93,6 +93,6 @@ const it_discord = {
     name: 'query',
     description: 'Quale traguardo stai cercando?',
   },
-} satisfies BaseTranslation;
+} ;
 
 export default it_discord;

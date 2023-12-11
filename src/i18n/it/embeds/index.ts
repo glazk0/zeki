@@ -1,6 +1,6 @@
-import type { BaseTranslation } from "../../i18n-types";
+import type { NamespaceEmbedsTranslation } from "../../i18n-types";
 
-const it_embeds = {
+const it_embeds: NamespaceEmbedsTranslation = {
 	help: {
 		title: "{username}'s commands",
 		description: "Qui c'è la lista di tutti miei comandi. Puoi anche visualizzarli digitando `/` in Discord.",
@@ -65,12 +65,12 @@ const it_embeds = {
 	weekly_wants: {
 		title: 'Rotazione dei regali settimanali',
 		description:
-			'La lista dei regali settimanali ricercati a {date} è ora disponibile! Puoi trovare l'elenco completo al {url}.',
+			"La lista dei regali settimanali ricercati a {date} è ora disponibile! Puoi trovare l'elenco completo al {url}.",
 	},
 	miscellaneous: {
 		see_more: 'Vedi ancora {count} ...',
 		no_data: 'Dati inesistenti.',
 	},
-} satisfies BaseTranslation;
+};
 
 export default it_embeds;
