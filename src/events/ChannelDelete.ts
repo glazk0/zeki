@@ -17,7 +17,7 @@ export default class ChannelDelete extends Event {
 	}
 
 	async run(channel: NonThreadGuildBasedChannel | DMChannel): Promise<void> {
-		if (!this.client.isReady) return;
+		if (!this.client.isReady()) return;
 
 		if (channel.isDMBased() || !channel.isTextBased()) return;
 
