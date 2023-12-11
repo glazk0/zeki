@@ -1,6 +1,6 @@
-import type { BaseTranslation } from "../../i18n-types";
+import type { NamespaceEmbedsTranslation } from "../../i18n-types";
 
-const ru_embeds = {
+const ru_embeds: NamespaceEmbedsTranslation = {
 	help: {
 		title: "Команды {username}",
 		description: "Вот список всех моих команд. Вы также можете их пересмотреть, введя `/` в поле Дискорда.",
@@ -71,6 +71,6 @@ const ru_embeds = {
 		see_more: 'Просмотреть еще {count} ...',
 		no_data: 'Данные отсутствуют.',
 	},
-} satisfies BaseTranslation;
+};
 
 export default ru_embeds;

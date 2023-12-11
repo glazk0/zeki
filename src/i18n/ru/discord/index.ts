@@ -1,6 +1,6 @@
-import { BaseTranslation } from "../../i18n-types";
+import { NamespaceDiscordTranslation } from "../../i18n-types";
 
-const ru_discord = {
+const ru_discord: NamespaceDiscordTranslation = {
   settings: {
     name: 'settings',
     description: 'Управление настройками сервера.',
@@ -93,6 +93,6 @@ const ru_discord = {
     name: 'query',
     description: 'Какое достижение ваc интересует?',
   },
-} satisfies BaseTranslation;
+};
 
 export default ru_discord;

@@ -1,6 +1,6 @@
-import type { BaseTranslation } from '../../i18n-types';
+import type { NamespaceInteractionsTranslation } from '../../i18n-types';
 
-const ru_interactions = {
+const ru_interactions: NamespaceInteractionsTranslation = {
     settings: {
       news: {
         enabled: 'Новости теперь будут поступать в {channel}.',
@@ -17,6 +17,6 @@ const ru_interactions = {
       no_results: 'Не найдено результатов.',
       no_results_for: 'Не найдено результатов для "{query}".',
     },
-} satisfies BaseTranslation;
+};
 
 export default ru_interactions;
