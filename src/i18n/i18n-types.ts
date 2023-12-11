@@ -7,6 +7,8 @@ export type BaseLocale = 'en'
 
 export type Locales =
 	| 'en'
+	| 'it'
+	| 'ru'
 
 export type Translation = RootTranslation & DisallowNamespaces
 
@@ -265,7 +267,7 @@ export type NamespaceEmbedsTranslation = {
 		 */
 		title: RequiredParams<'username'>
 		/**
-		 * H​e​r​e​ ​i​s​ ​a​ ​l​i​s​t​ ​o​f​ ​a​l​l​ ​m​y​ ​c​o​m​m​a​n​d​s​.​ ​I​f​ ​y​o​u​ ​n​e​e​d​ ​m​o​r​e​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​a​ ​c​o​m​m​a​n​d​,​ ​u​s​e​ ​`​/​h​e​l​p​ ​<​c​o​m​m​a​n​d​>​`​.
+		 * H​e​r​e​ ​i​s​ ​a​ ​l​i​s​t​ ​o​f​ ​a​l​l​ ​m​y​ ​c​o​m​m​a​n​d​s​.​ ​Y​o​u​ ​c​a​n​ ​a​l​s​o​ ​s​e​e​ ​t​h​e​m​ ​w​h​e​n​ ​y​o​u​ ​t​y​p​e​ ​`​/​`​ ​i​n​ ​D​i​s​c​o​r​d​.
 		 */
 		description: string
 	}
@@ -816,7 +818,7 @@ export type TranslationFunctions = {
 			 */
 			title: (arg: { username: unknown }) => LocalizedString
 			/**
-			 * Here is a list of all my commands. If you need more information about a command, use `/help <command>`.
+			 * Here is a list of all my commands. You can also see them when you type `/` in Discord.
 			 */
 			description: () => LocalizedString
 		}

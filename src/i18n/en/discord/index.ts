@@ -1,6 +1,6 @@
 import { BaseTranslation } from "../../i18n-types";
 
-const en_discord = {
+const en_discord: BaseTranslation = {
   settings: {
     name: 'settings',
     description: 'Access and manage your server settings.',
@@ -93,6 +93,6 @@ const en_discord = {
     name: 'query',
     description: 'What accomplishment are you looking for?',
   },
-} satisfies BaseTranslation;
+};
 
 export default en_discord;

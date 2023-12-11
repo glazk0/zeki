@@ -1,6 +1,6 @@
 import type { BaseTranslation } from "../../i18n-types";
 
-const en_embeds = {
+const en_embeds: BaseTranslation = {
 	help: {
 		title: "{username}'s commands",
 		description: "Here is a list of all my commands. You can also see them when you type `/` in Discord.",
@@ -71,6 +71,6 @@ const en_embeds = {
 		see_more: 'See {count} more ...',
 		no_data: 'No data available.',
 	},
-} satisfies BaseTranslation;
+};
 
 export default en_embeds;

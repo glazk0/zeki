@@ -7,6 +7,8 @@ import { loadedFormatters, loadedLocales, locales } from './i18n-util.js'
 
 const localeTranslationLoaders = {
 	en: () => import('./en/index.js'),
+	it: () => import('./it/index.js'),
+	ru: () => import('./ru/index.js'),
 }
 
 const localeNamespaceLoaders = {
@@ -14,6 +16,16 @@ const localeNamespaceLoaders = {
 		discord: () => import('./en/discord/index.js'),
 		embeds: () => import('./en/embeds/index.js'),
 		interactions: () => import('./en/interactions/index.js')
+	},
+	it: {
+		discord: () => import('./it/discord/index.js'),
+		embeds: () => import('./it/embeds/index.js'),
+		interactions: () => import('./it/interactions/index.js')
+	},
+	ru: {
+		discord: () => import('./ru/discord/index.js'),
+		embeds: () => import('./ru/embeds/index.js'),
+		interactions: () => import('./ru/interactions/index.js')
 	}
 }
 

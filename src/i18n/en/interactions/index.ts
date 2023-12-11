@@ -1,6 +1,6 @@
 import type { BaseTranslation } from '../../i18n-types';
 
-const en_interactions = {
+const en_interactions: BaseTranslation = {
     settings: {
       news: {
         enabled: 'News will now be sent in {channel}.',
@@ -17,6 +17,6 @@ const en_interactions = {
       no_results: 'No results found.',
       no_results_for: 'No results found for "{query}".',
     },
-} satisfies BaseTranslation;
+};
 
 export default en_interactions;

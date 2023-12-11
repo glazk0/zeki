@@ -6,10 +6,18 @@ import type { Locales, Translations } from './i18n-types.js'
 import { loadedFormatters, loadedLocales, locales } from './i18n-util.js'
 
 import en from './en/index.js'
+import it from './it/index.js'
+import ru from './ru/index.js'
 
 import en_discord from './en/discord/index.js'
 import en_embeds from './en/embeds/index.js'
 import en_interactions from './en/interactions/index.js'
+import it_discord from './it/discord/index.js'
+import it_embeds from './it/embeds/index.js'
+import it_interactions from './it/interactions/index.js'
+import ru_discord from './ru/discord/index.js'
+import ru_embeds from './ru/embeds/index.js'
+import ru_interactions from './ru/interactions/index.js'
 
 const localeTranslations = {
 	en: {
@@ -17,6 +25,18 @@ const localeTranslations = {
 		discord: en_discord,
 		embeds: en_embeds,
 		interactions: en_interactions
+	},
+	it: {
+		...it,
+		discord: it_discord,
+		embeds: it_embeds,
+		interactions: it_interactions
+	},
+	ru: {
+		...ru,
+		discord: ru_discord,
+		embeds: ru_embeds,
+		interactions: ru_interactions
 	},
 }
 
