@@ -1,6 +1,7 @@
-# Zeki, a Palia(pedia) Discord bot
+# Zeki the Palia(pedia) Discord bot
 
-![GitHub](https://img.shields.io/github/license/glazk0/zeki)
+[![License](https://img.shields.io/github/license/glazk0/zeki)](LICENSE)
+[![Contributors](https://img.shields.io/github/contributors/glazk0/zeki.svg)](https://gitHub.com/glazk0/zeki/graphs/contributors/)
 
 A simple & user-friendly Discord bot integration of [paliapedia.com](https://paliapedia.com/) for Palia.
 
