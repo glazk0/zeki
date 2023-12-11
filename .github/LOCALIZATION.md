@@ -27,14 +27,8 @@ To ensure consistency and quality across translations, please adhere to the foll
 Here is a list of currently supported languages for translation:
 
 - English (en)
-- Spanish (es)
-- French (fr)
 - German (de)
-- Portuguese (pt)
-- Polish (pl)
-- Hungarian (hu)
 - Italian (it)
-- Japanese (ja)
 - Russian (ru)
 
 If your desired language is not listed above, you can contribute a translation by creating a new folder with the appropriate language code and following the contribution steps mentioned above.
@@ -43,13 +37,14 @@ If your desired language is not listed above, you can contribute a translation b
 
 We greatly appreciate the efforts of all contributors who help make Zeki accessible to a wider audience. Your contributions will be acknowledged in the list of contributors here.
 
-- [name](discord://-/users/discord_id) - Language
+- [victoriawildsong](discord://-/users/583339081405038602) - Russian (ru) & Italian (it)
+- [reezor](discord://-/users/161739391536988160) - German (de)
 
 Sorry if I missed anyone, please let me know if you contributed and I forgot to add you.
 
 ## License
 
-The Zeki Discord Bot Translation Project is licensed under [MIT](https://github.com/glazk0/zeki/blob/main/LICENSE), and by contributing, you agree that your contributions will be subject to the terms of this license.
+The Zeki Discord Bot Translation Project is licensed under [MIT](../LICENSE), and by contributing, you agree that your contributions will be subject to the terms of this license.
 
 We look forward to your contributions and thank you for your support in making Zeki accessible to users in different languages. If you have any questions or need assistance, please don't hesitate to reach out.
 

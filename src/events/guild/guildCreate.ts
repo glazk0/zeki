@@ -16,12 +16,15 @@ export default class GuildCreate extends Event {
 	}
 
 	async run(guild: Guild): Promise<void> {
-		if (!this.client.isReady) return;
+		if (!this.client.isReady()) return;
 
 		try {
-			await db.insert(guilds).values({
-				guildId: guild.id,
-			});
+			await db
+				.insert(guilds)
+				.values({
+					guildId: guild.id,
+				})
+				.onConflictDoNothing();
 		} catch (error) {
 			this.client.logger.error(`Error while inserting a guild into the database: ${error}`);
 		}

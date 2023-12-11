@@ -48,7 +48,7 @@
     "postgres": "^3.4.3",
     "query-string": "^8.1.0",
     "redis": "^4.6.11",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.1.14",
     "tsyringe": "^4.8.0",
     "typesafe-i18n": "^5.26.2"
   },
@@ -58,7 +58,6 @@
     "@types/node-schedule": "2.1.5",
     "drizzle-kit": "^0.19.13",
     "ncp": "2.0.0",
-    "ts-node": "^10.9.1",
     "typescript": "^5.3.3"
   }
 }

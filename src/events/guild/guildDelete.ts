@@ -17,7 +17,7 @@ export default class GuildDelete extends Event {
 	}
 
 	async run(guild: Guild): Promise<void> {
-		if (!this.client.isReady) return;
+		if (!this.client.isReady()) return;
 
 		try {
 			await db.delete(guilds).where(eq(guilds.guildId, guild.id));

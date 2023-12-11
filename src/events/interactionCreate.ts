@@ -24,7 +24,7 @@ export default class InteractionCreate extends Event {
 	}
 
 	public async run(interaction: CommandInteraction<CacheType>): Promise<any> {
-		if (!this.client.isReady || !interaction) return undefined;
+		if (!this.client.isReady() || !interaction) return undefined;
 
 		let guild: GuildWithSettings | undefined = undefined;
 
