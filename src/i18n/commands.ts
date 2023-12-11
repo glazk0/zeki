@@ -27,7 +27,7 @@ const allCommands: AllCommands = {};
 
 locales
 	// TODO Fix locales
-	.filter((locale) => discordLocales.includes(discordLocaleMappings[locale as Locale]))
+	.filter((locale) => discordLocales.includes(locale as Locale) || discordLocaleMappings[locale])
 	.map((locale) => {
 		const commands = Object.entries(L[locale].discord).reduce((command, [key, value]) => {
 			command[key] = {
