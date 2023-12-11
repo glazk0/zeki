@@ -37,8 +37,8 @@ If your desired language is not listed above, you can contribute a translation b
 
 We greatly appreciate the efforts of all contributors who help make Zeki accessible to a wider audience. Your contributions will be acknowledged in the list of contributors here.
 
-- [victoriawildsong](discord://-/users/583339081405038602) - Russian (ru) & Italian (it)
-- [reezor](discord://-/users/161739391536988160) - German (de)
+- [victoriawildsong](https://discord.com/users/583339081405038602) - Russian (ru) & Italian (it)
+- [reezor](https://discord.com/users/583339081405038602) - German (de)
 
 Sorry if I missed anyone, please let me know if you contributed and I forgot to add you.
 
