@@ -1,97 +1,95 @@
-import { BaseTranslation } from "../../i18n-types";
-
-const fr_discord: BaseTranslation = {
+const fr_discord = {
 	settings: {
 		name: "settings",
-		description: "Access and manage your server settings.",
+		description: "Accédez et gérez les paramètres de votre serveur.",
 	},
 	["settings.locale"]: {
 		name: "locale",
-		description: "Change the language settings for your server.",
+		description: "Modifiez les paramètres de langue pour votre serveur.",
 	},
 	["settings.locale.value"]: {
 		name: "value",
-		description: "Specify the preferred language for your server.",
+		description: "Spécifiez la langue préférée pour votre serveur.",
 	},
 	["settings.news"]: {
 		name: "news",
-		description: "Control the news settings for your server.",
+		description: "Contrôlez les paramètres de nouvelles pour votre serveur.",
 	},
 	["settings.news.enable"]: {
 		name: "enable",
-		description: "Activate the news feature for your server.",
+		description: "Activez la fonctionnalité de nouvelles pour votre serveur.",
 	},
 	["settings.news.enable.channel"]: {
 		name: "channel",
-		description: "Designate the channel where news updates will be posted.",
+		description: "Désignez le canal où les mises à jour des nouvelles seront publiées.",
 	},
 	["settings.news.disable"]: {
 		name: "disable",
-		description: "Deactivate the news feature for your server.",
+		description: "Désactivez la fonctionnalité de nouvelles pour votre serveur.",
 	},
 	help: {
 		name: "help",
-		description: "Display a comprehensive list of Zeki's available commands.",
+		description: "Affichez une liste complète des commandes disponibles de Zeki.",
 	},
 	about: {
 		name: "about",
-		description: "Retrieve detailed information about Zeki.",
+		description: "Obtenez des informations détaillées sur Zeki.",
 	},
 	quest: {
 		name: "quest",
-		description: "Search for quests and related information.",
+		description: "Recherchez des quêtes et des informations connexes.",
 	},
 	"quest.query": {
 		name: "query",
-		description: "What quest are you looking for?",
+		description: "Quelle quête recherchez-vous ?",
 	},
 	villager: {
 		name: "villager",
-		description: "Look up information about specific villagers.",
+		description: "Consultez des informations sur des villageois spécifiques.",
 	},
 	"villager.query": {
 		name: "query",
-		description: "What villager are you looking for?",
+		description: "Quel villageois recherchez-vous ?",
 	},
 	recipe: {
 		name: "recipe",
-		description: "Search for crafting recipes and crafting details.",
+		description: "Recherchez des recettes de fabrication et des détails de fabrication.",
 	},
 	"recipe.query": {
 		name: "query",
-		description: "What recipe are you looking for?",
+		description: "Quelle recette recherchez-vous ?",
 	},
 	"recipe.amount": {
 		name: "amount",
-		description: "Determine the quantity of items to craft.",
+		description: "Déterminez la quantité d'objets à fabriquer.",
 	},
 	item: {
 		name: "item",
-		description: "Search for items and item details.",
+		description: "Recherchez des objets et des détails sur les objets.",
 	},
 	"item.query": {
 		name: "query",
-		description: "What item are you looking for?",
+		description: "Quel objet recherchez-vous ?",
 	},
 	weekly: {
 		name: "weekly",
-		description: "Retrieve weekly preferences and wants of villagers.",
+		description: "Obtenez les préférences et les souhaits hebdomadaires des villageois.",
 	},
 	bundle: {
 		name: "bundle",
-		description: "Search for information about bundles and their contents.",
+		description: "Recherchez des informations sur les ensembles et leur contenu.",
 	},
 	"bundle.query": {
 		name: "query",
-		description: "What bundle are you looking for?",
+		description: "Quel ensemble recherchez-vous ?",
 	},
 	accomplishment: {
 		name: "accomplishment",
-		description: "Search for accomplishments and achievement details.",
+		description: "Recherchez des réalisations et des détails sur les réussites.",
 	},
 	"accomplishment.query": {
 		name: "query",
-		description: "What accomplishment are you looking for?",
+		description: "Quelle réalisation recherchez-vous ?",
 	},
 };
 
