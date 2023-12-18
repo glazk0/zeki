@@ -39,8 +39,8 @@ dependencies:
     specifier: ^4.6.11
     version: 4.6.11
   reflect-metadata:
-    specifier: ^0.1.14
-    version: 0.1.14
+    specifier: ^0.2.1
+    version: 0.2.1
   tsyringe:
     specifier: ^4.8.0
     version: 4.8.0
@@ -1405,8 +1405,8 @@ packages:
       '@redis/time-series': 1.0.5(@redis/client@1.5.12)
     dev: false
 
-  /reflect-metadata@0.1.14:
-    resolution: {integrity: sha512-ZhYeb6nRaXCfhnndflDK8qI6ZQ/YcWZCISRAWICW9XYqMUwjZM9Z0DveWX/ABN01oxSHwVxKQmxeYZSsm0jh5A==}
+  /reflect-metadata@0.2.1:
+    resolution: {integrity: sha512-i5lLI6iw9AU3Uu4szRNPPEkomnkjRTaVt9hy/bn5g/oSzekBSMeLZblcjP74AW0vBabqERLLIrz+gR8QYR54Tw==}
     dev: false
 
   /resolve-pkg-maps@1.0.0:
