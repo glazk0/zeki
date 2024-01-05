@@ -26,7 +26,7 @@ const en_embeds: BaseTranslation = {
 		obtained_by_reading: "Obtained by reading",
 		reward_from: "Reward from",
 		obtained_from: "Obtained from",
-		teaches_recipe: "Teaches recipe",
+		ingredient_for_recipe: "Ingredient for recipe",
 		needed_for_quest: "Needed for quest",
 		contains_item: "Contains item",
 	},

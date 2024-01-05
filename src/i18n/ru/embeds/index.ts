@@ -26,7 +26,7 @@ const ru_embeds: NamespaceEmbedsTranslation = {
 		obtained_by_reading: "Получено при чтении",
 		reward_from: "Награда от",
 		obtained_from: "Получено от",
-		teaches_recipe: "Ингредиент рецепта/-ов",
+		ingredient_for_recipe: "Ингредиент для рецепта",
 		needed_for_quest: "Необходимо для квеста",
 		contains_item: "Содержит предмет",
 	},

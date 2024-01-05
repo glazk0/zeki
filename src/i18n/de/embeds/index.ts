@@ -26,7 +26,7 @@ const de_embeds: NamespaceEmbedsTranslation = {
 		obtained_by_reading: "Durch Lesen erlangt",
 		reward_from: "Belohnung von",
 		obtained_from: "erlangt von",
-		teaches_recipe: "Lehrt Rezept",
+		ingredient_for_recipe: "Zutat für Rezept",
 		needed_for_quest: "Benötigt für Quest",
 		contains_item: "Enthält Gegenstand",
 	},

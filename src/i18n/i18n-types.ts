@@ -357,9 +357,9 @@ export type NamespaceEmbedsTranslation = {
 		 */
 		obtained_from: string
 		/**
-		 * T​e​a​c​h​e​s​ ​r​e​c​i​p​e
+		 * I​n​g​r​e​d​i​e​n​t​ ​f​o​r​ ​r​e​c​i​p​e
 		 */
-		teaches_recipe: string
+		ingredient_for_recipe: string
 		/**
 		 * N​e​e​d​e​d​ ​f​o​r​ ​q​u​e​s​t
 		 */
@@ -902,9 +902,9 @@ export type TranslationFunctions = {
 			 */
 			obtained_from: () => LocalizedString
 			/**
-			 * Teaches recipe
+			 * Ingredient for recipe
 			 */
-			teaches_recipe: () => LocalizedString
+			ingredient_for_recipe: () => LocalizedString
 			/**
 			 * Needed for quest
 			 */

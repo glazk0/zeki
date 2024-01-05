@@ -124,7 +124,7 @@ export class ItemEmbed extends BaseEmbed {
 			for (const [key, value] of Object.entries(item.requiredFor)) {
 				if (key === "recipes") {
 					this.addFields({
-						name: i18n.embeds.item.teaches_recipe(),
+						name: i18n.embeds.item.ingredient_for_recipe(),
 						value: (value as IRecipesItem[]).map((recipe) => `- ${hyperlink(recipe.item?.name ?? "Unknown", `${PALIA_URL}/recipe/${recipe.key}`)}`).join("\n"),
 					});
 				} else if (key === "quests") {
