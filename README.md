@@ -80,6 +80,7 @@ Zeki is currently available in the following languages:
 - Deutsch
 - Italiano
 - Русский
+- Français
 
 If you would like to contribute to the localization of Zeki, please refer to the [localization](.github/LOCALIZATION.md) guide.
 
