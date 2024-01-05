@@ -1,7 +1,7 @@
 import { ShardingManager } from "discord.js";
 
 import { logger } from "../lib/Logger.js";
-import { Jobs } from "../lib/Jobs.js";
+import { Scheduler } from "../lib/Scheduler.js";
 
 export class Manager {
 	/**
@@ -10,16 +10,16 @@ export class Manager {
 	private manager: ShardingManager;
 
 	/**
-	 * The jobs service.
+	 * The job scheduler instance.
 	 */
-	private jobs: Jobs;
+	private scheduler: Scheduler;
 
 	/**
 	 * @param manager - The sharding manager.
 	 */
-	constructor(manager: ShardingManager, jobs: Jobs) {
+	constructor(manager: ShardingManager, scheduler: Scheduler) {
 		this.manager = manager;
-		this.jobs = jobs;
+		this.scheduler = scheduler;
 	}
 
 	/**
@@ -29,7 +29,7 @@ export class Manager {
 		try {
 			this.registerEvents();
 			await this.manager.spawn({ timeout: -1 }).then(() => logger.info("All shards launched"));
-			this.jobs.init();
+			this.scheduler.init();
 		} catch (error) {
 			logger.error(`Error initializing manager: ${error}`);
 			process.exit(1);

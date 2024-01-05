@@ -17,6 +17,7 @@ import { ItemEmbed } from "../../lib/embeds/ItemEmbed.js";
 import { clientSymbol } from "../../utils/Constants.js";
 
 import { commands } from "../../i18n/commands.js";
+import { baseLocale } from "../../i18n/i18n-util.js";
 
 @injectable()
 export default class Item extends Interaction {
@@ -44,7 +45,7 @@ export default class Item extends Interaction {
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		const query = interaction.options.getString("query", true);
 
-		const item = await this.client.api.getItem(query, ctx.guild?.locale);
+		const item = await this.client.api.getItem(query, ctx.guild?.locale ?? baseLocale);
 
 		if (!item)
 			return interaction.reply({
@@ -64,7 +65,7 @@ export default class Item extends Interaction {
 
 		if (!value) return await interaction.respond([]);
 
-		const data = (await this.client.api.search(value, "item", ctx.guild?.locale)).slice(0, 25);
+		const data = (await this.client.api.search(value, "item", ctx.guild?.locale ?? baseLocale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({

@@ -6,6 +6,7 @@ import { logger } from "../Logger.js";
 
 import { db } from "../../db/index.js";
 import { guilds } from "../../db/schema/Guild.js";
+
 import { duration } from "../../utils/Commons.js";
 
 export class Retention extends Job {
@@ -29,7 +30,7 @@ export class Retention extends Job {
 
 		oldGuilds = oldGuilds.filter((guild) => guild.news === null);
 
-		if (oldGuilds.length === 0) return logger.info("No guilds to delete.");
+		if (!oldGuilds?.length) return logger.info("No guilds to delete.");
 
 		const rows = await db
 			.delete(guilds)

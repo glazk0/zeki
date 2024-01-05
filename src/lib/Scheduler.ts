@@ -4,7 +4,7 @@ import { logger } from "./Logger.js";
 
 import { Job } from "./jobs/Job.js";
 
-export class Jobs {
+export class Scheduler {
 	/**
 	 * The jobs to run.
 	 */

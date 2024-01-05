@@ -23,6 +23,7 @@ import { clientSymbol } from "../../utils/Constants.js";
 import { IRelationshipLevelsItem } from "../../@types/generated.js";
 
 import { commands } from "../../i18n/commands.js";
+import { baseLocale } from "../../i18n/i18n-util.js";
 
 @injectable()
 export default class Villager extends Interaction {
@@ -50,7 +51,7 @@ export default class Villager extends Interaction {
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		const query = interaction.options.getString("query", true);
 
-		const villager = await this.client.api.getVillager(query, ctx.guild?.locale);
+		const villager = await this.client.api.getVillager(query, ctx.guild?.locale ?? baseLocale);
 
 		if (!villager)
 			return interaction.reply({
@@ -85,7 +86,7 @@ export default class Villager extends Interaction {
 
 		if (!value) return await interaction.respond([]);
 
-		const data = (await this.client.api.search(value, "villager", ctx.guild?.locale)).slice(0, 25);
+		const data = (await this.client.api.search(value, "villager", ctx.guild?.locale ?? baseLocale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({
@@ -98,7 +99,7 @@ export default class Villager extends Interaction {
 	async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, context: Context): Promise<any> {
 		const [key, relationshipLevel] = interaction.values[0].split("_") as [string, number];
 
-		const villager = await this.client.api.getVillager(key, context.guild?.locale);
+		const villager = await this.client.api.getVillager(key, context.guild?.locale ?? baseLocale);
 
 		if (!villager)
 			return interaction.reply({

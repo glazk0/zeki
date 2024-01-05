@@ -9,6 +9,7 @@ import { clientSymbol } from "../../utils/Constants.js";
 import { IWeeklyWantsItem } from "../../@types/generated.js";
 
 import { commands } from "../../i18n/commands.js";
+import { baseLocale } from "../../i18n/i18n-util.js";
 
 @injectable()
 export default class Weekly extends Interaction {
@@ -26,7 +27,7 @@ export default class Weekly extends Interaction {
 	}
 
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
-		const villager = (await this.client.api.getWeeklyWants(undefined, ctx.guild?.locale)) as IWeeklyWantsItem;
+		const villager = (await this.client.api.getWeeklyWants(undefined, ctx.guild?.locale ?? baseLocale)) as IWeeklyWantsItem;
 
 		const villagers = villager.entries?.map((entry) => {
 			return {
