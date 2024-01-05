@@ -207,9 +207,9 @@ export class QuestEmbed extends BaseEmbed {
 									)}`;
 								return `- ${hyperlink(
 									reward.mailMessage?.name ??
-										i18n.embeds.quest.mail_message({
-											villager: reward.mailMessage.name,
-										}),
+									i18n.embeds.quest.mail_message({
+										villager: reward.mailMessage.name,
+									}),
 									`${PALIA_URL}/mail-message/${reward.mailMessage.key}`,
 								)}`;
 							} else if (reward.villager && reward.type === "Visit") {

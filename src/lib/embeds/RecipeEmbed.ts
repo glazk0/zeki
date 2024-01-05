@@ -62,27 +62,37 @@ export class RecipeEmbed extends BaseEmbed {
 				if (key === "stores") {
 					this.addFields({
 						name: i18n.embeds.recipe.sold_at(),
-						value: (value as IStoresItem[]).map((quest) => `- ${hyperlink(quest.name, `${PALIA_URL}/store/${quest.key}`)}`).join("\n"),
+						value: (value as IStoresItem[])
+							.slice(0, 5)
+							.map((quest) => `- ${hyperlink(quest.name, `${PALIA_URL}/store/${quest.key}`)}`).join("\n"),
 					});
 				} else if (key === "dialogues") {
 					this.addFields({
 						name: i18n.embeds.recipe.vendors(),
-						value: (value as IDialoguesItem[]).map((vendor) => `- ${hyperlink(vendor.name, `${PALIA_URL}/dialogue/${vendor.key}`)}`).join("\n"),
+						value: (value as IDialoguesItem[])
+							.slice(0, 5)
+							.map((vendor) => `- ${hyperlink(vendor.name, `${PALIA_URL}/dialogue/${vendor.key}`)}`).join("\n"),
 					});
 				} else if (key === "gatherables") {
 					this.addFields({
 						name: i18n.embeds.recipe.gatherables(),
-						value: (value as IGatherablesItem[]).map((gatherable) => `- ${hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`)}`).join("\n"),
+						value: (value as IGatherablesItem[])
+							.slice(0, 5)
+							.map((gatherable) => `- ${hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`)}`).join("\n"),
 					});
 				} else if (key === "mailMessages") {
 					this.addFields({
 						name: i18n.embeds.recipe.mail(),
-						value: (value as IMailMessagesItem[]).map((mail) => `- ${hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n"),
+						value: (value as IMailMessagesItem[])
+							.slice(0, 5)
+							.map((mail) => `- ${hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n"),
 					});
 				} else if (key === "recipes") {
 					this.addFields({
 						name: i18n.embeds.recipe.recipes(),
-						value: (value as IRecipesItem[]).map((recipe) => `- ${hyperlink(recipe.name!, `${PALIA_URL}/recipe/${recipe.key}`)}`).join("\n"),
+						value: (value as IRecipesItem[])
+							.slice(0, 5)
+							.map((recipe) => `- ${hyperlink(recipe.name!, `${PALIA_URL}/recipe/${recipe.key}`)}`).join("\n"),
 					});
 					// } else if (key === 'interactables') {
 
