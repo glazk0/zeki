@@ -17,6 +17,7 @@ import { RecipeEmbed } from "../../lib/embeds/RecipeEmbed.js";
 import { clientSymbol } from "../../utils/Constants.js";
 
 import { commands } from "../../i18n/commands.js";
+import { baseLocale } from "../../i18n/i18n-util.js";
 
 @injectable()
 export default class Recipe extends Interaction {
@@ -50,7 +51,7 @@ export default class Recipe extends Interaction {
 		const query = interaction.options.getString("query", true);
 		let amount = interaction.options.getInteger("amount", false) ?? 1;
 
-		const recipe = await this.client.api.getRecipe(query, ctx.guild?.locale);
+		const recipe = await this.client.api.getRecipe(query, ctx.guild?.locale ?? baseLocale);
 
 		if (!recipe)
 			return interaction.reply({
@@ -72,7 +73,7 @@ export default class Recipe extends Interaction {
 
 		if (!value) return await interaction.respond([]);
 
-		const data = (await this.client.api.search(value, "recipe", ctx.guild?.locale)).slice(0, 25);
+		const data = (await this.client.api.search(value, "recipe", ctx.guild?.locale ?? baseLocale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({

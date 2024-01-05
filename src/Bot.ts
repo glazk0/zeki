@@ -46,7 +46,9 @@ const client = new Client({
 	},
 });
 
-container.registerInstance(clientSymbol, client);
+container.register(clientSymbol, {
+	useValue: client,
+});
 
 client.init();
 

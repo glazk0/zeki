@@ -5,7 +5,7 @@ import { ShardingManager } from "discord.js";
 
 import { Manager } from "./structures/Manager.js";
 
-import { Jobs } from "./lib/Jobs.js";
+import { Scheduler } from "./lib/Scheduler.js";
 import { logger } from "./lib/Logger.js";
 import { News } from "./lib/jobs/News.js";
 import { Retention } from "./lib/jobs/Retention.js";
@@ -19,9 +19,9 @@ const shardManager = new ShardingManager(getFilePath("Bot.js"), {
 	token: process.env.TOKEN,
 });
 
-const jobs = new Jobs([new Retention(), new WeeklyWants(shardManager), new News(shardManager)]);
+const scheduler = new Scheduler([new Retention(), new WeeklyWants(shardManager), new News(shardManager)]);
 
-const manager = new Manager(shardManager, jobs);
+const manager = new Manager(shardManager, scheduler);
 
 try {
 	manager.init();

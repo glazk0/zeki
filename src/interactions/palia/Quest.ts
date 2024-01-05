@@ -6,9 +6,10 @@ import {
 	CacheType,
 	ChatInputCommandInteraction,
 	InteractionResponse,
+	Message,
 	RESTPostAPIApplicationCommandsJSONBody,
 	StringSelectMenuBuilder,
-	StringSelectMenuInteraction,
+	StringSelectMenuInteraction
 } from "discord.js";
 import { inject, injectable } from "tsyringe";
 
@@ -17,9 +18,10 @@ import { Category, Context, Interaction } from "../../structures/Interaction.js"
 
 import { QuestEmbed } from "../../lib/embeds/QuestEmbed.js";
 
-import { clientSymbol } from "../../utils/Constants.js";
+import { Emoji, clientSymbol } from "../../utils/Constants.js";
 
 import { commands } from "../../i18n/commands.js";
+import { baseLocale } from "../../i18n/i18n-util.js";
 
 @injectable()
 export default class Quest extends Interaction {
@@ -44,7 +46,7 @@ export default class Quest extends Interaction {
 		super();
 	}
 
-	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
+	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean> | Message<boolean>> {
 		const query = interaction.options.getString("query", true);
 
 		const quest = await this.client.api.getQuest(query, ctx.guild?.locale);
@@ -57,30 +59,35 @@ export default class Quest extends Interaction {
 
 		const embed = new QuestEmbed(quest, null, ctx);
 
-		const dropdown = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-			new StringSelectMenuBuilder()
-				.setCustomId("quest")
-				.setPlaceholder("Select a step")
-				.addOptions(
-					quest.steps?.map((step, index: number) => ({
-						label: `Step ${index + 1}`,
-						value: `${quest.key}_${index}`,
-					})) || [],
-				),
-		);
+		let component: ActionRowBuilder<StringSelectMenuBuilder> | undefined = undefined;
+
+		if (quest.steps?.length) {
+			component = new ActionRowBuilder<StringSelectMenuBuilder>({
+				components: [
+					new StringSelectMenuBuilder({
+						customId: "quest",
+						placeholder: "Select a step",
+						options: quest.steps.map((_, index) => ({
+							label: `Step ${index + 1}`,
+							value: `${quest.key}_${index}`
+						})),
+					})
+				]
+			});
+		}
 
 		return interaction.reply({
 			embeds: [embed],
-			components: [dropdown],
+			components: component ? [component] : undefined,
 		});
 	}
 
-	async autocomplete(interaction: AutocompleteInteraction<CacheType>): Promise<void> {
+	async autocomplete(interaction: AutocompleteInteraction<CacheType>, ctx: Context): Promise<void> {
 		const value = interaction.options.getFocused();
 
 		if (!value) return await interaction.respond([]);
 
-		const data = (await this.client.api.search(value, "quest")).slice(0, 25);
+		const data = (await this.client.api.search(value, "quest", ctx.guild?.locale ?? baseLocale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({
@@ -93,7 +100,7 @@ export default class Quest extends Interaction {
 	async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, ctx: Context): Promise<any> {
 		const [key, step] = interaction.values[0].split("_") as [string, number];
 
-		const quest = await this.client.api.getQuest(key);
+		const quest = await this.client.api.getQuest(key, ctx.guild?.locale ?? baseLocale);
 
 		if (!quest)
 			return interaction.reply({
@@ -103,12 +110,34 @@ export default class Quest extends Interaction {
 				ephemeral: true,
 			});
 
+		let component: ActionRowBuilder<StringSelectMenuBuilder> | undefined = undefined;
+
+		if (quest.steps?.length) {
+			component = new ActionRowBuilder<StringSelectMenuBuilder>({
+				components: [
+					new StringSelectMenuBuilder({
+						customId: "quest",
+						placeholder: "Select a step",
+						options: quest.steps.map((_, index) => {
+							return {
+								label: `Step ${index + 1}`,
+								value: `${quest.key}_${index}`,
+								emoji: index == step ? Emoji.RightArrow : undefined,
+								default: index == step,
+							}
+						}),
+					})
+				]
+			});
+		}
+
 		const data = quest.steps ? quest.steps[step] : null;
 
 		const embed = new QuestEmbed(quest, data, ctx);
 
 		return interaction.update({
 			embeds: [embed],
+			components: component ? [component] : undefined,
 		});
 	}
 }

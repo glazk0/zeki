@@ -56,7 +56,7 @@ export class WeeklyWants extends Job {
 
 		const settings = await db.select().from(guilds).innerJoin(guildsNews, eq(guildsNews.guildId, guilds.guildId));
 
-		if (!settings || !settings.length) return logger.error("No settings found.");
+		if (!settings?.length) return logger.error("No settings found.");
 
 		const embeds = locales.reduce(
 			(acc, locale) => {
@@ -77,7 +77,7 @@ export class WeeklyWants extends Job {
 
 					if (!channel || !channel.isTextBased()) continue;
 
-					await channel.send({ embeds: [embeds[setting.guilds.locale]] }).catch(() => {});
+					await channel.send({ embeds: [embeds[setting.guilds.locale]] }).catch(() => { });
 				}
 			},
 			{

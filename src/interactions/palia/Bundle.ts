@@ -19,6 +19,7 @@ import { BundleEmbed } from "../../lib/embeds/BundleEmbed.js";
 import { clientSymbol } from "../../utils/Constants.js";
 
 import { commands } from "../../i18n/commands.js";
+import { baseLocale } from "../../i18n/i18n-util.js";
 
 @injectable()
 export default class Bundle extends Interaction {
@@ -63,7 +64,7 @@ export default class Bundle extends Interaction {
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
 		const query = interaction.options.getString("query", true);
 
-		const bundle = await this.client.api.getBundle(query, ctx.guild?.locale);
+		const bundle = await this.client.api.getBundle(query, ctx.guild?.locale ?? baseLocale);
 
 		if (!bundle)
 			return interaction.reply({
@@ -94,7 +95,7 @@ export default class Bundle extends Interaction {
 	async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, ctx: Context): Promise<any> {
 		const [key, index] = interaction.values[0].split("_") as [string, number];
 
-		const bundle = await this.client.api.getBundle(key, ctx.guild?.locale);
+		const bundle = await this.client.api.getBundle(key, ctx.guild?.locale ?? baseLocale);
 
 		if (!bundle)
 			return interaction.reply({

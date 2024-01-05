@@ -43,20 +43,20 @@
     "drizzle-orm": "^0.29.1",
     "glob": "10.3.10",
     "node-schedule": "2.1.1",
-    "pino": "^8.16.2",
-    "pino-pretty": "^10.2.3",
+    "pino": "^8.17.2",
+    "pino-pretty": "^10.3.1",
     "postgres": "^3.4.3",
     "query-string": "^8.1.0",
     "redis": "^4.6.11",
-    "reflect-metadata": "^0.1.14",
+    "reflect-metadata": "^0.2.1",
     "tsyringe": "^4.8.0",
     "typesafe-i18n": "^5.26.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
-    "@types/node": "^20.10.1",
+    "@types/node": "^20.10.6",
     "@types/node-schedule": "2.1.5",
-    "drizzle-kit": "^0.19.13",
+    "drizzle-kit": "^0.20.9",
     "ncp": "2.0.0",
     "typescript": "^5.3.3"
   }

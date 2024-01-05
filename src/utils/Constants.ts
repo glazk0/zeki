@@ -121,3 +121,11 @@ export const localesMap: Record<Locales, string> = {
 	it: "Italiano", // Supported by Paliapedia
 	ru: "Русский", // Supported by Paliapedia
 };
+
+/**
+ * List of emojis.
+ */
+export enum Emoji {
+	RightArrow = "<:right_arrow:1183897455700484106>",
+	LeftArrow = "<:left_arrow:1183897300775473246>",
+}
