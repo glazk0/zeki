@@ -1,14 +1,3 @@
-import { InferSelectModel } from "drizzle-orm";
-
-import { guildsNews, guilds } from "../db/schema";
-
-export type Guild = InferSelectModel<typeof guilds>;
-export type News = InferSelectModel<typeof guildsNews>;
-
-export type GuildWithSettings = Guild & {
-	news: News;
-};
-
 export interface INews {
 	key?: string;
 	title?: string;

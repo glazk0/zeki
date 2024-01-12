@@ -1,6 +1,6 @@
 import { AutocompleteInteraction, CacheType, ChatInputCommandInteraction, InteractionResponse, Message, RESTPostAPIApplicationCommandsJSONBody, StringSelectMenuInteraction } from "discord.js";
 
-import { GuildWithSettings } from "../@types/index.js";
+import { GuildWithSettings } from "../db/schema.js";
 
 import { TranslationFunctions } from "../i18n/i18n-types.js";
 

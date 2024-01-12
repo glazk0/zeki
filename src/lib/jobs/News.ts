@@ -9,9 +9,8 @@ import { NewsEmbed } from "../embeds/NewsEmbed.js";
 
 import { duration } from "../../utils/Commons.js";
 
-import { db } from "../../db/index.js";
-import { guilds, guildsNews } from "../../db/schema/Guild.js";
-import { news } from "../../db/schema/News.js";
+import { db } from "../../db/client.js";
+import { guilds, guildsNews, news } from "../../db/schema.js";
 
 import { INews } from "../../@types/index.js";
 

@@ -4,8 +4,8 @@ import { Job } from "./Job.js";
 
 import { logger } from "../Logger.js";
 
-import { db } from "../../db/index.js";
-import { guilds } from "../../db/schema/Guild.js";
+import { db } from "../../db/client.js";
+import { guilds } from "../../db/schema.js";
 
 import { duration } from "../../utils/Commons.js";
 

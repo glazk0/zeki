@@ -7,8 +7,8 @@ import { Event } from "../structures/Event.js";
 
 import { clientSymbol } from "../utils/Constants.js";
 
-import { db } from "../db/index.js";
-import { guildsNews } from "../db/schema/index.js";
+import { db } from "../db/client.js";
+import { guildsNews } from "../db/schema.js";
 
 @injectable()
 export default class ChannelDelete extends Event {
