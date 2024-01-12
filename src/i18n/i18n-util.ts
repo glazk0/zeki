@@ -13,9 +13,15 @@ export const baseLocale: Locales = 'en'
 export const locales: Locales[] = [
 	'de',
 	'en',
+	'es',
 	'fr',
 	'it',
-	'ru'
+	'ja',
+	'ko',
+	'pt-br',
+	'ru',
+	'zh-hans',
+	'zh-hant'
 ]
 
 export const namespaces: Namespaces[] = [

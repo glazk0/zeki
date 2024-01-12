@@ -1,12 +1,12 @@
-import type { BaseTranslation } from "../../i18n-types";
+import type { NamespaceEmbedsTranslation } from "../../i18n-types";
 
-const fr_embeds: BaseTranslation = {
+const fr_embeds: NamespaceEmbedsTranslation = {
 	help: {
 		title: "Commandes de {username}",
 		description: "Voici une liste de toutes mes commandes. Vous pouvez également les voir lorsque vous tapez «/» dans Discord.",
 	},
 	about: {
-		description: "{username} est un bot Discord intuitif et convivial connecté à https://paliapedia.com et a été créé par {developer}",
+		description: "{username} est un bot Discord intuitif et convivial connecté à https://paliapedia.com et a été créé par {developers}",
 		statistics_name: "Statistiques",
 		statistics_value: "Serveurs: {servers}\nUtilisateurs: {users}",
 		debug_name: "Debug",

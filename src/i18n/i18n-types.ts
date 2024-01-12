@@ -8,9 +8,15 @@ export type BaseLocale = 'en'
 export type Locales =
 	| 'de'
 	| 'en'
+	| 'es'
 	| 'fr'
 	| 'it'
+	| 'ja'
+	| 'ko'
+	| 'pt-br'
 	| 'ru'
+	| 'zh-hans'
+	| 'zh-hant'
 
 export type Translation = RootTranslation & DisallowNamespaces
 

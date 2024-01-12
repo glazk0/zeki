@@ -1,4 +1,6 @@
-const fr_discord = {
+import { NamespaceDiscordTranslation } from "../../i18n-types";
+
+const fr_discord: NamespaceDiscordTranslation = {
 	settings: {
 		name: "settings",
 		description: "Accédez et gérez les paramètres de votre serveur.",
