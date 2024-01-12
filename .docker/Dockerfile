@@ -21,11 +21,6 @@ RUN pnpm run build
 
 FROM base AS deploy
 
-RUN useradd -D app && \
-    chown -R app:app /app
-
-USER app
-
 COPY --from=deps /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 
