@@ -1,6 +1,6 @@
-import type { BaseTranslation } from "../../i18n-types";
+import type { NamespaceInteractionsTranslation } from "../../i18n-types";
 
-const fr_interactions: BaseTranslation = {
+const fr_interactions: NamespaceInteractionsTranslation = {
 	settings: {
 		news: {
 			enabled: "Les actualités sernt envoyées dans {channel}.",

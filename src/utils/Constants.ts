@@ -96,6 +96,10 @@ export const discordLocaleMappings = {
 	es: "es-ES",
 	pt: "pt-BR",
 	zh: "zh-CN",
+	"zh-hans": "zh-CN",
+	"zh-hant": "zh-CN",
+	"pt-br": "pt-BR",
+	"es-es": "es-ES",
 } as Record<string, Locale>;
 
 /**
@@ -107,7 +111,12 @@ export const paliaLocales = [
 	"es", // Spanish
 	"fr", // French
 	"it", // Italian
-	"ru", // Russian
+	"ru", // Russian,
+	"ja", // Japanese
+	"ko", // Korean
+	"pt-br", // Portuguese, Brazilian
+	"zh-hans", // Chinese, Simplified
+	"zh-hant", // Chinese, Traditional
 ];
 
 /**
@@ -116,10 +125,15 @@ export const paliaLocales = [
 export const localesMap: Record<Locales, string> = {
 	en: "English", // Supported by Paliapedia
 	de: "Deutsch", // Supported by Paliapedia
-	// es: "Español", // Supported by Paliapedia
+	es: "Español", // Supported by Paliapedia
 	fr: "Français", // Supported by Paliapedia
 	it: "Italiano", // Supported by Paliapedia
-	ru: "Русский", // Supported by Paliapedia
+	ru: "Русский", // Supported by Paliapedia,
+	ja: "日本語", // Supported by Paliapedia
+	ko: "한국어", // Supported by Paliapedia
+	"pt-br": "Português Brasileiro", // Supported by Paliapedia
+	"zh-hans": "简体中文", // Supported by Paliapedia
+	"zh-hant": "繁體中文", // Supported by Paliapedia
 };
 
 /**

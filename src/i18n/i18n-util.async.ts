@@ -8,9 +8,15 @@ import { loadedFormatters, loadedLocales, locales } from './i18n-util.js'
 const localeTranslationLoaders = {
 	de: () => import('./de/index.js'),
 	en: () => import('./en/index.js'),
+	es: () => import('./es/index.js'),
 	fr: () => import('./fr/index.js'),
 	it: () => import('./it/index.js'),
+	ja: () => import('./ja/index.js'),
+	ko: () => import('./ko/index.js'),
+	'pt-br': () => import('./pt-br/index.js'),
 	ru: () => import('./ru/index.js'),
+	'zh-hans': () => import('./zh-hans/index.js'),
+	'zh-hant': () => import('./zh-hant/index.js'),
 }
 
 const localeNamespaceLoaders = {
@@ -24,6 +30,11 @@ const localeNamespaceLoaders = {
 		embeds: () => import('./en/embeds/index.js'),
 		interactions: () => import('./en/interactions/index.js')
 	},
+	es: {
+		discord: () => import('./es/discord/index.js'),
+		embeds: () => import('./es/embeds/index.js'),
+		interactions: () => import('./es/interactions/index.js')
+	},
 	fr: {
 		discord: () => import('./fr/discord/index.js'),
 		embeds: () => import('./fr/embeds/index.js'),
@@ -34,10 +45,35 @@ const localeNamespaceLoaders = {
 		embeds: () => import('./it/embeds/index.js'),
 		interactions: () => import('./it/interactions/index.js')
 	},
+	ja: {
+		discord: () => import('./ja/discord/index.js'),
+		embeds: () => import('./ja/embeds/index.js'),
+		interactions: () => import('./ja/interactions/index.js')
+	},
+	ko: {
+		discord: () => import('./ko/discord/index.js'),
+		embeds: () => import('./ko/embeds/index.js'),
+		interactions: () => import('./ko/interactions/index.js')
+	},
+	'pt-br': {
+		discord: () => import('./pt-br/discord/index.js'),
+		embeds: () => import('./pt-br/embeds/index.js'),
+		interactions: () => import('./pt-br/interactions/index.js')
+	},
 	ru: {
 		discord: () => import('./ru/discord/index.js'),
 		embeds: () => import('./ru/embeds/index.js'),
 		interactions: () => import('./ru/interactions/index.js')
+	},
+	'zh-hans': {
+		discord: () => import('./zh-hans/discord/index.js'),
+		embeds: () => import('./zh-hans/embeds/index.js'),
+		interactions: () => import('./zh-hans/interactions/index.js')
+	},
+	'zh-hant': {
+		discord: () => import('./zh-hant/discord/index.js'),
+		embeds: () => import('./zh-hant/embeds/index.js'),
+		interactions: () => import('./zh-hant/interactions/index.js')
 	}
 }
 

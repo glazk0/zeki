@@ -26,7 +26,6 @@ export const commands: { [key: string]: Command } = {};
 const allCommands: AllCommands = {};
 
 locales
-	// TODO Fix locales
 	.filter((locale) => discordLocales.includes(locale as Locale) || discordLocaleMappings[locale])
 	.map((locale) => {
 		const commands = Object.entries(L[locale].discord).reduce((command, [key, value]) => {
