@@ -11,8 +11,8 @@ import { PALIA_API_URL } from "../../utils/Constants.js";
 
 import { IWeeklyWantsItem } from "../../@types/generated.js";
 
-import { db } from "../../db/index.js";
-import { guilds, guildsNews } from "../../db/schema/index.js";
+import { db } from "../../db/client.js";
+import { guilds, guildsNews } from "../../db/schema.js";
 
 import L from "../../i18n/i18n-node.js";
 import { locales } from "../../i18n/i18n-util.js";

@@ -7,8 +7,8 @@ import { Event } from "../../structures/Event.js";
 
 import { clientSymbol } from "../../utils/Constants.js";
 
-import { db } from "../../db/index.js";
-import { guilds } from "../../db/schema/index.js";
+import { db } from "../../db/client.js";
+import { guilds } from "../../db/schema.js";
 
 @injectable()
 export default class GuildDelete extends Event {

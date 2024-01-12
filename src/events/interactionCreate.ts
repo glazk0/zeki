@@ -8,10 +8,9 @@ import { Context, Interaction } from "../structures/Interaction.js";
 
 import { clientSymbol } from "../utils/Constants.js";
 
-import { db, findOrCreate } from "../db/index.js";
-import { guilds } from "../db/schema/Guild.js";
+import { db, findOrCreate } from "../db/client.js";
+import { guilds, logs, type GuildWithSettings } from "../db/schema.js";
 
-import { GuildWithSettings } from "../@types/index.js";
 
 import L from "../i18n/i18n-node.js";
 import { Locales } from "../i18n/i18n-types.js";
@@ -56,6 +55,10 @@ export default class InteractionCreate extends Event {
 
 			try {
 				await command?.run(interaction, context);
+				await db.insert(logs).values({
+					command: interaction.commandName,
+					guildId: context.guild?.guildId,
+				});
 			} catch (error) {
 				this.client.logger.error(`Failed to run interaction ${interaction.commandName}: ${error}`);
 			}

@@ -26,8 +26,8 @@ import { locales } from "../../i18n/i18n-util.js";
 
 import { clientSymbol, localesMap } from "../../utils/Constants.js";
 
-import { db } from "../../db/index.js";
-import { guilds, guildsNews } from "../../db/schema/index.js";
+import { db } from "../../db/client.js";
+import { guilds, guildsNews } from "../../db/schema.js";
 
 @injectable()
 export default class Settings extends Interaction {

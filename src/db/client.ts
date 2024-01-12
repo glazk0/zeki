@@ -4,13 +4,11 @@ import postgres from "postgres";
 
 // TODO - Actually need to remove .js from imports
 
-import * as schema from "./schema/index.js";
+import * as schema from "./schema.js";
 
 import { logger } from "../lib/Logger.js";
 
 import { getFilePath } from "../utils/File.js";
-
-import { GuildWithSettings } from "../@types/index.js";
 
 const connection = postgres(process.env.DATABASE_URL);
 
@@ -27,7 +25,7 @@ migrate(db, { migrationsFolder: getFilePath("db/migrations") })
 		process.exit(1);
 	});
 
-export const findOrCreate = async (guildId: string): Promise<GuildWithSettings | undefined> => {
+export const findOrCreate = async (guildId: string): Promise<schema.GuildWithSettings | undefined> => {
 	let guild = await db.query.guilds.findFirst({
 		with: {
 			news: true,
