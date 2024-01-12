@@ -24,33 +24,22 @@ export class VillagerEmbed extends BaseEmbed {
 		if (villager.giftPreferences?.length) {
 			this.addFields({
 				name: i18n.embeds.villager.gift_preferences(),
-				value: villager.giftPreferences
+				value: super.toUnorderedList(villager.giftPreferences
 					.map((gift) => {
 						if (!gift.item) return;
-						return `- ${gift.rewardLevel} ${hyperlink(gift.item.name, `${PALIA_URL}/item/${gift.item.key}`)}`;
-					})
-					.splice(0, 5)
-					.concat(
-						hyperlink(
-							i18n.embeds.miscellaneous.see_more({
-								count: villager.giftPreferences.length - 5,
-							}),
-							`${PALIA_URL}/villager/${villager.key}`,
-						),
-					)
-					.join("\n"),
+						return `${gift.rewardLevel} ${hyperlink(gift.item.name, `${PALIA_URL}/item/${gift.item.key}`)}`;
+					}))
 			});
 		}
 
 		if (villager.weeklyGiftPreferences?.length) {
 			this.addFields({
 				name: i18n.embeds.villager.weekly_wants(),
-				value: villager.weeklyGiftPreferences
+				value: super.toUnorderedList(villager.weeklyGiftPreferences
 					.map((gift) => {
 						if (!gift.item) return;
-						return `- ${gift.rewardLevel} ${hyperlink(gift.item.name, `${PALIA_URL}/item/${gift.item.key}`)}`;
-					})
-					.join("\n"),
+						return `${gift.rewardLevel} ${hyperlink(gift.item.name, `${PALIA_URL}/item/${gift.item.key}`)}`;
+					}))
 			});
 		}
 

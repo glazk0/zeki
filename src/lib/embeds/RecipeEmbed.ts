@@ -39,14 +39,13 @@ export class RecipeEmbed extends BaseEmbed {
 		if (recipe.ingredients && recipe.ingredients.length > 0) {
 			this.addFields({
 				name: i18n.embeds.recipe.required_ingredients(),
-				value: recipe.ingredients
+				value: super.toUnorderedList(recipe.ingredients
 					.map((ingredient) => {
-						if (ingredient.item) return `- x${ingredient.quantity * amount} ${hyperlink(ingredient.item.name, `${PALIA_URL}/item/${ingredient.item.key}`)}`;
+						if (ingredient.item) return `x${ingredient.quantity * amount} ${hyperlink(ingredient.item.name, `${PALIA_URL}/item/${ingredient.item.key}`)}`;
 						else if (ingredient.tag) {
-							return `- x${ingredient.quantity * amount} ${ingredient.tag.name}`;
+							return `x${ingredient.quantity * amount} ${ingredient.tag.name}`;
 						}
-					})
-					.join("\n"),
+					}))
 			});
 		}
 
@@ -62,37 +61,27 @@ export class RecipeEmbed extends BaseEmbed {
 				if (key === "stores") {
 					this.addFields({
 						name: i18n.embeds.recipe.sold_at(),
-						value: (value as IStoresItem[])
-							.slice(0, 3)
-							.map((quest) => `- ${hyperlink(quest.name, `${PALIA_URL}/store/${quest.key}`)}`).join("\n"),
+						value: super.toUnorderedList((value as IStoresItem[]).map((store) => hyperlink(store.name, `${PALIA_URL}/store/${store.key}`))),
 					});
 				} else if (key === "dialogues") {
 					this.addFields({
 						name: i18n.embeds.recipe.vendors(),
-						value: (value as IDialoguesItem[])
-							.slice(0, 3)
-							.map((vendor) => `- ${hyperlink(vendor.name, `${PALIA_URL}/dialogue/${vendor.key}`)}`).join("\n"),
+						value: super.toUnorderedList((value as IDialoguesItem[]).map((vendor) => hyperlink(vendor.name, `${PALIA_URL}/dialogue/${vendor.key}`))),
 					});
 				} else if (key === "gatherables") {
 					this.addFields({
 						name: i18n.embeds.recipe.gatherables(),
-						value: (value as IGatherablesItem[])
-							.slice(0, 3)
-							.map((gatherable) => `- ${hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`)}`).join("\n"),
+						value: super.toUnorderedList((value as IGatherablesItem[]).map((gatherable) => hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`))),
 					});
 				} else if (key === "mailMessages") {
 					this.addFields({
 						name: i18n.embeds.recipe.mail(),
-						value: (value as IMailMessagesItem[])
-							.slice(0, 3)
-							.map((mail) => `- ${hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`)}`).join("\n"),
+						value: super.toUnorderedList((value as IMailMessagesItem[]).map((mail) => hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`))),
 					});
 				} else if (key === "recipes") {
 					this.addFields({
 						name: i18n.embeds.recipe.recipes(),
-						value: (value as IRecipesItem[])
-							.slice(0, 3)
-							.map((recipe) => `- ${hyperlink(recipe.name!, `${PALIA_URL}/recipe/${recipe.key}`)}`).join("\n"),
+						value: super.toUnorderedList((value as IRecipesItem[]).map((recipe) => hyperlink(recipe.name ?? "Unknown", `${PALIA_URL}/recipe/${recipe.key}`))),
 					});
 					// } else if (key === 'interactables') {
 
