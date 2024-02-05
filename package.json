@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
-    "@types/node": "^20.11.2",
+    "@types/node": "^20.11.16",
     "@types/node-schedule": "2.1.5",
     "drizzle-kit": "^0.20.12",
     "ncp": "2.0.0",
