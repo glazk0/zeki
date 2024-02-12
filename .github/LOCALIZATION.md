@@ -31,6 +31,12 @@ Here is a list of currently supported languages for translation:
 - Italiano (it)
 - Русский (ru)
 - Français (fr)
+- Español (es)
+- Português Brasileiro (pt-br)
+- 简体中文 (zh-hans)
+- 繁體中文 (zh-hant)
+- 日本語 (ja)
+- 한국어 (ko)
 
 If your desired language is not listed above, you can contribute a translation by creating a new folder with the appropriate language code and following the contribution steps mentioned above.
 
@@ -42,7 +48,7 @@ We greatly appreciate the efforts of all contributors who help make Zeki accessi
 - [reezor](https://discord.com/users/583339081405038602) - German (de)
 - [Admors](https://github.com/Admors) - French (fr)
 
-Sorry if I missed anyone, please let me know if you contributed and I forgot to add you.
+Apologies if I overlooked anyone; kindly inform me if you made a contribution and I inadvertently omitted your name.
 
 ## License
 

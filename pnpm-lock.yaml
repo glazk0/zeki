@@ -12,11 +12,11 @@ dependencies:
     specifier: ^14.14.1
     version: 14.14.1
   dotenv:
-    specifier: ^16.3.1
-    version: 16.3.1
+    specifier: ^16.4.1
+    version: 16.4.1
   drizzle-orm:
-    specifier: ^0.29.1
-    version: 0.29.1(postgres@3.4.3)
+    specifier: ^0.29.3
+    version: 0.29.3(postgres@3.4.3)
   glob:
     specifier: 10.3.10
     version: 10.3.10
@@ -24,8 +24,8 @@ dependencies:
     specifier: 2.1.1
     version: 2.1.1
   pino:
-    specifier: ^8.17.2
-    version: 8.17.2
+    specifier: ^8.18.0
+    version: 8.18.0
   pino-pretty:
     specifier: ^10.3.1
     version: 10.3.1
@@ -36,8 +36,8 @@ dependencies:
     specifier: ^8.1.0
     version: 8.1.0
   redis:
-    specifier: ^4.6.11
-    version: 4.6.11
+    specifier: ^4.6.12
+    version: 4.6.12
   reflect-metadata:
     specifier: ^0.2.1
     version: 0.2.1
@@ -53,14 +53,14 @@ devDependencies:
     specifier: 1.4.1
     version: 1.4.1
   '@types/node':
-    specifier: ^20.10.6
-    version: 20.10.6
+    specifier: ^20.11.16
+    version: 20.11.16
   '@types/node-schedule':
     specifier: 2.1.5
     version: 2.1.5
   drizzle-kit:
-    specifier: ^0.20.9
-    version: 0.20.9
+    specifier: ^0.20.14
+    version: 0.20.14
   ncp:
     specifier: 2.0.0
     version: 2.0.0
@@ -206,8 +206,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@drizzle-team/studio@0.0.37:
-    resolution: {integrity: sha512-LZyAPGJBX43jsrVZh7+w1Jig/BC6PJx63ReHUYK+GRQYNY9UJNlPXmn1uC/LMRX+A7JwYM4Sr4Fg/hnJSqlfgA==}
+  /@drizzle-team/studio@0.0.39:
+    resolution: {integrity: sha512-c5Hkm7MmQC2n5qAsKShjQrHoqlfGslB8+qWzsGGZ+2dHMRTNG60UuzalF0h0rvBax5uzPXuGkYLGaQ+TUX3yMw==}
     dependencies:
       superjson: 2.2.1
     dev: true
@@ -655,16 +655,16 @@ packages:
     dev: false
     optional: true
 
-  /@redis/bloom@1.2.0(@redis/client@1.5.12):
+  /@redis/bloom@1.2.0(@redis/client@1.5.13):
     resolution: {integrity: sha512-HG2DFjYKbpNmVXsa0keLHp/3leGJz1mjh09f2RLGGLQZzSHpkmZWuwJbAvo3QcRY8p80m5+ZdXZdYOSBLlp7Cg==}
     peerDependencies:
       '@redis/client': ^1.0.0
     dependencies:
-      '@redis/client': 1.5.12
+      '@redis/client': 1.5.13
     dev: false
 
-  /@redis/client@1.5.12:
-    resolution: {integrity: sha512-/ZjE18HRzMd80eXIIUIPcH81UoZpwulbo8FmbElrjPqH0QC0SeIKu1BOU49bO5trM5g895kAjhvalt5h77q+4A==}
+  /@redis/client@1.5.13:
+    resolution: {integrity: sha512-epkUM9D0Sdmt93/8Ozk43PNjLi36RZzG+d/T1Gdu5AI8jvghonTeLYV69WVWdilvFo+PYxbP0TZ0saMvr6nscQ==}
     engines: {node: '>=14'}
     dependencies:
       cluster-key-slot: 1.1.2
@@ -672,36 +672,36 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /@redis/graph@1.1.1(@redis/client@1.5.12):
+  /@redis/graph@1.1.1(@redis/client@1.5.13):
     resolution: {integrity: sha512-FEMTcTHZozZciLRl6GiiIB4zGm5z5F3F6a6FZCyrfxdKOhFlGkiAqlexWMBzCi4DcRoyiOsuLfW+cjlGWyExOw==}
     peerDependencies:
       '@redis/client': ^1.0.0
     dependencies:
-      '@redis/client': 1.5.12
+      '@redis/client': 1.5.13
     dev: false
 
-  /@redis/json@1.0.6(@redis/client@1.5.12):
+  /@redis/json@1.0.6(@redis/client@1.5.13):
     resolution: {integrity: sha512-rcZO3bfQbm2zPRpqo82XbW8zg4G/w4W3tI7X8Mqleq9goQjAGLL7q/1n1ZX4dXEAmORVZ4s1+uKLaUOg7LrUhw==}
     peerDependencies:
       '@redis/client': ^1.0.0
     dependencies:
-      '@redis/client': 1.5.12
+      '@redis/client': 1.5.13
     dev: false
 
-  /@redis/search@1.1.6(@redis/client@1.5.12):
+  /@redis/search@1.1.6(@redis/client@1.5.13):
     resolution: {integrity: sha512-mZXCxbTYKBQ3M2lZnEddwEAks0Kc7nauire8q20oA0oA/LoA+E/b5Y5KZn232ztPb1FkIGqo12vh3Lf+Vw5iTw==}
     peerDependencies:
       '@redis/client': ^1.0.0
     dependencies:
-      '@redis/client': 1.5.12
+      '@redis/client': 1.5.13
     dev: false
 
-  /@redis/time-series@1.0.5(@redis/client@1.5.12):
+  /@redis/time-series@1.0.5(@redis/client@1.5.13):
     resolution: {integrity: sha512-IFjIgTusQym2B5IZJG3XKr5llka7ey84fw/NOYqESP5WUfQs9zz1ww/9+qoz4ka/S6KcGBodzlCeZ5UImKbscg==}
     peerDependencies:
       '@redis/client': ^1.0.0
     dependencies:
-      '@redis/client': 1.5.12
+      '@redis/client': 1.5.13
     dev: false
 
   /@sapphire/async-queue@1.5.0:
@@ -725,18 +725,18 @@ packages:
   /@types/node-schedule@2.1.5:
     resolution: {integrity: sha512-bN0MiplDBUxNMmlEi4iykjLYD7+Ze3DEevzliCn8WYuDwYSPj/5XFh8wZw+YXPLpLxiNWlIONYiQ67g/vowSMA==}
     dependencies:
-      '@types/node': 20.10.6
+      '@types/node': 20.11.16
     dev: true
 
-  /@types/node@20.10.6:
-    resolution: {integrity: sha512-Vac8H+NlRNNlAmDfGUP7b5h/KA+AtWIzuXy0E6OyP8f1tCLYAtPvKRRDJjAPqhpCb0t6U2j7/xqAuLEebW2kiw==}
+  /@types/node@20.11.16:
+    resolution: {integrity: sha512-gKb0enTmRCzXSSUJDq6/sPcqrfCv2mkkG6Jt/clpn5eiCbKTY+SgZUxo+p8ZKMof5dCp9vHQUAB7wOUTod22wQ==}
     dependencies:
       undici-types: 5.26.5
 
   /@types/ws@8.5.9:
     resolution: {integrity: sha512-jbdrY0a8lxfdTp/+r7Z4CkycbOFN8WX+IOchLJr3juT/xzbJ8URyTVSJ/hvNdadTgM1mnedb47n+Y31GsFnQlg==}
     dependencies:
-      '@types/node': 20.10.6
+      '@types/node': 20.11.16
     dev: false
 
   /@vladfrangu/async_event_emitter@2.2.2:
@@ -1001,8 +1001,8 @@ packages:
       domhandler: 5.0.3
     dev: false
 
-  /dotenv@16.3.1:
-    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
+  /dotenv@16.4.1:
+    resolution: {integrity: sha512-CjA3y+Dr3FyFDOAMnxZEGtnW9KBR2M0JvvUtXNW+dYJL5ROWxP9DUHCwgFqpMk0OXCc0ljhaNTr2w/kutYIcHQ==}
     engines: {node: '>=12'}
     dev: false
 
@@ -1013,11 +1013,11 @@ packages:
       wordwrap: 1.0.0
     dev: true
 
-  /drizzle-kit@0.20.9:
-    resolution: {integrity: sha512-5oIbPFdfEEfzVSOB3MWGt70VSHv6W7qMAWCJ5xc6W1BxgGASipxuAuyXD59fx9S6QYTNNnuSuQFoIdnNTRWY2A==}
+  /drizzle-kit@0.20.14:
+    resolution: {integrity: sha512-0fHv3YIEaUcSVPSGyaaBfOi9bmpajjhbJNdPsRMIUvYdLVxBu9eGjH8mRc3Qk7HVmEidFc/lhG1YyJhoXrn5yA==}
     hasBin: true
     dependencies:
-      '@drizzle-team/studio': 0.0.37
+      '@drizzle-team/studio': 0.0.39
       '@esbuild-kit/esm-loader': 2.6.5
       camelcase: 7.0.1
       chalk: 5.3.0
@@ -1035,8 +1035,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.29.1(postgres@3.4.3):
-    resolution: {integrity: sha512-yItc4unfHnk8XkDD3/bdC63vdboTY7e7I03lCF1OJYABXSIfQYU9BFTQJXMMovVeb3T1/OJWwfW/70T1XPnuUA==}
+  /drizzle-orm@0.29.3(postgres@3.4.3):
+    resolution: {integrity: sha512-uSE027csliGSGYD0pqtM+SAQATMREb3eSM/U8s6r+Y0RFwTKwftnwwSkqx3oS65UBgqDOM0gMTl5UGNpt6lW0A==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -1046,15 +1046,18 @@ packages:
       '@planetscale/database': '>=1'
       '@types/better-sqlite3': '*'
       '@types/pg': '*'
+      '@types/react': '>=18'
       '@types/sql.js': '*'
       '@vercel/postgres': '*'
       better-sqlite3: '>=7'
       bun-types: '*'
+      expo-sqlite: '>=13.2.0'
       knex: '*'
       kysely: '*'
       mysql2: '>=2'
       pg: '>=8'
       postgres: '>=3'
+      react: '>=18'
       sql.js: '>=1'
       sqlite3: '>=5'
     peerDependenciesMeta:
@@ -1074,6 +1077,8 @@ packages:
         optional: true
       '@types/pg':
         optional: true
+      '@types/react':
+        optional: true
       '@types/sql.js':
         optional: true
       '@vercel/postgres':
@@ -1081,6 +1086,8 @@ packages:
       better-sqlite3:
         optional: true
       bun-types:
+        optional: true
+      expo-sqlite:
         optional: true
       knex:
         optional: true
@@ -1091,6 +1098,8 @@ packages:
       pg:
         optional: true
       postgres:
+        optional: true
+      react:
         optional: true
       sql.js:
         optional: true
@@ -1586,8 +1595,8 @@ packages:
     resolution: {integrity: sha512-cHjPPsE+vhj/tnhCy/wiMh3M3z3h/j15zHQX+S9GkTBgqJuTuJzYJ4gUyACLhDaJ7kk9ba9iRDmbH2tJU03OiA==}
     dev: false
 
-  /pino@8.17.2:
-    resolution: {integrity: sha512-LA6qKgeDMLr2ux2y/YiUt47EfgQ+S9LznBWOJdN3q1dx2sv0ziDLUBeVpyVv17TEcGCBuWf0zNtg3M5m1NhhWQ==}
+  /pino@8.18.0:
+    resolution: {integrity: sha512-Mz/gKiRyuXu4HnpHgi1YWdHQCoWMufapzooisvFn78zl4dZciAxS+YeRkUxXl1ee/SzU80YCz1zpECCh4oC6Aw==}
     hasBin: true
     dependencies:
       atomic-sleep: 1.0.0
@@ -1653,15 +1662,15 @@ packages:
     engines: {node: '>= 12.13.0'}
     dev: false
 
-  /redis@4.6.11:
-    resolution: {integrity: sha512-kg1Lt4NZLYkAjPOj/WcyIGWfZfnyfKo1Wg9YKVSlzhFwxpFIl3LYI8BWy1Ab963LLDsTz2+OwdsesHKljB3WMQ==}
+  /redis@4.6.12:
+    resolution: {integrity: sha512-41Xuuko6P4uH4VPe5nE3BqXHB7a9lkFL0J29AlxKaIfD6eWO8VO/5PDF9ad2oS+mswMsfFxaM5DlE3tnXT+P8Q==}
     dependencies:
-      '@redis/bloom': 1.2.0(@redis/client@1.5.12)
-      '@redis/client': 1.5.12
-      '@redis/graph': 1.1.1(@redis/client@1.5.12)
-      '@redis/json': 1.0.6(@redis/client@1.5.12)
-      '@redis/search': 1.1.6(@redis/client@1.5.12)
-      '@redis/time-series': 1.0.5(@redis/client@1.5.12)
+      '@redis/bloom': 1.2.0(@redis/client@1.5.13)
+      '@redis/client': 1.5.13
+      '@redis/graph': 1.1.1(@redis/client@1.5.13)
+      '@redis/json': 1.0.6(@redis/client@1.5.13)
+      '@redis/search': 1.1.6(@redis/client@1.5.13)
+      '@redis/time-series': 1.0.5(@redis/client@1.5.13)
     dev: false
 
   /reflect-metadata@0.2.1:
