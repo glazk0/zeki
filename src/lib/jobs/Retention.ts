@@ -1,4 +1,5 @@
-import { inArray } from "drizzle-orm";
+import { ShardingManager } from "discord.js";
+import { inArray, notInArray } from "drizzle-orm";
 
 import { Job } from "./Job.js";
 
@@ -18,13 +19,27 @@ export class Retention extends Job {
 
 	once = true;
 
+	private readonly manager: ShardingManager;
+
+	constructor(manager: ShardingManager) {
+		super();
+
+		this.manager = manager;
+	}
+
 	async run(): Promise<void> {
+
+		const currentGuilds = [...new Set((await this.manager.broadcastEval((client) => [...client.guilds.cache.keys()])).flat())];
+
 		let oldGuilds = await db.query.guilds.findMany({
 			with: {
 				news: true,
 			},
-			where(guild, { lt }) {
-				return lt(guild.lastSeen, new Date(Date.now() - 1000 * 60 * 60 * 24 * 30));
+			where(guild, { lt, and }) {
+				return and(
+					lt(guild.lastSeen, new Date(Date.now() - 1000 * 60 * 60 * 24 * 30)),
+					notInArray(guild.id, currentGuilds)
+				);
 			},
 		});
 
