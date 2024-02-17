@@ -38,7 +38,7 @@ export class Retention extends Job {
 			where(guild, { lt, and }) {
 				return and(
 					lt(guild.lastSeen, new Date(Date.now() - 1000 * 60 * 60 * 24 * 30)),
-					notInArray(guild.id, currentGuilds)
+					notInArray(guild.guildId, currentGuilds)
 				);
 			},
 		});
