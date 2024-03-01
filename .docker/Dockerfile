@@ -5,9 +5,9 @@ ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable
 
-COPY . /app
-
 WORKDIR /app
+
+COPY package.json pnpm-lock.yaml ./
 
 FROM base AS deps
 
@@ -16,6 +16,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-l
 FROM base AS build
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+COPY . .
 
 RUN pnpm run build
 
@@ -26,4 +28,4 @@ COPY --from=build /app/dist /app/dist
 
 USER node
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist"]
