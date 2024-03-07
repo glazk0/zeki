@@ -25,7 +25,7 @@ export default class GuildCreate extends Event {
 					guildId: guild.id,
 				})
 				.onConflictDoNothing({
-					target: guilds.guildId
+					target: guilds.guildId,
 				});
 		} catch (error) {
 			this.client.logger.error(`Error while inserting a guild into the database: ${error}`);

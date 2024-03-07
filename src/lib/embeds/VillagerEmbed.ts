@@ -4,12 +4,13 @@ import { BaseEmbed } from "./BaseEmbed.js";
 
 import { Context } from "../../structures/Interaction.js";
 
+import { databaseUrl } from "../../utils/Commons.js";
 import { PALIA_URL } from "../../utils/Constants.js";
 
 import { IRelationshipLevelsItem, IVillager } from "../../@types/generated.js";
 
 export class VillagerEmbed extends BaseEmbed {
-	constructor(villager: IVillager, relationshipLevel: IRelationshipLevelsItem | null, { i18n }: Context) {
+	constructor(villager: IVillager, relationshipLevel: IRelationshipLevelsItem | null, { locale, i18n }: Context) {
 		super();
 
 		this.data.thumbnail = {
@@ -17,29 +18,32 @@ export class VillagerEmbed extends BaseEmbed {
 		};
 
 		this.data.title = villager.name;
-		this.data.description = villager.description;
 
-		this.data.url = `${PALIA_URL}/villager/${villager.key}`;
+		if (villager.description) this.data.description = villager.description;
+
+		this.data.url = databaseUrl(locale, ["villager", villager.key]);
 
 		if (villager.giftPreferences?.length) {
 			this.addFields({
 				name: i18n.embeds.villager.gift_preferences(),
-				value: super.toUnorderedList(villager.giftPreferences
-					.map((gift) => {
+				value: super.toUnorderedList(
+					villager.giftPreferences.map((gift) => {
 						if (!gift.item) return;
-						return `${gift.rewardLevel} ${hyperlink(gift.item.name, `${PALIA_URL}/item/${gift.item.key}`)}`;
-					}))
+						return `${gift.rewardLevel} ${hyperlink(gift.item.name, databaseUrl(locale, ["item", gift.item.key]))}`;
+					}),
+				),
 			});
 		}
 
 		if (villager.weeklyGiftPreferences?.length) {
 			this.addFields({
 				name: i18n.embeds.villager.weekly_wants(),
-				value: super.toUnorderedList(villager.weeklyGiftPreferences
-					.map((gift) => {
+				value: super.toUnorderedList(
+					villager.weeklyGiftPreferences.map((gift) => {
 						if (!gift.item) return;
-						return `${gift.rewardLevel} ${hyperlink(gift.item.name, `${PALIA_URL}/item/${gift.item.key}`)}`;
-					}))
+						return `${gift.rewardLevel} ${hyperlink(gift.item.name, databaseUrl(locale, ["item", gift.item.key]))}`;
+					}),
+				),
 			});
 		}
 

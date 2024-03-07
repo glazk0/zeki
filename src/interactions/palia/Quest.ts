@@ -9,7 +9,7 @@ import {
 	Message,
 	RESTPostAPIApplicationCommandsJSONBody,
 	StringSelectMenuBuilder,
-	StringSelectMenuInteraction
+	StringSelectMenuInteraction,
 } from "discord.js";
 import { inject, injectable } from "tsyringe";
 
@@ -69,10 +69,10 @@ export default class Quest extends Interaction {
 						placeholder: "Select a step",
 						options: quest.steps.map((_, index) => ({
 							label: `Step ${index + 1}`,
-							value: `${quest.key}_${index}`
+							value: `${quest.key}_${index}`,
 						})),
-					})
-				]
+					}),
+				],
 			});
 		}
 
@@ -124,10 +124,10 @@ export default class Quest extends Interaction {
 								value: `${quest.key}_${index}`,
 								emoji: index == step ? Emoji.RightArrow : undefined,
 								default: index == step,
-							}
+							};
 						}),
-					})
-				]
+					}),
+				],
 			});
 		}
 

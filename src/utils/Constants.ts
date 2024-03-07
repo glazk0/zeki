@@ -119,6 +119,21 @@ export const paliaLocales = [
 	"zh-hant", // Chinese, Traditional
 ];
 
+export const discordToPalia = {
+	"en-GB": "en",
+	"en-US": "en",
+	"es-ES": "es",
+	"pt-BR": "pt-br",
+	ja: "ja",
+	ko: "ko",
+	de: "de",
+	fr: "fr",
+	it: "it",
+	ru: "ru",
+	"zh-CN": "zh-hans",
+	"zh-TW": "zh-hant",
+} as Record<Locale, Locales>;
+
 /**
  * Zeki locales to their full name.
  */

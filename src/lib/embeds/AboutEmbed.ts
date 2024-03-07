@@ -1,23 +1,14 @@
 import { userMention } from "discord.js";
-import { container } from "tsyringe";
 
 import { BaseEmbed } from "./BaseEmbed.js";
 
-import { Client } from "../../structures/Client.js";
 import { Context } from "../../structures/Interaction.js";
 
-import { DEVELOPERS, clientSymbol } from "../../utils/Constants.js";
+import { DEVELOPERS } from "../../utils/Constants.js";
 
 export class AboutEmbed extends BaseEmbed {
-	/**
-	 * The client instance.
-	 */
-	private readonly client: Client;
-
-	constructor(data: any, { i18n }: Context) {
+	constructor(data: any, { i18n, locale }: Context) {
 		super();
-
-		this.client = container.resolve<Client>(clientSymbol);
 
 		this.data.author = {
 			name: this.client.user!.username,
@@ -35,8 +26,8 @@ export class AboutEmbed extends BaseEmbed {
 			{
 				name: i18n.embeds.about.statistics_name(),
 				value: i18n.embeds.about.statistics_value({
-					servers: data.guilds.toLocaleString("en-US"),
-					users: data.users.toLocaleString("en-US"),
+					servers: data.guilds.toLocaleString(locale),
+					users: data.users.toLocaleString(locale),
 				}),
 			},
 			{
