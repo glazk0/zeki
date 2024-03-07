@@ -11,52 +11,48 @@ import { guilds } from "../../db/schema.js";
 import { duration } from "../../utils/Commons.js";
 
 export class Retention extends Job {
-  name = "Data Retention";
+	name = "Data Retention";
 
-  schedule = "0 0 * * *";
+	schedule = "0 0 * * *";
 
-  delay = duration.seconds(60);
+	delay = duration.seconds(60);
 
-  once = true;
+	once = true;
 
-  private readonly manager: ShardingManager;
+	private readonly manager: ShardingManager;
 
-  constructor(manager: ShardingManager) {
-    super();
+	constructor(manager: ShardingManager) {
+		super();
 
-    this.manager = manager;
-  }
+		this.manager = manager;
+	}
 
-  async run(): Promise<void> {
+	async run(): Promise<void> {
+		const currentGuilds = [...new Set((await this.manager.broadcastEval((client) => [...client.guilds.cache.keys()])).flat())];
 
-    const currentGuilds = [...new Set((await this.manager.broadcastEval((client) => [...client.guilds.cache.keys()])).flat())];
+		let oldGuilds = await db.query.guilds.findMany({
+			with: {
+				news: true,
+			},
+			where(guild, { lt, or }) {
+				return or(lt(guild.lastSeen, new Date(Date.now() - duration.days(30))), notInArray(guild.guildId, currentGuilds));
+			},
+		});
 
-    let oldGuilds = await db.query.guilds.findMany({
-      with: {
-        news: true,
-      },
-      where(guild, { lt, or }) {
-        return or(
-          lt(guild.lastSeen, new Date(Date.now() - duration.days(30))),
-          notInArray(guild.guildId, currentGuilds)
-        );
-      },
-    });
+		oldGuilds = oldGuilds.filter((guild) => guild.news === null);
 
-    oldGuilds = oldGuilds.filter((guild) => guild.news === null);
+		if (!oldGuilds?.length) return logger.info("No guilds to delete.");
 
-    if (!oldGuilds?.length) return logger.info("No guilds to delete.");
+		const rows = await db
+			.delete(guilds)
+			.where(
+				inArray(
+					guilds.id,
+					oldGuilds.map((guild) => guild.id),
+				),
+			)
+			.returning();
 
-    const rows = await db
-      .delete(guilds)
-      .where(
-        inArray(
-          guilds.id,
-          oldGuilds.map((guild) => guild.id),
-        ),
-      )
-      .returning();
-
-    logger.info(`Deleted ${rows.length} guilds.`);
-  }
+		logger.info(`Deleted ${rows.length} guilds.`);
+	}
 }

@@ -6,11 +6,10 @@ import { Client } from "../structures/Client.js";
 import { Event } from "../structures/Event.js";
 import { Context, Interaction } from "../structures/Interaction.js";
 
-import { clientSymbol } from "../utils/Constants.js";
+import { clientSymbol, discordToPalia } from "../utils/Constants.js";
 
 import { db, findOrCreate } from "../db/client.js";
 import { guilds, logs, type GuildWithSettings } from "../db/schema.js";
-
 
 import L from "../i18n/i18n-node.js";
 import { Locales } from "../i18n/i18n-types.js";
@@ -25,17 +24,20 @@ export default class InteractionCreate extends Event {
 	public async run(interaction: CommandInteraction<CacheType>): Promise<any> {
 		if (!this.client.isReady() || !interaction) return undefined;
 
-		let guild: GuildWithSettings | undefined = undefined;
+		const locale = discordToPalia[interaction.locale] ?? baseLocale;
+
+		let guild: GuildWithSettings | undefined;
 
 		const context = {
-			i18n: L[baseLocale],
-			guild: undefined,
+			locale,
+			i18n: L[locale],
 		} as Context;
 
 		if (interaction.inGuild()) {
 			guild = await findOrCreate(interaction.guildId);
 
 			if (guild) {
+				context.locale = guild.locale as Locales;
 				context.i18n = L[guild.locale as Locales];
 				context.guild = guild;
 			}

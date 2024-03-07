@@ -5,11 +5,12 @@ import { BaseEmbed } from "./BaseEmbed.js";
 import { Context } from "../../structures/Interaction.js";
 
 import { PALIA_URL } from "../../utils/Constants.js";
+import { databaseUrl } from "../../utils/Commons.js";
 
 import { IBooksItem, IDialoguesItem, IGatherablesItem, IItem, IItemsItem, IMailMessagesItem, IQuest, IRecipesItem, IStoresItem } from "../../@types/generated";
 
 export class ItemEmbed extends BaseEmbed {
-	constructor(item: IItem, { i18n }: Context) {
+	constructor(item: IItem, { locale, i18n }: Context) {
 		super();
 
 		this.data.thumbnail = {
@@ -18,9 +19,9 @@ export class ItemEmbed extends BaseEmbed {
 
 		this.data.title = item.name;
 
-		if (item.description) this.data.description = item.description;
+		this.data.url = databaseUrl(locale, ["item", item.key]);
 
-		this.data.url = `${PALIA_URL}/item/${item.key}`;
+		if (item.description) this.data.description = item.description;
 
 		if (item.category)
 			this.addFields({
@@ -60,50 +61,44 @@ export class ItemEmbed extends BaseEmbed {
 				if (key === "stores") {
 					this.addFields({
 						name: i18n.embeds.item.sold_at(),
-						value: super.toUnorderedList((value as IStoresItem[]).map((store) => hyperlink(store.name, `${PALIA_URL}/store/${store.key}`))),
+						value: this.toUnorderedList((value as IStoresItem[]).map((store) => hyperlink(store.name, databaseUrl(locale, ["store", store.key])))),
 					});
 				} else if (key === "recipes") {
 					this.addFields({
 						name: i18n.embeds.item.crafted_by(),
-						value: super.toUnorderedList((value as IRecipesItem[]).map((recipe) => hyperlink(recipe.item?.name ?? "Unknown", `${PALIA_URL}/recipe/${recipe.key}`))),
+						value: this.toUnorderedList((value as IRecipesItem[]).map((recipe) => hyperlink(recipe.item?.name ?? "Unknown", databaseUrl(locale, ["recipe", recipe.key as string])))),
 					});
 				} else if (key === "gatherables") {
 					this.addFields({
 						name: i18n.embeds.item.gathered_from(),
-						value: super.toUnorderedList((value as IGatherablesItem[]).map((gatherable) => hyperlink(gatherable.name, `${PALIA_URL}/gatherable/${gatherable.key}`))),
+						value: this.toUnorderedList((value as IGatherablesItem[]).map((gatherable) => hyperlink(gatherable.name, databaseUrl(locale, ["gatherable", gatherable.key])))),
 					});
 				} else if (key === "dialogues") {
 					this.addFields({
 						name: i18n.embeds.item.quest_reward_from(),
-						value: super.toUnorderedList((value as IDialoguesItem[]).map((dialogue) => hyperlink(dialogue.name ?? "Unknown", `${PALIA_URL}/dialogue/${dialogue.key}`))),
+						value: this.toUnorderedList((value as IDialoguesItem[]).map((dialogue) => hyperlink(dialogue.name ?? "Unknown", databaseUrl(locale, ["dialogue", dialogue.key])))),
 					});
 				} else if (key === "mailMessages") {
 					this.addFields({
 						name: i18n.embeds.item.attached_to(),
-						value: super.toUnorderedList((value as IMailMessagesItem[]).map((mail) => hyperlink(mail?.name ?? "Unknown", `${PALIA_URL}/mail-messages/${mail.key}`))),
+						value: this.toUnorderedList((value as IMailMessagesItem[]).map((mail) => hyperlink(mail?.name ?? "Unknown", databaseUrl(locale, ["mail-messages", mail.key])))),
 					});
 				} else if (key === "books") {
 					this.addFields({
 						name: i18n.embeds.item.obtained_by_reading(),
-						value: super.toUnorderedList((value as IBooksItem[]).map((book) => hyperlink(book?.name ?? "Unknown", `${PALIA_URL}/item/${book.key}`))),
+						value: this.toUnorderedList((value as IBooksItem[]).map((book) => hyperlink(book?.name ?? "Unknown", databaseUrl(locale, ["item", book.key])))),
 					});
 				} else if (key === "quests") {
 					this.addFields({
 						name: i18n.embeds.item.reward_from(),
-						value: super.toUnorderedList((value as IQuest[]).map((quest) => hyperlink(quest.name, `${PALIA_URL}/quest/${quest.key}`))),
+						value: this.toUnorderedList((value as IQuest[]).map((quest) => hyperlink(quest.name, databaseUrl(locale, ["quest", quest.key])))),
 					});
 				} else if (key === "items") {
 					this.addFields({
 						name: i18n.embeds.item.obtained_from(),
-						value: super.toUnorderedList((value as IItemsItem[]).map((item) => hyperlink(item.name ?? "Unknown", `${PALIA_URL}/item/${item.key}`))),
+						value: this.toUnorderedList((value as IItemsItem[]).map((item) => hyperlink(item.name ?? "Unknown", databaseUrl(locale, ["item", item.key as string])))),
 					});
 				}
-				// else {
-				// 	this.addFields({
-				// 		name: "WIP",
-				// 		value: (value as any[]).map((unknown) => `- ${unknown}`).join("\n"),
-				// 	});
-				// }
 			}
 		}
 
@@ -112,25 +107,19 @@ export class ItemEmbed extends BaseEmbed {
 				if (key === "recipes") {
 					this.addFields({
 						name: i18n.embeds.item.ingredient_for_recipe(),
-						value: super.toUnorderedList((value as IRecipesItem[]).map((recipe) => hyperlink(recipe.item?.name ?? "Unknown", `${PALIA_URL}/recipe/${recipe.key}`))),
+						value: this.toUnorderedList((value as IRecipesItem[]).map((recipe) => hyperlink(recipe.item?.name ?? "Unknown", databaseUrl(locale, ["recipe", recipe.key as string])))),
 					});
 				} else if (key === "quests") {
 					this.addFields({
 						name: i18n.embeds.item.needed_for_quest(),
-						value: super.toUnorderedList((value as IQuest[]).map((quest) => hyperlink(quest.name, `${PALIA_URL}/quest/${quest.key}`))),
+						value: this.toUnorderedList((value as IQuest[]).map((quest) => hyperlink(quest.name, databaseUrl(locale, ["quest", quest.key])))),
 					});
 				} else if (key === "items") {
 					this.addFields({
 						name: i18n.embeds.item.contains_item(),
-						value: super.toUnorderedList((value as IItemsItem[]).map((item) => hyperlink(item.name ?? "Unknown", `${PALIA_URL}/item/${item.key}`))),
+						value: this.toUnorderedList((value as IItemsItem[]).map((item) => hyperlink(item.name ?? "Unknown", databaseUrl(locale, ["item", item.key as string])))),
 					});
 				}
-				// else {
-				// 	this.addFields({
-				// 		name: "WIP",
-				// 		value: (value as any[]).map((unknown) => `- ${unknown}`).join("\n"),
-				// 	});
-				// }
 			}
 		}
 	}

@@ -62,6 +62,7 @@ export class WeeklyWants extends Job {
 			(acc, locale) => {
 				acc[locale] = new WeeklyWantsEmbed(data, {
 					i18n: L[locale],
+					locale,
 				});
 				return acc;
 			},
@@ -77,7 +78,7 @@ export class WeeklyWants extends Job {
 
 					if (!channel || !channel.isTextBased()) continue;
 
-					await channel.send({ embeds: [embeds[setting.guilds.locale]] }).catch(() => { });
+					await channel.send({ embeds: [embeds[setting.guilds.locale]] }).catch(() => {});
 				}
 			},
 			{

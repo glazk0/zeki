@@ -1,5 +1,10 @@
 import { logger } from "../lib/Logger.js";
 
+import { Locales } from "../i18n/i18n-types.js";
+import { PALIA_URL } from "./Constants.js";
+
+export const databaseUrl = (locale: Locales, path?: string[]) => (path ? `${PALIA_URL}/${locale}/${path.join("/")}?ref=zeki` : `${PALIA_URL}/${locale}?ref=zeki`);
+
 /**
  * Wait for a given amount of milliseconds.
  *

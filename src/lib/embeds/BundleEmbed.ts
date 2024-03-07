@@ -5,11 +5,12 @@ import { BaseEmbed } from "./BaseEmbed.js";
 import { Context } from "../../structures/Interaction.js";
 
 import { PALIA_URL } from "../../utils/Constants.js";
+import { databaseUrl } from "../../utils/Commons.js";
 
 import { IBundle, ISubBundlesItem } from "../../@types/generated.js";
 
 export class BundleEmbed extends BaseEmbed {
-	constructor(bundle: IBundle, subBundle: ISubBundlesItem | null, { i18n }: Context) {
+	constructor(bundle: IBundle, subBundle: ISubBundlesItem | null, { locale, i18n }: Context) {
 		super();
 
 		this.data.thumbnail = {
@@ -18,7 +19,7 @@ export class BundleEmbed extends BaseEmbed {
 
 		this.data.title = subBundle ? `${subBundle.name} - ${bundle.name}` : bundle.name;
 
-		this.data.url = `${PALIA_URL}/bundle/${bundle.key}`;
+		this.data.url = databaseUrl(locale, ["bundle", bundle.key]);
 
 		this.addFields({
 			name: "Rewards",

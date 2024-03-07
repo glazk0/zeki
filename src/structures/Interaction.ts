@@ -2,11 +2,12 @@ import { AutocompleteInteraction, CacheType, ChatInputCommandInteraction, Intera
 
 import { GuildWithSettings } from "../db/schema.js";
 
-import { TranslationFunctions } from "../i18n/i18n-types.js";
+import { Locales, TranslationFunctions } from "../i18n/i18n-types.js";
 
 export type Context = {
-	guild?: GuildWithSettings;
+	locale: Locales;
 	i18n: TranslationFunctions;
+	guild?: GuildWithSettings;
 };
 
 export enum Category {

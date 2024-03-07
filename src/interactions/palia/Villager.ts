@@ -61,23 +61,24 @@ export default class Villager extends Interaction {
 
 		const embed = new VillagerEmbed(villager, null, ctx);
 
-		const dropdown = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-			new StringSelectMenuBuilder()
-				.setCustomId("villager")
-				.setPlaceholder("Select a relationship level")
-				.addOptions(
-					villager.relationshipLevels
-						? generateRelationshipLevels(villager.relationshipLevels).map((step, index: number) => ({
-								label: step.levelName,
-								value: `${villager.key}_${index}`,
-						  }))
-						: [],
-				),
-		);
+		let dropdown: ActionRowBuilder<StringSelectMenuBuilder> | undefined;
+
+		if (villager.relationshipLevels?.length)
+			dropdown = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+				new StringSelectMenuBuilder()
+					.setCustomId("villager")
+					.setPlaceholder("Select a relationship level")
+					.addOptions(
+						generateRelationshipLevels(villager.relationshipLevels).map((step, index: number) => ({
+							label: step.levelName,
+							value: `${villager.key}_${index}`,
+						})),
+					),
+			);
 
 		return interaction.reply({
 			embeds: [embed],
-			components: [dropdown],
+			components: dropdown ? [dropdown] : undefined,
 		});
 	}
 
@@ -133,23 +134,24 @@ export default class Villager extends Interaction {
 
 		const embed = new VillagerEmbed(villager, null, context);
 
-		const dropdown = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-			new StringSelectMenuBuilder()
-				.setCustomId("villager")
-				.setPlaceholder("Select a relationship level")
-				.addOptions(
-					villager.relationshipLevels
-						? generateRelationshipLevels(villager.relationshipLevels).map((step, index: number) => ({
-								label: step.levelName,
-								value: `${villager.key}_${index}`,
-						  }))
-						: [],
-				),
-		);
+		let dropdown: ActionRowBuilder<StringSelectMenuBuilder> | undefined;
+
+		if (villager.relationshipLevels?.length)
+			dropdown = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+				new StringSelectMenuBuilder()
+					.setCustomId("villager")
+					.setPlaceholder("Select a relationship level")
+					.addOptions(
+						generateRelationshipLevels(villager.relationshipLevels).map((step, index: number) => ({
+							label: step.levelName,
+							value: `${villager.key}_${index}`,
+						})),
+					),
+			);
 
 		return interaction.update({
 			embeds: [embed],
-			components: [dropdown],
+			components: dropdown ? [dropdown] : undefined,
 		});
 	}
 }
