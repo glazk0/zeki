@@ -53,8 +53,8 @@ devDependencies:
     specifier: 1.5.3
     version: 1.5.3
   '@types/node':
-    specifier: ^20.11.20
-    version: 20.11.20
+    specifier: ^20.11.25
+    version: 20.11.25
   '@types/node-schedule':
     specifier: 2.1.6
     version: 2.1.6
@@ -745,18 +745,18 @@ packages:
   /@types/node-schedule@2.1.6:
     resolution: {integrity: sha512-6AlZSUiNTdaVmH5jXYxX9YgmF1zfOlbjUqw0EllTBmZCnN1R5RR/m/u3No1OiWR05bnQ4jM4/+w4FcGvkAtnKQ==}
     dependencies:
-      '@types/node': 20.11.20
+      '@types/node': 20.11.25
     dev: true
 
-  /@types/node@20.11.20:
-    resolution: {integrity: sha512-7/rR21OS+fq8IyHTgtLkDK949uzsa6n8BkziAKtPVpugIkO6D+/ooXMvzXxDnZrmtXVfjb1bKQafYpb8s89LOg==}
+  /@types/node@20.11.25:
+    resolution: {integrity: sha512-TBHyJxk2b7HceLVGFcpAUjsa5zIdsPWlR6XHfyGzd0SFu+/NFgQgMAl96MSDZgQDvJAvV6BKsFOrt6zIL09JDw==}
     dependencies:
       undici-types: 5.26.5
 
   /@types/ws@8.5.9:
     resolution: {integrity: sha512-jbdrY0a8lxfdTp/+r7Z4CkycbOFN8WX+IOchLJr3juT/xzbJ8URyTVSJ/hvNdadTgM1mnedb47n+Y31GsFnQlg==}
     dependencies:
-      '@types/node': 20.11.20
+      '@types/node': 20.11.25
     dev: false
 
   /@vladfrangu/async_event_emitter@2.2.2:
