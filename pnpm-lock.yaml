@@ -16,7 +16,7 @@ dependencies:
     version: 16.4.5
   drizzle-orm:
     specifier: ^0.30.6
-    version: 0.30.6(postgres@3.4.3)
+    version: 0.30.6(postgres@3.4.4)
   glob:
     specifier: 10.3.10
     version: 10.3.10
@@ -30,8 +30,8 @@ dependencies:
     specifier: ^11.0.0
     version: 11.0.0
   postgres:
-    specifier: ^3.4.3
-    version: 3.4.3
+    specifier: ^3.4.4
+    version: 3.4.4
   query-string:
     specifier: ^9.0.0
     version: 9.0.0
@@ -1055,7 +1055,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.30.6(postgres@3.4.3):
+  /drizzle-orm@0.30.6(postgres@3.4.4):
     resolution: {integrity: sha512-8RgNUmY7J03GRuRgBV5SaJNbYgLVPjdSWNS/bRkIMIHt2TFCA439lJsNpqYX8asyKMqkw8ceBiamUnCIXZIt9w==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -1135,7 +1135,7 @@ packages:
       sqlite3:
         optional: true
     dependencies:
-      postgres: 3.4.3
+      postgres: 3.4.4
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -1641,8 +1641,8 @@ packages:
       thread-stream: 2.4.1
     dev: false
 
-  /postgres@3.4.3:
-    resolution: {integrity: sha512-iHJn4+M9vbTdHSdDzNkC0crHq+1CUdFhx+YqCE+SqWxPjm+Zu63jq7yZborOBF64c8pc58O5uMudyL1FQcHacA==}
+  /postgres@3.4.4:
+    resolution: {integrity: sha512-IbyN+9KslkqcXa8AO9fxpk97PA4pzewvpi2B3Dwy9u4zpV32QicaEdgmF3eSQUzdRk7ttDHQejNgAEr4XoeH4A==}
     engines: {node: '>=12'}
     dev: false
 
