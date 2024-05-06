@@ -15,8 +15,8 @@ dependencies:
     specifier: ^16.4.5
     version: 16.4.5
   drizzle-orm:
-    specifier: ^0.30.6
-    version: 0.30.6(postgres@3.4.3)
+    specifier: ^0.30.10
+    version: 0.30.10(postgres@3.4.3)
   glob:
     specifier: 10.3.10
     version: 10.3.10
@@ -1055,8 +1055,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.30.6(postgres@3.4.3):
-    resolution: {integrity: sha512-8RgNUmY7J03GRuRgBV5SaJNbYgLVPjdSWNS/bRkIMIHt2TFCA439lJsNpqYX8asyKMqkw8ceBiamUnCIXZIt9w==}
+  /drizzle-orm@0.30.10(postgres@3.4.3):
+    resolution: {integrity: sha512-IRy/QmMWw9lAQHpwbUh1b8fcn27S/a9zMIzqea1WNOxK9/4EB8gIo+FZWLiPXzl2n9ixGSv8BhsLZiOppWEwBw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -1070,7 +1070,7 @@ packages:
       '@types/pg': '*'
       '@types/react': '>=18'
       '@types/sql.js': '*'
-      '@vercel/postgres': '*'
+      '@vercel/postgres': '>=0.8.0'
       '@xata.io/client': '*'
       better-sqlite3: '>=7'
       bun-types: '*'
