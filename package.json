@@ -43,7 +43,7 @@
     "drizzle-orm": "^0.30.6",
     "glob": "10.3.10",
     "node-schedule": "2.1.1",
-    "pino": "^8.19.0",
+    "pino": "^9.2.0",
     "pino-pretty": "^11.0.0",
     "postgres": "^3.4.3",
     "query-string": "^9.0.0",
