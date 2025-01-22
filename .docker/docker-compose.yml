@@ -1,14 +1,14 @@
-version: '3'
-
 services:
   bot:
     depends_on:
       - postgres
       - redis
+    pull_policy: build
     build:
       context: ../
       dockerfile: .docker/Dockerfile
-    pull_policy: build
+    container_name: zeki-bot
+    restart: unless-stopped
     environment:
       - TOKEN=${TOKEN}
       - USER_AGENT=${USER_AGENT}
@@ -19,14 +19,14 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - REDIS_HOST=redis
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-    restart: unless-stopped
     networks:
       - network
 
   redis:
     image: redis:7.0.11
-    command: redis-server --requirepass ${REDIS_PASSWORD}
+    container_name: zeki-redis
     restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     networks:
       - network
     volumes:
@@ -34,15 +34,34 @@ services:
 
   postgres:
     image: postgres:13.11
+    container_name: zeki-postgres
+    restart: unless-stopped
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U postgres -d postgres' ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DATABASE=${POSTGRES_DATABASE}
-    restart: unless-stopped
     networks:
       - network
     volumes:
       - postgresdata:/var/lib/postgresql/data
+
+  backup:
+      image: offen/docker-volume-backup:v2.43.1    
+      container_name: zeki-backup
+      restart: unless-stopped
+      environment:
+        - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+        - AWS_S3_PATH=${AWS_S3_PATH}
+        - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+        - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+        - AWS_ENDPOINT=${AWS_ENDPOINT}
+      volumes:
+        - postgres-data:/backup/postgres-data:ro
 
 networks:
   network:
@@ -50,4 +69,6 @@ networks:
 
 volumes:
   postgresdata:
+    driver: local
   redisdata:
+    driver: local
