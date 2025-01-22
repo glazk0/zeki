@@ -61,7 +61,8 @@ services:
         - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
         - AWS_ENDPOINT=${AWS_ENDPOINT}
       volumes:
-        - postgres-data:/backup/postgres-data:ro
+        - postgresdata:/backup/postgresdata:ro
+        - redisdata:/backup/redisdata:ro
 
 networks:
   network:
