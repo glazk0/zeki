@@ -51,19 +51,22 @@ services:
       - postgresdata:/var/lib/postgresql/data
 
   backup:
-      image: offen/docker-volume-backup:v2.43.1    
-      container_name: zeki-backup
-      restart: unless-stopped
-      environment:
-        - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
-        - AWS_S3_PATH=${AWS_S3_PATH}
-        - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-        - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-        - AWS_ENDPOINT=${AWS_ENDPOINT}
-        - BACKUP_RETENTION_DAYS=7
-      volumes:
-        - postgresdata:/backup/postgresdata:ro
-        - redisdata:/backup/redisdata:ro
+    image: offen/docker-volume-backup:v2.43.1    
+    container_name: zeki-backup
+    restart: unless-stopped
+    environment:
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+      - AWS_S3_PATH=${AWS_S3_PATH}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ENDPOINT=${AWS_ENDPOINT}
+      - BACKUP_RETENTION_DAYS=7
+    networks:
+      - network
+    volumes:
+      - postgresdata:/backup/postgresdata:ro
+      - redisdata:/backup/redisdata:ro
+      
 
 networks:
   network:
