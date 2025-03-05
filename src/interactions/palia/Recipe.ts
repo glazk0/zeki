@@ -5,19 +5,19 @@ import {
 	CacheType,
 	ChatInputCommandInteraction,
 	InteractionResponse,
-	RESTPostAPIApplicationCommandsJSONBody,
-} from "discord.js";
-import { inject, injectable } from "tsyringe";
+	RESTPostAPIApplicationCommandsJSONBody
+} from 'discord.js';
+import { inject, injectable } from 'tsyringe';
 
-import { Client } from "../../structures/Client.js";
-import { Category, Context, Interaction } from "../../structures/Interaction.js";
+import { Client } from '../../structures/Client.js';
+import { Category, Context, Interaction } from '../../structures/Interaction.js';
 
-import { RecipeEmbed } from "../../lib/embeds/RecipeEmbed.js";
+import { RecipeEmbed } from '../../lib/embeds/RecipeEmbed.js';
 
-import { clientSymbol } from "../../utils/Constants.js";
+import { clientSymbol } from '../../utils/Constants.js';
 
-import { commands } from "../../i18n/commands.js";
-import { baseLocale } from "../../i18n/i18n-util.js";
+import { commands } from '../../i18n/commands.js';
+import { baseLocale } from '../../i18n/i18n-util.js';
 
 @injectable()
 export default class Recipe extends Interaction {
@@ -27,20 +27,20 @@ export default class Recipe extends Interaction {
 
 	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
-		...commands["recipe"],
+		...commands['recipe'],
 		options: [
 			{
 				type: ApplicationCommandOptionType.String,
-				...commands["recipe.query"],
+				...commands['recipe.query'],
 				required: true,
-				autocomplete: true,
+				autocomplete: true
 			},
 			{
 				type: ApplicationCommandOptionType.Integer,
-				...commands["recipe.amount"],
-				required: false,
-			},
-		],
+				...commands['recipe.amount'],
+				required: false
+			}
+		]
 	};
 
 	constructor(@inject(clientSymbol) private client: Client) {
@@ -48,15 +48,15 @@ export default class Recipe extends Interaction {
 	}
 
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
-		const query = interaction.options.getString("query", true);
-		let amount = interaction.options.getInteger("amount", false) ?? 1;
+		const query = interaction.options.getString('query', true);
+		let amount = interaction.options.getInteger('amount', false) ?? 1;
 
 		const recipe = await this.client.api.getRecipe(query, ctx.guild?.locale ?? baseLocale);
 
 		if (!recipe)
 			return interaction.reply({
 				content: ctx.i18n.interactions.miscellaneous.no_results_for({ query }),
-				ephemeral: true,
+				ephemeral: true
 			});
 
 		amount = Math.max(1, Math.min(9999, amount));
@@ -64,7 +64,7 @@ export default class Recipe extends Interaction {
 		const embed = new RecipeEmbed(recipe, amount, ctx);
 
 		return interaction.reply({
-			embeds: [embed],
+			embeds: [embed]
 		});
 	}
 
@@ -73,13 +73,13 @@ export default class Recipe extends Interaction {
 
 		if (!value) return await interaction.respond([]);
 
-		const data = (await this.client.api.search(value, "recipe", ctx.guild?.locale ?? baseLocale)).slice(0, 25);
+		const data = (await this.client.api.search(value, 'recipe', ctx.guild?.locale ?? baseLocale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({
 				name: item.name,
-				value: item.key,
-			})),
+				value: item.key
+			}))
 		);
 	}
 }

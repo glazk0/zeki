@@ -1,7 +1,7 @@
-import { ShardingManager } from "discord.js";
+import { ShardingManager } from 'discord.js';
 
-import { logger } from "../lib/Logger.js";
-import { Scheduler } from "../lib/Scheduler.js";
+import { logger } from '../lib/Logger.js';
+import { Scheduler } from '../lib/Scheduler.js';
 
 export class Manager {
 	/**
@@ -28,7 +28,7 @@ export class Manager {
 	async init(): Promise<void> {
 		try {
 			this.registerEvents();
-			await this.manager.spawn({ timeout: -1 }).then(() => logger.info("All shards launched"));
+			await this.manager.spawn({ timeout: -1 }).then(() => logger.info('All shards launched'));
 			this.scheduler.init();
 		} catch (error) {
 			logger.error(`Error initializing manager: ${error}`);
@@ -44,10 +44,10 @@ export class Manager {
 	}
 
 	private registerEvents(): void {
-		this.manager.on("shardCreate", (shard) => logger.info(`Launched shard #${shard.id}`));
+		this.manager.on('shardCreate', (shard) => logger.info(`Launched shard #${shard.id}`));
 	}
 }
 
-process.on("unhandledRejection", ({ stack }: Error) => {
+process.on('unhandledRejection', ({ stack }: Error) => {
 	logger.error(stack);
 });

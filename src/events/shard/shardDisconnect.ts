@@ -1,15 +1,15 @@
-import { CloseEvent, Events } from "discord.js";
-import { inject, injectable } from "tsyringe";
+import { CloseEvent, Events } from 'discord.js';
+import { inject, injectable } from 'tsyringe';
 
-import { Client } from "../../structures/Client.js";
-import { Event } from "../../structures/Event.js";
+import { Client } from '../../structures/Client.js';
+import { Event } from '../../structures/Event.js';
 
-import { clientSymbol } from "../../utils/Constants.js";
+import { clientSymbol } from '../../utils/Constants.js';
 
 @injectable()
 export default class ShardDisconnect extends Event {
 	constructor(@inject(clientSymbol) private client: Client) {
-		super("onShardDisconnect", Events.ShardDisconnect);
+		super('onShardDisconnect', Events.ShardDisconnect);
 	}
 
 	public async run(event: CloseEvent, id: number): Promise<void> {

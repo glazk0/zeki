@@ -1,6 +1,6 @@
-import { BaseEmbed } from "./BaseEmbed.js";
+import { BaseEmbed } from './BaseEmbed.js';
 
-import { INews } from "../../@types/index.js";
+import { INews } from '../../@types/index.js';
 
 export class NewsEmbed extends BaseEmbed {
 	constructor(news: INews) {

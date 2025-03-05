@@ -11,23 +11,23 @@ import {
 	Role,
 	TextChannel,
 	ThreadChannel,
-	channelMention,
-} from "discord.js";
-import { eq } from "drizzle-orm";
-import { inject, injectable } from "tsyringe";
+	channelMention
+} from 'discord.js';
+import { eq } from 'drizzle-orm';
+import { inject, injectable } from 'tsyringe';
 
-import { Client } from "../../structures/Client.js";
-import { Category, Context, Interaction } from "../../structures/Interaction.js";
+import { Client } from '../../structures/Client.js';
+import { Category, Context, Interaction } from '../../structures/Interaction.js';
 
-import { commands } from "../../i18n/commands.js";
-import L from "../../i18n/i18n-node.js";
-import { Locales } from "../../i18n/i18n-types.js";
-import { locales } from "../../i18n/i18n-util.js";
+import { commands } from '../../i18n/commands.js';
+import L from '../../i18n/i18n-node.js';
+import { Locales } from '../../i18n/i18n-types.js';
+import { locales } from '../../i18n/i18n-util.js';
 
-import { clientSymbol, localesMap } from "../../utils/Constants.js";
+import { clientSymbol, localesMap } from '../../utils/Constants.js';
 
-import { db } from "../../db/client.js";
-import { guilds, guildsNews } from "../../db/schema.js";
+import { db } from '../../db/client.js';
+import { guilds, guildsNews } from '../../db/schema.js';
 
 @injectable()
 export default class Settings extends Interaction {
@@ -37,52 +37,57 @@ export default class Settings extends Interaction {
 
 	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
-		...commands["settings"],
+		...commands['settings'],
 		default_member_permissions: PermissionFlagsBits.ManageGuild.toString(),
 		dm_permission: false,
 		options: [
 			{
 				type: ApplicationCommandOptionType.Subcommand,
-				...commands["settings.locale"],
+				...commands['settings.locale'],
 				options: [
 					{
 						type: ApplicationCommandOptionType.String,
-						...commands["settings.locale.value"],
+						...commands['settings.locale.value'],
 						required: true,
 						choices: locales.map((locale) => ({
 							name: localesMap[locale],
-							value: locale,
-						})),
-					},
-				],
+							value: locale
+						}))
+					}
+				]
 			},
 			{
 				type: ApplicationCommandOptionType.SubcommandGroup,
-				...commands["settings.news"],
+				...commands['settings.news'],
 				options: [
 					{
 						type: ApplicationCommandOptionType.Subcommand,
-						...commands["settings.news.enable"],
+						...commands['settings.news.enable'],
 						options: [
 							{
 								type: ApplicationCommandOptionType.Channel,
-								...commands["settings.news.enable.channel"],
-								channel_types: [ChannelType.GuildAnnouncement, ChannelType.GuildText, ChannelType.GuildForum, ChannelType.PublicThread],
-								required: true,
-							},
+								...commands['settings.news.enable.channel'],
+								channel_types: [
+									ChannelType.GuildAnnouncement,
+									ChannelType.GuildText,
+									ChannelType.GuildForum,
+									ChannelType.PublicThread
+								],
+								required: true
+							}
 							//   {
 							//     type: ApplicationCommandOptionType.Role,
 							//     ...commands['settings.news.enable.role'],
 							//   },
-						],
+						]
 					},
 					{
 						type: ApplicationCommandOptionType.Subcommand,
-						...commands["settings.news.disable"],
-					},
-				],
-			},
-		],
+						...commands['settings.news.disable']
+					}
+				]
+			}
+		]
 	};
 
 	constructor(@inject(clientSymbol) private client: Client) {
@@ -95,13 +100,13 @@ export default class Settings extends Interaction {
 		const group = options.getSubcommandGroup();
 		const subcommand = options.getSubcommand();
 
-		let locale = options.getString("value") as Locales;
+		let locale = options.getString('value') as Locales;
 
-		let channel = options.getChannel("channel") as GuildChannel;
-		let role = options.getRole("role") as Role;
+		let channel = options.getChannel('channel') as GuildChannel;
+		let role = options.getRole('role') as Role;
 
 		switch (subcommand) {
-			case "locale":
+			case 'locale':
 				try {
 					await db
 						.update(guilds)
@@ -113,23 +118,23 @@ export default class Settings extends Interaction {
 
 				await interaction.reply({
 					content: L[locale].interactions.settings.locale.success({
-						locale: localesMap[locale as Locales],
+						locale: localesMap[locale as Locales]
 					}),
-					ephemeral: true,
+					ephemeral: true
 				});
 				break;
 		}
 
 		switch (group) {
-			case "news":
+			case 'news':
 				switch (subcommand) {
-					case "enable":
+					case 'enable':
 						if (!this.checkPermission(interaction, channel))
 							return await interaction.reply({
 								content: i18n.interactions.miscellaneous.no_permissions({
-									channel: channel.toString(),
+									channel: channel.toString()
 								}),
-								ephemeral: true,
+								ephemeral: true
 							});
 
 						try {
@@ -137,43 +142,47 @@ export default class Settings extends Interaction {
 								.insert(guildsNews)
 								.values({
 									guildId: interaction.guild!.id,
-									channel: channel.id,
+									channel: channel.id
 								})
 								.onConflictDoUpdate({
 									target: [guildsNews.guildId],
 									set: {
-										channel: channel.id,
-									},
+										channel: channel.id
+									}
 								});
 						} catch (error) {
-							this.client.logger.error(`Error while updating news channel for guild ${interaction.guild?.id}: ${error}`);
+							this.client.logger.error(
+								`Error while updating news channel for guild ${interaction.guild?.id}: ${error}`
+							);
 						}
 
 						await interaction.reply({
 							content: i18n.interactions.settings.news.enabled({
-								channel: channel.toString(),
+								channel: channel.toString()
 							}),
-							ephemeral: true,
+							ephemeral: true
 						});
 						break;
-					case "disable":
+					case 'disable':
 						if (!guild?.news || !guild?.news.channel)
 							return await interaction.reply({
 								content: i18n.interactions.settings.news.not_enabled(),
-								ephemeral: true,
+								ephemeral: true
 							});
 
 						try {
 							await db.delete(guildsNews).where(eq(guildsNews.guildId, interaction.guildId as string));
 						} catch (error) {
-							this.client.logger.error(`Error while updating news channel for guild ${interaction.guild?.id} to null: ${error}`);
+							this.client.logger.error(
+								`Error while updating news channel for guild ${interaction.guild?.id} to null: ${error}`
+							);
 						}
 
 						await interaction.reply({
 							content: i18n.interactions.settings.news.disabled({
-								channel: channelMention(guild.news.channel),
+								channel: channelMention(guild.news.channel)
 							}),
-							ephemeral: true,
+							ephemeral: true
 						});
 						break;
 				}
@@ -181,7 +190,14 @@ export default class Settings extends Interaction {
 		}
 	}
 
-	private checkPermission(interaction: ChatInputCommandInteraction<CacheType>, channel: GuildChannel | TextChannel | NewsChannel | ThreadChannel) {
-		return channel.permissionsFor(interaction.client.user)?.has([PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel]) ?? false;
+	private checkPermission(
+		interaction: ChatInputCommandInteraction<CacheType>,
+		channel: GuildChannel | TextChannel | NewsChannel | ThreadChannel
+	) {
+		return (
+			channel
+				.permissionsFor(interaction.client.user)
+				?.has([PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel]) ?? false
+		);
 	}
 }

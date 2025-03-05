@@ -1,6 +1,6 @@
-import { RedisClientType, createClient } from "redis";
+import { RedisClientType, createClient } from 'redis';
 
-import { logger } from "../lib/Logger.js";
+import { logger } from '../lib/Logger.js';
 
 export abstract class RedisClient {
 	/**
@@ -11,10 +11,10 @@ export abstract class RedisClient {
 	constructor() {
 		this.client = createClient({
 			socket: {
-				host: process.env.REDIS_HOST || "redis",
-				port: process.env.REDIS_PORT || 6379,
+				host: process.env.REDIS_HOST || 'redis',
+				port: process.env.REDIS_PORT || 6379
 			},
-			password: process.env.REDIS_PASSWORD,
+			password: process.env.REDIS_PASSWORD
 		});
 		this.registerEvents();
 	}
@@ -41,10 +41,10 @@ export abstract class RedisClient {
 	 * @returns The joined keys.
 	 */
 	join(...keys: (string | undefined)[]): string {
-		return keys.filter((key) => key).join(":");
+		return keys.filter((key) => key).join(':');
 	}
 
 	private registerEvents(): void {
-		this.client.on("error", (error) => logger.error(error));
+		this.client.on('error', (error) => logger.error(error));
 	}
 }

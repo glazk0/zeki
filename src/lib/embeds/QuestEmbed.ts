@@ -1,25 +1,32 @@
-import { hyperlink } from "discord.js";
+import { hyperlink } from 'discord.js';
 
-import { BaseEmbed } from "./BaseEmbed.js";
+import { BaseEmbed } from './BaseEmbed.js';
 
-import { Context } from "../../structures/Interaction.js";
+import { Context } from '../../structures/Interaction.js';
 
-import { databaseUrl } from "../../utils/Commons.js";
-import { PALIA_URL } from "../../utils/Constants.js";
+import { databaseUrl } from '../../utils/Commons.js';
+import { PALIA_URL } from '../../utils/Constants.js';
 
-import { IBooksItem, IDialoguesItem, IItemsItem, IMailMessagesItem, IQuest, IStepsItem } from "../../@types/generated.js";
+import {
+	IBooksItem,
+	IDialoguesItem,
+	IItemsItem,
+	IMailMessagesItem,
+	IQuest,
+	IStepsItem
+} from '../../@types/generated.js';
 
 export class QuestEmbed extends BaseEmbed {
 	constructor(quest: IQuest, step: IStepsItem | null, { locale, i18n }: Context) {
 		super();
 
 		this.data.thumbnail = {
-			url: `${PALIA_URL}/images/quests/128/${quest.icon}.webp`,
+			url: `${PALIA_URL}/images/quests/128/${quest.icon}.webp`
 		};
 
 		this.data.title = quest.name;
 
-		this.data.url = databaseUrl(locale, ["quest", quest.key]);
+		this.data.url = databaseUrl(locale, ['quest', quest.key]);
 
 		this.data.description = quest.description;
 
@@ -29,31 +36,38 @@ export class QuestEmbed extends BaseEmbed {
 				value: Object.entries(quest.starters)
 					.map(([key, value]) => {
 						let values = [];
-						if (key === "dialogues") {
+						if (key === 'dialogues') {
 							for (const dialogue of value as IDialoguesItem[]) {
-								values.push(hyperlink(dialogue.name, databaseUrl(locale, ["dialogue", dialogue.key])));
+								values.push(hyperlink(dialogue.name, databaseUrl(locale, ['dialogue', dialogue.key])));
 							}
-						} else if (key === "items") {
+						} else if (key === 'items') {
 							for (const item of value as IItemsItem[]) {
-								values.push(hyperlink(item.name ?? i18n.embeds.miscellaneous.no_data(), databaseUrl(locale, ["item", item.key as string])));
+								values.push(
+									hyperlink(
+										item.name ?? i18n.embeds.miscellaneous.no_data(),
+										databaseUrl(locale, ['item', item.key as string])
+									)
+								);
 							}
-						} else if (key === "mailMessages") {
+						} else if (key === 'mailMessages') {
 							for (const mailMessage of value as IMailMessagesItem[]) {
-								values.push(hyperlink(mailMessage.name as string, databaseUrl(locale, ["mail-message", mailMessage.key])));
+								values.push(
+									hyperlink(mailMessage.name as string, databaseUrl(locale, ['mail-message', mailMessage.key]))
+								);
 							}
-						} else if (key === "books") {
+						} else if (key === 'books') {
 							for (const book of value as IBooksItem[]) {
-								values.push(hyperlink(book.name as string, databaseUrl(locale, ["book", book.key])));
+								values.push(hyperlink(book.name as string, databaseUrl(locale, ['book', book.key])));
 							}
-						} else if (key === "quests") {
+						} else if (key === 'quests') {
 							for (const quest of value as IQuest[]) {
-								values.push(hyperlink(quest.name, databaseUrl(locale, ["quest", quest.key])));
+								values.push(hyperlink(quest.name, databaseUrl(locale, ['quest', quest.key])));
 							}
 						}
 
 						return this.toUnorderedList(values);
 					})
-					.join("\n"),
+					.join('\n')
 			});
 		}
 
@@ -83,13 +97,13 @@ export class QuestEmbed extends BaseEmbed {
 								if (condition.quest) {
 									value += ` ${condition.quest.name}`;
 								} else if (condition.item) {
-									value += ` ${condition.amountRequired ?? 1} ${hyperlink(condition.item.name, databaseUrl(locale, ["item", condition.item.key]))}`;
+									value += ` ${condition.amountRequired ?? 1} ${hyperlink(condition.item.name, databaseUrl(locale, ['item', condition.item.key]))}`;
 								} else if (condition.dialogue) {
-									value += ` ${hyperlink(condition.dialogue.name, databaseUrl(locale, ["dialogue", condition.dialogue.key]))}`;
+									value += ` ${hyperlink(condition.dialogue.name, databaseUrl(locale, ['dialogue', condition.dialogue.key]))}`;
 								} else if (condition.recipe) {
-									value += ` ${hyperlink(condition.recipe.name, databaseUrl(locale, ["recipe", condition.recipe.key]))}`;
+									value += ` ${hyperlink(condition.recipe.name, databaseUrl(locale, ['recipe', condition.recipe.key]))}`;
 								} else if (condition.villager) {
-									value += ` ${hyperlink(condition.villager.name, databaseUrl(locale, ["villager", condition.villager.key]))}`;
+									value += ` ${hyperlink(condition.villager.name, databaseUrl(locale, ['villager', condition.villager.key]))}`;
 								} else if (condition.currency) {
 									value += ` ${condition.amountRequired} ${condition.currency.name}`;
 								} else if (condition.playerTag) {
@@ -98,13 +112,13 @@ export class QuestEmbed extends BaseEmbed {
 									if (condition.itemTag.icon) {
 										this.setImage(`${PALIA_URL}/images/tags/30/${condition.itemTag.icon}.webp`);
 									}
-									value += ` ${hyperlink(condition.itemTag.name, databaseUrl(locale, ["items", "page", `1?filters=tag:${condition.itemTag.key}`]))}`;
+									value += ` ${hyperlink(condition.itemTag.name, databaseUrl(locale, ['items', 'page', `1?filters=tag:${condition.itemTag.key}`]))}`;
 								}
 							}
 
 							return value;
 						})
-						.join("\n"),
+						.join('\n')
 				});
 			}
 
@@ -128,13 +142,13 @@ export class QuestEmbed extends BaseEmbed {
 									if (condition.quest) {
 										value += ` ${condition.quest.name}`;
 									} else if (condition.item) {
-										value += ` ${condition.amountRequired ?? 1} ${hyperlink(condition.item.name, databaseUrl(locale, ["item", condition.item.key]))}`;
+										value += ` ${condition.amountRequired ?? 1} ${hyperlink(condition.item.name, databaseUrl(locale, ['item', condition.item.key]))}`;
 									} else if (condition.dialogue) {
-										value += ` ${hyperlink(condition.dialogue.name, databaseUrl(locale, ["dialogue", condition.dialogue.key]))}`;
+										value += ` ${hyperlink(condition.dialogue.name, databaseUrl(locale, ['dialogue', condition.dialogue.key]))}`;
 									} else if (condition.recipe) {
-										value += ` ${hyperlink(condition.recipe.name, databaseUrl(locale, ["recipe", condition.recipe.key]))}`;
+										value += ` ${hyperlink(condition.recipe.name, databaseUrl(locale, ['recipe', condition.recipe.key]))}`;
 									} else if (condition.villager) {
-										value += ` ${hyperlink(condition.villager.name, databaseUrl(locale, ["villager", condition.villager.key]))}`;
+										value += ` ${hyperlink(condition.villager.name, databaseUrl(locale, ['villager', condition.villager.key]))}`;
 									} else if (condition.currency) {
 										value += ` ${condition.amountRequired} ${condition.currency.name}`;
 									} else if (condition.playerTag) {
@@ -143,35 +157,35 @@ export class QuestEmbed extends BaseEmbed {
 										if (condition.itemTag.icon) {
 											this.setImage(`${PALIA_URL}/images/tags/30/${condition.itemTag.icon}.webp`);
 										}
-										value += ` ${hyperlink(condition.itemTag.name, databaseUrl(locale, ["items", "page", `1?filters=tag:${condition.itemTag.key}`]))}`;
+										value += ` ${hyperlink(condition.itemTag.name, databaseUrl(locale, ['items', 'page', `1?filters=tag:${condition.itemTag.key}`]))}`;
 									}
 								}
 							})
-							.join("\n");
+							.join('\n');
 
 						return value;
 					})
-					.join("\n");
+					.join('\n');
 
 				this.addFields({
 					name: i18n.embeds.quest.branching_goals({
-						count: step.minBranchingGoalsRequired,
+						count: step.minBranchingGoalsRequired
 					}),
-					value: branchingGoals,
+					value: branchingGoals
 				});
 			}
 
 			if (step.turnInDialogue?.dialogue) {
 				this.addFields({
 					name: i18n.embeds.quest.turn_in(),
-					value: `- \`${step.turnInDialogue.dialogue.name}\``,
+					value: `- \`${step.turnInDialogue.dialogue.name}\``
 				});
 			}
 
 			if (step.overrideQuestReturnText) {
 				this.addFields({
 					name: i18n.embeds.quest.quest_return(),
-					value: `- \`${step.overrideQuestReturnText}\``,
+					value: `- \`${step.overrideQuestReturnText}\``
 				});
 			}
 
@@ -181,53 +195,53 @@ export class QuestEmbed extends BaseEmbed {
 					value: step.rewards
 						.map((reward) => {
 							if (reward.item) {
-								return `- x${reward.amount} ${hyperlink(reward.item.name, databaseUrl(locale, ["item", reward.item.key]))}`;
+								return `- x${reward.amount} ${hyperlink(reward.item.name, databaseUrl(locale, ['item', reward.item.key]))}`;
 							} else if (reward.recipe) {
-								return `- ${hyperlink(reward.recipe.name, databaseUrl(locale, ["recipe", reward.recipe.key]))}`;
+								return `- ${hyperlink(reward.recipe.name, databaseUrl(locale, ['recipe', reward.recipe.key]))}`;
 							} else if (reward.currency) {
 								return `- x${reward.amount} ${reward.currency.name}`;
-							} else if (reward.villager && reward.type === "FriendshipPoints") {
+							} else if (reward.villager && reward.type === 'FriendshipPoints') {
 								return `- ${i18n.embeds.quest.friendship_points({
 									amount: reward.amount,
-									villager: reward.villager.name,
+									villager: reward.villager.name
 								})}`;
-							} else if (reward.villager && reward.type === "RomancePoints") {
+							} else if (reward.villager && reward.type === 'RomancePoints') {
 								return `- ${i18n.embeds.quest.romance_points({
 									amount: reward.amount,
-									villager: reward.villager.name,
+									villager: reward.villager.name
 								})}`;
-							} else if (reward.villager && reward.type === "MailMessage") {
-								if (!reward.mailMessage || typeof reward.mailMessage === "string")
+							} else if (reward.villager && reward.type === 'MailMessage') {
+								if (!reward.mailMessage || typeof reward.mailMessage === 'string')
 									return `- ${hyperlink(
 										i18n.embeds.quest.mail_message({
-											villager: reward.villager.name,
+											villager: reward.villager.name
 										}),
-										databaseUrl(locale, ["villager", reward.villager.key]),
+										databaseUrl(locale, ['villager', reward.villager.key])
 									)}`;
 								return `- ${hyperlink(
 									reward.mailMessage?.name ??
 										i18n.embeds.quest.mail_message({
-											villager: reward.mailMessage.name,
+											villager: reward.mailMessage.name
 										}),
-									databaseUrl(locale, ["mail-message", reward.mailMessage.key]),
+									databaseUrl(locale, ['mail-message', reward.mailMessage.key])
 								)}`;
-							} else if (reward.villager && reward.type === "Visit") {
+							} else if (reward.villager && reward.type === 'Visit') {
 								return `- ${i18n.embeds.quest.visit_from({
-									villager: reward.villager.name,
+									villager: reward.villager.name
 								})}`;
-							} else if (reward.type === "PlayerTagWriteback") {
+							} else if (reward.type === 'PlayerTagWriteback') {
 								return `- WIP: ${reward.operation} ${reward.tag?.name} to ${reward.amount}`;
-							} else if (reward.type === "Quest") {
+							} else if (reward.type === 'Quest') {
 								if (!reward.quest) return `- WIP: ${reward.type}`;
-								return `- ${hyperlink(reward.quest.name, databaseUrl(locale, ["quest", reward.quest.key]))}`;
-							} else if (reward.type === "RemoveQuest") {
+								return `- ${hyperlink(reward.quest.name, databaseUrl(locale, ['quest', reward.quest.key]))}`;
+							} else if (reward.type === 'RemoveQuest') {
 								if (!reward.quest) return `- WIP: ${reward.type}`;
-								return `- ${hyperlink(reward.quest.name, databaseUrl(locale, ["quest", reward.quest.key]))}`;
+								return `- ${hyperlink(reward.quest.name, databaseUrl(locale, ['quest', reward.quest.key]))}`;
 							} else {
 								return `- WIP: ${reward.type}`;
 							}
 						})
-						.join("\n"),
+						.join('\n')
 				});
 			}
 		}

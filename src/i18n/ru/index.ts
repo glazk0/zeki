@@ -1,7 +1,7 @@
-import type { Translation } from "../i18n-types";
+import type { Translation } from '../i18n-types';
 
 const ru: Translation = {
-	locale: "ru",
+	locale: 'ru'
 };
 
 export default ru;

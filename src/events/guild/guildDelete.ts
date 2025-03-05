@@ -1,19 +1,19 @@
-import { Events, Guild } from "discord.js";
-import { eq } from "drizzle-orm";
-import { inject, injectable } from "tsyringe";
+import { Events, Guild } from 'discord.js';
+import { eq } from 'drizzle-orm';
+import { inject, injectable } from 'tsyringe';
 
-import { Client } from "../../structures/Client.js";
-import { Event } from "../../structures/Event.js";
+import { Client } from '../../structures/Client.js';
+import { Event } from '../../structures/Event.js';
 
-import { clientSymbol } from "../../utils/Constants.js";
+import { clientSymbol } from '../../utils/Constants.js';
 
-import { db } from "../../db/client.js";
-import { guilds } from "../../db/schema.js";
+import { db } from '../../db/client.js';
+import { guilds } from '../../db/schema.js';
 
 @injectable()
 export default class GuildDelete extends Event {
 	constructor(@inject(clientSymbol) private client: Client) {
-		super("onGuildDelete", Events.GuildDelete);
+		super('onGuildDelete', Events.GuildDelete);
 	}
 
 	async run(guild: Guild): Promise<void> {

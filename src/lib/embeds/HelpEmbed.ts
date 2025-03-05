@@ -1,8 +1,8 @@
-import { Collection } from "discord.js";
+import { Collection } from 'discord.js';
 
-import { BaseEmbed } from "./BaseEmbed.js";
+import { BaseEmbed } from './BaseEmbed.js';
 
-import { Context, Interaction } from "../../structures/Interaction.js";
+import { Context, Interaction } from '../../structures/Interaction.js';
 
 export class HelpEmbed extends BaseEmbed {
 	constructor(commands: Collection<string, Interaction>, { i18n }: Context) {
@@ -12,11 +12,11 @@ export class HelpEmbed extends BaseEmbed {
 
 		this.data.author = {
 			name: i18n.embeds.help.title({ username: this.client.user?.username }),
-			icon_url: this.client.user?.displayAvatarURL(),
+			icon_url: this.client.user?.displayAvatarURL()
 		};
 
 		this.data.thumbnail = {
-			url: this.client.user!.displayAvatarURL(),
+			url: this.client.user!.displayAvatarURL()
 		};
 
 		this.data.description = i18n.embeds.help.description();
@@ -25,7 +25,7 @@ export class HelpEmbed extends BaseEmbed {
 			const commandsInCategory = commands.filter((command) => command.category === category);
 			this.addFields({
 				name: category,
-				value: commandsInCategory.map((command) => `\`${command.command.name}\``).join(", "),
+				value: commandsInCategory.map((command) => `\`${command.command.name}\``).join(', ')
 			});
 		}
 	}

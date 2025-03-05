@@ -1,8 +1,8 @@
-import cron from "node-schedule";
+import cron from 'node-schedule';
 
-import { logger } from "./Logger.js";
+import { logger } from './Logger.js';
 
-import { Job } from "./jobs/Job.js";
+import { Job } from './jobs/Job.js';
 
 export class Scheduler {
 	/**
@@ -25,7 +25,7 @@ export class Scheduler {
 			cron.scheduleJob(
 				{
 					start: new Date(Date.now() + job.delay),
-					rule: job.schedule,
+					rule: job.schedule
 				},
 				async () => {
 					try {
@@ -35,7 +35,7 @@ export class Scheduler {
 					} catch (error) {
 						logger.error(`Failed to run job ${job.name}: ${error}`);
 					}
-				},
+				}
 			);
 			logger.info(`Scheduled job ${job.name}`);
 		}

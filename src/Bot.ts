@@ -1,11 +1,11 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 
-import { ActivityType, GatewayIntentBits, Options, Partials } from "discord.js";
-import { container } from "tsyringe";
+import { ActivityType, GatewayIntentBits, Options, Partials } from 'discord.js';
+import { container } from 'tsyringe';
 
-import { Client } from "./structures/Client.js";
+import { Client } from './structures/Client.js';
 
-import { clientSymbol } from "./utils/Constants.js";
+import { clientSymbol } from './utils/Constants.js';
 
 const client = new Client({
 	makeCache: Options.cacheWithLimits({
@@ -19,7 +19,7 @@ const client = new Client({
 		GuildInviteManager: 0,
 		GuildMemberManager: {
 			maxSize: 1,
-			keepOverLimit: (member) => member.id === member.client.user.id,
+			keepOverLimit: (member) => member.id === member.client.user.id
 		},
 		GuildStickerManager: 0,
 		GuildTextThreadManager: 0,
@@ -31,27 +31,27 @@ const client = new Client({
 		ThreadManager: 0,
 		ThreadMemberManager: 0,
 		UserManager: 0,
-		VoiceStateManager: 0,
+		VoiceStateManager: 0
 	}),
 	intents: [GatewayIntentBits.Guilds],
 	partials: [Partials.Channel],
 	presence: {
-		status: "online",
+		status: 'online',
 		activities: [
 			{
-				name: "my glistening wealth",
-				type: ActivityType.Watching,
-			},
-		],
-	},
+				name: 'my glistening wealth',
+				type: ActivityType.Watching
+			}
+		]
+	}
 });
 
 container.register(clientSymbol, {
-	useValue: client,
+	useValue: client
 });
 
 client.init();
 
-process.on("unhandledRejection", (error) => {
+process.on('unhandledRejection', (error) => {
 	client.logger.error(`Unhandled rejection: ${error}`);
 });

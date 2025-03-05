@@ -9,21 +9,21 @@ import {
 	InteractionResponse,
 	RESTPostAPIApplicationCommandsJSONBody,
 	StringSelectMenuBuilder,
-	StringSelectMenuInteraction,
-} from "discord.js";
-import { inject, injectable } from "tsyringe";
+	StringSelectMenuInteraction
+} from 'discord.js';
+import { inject, injectable } from 'tsyringe';
 
-import { Client } from "../../structures/Client.js";
-import { Category, Context, Interaction } from "../../structures/Interaction.js";
+import { Client } from '../../structures/Client.js';
+import { Category, Context, Interaction } from '../../structures/Interaction.js';
 
-import { VillagerEmbed } from "../../lib/embeds/VillagerEmbed.js";
+import { VillagerEmbed } from '../../lib/embeds/VillagerEmbed.js';
 
-import { clientSymbol } from "../../utils/Constants.js";
+import { clientSymbol } from '../../utils/Constants.js';
 
-import { IRelationshipLevelsItem } from "../../@types/generated.js";
+import { IRelationshipLevelsItem } from '../../@types/generated.js';
 
-import { commands } from "../../i18n/commands.js";
-import { baseLocale } from "../../i18n/i18n-util.js";
+import { commands } from '../../i18n/commands.js';
+import { baseLocale } from '../../i18n/i18n-util.js';
 
 @injectable()
 export default class Villager extends Interaction {
@@ -33,15 +33,15 @@ export default class Villager extends Interaction {
 
 	command: RESTPostAPIApplicationCommandsJSONBody = {
 		type: ApplicationCommandType.ChatInput,
-		...commands["villager"],
+		...commands['villager'],
 		options: [
 			{
 				type: ApplicationCommandOptionType.String,
-				...commands["villager.query"],
+				...commands['villager.query'],
 				required: true,
-				autocomplete: true,
-			},
-		],
+				autocomplete: true
+			}
+		]
 	};
 
 	constructor(@inject(clientSymbol) private client: Client) {
@@ -49,14 +49,14 @@ export default class Villager extends Interaction {
 	}
 
 	async run(interaction: ChatInputCommandInteraction<CacheType>, ctx: Context): Promise<InteractionResponse<boolean>> {
-		const query = interaction.options.getString("query", true);
+		const query = interaction.options.getString('query', true);
 
 		const villager = await this.client.api.getVillager(query, ctx.guild?.locale ?? baseLocale);
 
 		if (!villager)
 			return interaction.reply({
 				content: ctx.i18n.interactions.miscellaneous.no_results_for({ query }),
-				ephemeral: true,
+				ephemeral: true
 			});
 
 		const embed = new VillagerEmbed(villager, null, ctx);
@@ -66,19 +66,19 @@ export default class Villager extends Interaction {
 		if (villager.relationshipLevels?.length)
 			dropdown = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
 				new StringSelectMenuBuilder()
-					.setCustomId("villager")
-					.setPlaceholder("Select a relationship level")
+					.setCustomId('villager')
+					.setPlaceholder('Select a relationship level')
 					.addOptions(
 						generateRelationshipLevels(villager.relationshipLevels).map((step, index: number) => ({
 							label: step.levelName,
-							value: `${villager.key}_${index}`,
-						})),
-					),
+							value: `${villager.key}_${index}`
+						}))
+					)
 			);
 
 		return interaction.reply({
 			embeds: [embed],
-			components: dropdown ? [dropdown] : undefined,
+			components: dropdown ? [dropdown] : undefined
 		});
 	}
 
@@ -87,27 +87,27 @@ export default class Villager extends Interaction {
 
 		if (!value) return await interaction.respond([]);
 
-		const data = (await this.client.api.search(value, "villager", ctx.guild?.locale ?? baseLocale)).slice(0, 25);
+		const data = (await this.client.api.search(value, 'villager', ctx.guild?.locale ?? baseLocale)).slice(0, 25);
 
 		await interaction.respond(
 			data.map((item) => ({
 				name: item.name,
-				value: item.key,
-			})),
+				value: item.key
+			}))
 		);
 	}
 
 	async selectMenu(interaction: StringSelectMenuInteraction<CacheType>, context: Context): Promise<any> {
-		const [key, relationshipLevel] = interaction.values[0].split("_") as [string, number];
+		const [key, relationshipLevel] = interaction.values[0].split('_') as [string, number];
 
 		const villager = await this.client.api.getVillager(key, context.guild?.locale ?? baseLocale);
 
 		if (!villager)
 			return interaction.reply({
 				content: context.i18n.interactions.miscellaneous.no_results_for({
-					query: key,
+					query: key
 				}),
-				ephemeral: true,
+				ephemeral: true
 			});
 
 		const data = villager.relationshipLevels ? villager.relationshipLevels[relationshipLevel] : null;
@@ -115,21 +115,21 @@ export default class Villager extends Interaction {
 		const embed = new VillagerEmbed(villager, data, context);
 
 		return interaction.update({
-			embeds: [embed],
+			embeds: [embed]
 		});
 	}
 
 	async button(interaction: ButtonInteraction<CacheType>, context: Context): Promise<any> {
-		const [_, key] = interaction.customId.split("_") as [string, string];
+		const [_, key] = interaction.customId.split('_') as [string, string];
 
 		const villager = await this.client.api.getVillager(key, context.guild?.locale);
 
 		if (!villager)
 			return interaction.reply({
 				content: context.i18n.interactions.miscellaneous.no_results_for({
-					query: key,
+					query: key
 				}),
-				ephemeral: true,
+				ephemeral: true
 			});
 
 		const embed = new VillagerEmbed(villager, null, context);
@@ -139,19 +139,19 @@ export default class Villager extends Interaction {
 		if (villager.relationshipLevels?.length)
 			dropdown = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
 				new StringSelectMenuBuilder()
-					.setCustomId("villager")
-					.setPlaceholder("Select a relationship level")
+					.setCustomId('villager')
+					.setPlaceholder('Select a relationship level')
 					.addOptions(
 						generateRelationshipLevels(villager.relationshipLevels).map((step, index: number) => ({
 							label: step.levelName,
-							value: `${villager.key}_${index}`,
-						})),
-					),
+							value: `${villager.key}_${index}`
+						}))
+					)
 			);
 
 		return interaction.update({
 			embeds: [embed],
-			components: dropdown ? [dropdown] : undefined,
+			components: dropdown ? [dropdown] : undefined
 		});
 	}
 }
@@ -174,7 +174,7 @@ function generateRelationshipLevels(data: IRelationshipLevelsItem[]): ReadonlyAr
 			level: currentLevel,
 			requiredValue,
 			levelName: levelNameWithCounter,
-			levelDescription,
+			levelDescription
 		});
 
 		levelCounts[type]++;

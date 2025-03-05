@@ -1,19 +1,19 @@
-import { DMChannel, Events, NonThreadGuildBasedChannel } from "discord.js";
-import { eq } from "drizzle-orm";
-import { inject, injectable } from "tsyringe";
+import { DMChannel, Events, NonThreadGuildBasedChannel } from 'discord.js';
+import { eq } from 'drizzle-orm';
+import { inject, injectable } from 'tsyringe';
 
-import { Client } from "../structures/Client.js";
-import { Event } from "../structures/Event.js";
+import { Client } from '../structures/Client.js';
+import { Event } from '../structures/Event.js';
 
-import { clientSymbol } from "../utils/Constants.js";
+import { clientSymbol } from '../utils/Constants.js';
 
-import { db } from "../db/client.js";
-import { guildsNews } from "../db/schema.js";
+import { db } from '../db/client.js';
+import { guildsNews } from '../db/schema.js';
 
 @injectable()
 export default class ChannelDelete extends Event {
 	constructor(@inject(clientSymbol) private client: Client) {
-		super("onChannelDelete", Events.ChannelDelete);
+		super('onChannelDelete', Events.ChannelDelete);
 	}
 
 	async run(channel: NonThreadGuildBasedChannel | DMChannel): Promise<void> {

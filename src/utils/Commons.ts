@@ -1,9 +1,10 @@
-import { logger } from "../lib/Logger.js";
+import { logger } from '../lib/Logger.js';
 
-import { Locales } from "../i18n/i18n-types.js";
-import { PALIA_URL } from "./Constants.js";
+import { Locales } from '../i18n/i18n-types.js';
+import { PALIA_URL } from './Constants.js';
 
-export const databaseUrl = (locale: Locales, path?: string[]) => (path ? `${PALIA_URL}/${locale}/${path.join("/")}?ref=zeki` : `${PALIA_URL}/${locale}?ref=zeki`);
+export const databaseUrl = (locale: Locales, path?: string[]) =>
+	path ? `${PALIA_URL}/${locale}/${path.join('/')}?ref=zeki` : `${PALIA_URL}/${locale}?ref=zeki`;
 
 /**
  * Wait for a given amount of milliseconds.
@@ -21,7 +22,7 @@ export const duration = {
 	seconds: (n: number) => n * 1000,
 	minutes: (n: number) => n * 1000 * 60,
 	hours: (n: number) => n * 1000 * 60 * 60,
-	days: (n: number) => n * 1000 * 60 * 60 * 24,
+	days: (n: number) => n * 1000 * 60 * 60 * 24
 };
 
 /**
@@ -55,7 +56,7 @@ export const secondsToDhms = (seconds: number): string => {
 		result.push(`${remainingSeconds} seconds`);
 	}
 
-	return result.join(", ");
+	return result.join(', ');
 };
 
 /**
@@ -71,34 +72,34 @@ export const secondsToDhms = (seconds: number): string => {
  */
 export async function request<T>(
 	url: string,
-	type: "json" | "text" = "json",
-	method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
-	headers: RequestInit["headers"] = {
-		"User-Agent": process.env.USER_AGENT || "glazk0.dev/Zeki/DiscordBot",
+	type: 'json' | 'text' = 'json',
+	method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+	headers: RequestInit['headers'] = {
+		'User-Agent': process.env.USER_AGENT || 'glazk0.dev/Zeki/DiscordBot'
 	},
-	body?: RequestInit["body"],
+	body?: RequestInit['body']
 ): Promise<T> {
 	if (!url) {
-		throw new Error("No URL provided.");
+		throw new Error('No URL provided.');
 	}
 
 	const options: RequestInit = {
 		method,
-		headers,
+		headers
 	};
 
 	if (body) {
 		options.body = JSON.stringify(body);
 		options.headers = {
 			...options.headers,
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json'
 		};
 	}
 
 	try {
 		const req = await fetch(url, options);
 
-		if (type === "json") {
+		if (type === 'json') {
 			return (await req.json()) as T;
 		} else {
 			return (await req.text()) as T;

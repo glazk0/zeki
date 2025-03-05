@@ -1,6 +1,6 @@
-import { resolve } from "node:path";
+import { resolve } from 'node:path';
 
-import { sync } from "glob";
+import { sync } from 'glob';
 
 /**
  * Normalizes a path and replaces all backslashes with forward slashes.
@@ -9,7 +9,7 @@ import { sync } from "glob";
  *
  * @returns - The normalized path.
  */
-const normalizePath = (route: string) => route.replace(/[\\/]+/g, "/");
+const normalizePath = (route: string) => route.replace(/[\\/]+/g, '/');
 
 /**
  * Gets the file paths from a given route.

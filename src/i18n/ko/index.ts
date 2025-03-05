@@ -1,7 +1,7 @@
-import type { Translation } from "../i18n-types";
+import type { Translation } from '../i18n-types';
 
 const ko: Translation = {
-	locale: "ko",
+	locale: 'ko'
 };
 
 export default ko;

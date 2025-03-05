@@ -9,7 +9,7 @@
     "build": "tsc && pnpm postbuild",
     "postbuild": "ncp \"src/db/migrations\" \"dist/db/migrations\"",
     "i18n": "typesafe-i18n",
-    "format": "biome format src --write",
+    "format": "prettier src --write",
     "db:drop": "drizzle-kit drop",
     "db:generate": "drizzle-kit generate:pg",
     "db:studio": "drizzle-kit studio"
@@ -53,11 +53,11 @@
     "typesafe-i18n": "^5.26.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.5.3",
     "@types/node": "^20.12.2",
     "@types/node-schedule": "2.1.6",
     "drizzle-kit": "^0.20.14",
     "ncp": "2.0.0",
+    "prettier": "3.5.3",
     "typescript": "^5.4.2"
   }
 }

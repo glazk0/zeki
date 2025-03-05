@@ -1,7 +1,7 @@
 export interface IRootObject {
 	search: ISearchItem[];
-	"weekly-wants": IWeeklyWantsItem[];
-	"leak-of-the-day": ILeakOfTheDayItem[];
+	'weekly-wants': IWeeklyWantsItem[];
+	'leak-of-the-day': ILeakOfTheDayItem[];
 	now: INowItem[];
 	villager: IVillagerItem[];
 	bundle: IBundleItem[];

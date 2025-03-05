@@ -1,8 +1,16 @@
-import { AutocompleteInteraction, CacheType, ChatInputCommandInteraction, InteractionResponse, Message, RESTPostAPIApplicationCommandsJSONBody, StringSelectMenuInteraction } from "discord.js";
+import {
+	AutocompleteInteraction,
+	CacheType,
+	ChatInputCommandInteraction,
+	InteractionResponse,
+	Message,
+	RESTPostAPIApplicationCommandsJSONBody,
+	StringSelectMenuInteraction
+} from 'discord.js';
 
-import { GuildWithSettings } from "../db/schema.js";
+import { GuildWithSettings } from '../db/schema.js';
 
-import { Locales, TranslationFunctions } from "../i18n/i18n-types.js";
+import { Locales, TranslationFunctions } from '../i18n/i18n-types.js';
 
 export type Context = {
 	locale: Locales;
@@ -11,9 +19,9 @@ export type Context = {
 };
 
 export enum Category {
-	General = "General",
-	Palia = "Palia",
-	Configuration = "Configuration",
+	General = 'General',
+	Palia = 'Palia',
+	Configuration = 'Configuration'
 }
 
 export abstract class Interaction {
@@ -40,7 +48,10 @@ export abstract class Interaction {
 	 *
 	 * @returns {Promise<void>}
 	 */
-	abstract run(interaction: ChatInputCommandInteraction<CacheType>, context: Context): Promise<InteractionResponse<boolean> | Message<boolean>>;
+	abstract run(
+		interaction: ChatInputCommandInteraction<CacheType>,
+		context: Context
+	): Promise<InteractionResponse<boolean> | Message<boolean>>;
 
 	/**
 	 * Handles the interaction autocomplete.
@@ -49,7 +60,7 @@ export abstract class Interaction {
 	 * @param context - The context.
 	 */
 	async autocomplete?(interaction: AutocompleteInteraction<CacheType>, context: Context): Promise<void> {
-		throw new Error("Not implemented");
+		throw new Error('Not implemented');
 	}
 
 	/**
@@ -59,6 +70,6 @@ export abstract class Interaction {
 	 * @param context - The context.
 	 */
 	async selectMenu?(interaction: StringSelectMenuInteraction<CacheType>, context: Context): Promise<any> {
-		throw new Error("Not implemented");
+		throw new Error('Not implemented');
 	}
 }

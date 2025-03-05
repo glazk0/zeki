@@ -1,264 +1,240 @@
 {
-  "version": "5",
-  "dialect": "pg",
-  "id": "ab36ac12-669f-4c1b-af3a-f1047042efa5",
-  "prevId": "91fec5e7-75da-477c-be57-0835c1563282",
-  "tables": {
-    "guilds": {
-      "name": "guilds",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "locale": {
-          "name": "locale",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'en'"
-        },
-        "last_seen": {
-          "name": "last_seen",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "guilds_guild_id_index": {
-          "name": "guilds_guild_id_index",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        },
-        "guilds_last_seen_index": {
-          "name": "guilds_last_seen_index",
-          "columns": [
-            "last_seen"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "guilds_guild_id_unique": {
-          "name": "guilds_guild_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "guild_id"
-          ]
-        }
-      }
-    },
-    "guilds_news": {
-      "name": "guilds_news",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "channel": {
-          "name": "channel",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "guilds_news_channel_index": {
-          "name": "guilds_news_channel_index",
-          "columns": [
-            "channel"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "guilds_news_guild_id_guilds_guild_id_fk": {
-          "name": "guilds_news_guild_id_guilds_guild_id_fk",
-          "tableFrom": "guilds_news",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "guilds_news_guild_id_unique": {
-          "name": "guilds_news_guild_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "guild_id"
-          ]
-        }
-      }
-    },
-    "logs": {
-      "name": "logs",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "command": {
-          "name": "command",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "guild_id": {
-          "name": "guild_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "logs_guild_id_index": {
-          "name": "logs_guild_id_index",
-          "columns": [
-            "guild_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "logs_guild_id_guilds_guild_id_fk": {
-          "name": "logs_guild_id_guilds_guild_id_fk",
-          "tableFrom": "logs",
-          "tableTo": "guilds",
-          "columnsFrom": [
-            "guild_id"
-          ],
-          "columnsTo": [
-            "guild_id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "news": {
-      "name": "news",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "key": {
-          "name": "key",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "title": {
-          "name": "title",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "locale": {
-          "name": "locale",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'en'"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "news_key_index": {
-          "name": "news_key_index",
-          "columns": [
-            "key"
-          ],
-          "isUnique": false
-        },
-        "news_locale_index": {
-          "name": "news_locale_index",
-          "columns": [
-            "locale"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    }
-  },
-  "enums": {},
-  "schemas": {},
-  "_meta": {
-    "schemas": {},
-    "tables": {},
-    "columns": {}
-  }
+	"version": "5",
+	"dialect": "pg",
+	"id": "ab36ac12-669f-4c1b-af3a-f1047042efa5",
+	"prevId": "91fec5e7-75da-477c-be57-0835c1563282",
+	"tables": {
+		"guilds": {
+			"name": "guilds",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"locale": {
+					"name": "locale",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'en'"
+				},
+				"last_seen": {
+					"name": "last_seen",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"guild_id": {
+					"name": "guild_id",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"guilds_guild_id_index": {
+					"name": "guilds_guild_id_index",
+					"columns": ["guild_id"],
+					"isUnique": false
+				},
+				"guilds_last_seen_index": {
+					"name": "guilds_last_seen_index",
+					"columns": ["last_seen"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"guilds_guild_id_unique": {
+					"name": "guilds_guild_id_unique",
+					"nullsNotDistinct": false,
+					"columns": ["guild_id"]
+				}
+			}
+		},
+		"guilds_news": {
+			"name": "guilds_news",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"channel": {
+					"name": "channel",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"guild_id": {
+					"name": "guild_id",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {
+				"guilds_news_channel_index": {
+					"name": "guilds_news_channel_index",
+					"columns": ["channel"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"guilds_news_guild_id_guilds_guild_id_fk": {
+					"name": "guilds_news_guild_id_guilds_guild_id_fk",
+					"tableFrom": "guilds_news",
+					"tableTo": "guilds",
+					"columnsFrom": ["guild_id"],
+					"columnsTo": ["guild_id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"guilds_news_guild_id_unique": {
+					"name": "guilds_news_guild_id_unique",
+					"nullsNotDistinct": false,
+					"columns": ["guild_id"]
+				}
+			}
+		},
+		"logs": {
+			"name": "logs",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"command": {
+					"name": "command",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"guild_id": {
+					"name": "guild_id",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"logs_guild_id_index": {
+					"name": "logs_guild_id_index",
+					"columns": ["guild_id"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"logs_guild_id_guilds_guild_id_fk": {
+					"name": "logs_guild_id_guilds_guild_id_fk",
+					"tableFrom": "logs",
+					"tableTo": "guilds",
+					"columnsFrom": ["guild_id"],
+					"columnsTo": ["guild_id"],
+					"onDelete": "set null",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"news": {
+			"name": "news",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"key": {
+					"name": "key",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"title": {
+					"name": "title",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"locale": {
+					"name": "locale",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'en'"
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"news_key_index": {
+					"name": "news_key_index",
+					"columns": ["key"],
+					"isUnique": false
+				},
+				"news_locale_index": {
+					"name": "news_locale_index",
+					"columns": ["locale"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		}
+	},
+	"enums": {},
+	"schemas": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	}
 }

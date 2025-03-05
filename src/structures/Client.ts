@@ -1,16 +1,16 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 
-import { ClientOptions, Collection, Client as DiscordClient, REST, Routes } from "discord.js";
-import { Logger } from "pino";
-import { container } from "tsyringe";
+import { ClientOptions, Collection, Client as DiscordClient, REST, Routes } from 'discord.js';
+import { Logger } from 'pino';
+import { container } from 'tsyringe';
 
-import { Event } from "./Event.js";
-import { Interaction } from "./Interaction.js";
+import { Event } from './Event.js';
+import { Interaction } from './Interaction.js';
 
-import { API } from "../lib/API.js";
-import { createLogger } from "../lib/Logger.js";
+import { API } from '../lib/API.js';
+import { createLogger } from '../lib/Logger.js';
 
-import { getFilePaths, importFile } from "../utils/File.js";
+import { getFilePaths, importFile } from '../utils/File.js';
 
 export class Client extends DiscordClient {
 	/**
@@ -60,7 +60,7 @@ export class Client extends DiscordClient {
 	}
 
 	private async registerInteractions(): Promise<void> {
-		const filePaths = getFilePaths("interactions/**/*.js");
+		const filePaths = getFilePaths('interactions/**/*.js');
 
 		for (const filePath of filePaths) {
 			const file = await importFile(filePath);
@@ -75,7 +75,7 @@ export class Client extends DiscordClient {
 	}
 
 	private async registerEvents(): Promise<void> {
-		const filePaths = getFilePaths("events/**/*.js");
+		const filePaths = getFilePaths('events/**/*.js');
 
 		for (const filePath of filePaths) {
 			const file = await importFile(filePath);
@@ -97,7 +97,7 @@ export class Client extends DiscordClient {
 			const body = this.interactions.map((interaction) => interaction.command);
 
 			await rest.put(Routes.applicationCommands(this.application?.id as string), {
-				body,
+				body
 			});
 
 			this.logger.info(`Successfully reloaded ${this.interactions.size} application (/) commands`);

@@ -1,24 +1,24 @@
-import { CacheType, CommandInteraction, Events, StringSelectMenuInteraction } from "discord.js";
-import { eq } from "drizzle-orm";
-import { inject, injectable } from "tsyringe";
+import { CacheType, CommandInteraction, Events, StringSelectMenuInteraction } from 'discord.js';
+import { eq } from 'drizzle-orm';
+import { inject, injectable } from 'tsyringe';
 
-import { Client } from "../structures/Client.js";
-import { Event } from "../structures/Event.js";
-import { Context, Interaction } from "../structures/Interaction.js";
+import { Client } from '../structures/Client.js';
+import { Event } from '../structures/Event.js';
+import { Context, Interaction } from '../structures/Interaction.js';
 
-import { clientSymbol, discordToPalia } from "../utils/Constants.js";
+import { clientSymbol, discordToPalia } from '../utils/Constants.js';
 
-import { db, findOrCreate } from "../db/client.js";
-import { guilds, logs, type GuildWithSettings } from "../db/schema.js";
+import { db, findOrCreate } from '../db/client.js';
+import { guilds, logs, type GuildWithSettings } from '../db/schema.js';
 
-import L from "../i18n/i18n-node.js";
-import { Locales } from "../i18n/i18n-types.js";
-import { baseLocale } from "../i18n/i18n-util.js";
+import L from '../i18n/i18n-node.js';
+import { Locales } from '../i18n/i18n-types.js';
+import { baseLocale } from '../i18n/i18n-util.js';
 
 @injectable()
 export default class InteractionCreate extends Event {
 	constructor(@inject(clientSymbol) private client: Client) {
-		super("onInteraction", Events.InteractionCreate);
+		super('onInteraction', Events.InteractionCreate);
 	}
 
 	public async run(interaction: CommandInteraction<CacheType>): Promise<any> {
@@ -30,7 +30,7 @@ export default class InteractionCreate extends Event {
 
 		const context = {
 			locale,
-			i18n: L[locale],
+			i18n: L[locale]
 		} as Context;
 
 		if (interaction.inGuild()) {
@@ -42,7 +42,8 @@ export default class InteractionCreate extends Event {
 				context.guild = guild;
 			}
 
-			if (interaction.isChatInputCommand()) await db.update(guilds).set({ lastSeen: new Date() }).where(eq(guilds.guildId, interaction.guildId));
+			if (interaction.isChatInputCommand())
+				await db.update(guilds).set({ lastSeen: new Date() }).where(eq(guilds.guildId, interaction.guildId));
 		}
 
 		let command: Interaction | undefined = undefined;
@@ -53,13 +54,13 @@ export default class InteractionCreate extends Event {
 		}
 
 		if (interaction.isChatInputCommand()) {
-			this.client.logger.info(`Command ${command?.command?.name} was executed in ${interaction.guildId || "DM"}`);
+			this.client.logger.info(`Command ${command?.command?.name} was executed in ${interaction.guildId || 'DM'}`);
 
 			try {
 				await command?.run(interaction, context);
 				await db.insert(logs).values({
 					command: interaction.commandName,
-					guildId: context.guild?.guildId,
+					guildId: context.guild?.guildId
 				});
 			} catch (error) {
 				this.client.logger.error(`Failed to run interaction ${interaction.commandName}: ${error}`);
@@ -77,7 +78,7 @@ export default class InteractionCreate extends Event {
 		if (interaction.isStringSelectMenu()) {
 			const selectMenu = interaction as StringSelectMenuInteraction;
 
-			const id = selectMenu.customId.split("_")[0];
+			const id = selectMenu.customId.split('_')[0];
 
 			if (!this.client.interactions.has(id)) return undefined;
 

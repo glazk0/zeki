@@ -1,9 +1,9 @@
-import { EmbedBuilder, unorderedList } from "discord.js";
-import { container } from "tsyringe";
+import { EmbedBuilder, unorderedList } from 'discord.js';
+import { container } from 'tsyringe';
 
-import { Client } from "../../structures/Client.js";
+import { Client } from '../../structures/Client.js';
 
-import { clientSymbol } from "../../utils/Constants.js";
+import { clientSymbol } from '../../utils/Constants.js';
 
 export class BaseEmbed extends EmbedBuilder {
 	/**
@@ -21,7 +21,7 @@ export class BaseEmbed extends EmbedBuilder {
 		if (this.client.user) {
 			this.data.footer = {
 				text: this.client.user.username,
-				icon_url: this.client.user.displayAvatarURL(),
+				icon_url: this.client.user.displayAvatarURL()
 			};
 		}
 

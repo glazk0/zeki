@@ -1,13 +1,23 @@
-import queryString from "query-string";
+import queryString from 'query-string';
 
-import { RedisClient } from "../structures/RedisClient.js";
+import { RedisClient } from '../structures/RedisClient.js';
 
-import { request } from "../utils/Commons.js";
-import { PALIA_API_URL, paliaLocales } from "../utils/Constants.js";
+import { request } from '../utils/Commons.js';
+import { PALIA_API_URL, paliaLocales } from '../utils/Constants.js';
 
-import { IAccomplishment, IBundle, IEntriesItem, IItem, IQuest, IRecipe, ISearchItem, IVillager, IWeeklyWantsItem } from "../@types/generated.js";
+import {
+	IAccomplishment,
+	IBundle,
+	IEntriesItem,
+	IItem,
+	IQuest,
+	IRecipe,
+	ISearchItem,
+	IVillager,
+	IWeeklyWantsItem
+} from '../@types/generated.js';
 
-import { baseLocale } from "../i18n/i18n-util.js";
+import { baseLocale } from '../i18n/i18n-util.js';
 
 export class API extends RedisClient {
 	/**
@@ -32,19 +42,23 @@ export class API extends RedisClient {
 	 *
 	 * @returns {Promise<ISearchItem[] | []>} The search results.
 	 */
-	async search(query: string, type: "villager" | "quest" | "recipe" | "item" | "accomplishment", locale: string = baseLocale): Promise<ISearchItem[] | []> {
+	async search(
+		query: string,
+		type: 'villager' | 'quest' | 'recipe' | 'item' | 'accomplishment',
+		locale: string = baseLocale
+	): Promise<ISearchItem[] | []> {
 		const queries = queryString.stringify(
 			{
 				q: query,
 				type: type,
-				l: locale,
+				l: locale
 			},
 			{
-				skipNull: true,
-			},
+				skipNull: true
+			}
 		);
 
-		const cacheKey = this.join("search", query, type, locale, this.version);
+		const cacheKey = this.join('search', query, type, locale, this.version);
 
 		const cached = await this.client.get(cacheKey);
 
@@ -67,7 +81,7 @@ export class API extends RedisClient {
 	 * @returns {Promise<IVillager | null>} The villager or null if not found.
 	 */
 	async getVillager(key: string, locale?: string): Promise<IVillager | null> {
-		const cacheKey = this.join("villager", key, locale, this.version);
+		const cacheKey = this.join('villager', key, locale, this.version);
 
 		const cached = await this.client.get(cacheKey);
 
@@ -93,7 +107,7 @@ export class API extends RedisClient {
 
 	 */
 	async getWeeklyWants(key?: string, locale?: string): Promise<IWeeklyWantsItem | IEntriesItem | null> {
-		const data = await request<IWeeklyWantsItem>(this.url("tools/weekly-wants", locale));
+		const data = await request<IWeeklyWantsItem>(this.url('tools/weekly-wants', locale));
 
 		if (!data || !data.entries) return null;
 
@@ -116,7 +130,7 @@ export class API extends RedisClient {
 	 * @returns {Promise<IQuest | null>} The quest or null if not found.
 	 */
 	async getQuest(key: string, locale?: string): Promise<IQuest | null> {
-		const cacheKey = this.join("quest", key, locale, this.version);
+		const cacheKey = this.join('quest', key, locale, this.version);
 
 		const cached = await this.client.get(cacheKey);
 
@@ -141,7 +155,7 @@ export class API extends RedisClient {
 	 * @returns {Promise<IRecipe | null>} The recipe or null if not found.
 	 */
 	async getRecipe(key: string, locale?: string): Promise<IRecipe | null> {
-		const cacheKey = this.join("recipe", key, locale, this.version);
+		const cacheKey = this.join('recipe', key, locale, this.version);
 
 		const cached = await this.client.get(cacheKey);
 
@@ -166,7 +180,7 @@ export class API extends RedisClient {
 	 * @returns {Promise<IItem | null>} The item or null if not found.
 	 */
 	async getItem(key: string, locale?: string): Promise<IItem | null> {
-		const cacheKey = this.join("item", key, locale, this.version);
+		const cacheKey = this.join('item', key, locale, this.version);
 
 		const cached = await this.client.get(cacheKey);
 
@@ -191,7 +205,7 @@ export class API extends RedisClient {
 	 * @returns {Promise<IBundle | null>} The bundle or null if not found.
 	 */
 	async getBundle(key: string, locale?: string): Promise<IBundle | null> {
-		const cacheKey = this.join("bundle", key, locale, this.version);
+		const cacheKey = this.join('bundle', key, locale, this.version);
 
 		const cached = await this.client.get(cacheKey);
 
@@ -216,7 +230,7 @@ export class API extends RedisClient {
 	 * @returns {Promise<IAccomplishment | null>} The accomplishment or null if not found.
 	 */
 	async getAccomplishment(key: string, locale?: string): Promise<IAccomplishment | null> {
-		const cacheKey = this.join("accomplishment", key, locale, this.version);
+		const cacheKey = this.join('accomplishment', key, locale, this.version);
 
 		const cached = await this.client.get(cacheKey);
 

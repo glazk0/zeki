@@ -13,12 +13,12 @@ import {
 	InteractionType,
 	Message,
 	StringSelectMenuBuilder,
-	StringSelectMenuInteraction,
-} from "discord.js";
+	StringSelectMenuInteraction
+} from 'discord.js';
 
-import { Emoji } from "./Constants.js";
+import { Emoji } from './Constants.js';
 
-import { BaseEmbed } from "../lib/embeds/BaseEmbed.js";
+import { BaseEmbed } from '../lib/embeds/BaseEmbed.js';
 
 const TIMEOUT = 5 * 60 * 1000;
 
@@ -26,10 +26,13 @@ export class Collectors {
 	public static async paginate(interaction: ChatInputCommandInteraction<CacheType>, pages: BaseEmbed[]) {
 		return pages.length < 26 ? this.selection(interaction, pages) : this.navigation(interaction, pages);
 	}
-	public static async selection(interaction: ChatInputCommandInteraction<CacheType>, pages: BaseEmbed[]): Promise<InteractionResponse<boolean> | Message<boolean>> {
+	public static async selection(
+		interaction: ChatInputCommandInteraction<CacheType>,
+		pages: BaseEmbed[]
+	): Promise<InteractionResponse<boolean> | Message<boolean>> {
 		if (pages.length === 1)
 			return interaction.reply({
-				embeds: [pages[0]?.data],
+				embeds: [pages[0]?.data]
 			});
 
 		let page = 1;
@@ -37,34 +40,37 @@ export class Collectors {
 		const embeds = this.shape(pages);
 
 		const choices = pages.map((embed, index) => ({
-			label: embed.data.title ?? "Untitled",
-			value: index.toString(),
+			label: embed.data.title ?? 'Untitled',
+			value: index.toString()
 		}));
 
 		const select = (page: number) => [
 			new ActionRowBuilder<StringSelectMenuBuilder>({
 				components: [
 					new StringSelectMenuBuilder({
-						customId: "select",
-						placeholder: "Select a page",
+						customId: 'select',
+						placeholder: 'Select a page',
 						min_values: 1,
 						max_values: 1,
 						options: choices.map((choice, index) => ({
 							...choice,
 							emoji: index === page - 1 ? Emoji.RightArrow : undefined,
-							default: index === page - 1,
-						})),
-					}),
-				],
-			}),
+							default: index === page - 1
+						}))
+					})
+				]
+			})
 		];
 
 		const payload = {
 			embeds: [embeds[page - 1]],
-			components: [...select(page)],
+			components: [...select(page)]
 		};
 
-		const response = interaction.deferred || interaction.replied ? await interaction.editReply(payload) : await interaction.reply(payload);
+		const response =
+			interaction.deferred || interaction.replied
+				? await interaction.editReply(payload)
+				: await interaction.reply(payload);
 
 		const message = await response.fetch();
 
@@ -74,7 +80,7 @@ export class Collectors {
 			message,
 			guild: interaction.guild!,
 			channel: interaction.channel!,
-			time: TIMEOUT,
+			time: TIMEOUT
 		});
 
 		const selectionHandler = async (selection: StringSelectMenuInteraction) => {
@@ -90,22 +96,22 @@ export class Collectors {
 
 			await interaction.editReply({
 				embeds: [embeds[page - 1]],
-				components: [...select(page)],
+				components: [...select(page)]
 			});
 		};
 
-		collector.on("collect", selectionHandler);
+		collector.on('collect', selectionHandler);
 
 		const blank = async (): Promise<Message> =>
 			interaction.editReply({
 				embeds: [embeds[page - 1]],
-				components: [],
+				components: []
 			});
 
-		collector.on("end", async () => {
+		collector.on('end', async () => {
 			await blank();
 		});
-		collector.on("dispose", async () => {
+		collector.on('dispose', async () => {
 			await blank();
 		});
 
@@ -120,13 +126,13 @@ export class Collectors {
 				emoji: Emoji | string;
 				label: string;
 			};
-		},
+		}
 	): Promise<InteractionResponse<boolean> | Message<boolean>> {
 		if (!interaction.deferred) await interaction.deferReply();
 
 		if (pages.length === 1)
 			return interaction.reply({
-				embeds: [pages[0].data],
+				embeds: [pages[0].data]
 			});
 
 		let page = 1;
@@ -137,27 +143,30 @@ export class Collectors {
 			new ActionRowBuilder<ButtonBuilder>({
 				components: [
 					new ButtonBuilder({
-						customId: "previous",
+						customId: 'previous',
 						emoji: Emoji.LeftArrow,
 						style: ButtonStyle.Secondary,
-						disabled: page === 1,
+						disabled: page === 1
 					}),
 					new ButtonBuilder({
-						customId: "next",
+						customId: 'next',
 						emoji: Emoji.RightArrow,
 						style: ButtonStyle.Secondary,
-						disabled: page === embeds.length,
-					}),
-				],
-			}),
+						disabled: page === embeds.length
+					})
+				]
+			})
 		];
 
 		const payload = {
 			embeds: [embeds[page - 1]],
-			components: [...navigation(page)],
+			components: [...navigation(page)]
 		};
 
-		const response = interaction.deferred || interaction.replied ? await interaction.editReply(payload) : await interaction.reply(payload);
+		const response =
+			interaction.deferred || interaction.replied
+				? await interaction.editReply(payload)
+				: await interaction.reply(payload);
 
 		const message = await response.fetch();
 
@@ -167,17 +176,17 @@ export class Collectors {
 			message,
 			guild: interaction.guild!,
 			channel: interaction.channel!,
-			time: TIMEOUT,
+			time: TIMEOUT
 		});
 
 		const navigationHandler = async (button: AnySelectMenuInteraction) => {
 			await button.deferUpdate();
 
 			switch (button.customId) {
-				case "previous":
+				case 'previous':
 					if (page > 1) page -= 1;
 					break;
-				case "next":
+				case 'next':
 					if (page <= embeds.length) page += 1;
 					break;
 				default:
@@ -192,23 +201,23 @@ export class Collectors {
 
 			await interaction.editReply({
 				embeds: [embeds[page - 1]],
-				components: [...navigation(page)],
+				components: [...navigation(page)]
 			});
 		};
 
-		collector.on("collect", navigationHandler);
+		collector.on('collect', navigationHandler);
 
 		const blank = async (): Promise<Message> =>
 			interaction.editReply({
 				embeds: [embeds[page - 1]],
-				components: [],
+				components: []
 			});
 
-		collector.on("end", async () => {
+		collector.on('end', async () => {
 			await blank();
 		});
 
-		collector.on("dispose", async () => {
+		collector.on('dispose', async () => {
 			await blank();
 		});
 
@@ -218,17 +227,17 @@ export class Collectors {
 	private static shape(pages: BaseEmbed[]): APIEmbed[] {
 		return pages.map((newPage, index) => {
 			const pageInd = `Page ${index + 1}/${pages.length}`;
-			if (!newPage.data.description) newPage.setDescription("_ _");
+			if (!newPage.data.description) newPage.setDescription('_ _');
 			if (newPage.data.footer) {
 				if (newPage instanceof Embed) {
-					if (newPage.data.footer.text.indexOf("Page ") === -1) {
+					if (newPage.data.footer.text.indexOf('Page ') === -1) {
 						newPage.setFooter({
 							text: `${pageInd} • ${newPage.data.footer.text}`,
-							iconURL: newPage.data.footer.icon_url,
+							iconURL: newPage.data.footer.icon_url
 						});
 					}
 				} else if (newPage.data.footer.text) {
-					if (newPage.data.footer.text.indexOf("Page ") === -1) {
+					if (newPage.data.footer.text.indexOf('Page ') === -1) {
 						newPage.data.footer.text = `${pageInd} • ${newPage.data.footer.text}`;
 					}
 				} else {

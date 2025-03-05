@@ -1,27 +1,27 @@
-import { hyperlink } from "discord.js";
+import { hyperlink } from 'discord.js';
 
-import { BaseEmbed } from "./BaseEmbed.js";
+import { BaseEmbed } from './BaseEmbed.js';
 
-import { Context } from "../../structures/Interaction.js";
+import { Context } from '../../structures/Interaction.js';
 
-import { databaseUrl } from "../../utils/Commons.js";
-import { PALIA_URL } from "../../utils/Constants.js";
+import { databaseUrl } from '../../utils/Commons.js';
+import { PALIA_URL } from '../../utils/Constants.js';
 
-import { IRelationshipLevelsItem, IVillager } from "../../@types/generated.js";
+import { IRelationshipLevelsItem, IVillager } from '../../@types/generated.js';
 
 export class VillagerEmbed extends BaseEmbed {
 	constructor(villager: IVillager, relationshipLevel: IRelationshipLevelsItem | null, { locale, i18n }: Context) {
 		super();
 
 		this.data.thumbnail = {
-			url: `${PALIA_URL}/images/villagers/128/${villager.icon}.webp`,
+			url: `${PALIA_URL}/images/villagers/128/${villager.icon}.webp`
 		};
 
 		this.data.title = villager.name;
 
 		if (villager.description) this.data.description = villager.description;
 
-		this.data.url = databaseUrl(locale, ["villager", villager.key]);
+		this.data.url = databaseUrl(locale, ['villager', villager.key]);
 
 		if (villager.giftPreferences?.length) {
 			this.addFields({
@@ -29,9 +29,9 @@ export class VillagerEmbed extends BaseEmbed {
 				value: super.toUnorderedList(
 					villager.giftPreferences.map((gift) => {
 						if (!gift.item) return;
-						return `${gift.rewardLevel} ${hyperlink(gift.item.name, databaseUrl(locale, ["item", gift.item.key]))}`;
-					}),
-				),
+						return `${gift.rewardLevel} ${hyperlink(gift.item.name, databaseUrl(locale, ['item', gift.item.key]))}`;
+					})
+				)
 			});
 		}
 
@@ -41,9 +41,9 @@ export class VillagerEmbed extends BaseEmbed {
 				value: super.toUnorderedList(
 					villager.weeklyGiftPreferences.map((gift) => {
 						if (!gift.item) return;
-						return `${gift.rewardLevel} ${hyperlink(gift.item.name, databaseUrl(locale, ["item", gift.item.key]))}`;
-					}),
-				),
+						return `${gift.rewardLevel} ${hyperlink(gift.item.name, databaseUrl(locale, ['item', gift.item.key]))}`;
+					})
+				)
 			});
 		}
 
@@ -53,9 +53,9 @@ export class VillagerEmbed extends BaseEmbed {
 					type: relationshipLevel.type,
 					level: relationshipLevel.level,
 					levelName: relationshipLevel.levelName,
-					requiredValue: relationshipLevel.requiredValue,
+					requiredValue: relationshipLevel.requiredValue
 				}),
-				value: relationshipLevel.levelDescription ?? i18n.embeds.miscellaneous.no_data(),
+				value: relationshipLevel.levelDescription ?? i18n.embeds.miscellaneous.no_data()
 			});
 		}
 	}
