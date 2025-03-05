@@ -1,18 +1,16 @@
 import { Events } from "discord.js";
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 
 import { Client } from "../structures/Client.js";
 import { Event } from "../structures/Event.js";
 
-import { clientSymbol } from "../utils/Constants.js";
-
 @injectable()
 export default class Ready extends Event {
-	constructor(@inject(clientSymbol) private client: Client) {
+	constructor() {
 		super("onReady", Events.ClientReady, true);
 	}
 
-	async run(): Promise<void> {
-		this.client.logger.info(`${this.client.user?.tag}, ready to serve ${this.client.guilds.cache.size} servers on shard #${this.client.shard?.ids[0]}`);
+	async run(client: Client): Promise<void> {
+		client.logger.info(`${client.user?.tag}, ready to serve ${client.guilds.cache.size} servers on shard #${client.shard?.ids.pop()}`);
 	}
 }
