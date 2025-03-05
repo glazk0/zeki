@@ -4,6 +4,7 @@
   "description": "A Discord bot integration of the paliapedia.com database.",
   "type": "module",
   "main": "dist/index",
+  "private": true,
   "scripts": {
     "start": "node dist/index",
     "build": "tsc && pnpm postbuild",
@@ -14,27 +15,19 @@
     "db:generate": "drizzle-kit generate:pg",
     "db:studio": "drizzle-kit studio"
   },
+  "homepage": "https://github.com/glazk0/zeki#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/glazk0/zeki.git"
+    "url": "git+https://github.com/glazk0/zeki.git"
   },
   "bugs": {
     "url": "https://github.com/glazk0/zeki/issues"
   },
-  "homepage": "https://github.com/glazk0/zeki#readme",
-  "keywords": [
-    "discord",
-    "bot",
-    "palia",
-    "paliapedia",
-    "paliapedia.com",
-    "zeki",
-    "zeki-bot"
-  ],
-  "author": "glazk0",
-  "contributors": [
-    "glazk0 <glazk0@peerat.dev> (https://github.com/glazk0)"
-  ],
+  "author": "glazk0 <hi@glazk0.dev> (https://glazk0.dev)",
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/glazk0"
+  },
   "license": "MIT",
   "dependencies": {
     "cheerio": "1.0.0-rc.12",
