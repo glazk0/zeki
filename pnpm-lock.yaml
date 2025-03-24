@@ -19,7 +19,7 @@ importers:
         version: 16.4.5
       drizzle-orm:
         specifier: ^0.41.0
-        version: 0.41.0(postgres@3.4.3)
+        version: 0.41.0(postgres@3.4.5)
       glob:
         specifier: 10.3.10
         version: 10.3.10
@@ -33,8 +33,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       postgres:
-        specifier: ^3.4.3
-        version: 3.4.3
+        specifier: ^3.4.5
+        version: 3.4.5
       query-string:
         specifier: ^9.0.0
         version: 9.0.0
@@ -996,8 +996,8 @@ packages:
     resolution: {integrity: sha512-oswmokxkav9bADfJ2ifrvfHUwad6MLp73Uat0IkQWY3iAw5xTRoznXbXksZs8oaOUMpmhVWD+PZogNzllWpJaA==}
     hasBin: true
 
-  postgres@3.4.3:
-    resolution: {integrity: sha512-iHJn4+M9vbTdHSdDzNkC0crHq+1CUdFhx+YqCE+SqWxPjm+Zu63jq7yZborOBF64c8pc58O5uMudyL1FQcHacA==}
+  postgres@3.4.5:
+    resolution: {integrity: sha512-cDWgoah1Gez9rN3H4165peY9qfpEo+SA61oQv65O3cRUE1pOEoJWwddwcqKE8XZYjbblOJlYDlLV4h67HrEVDg==}
     engines: {node: '>=12'}
 
   process-warning@3.0.0:
@@ -1671,9 +1671,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.41.0(postgres@3.4.3):
+  drizzle-orm@0.41.0(postgres@3.4.5):
     optionalDependencies:
-      postgres: 3.4.3
+      postgres: 3.4.5
 
   eastasianwidth@0.2.0: {}
 
@@ -1995,7 +1995,7 @@ snapshots:
       sonic-boom: 3.7.0
       thread-stream: 2.4.1
 
-  postgres@3.4.3: {}
+  postgres@3.4.5: {}
 
   process-warning@3.0.0: {}
 
