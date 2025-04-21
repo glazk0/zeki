@@ -42,7 +42,7 @@
     "query-string": "^9.0.0",
     "redis": "^4.6.13",
     "reflect-metadata": "^0.2.1",
-    "tsyringe": "^4.8.0",
+    "tsyringe": "^4.10.0",
     "typesafe-i18n": "^5.26.2"
   },
   "devDependencies": {
