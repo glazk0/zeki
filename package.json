@@ -51,6 +51,6 @@
     "drizzle-kit": "^0.20.14",
     "ncp": "2.0.0",
     "prettier": "3.5.3",
-    "typescript": "^5.4.2"
+    "typescript": "^5.9.2"
   }
 }
