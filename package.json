@@ -40,7 +40,7 @@
     "pino-pretty": "^11.0.0",
     "postgres": "^3.4.3",
     "query-string": "^9.0.0",
-    "redis": "^4.6.13",
+    "redis": "^5.8.1",
     "reflect-metadata": "^0.2.1",
     "tsyringe": "^4.8.0",
     "typesafe-i18n": "^5.26.2"
