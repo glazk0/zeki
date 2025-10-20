@@ -40,23 +40,31 @@ export default class Weekly extends Interaction {
 			ctx.guild?.locale ?? baseLocale
 		)) as IWeeklyWantsItem;
 
-		const villagers = villager.entries?.map((entry) => {
-			return {
-				label: entry.villager.name,
-				value: entry.villager.key
-			};
-		});
+		const villagers =
+			villager.entries?.map((entry) => {
+				return {
+					label: entry.villager.name,
+					value: entry.villager.key
+				};
+			}) ?? [];
 
-		const list = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-			new StringSelectMenuBuilder({
-				custom_id: 'villager',
-				placeholder: 'Select a villager',
-				options: villagers
-			})
-		);
+		const components: ActionRowBuilder<StringSelectMenuBuilder>[] = [];
+
+		for (let i = 0; i < villagers.length; i += 25) {
+			const chunk = villagers.slice(i, i + 25);
+			components.push(
+				new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+					new StringSelectMenuBuilder({
+						custom_id: `villager_${Math.floor(i / 25)}`,
+						placeholder: `Select a villager (${Math.floor(i / 25) + 1}/${Math.ceil(villagers.length / 25)})`,
+						options: chunk
+					})
+				)
+			);
+		}
 
 		return interaction.reply({
-			components: [list]
+			components: components.slice(0, 5)
 		});
 	}
 }
