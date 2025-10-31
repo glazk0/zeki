@@ -1,3 +1,5 @@
+name: zeki
+
 services:
   bot:
     depends_on:
@@ -7,20 +9,21 @@ services:
     build:
       context: ../
       dockerfile: .docker/Dockerfile
+    image: zeki:latest
     container_name: zeki-bot
     restart: unless-stopped
     environment:
       - TOKEN=${TOKEN}
       - USER_AGENT=${USER_AGENT}
-      - POSTGRES_HOST=postgres
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - POSTGRES_DATABASE=${POSTGRES_DATABASE:-postgres}
       - DATABASE_URL=${DATABASE_URL}
-      - REDIS_HOST=redis
+      - REDIS_HOST=${REDIS_HOST:-redis}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redis}
     networks:
-      - network
+      - default
 
   redis:
     image: redis:7.0.11
@@ -28,16 +31,16 @@ services:
     restart: unless-stopped
     command: redis-server --requirepass ${REDIS_PASSWORD:-redis}
     networks:
-      - network
+      - default
     volumes:
-      - redisdata:/data
+      - redis-data:/data
 
   postgres:
     image: postgres:13.11
     container_name: zeki-postgres
     restart: unless-stopped
     healthcheck:
-      test: [ 'CMD-SHELL', 'pg_isready -U postgres -d postgres' ]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 30s
       timeout: 20s
       retries: 3
@@ -46,12 +49,12 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - POSTGRES_DATABASE=${POSTGRES_DATABASE:-postgres}
     networks:
-      - network
+      - default
     volumes:
-      - postgresdata:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
 
   backup:
-    image: offen/docker-volume-backup:v2.43.1    
+    image: offen/docker-volume-backup:v2.43.1
     container_name: zeki-backup
     restart: unless-stopped
     environment:
@@ -62,18 +65,15 @@ services:
       - AWS_ENDPOINT=${AWS_ENDPOINT}
       - BACKUP_RETENTION_DAYS=7
     networks:
-      - network
+      - default
     volumes:
-      - postgresdata:/backup/postgresdata:ro
-      - redisdata:/backup/redisdata:ro
-      
+      - postgres-data:/backup/postgres-data:ro
+      - redis-data:/backup/redis-data:ro
 
 networks:
-  network:
+  default:
     driver: bridge
 
 volumes:
-  postgresdata:
-    driver: local
-  redisdata:
-    driver: local
+  postgres-data:
+  redis-data:
