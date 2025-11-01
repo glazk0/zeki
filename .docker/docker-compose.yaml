@@ -54,7 +54,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   backup:
-    image: offen/docker-volume-backup:v2.43.1
+    image: offen/docker-volume-backup:v2.46.0
     container_name: zeki-backup
     restart: unless-stopped
     environment:
